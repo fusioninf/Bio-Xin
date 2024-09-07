@@ -1,1 +1,1 @@
-# Bio-Xin
+This is the official project of FusionInfoTech, named as BioXin
