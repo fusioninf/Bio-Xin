@@ -1,0 +1,1104 @@
+﻿@model WebSolution.Models.SalesOrder
+
+@{
+    ViewBag.Title = "Create Sales Order";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-12">
+                <!-- general form elements -->
+                <div class="card card-primary">
+                    @*<div class="card-header">
+            <p>Sales Order Entry</p>  style="background-color: #ffc107;"
+        </div>*@
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <a href="@Url.Action("SalesOrderEntry", "SalesOrder", new {soId = 0})">
+                                    <h3 class="card-title">
+                                        @if (ViewBag.SalesOrderId == 0)
+                                        {
+                                            <span class=""> New Sales Order</span>
+                                        }
+                                        else
+                                        {
+                                            <span class=""> Edit Sales Order</span>
+                                        }
+                                    </h3>
+                                </a>
+                            </div>
+                            <div class="col-md-6 text-right">
+                                <a class="btn btn-outline-warning" href="@Url.Action("Index", "SalesOrder")">
+                                    <span class="fa fa-list"></span> Go To Sales Order List
+
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group" id="divCustomer">
+                                    <label for="ddlCustomer">Customer</label>
+                                    <select class="form-control select2" style="width: 100%;text-align:center" id="ddlCustomer"></select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group" id="divCustomerName">
+                                    <label for="txtCustomerName">Name</label>
+                                    <input type="text" id="txtCustomerName" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group" id="divContactPerson">
+                                    <label for="txtContactPerson">Contact Person</label>
+                                    @*<input type="text" id="txtContactPerson" class="form-control"  />*@
+                                    <select class="form-control select2" style="width: 100%;text-align:center" id="ddlContactPerson"></select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group" id="divDocDate">
+                                    <label for="txtDocDate">Posting Date</label>
+                                    <input type="text" id="txtDocDate" class="form-control datepicker" value="@DateTime.Now.ToString("dd-MMM-yyyy")" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group" id="divBPCurrency">
+                                    <label for="txtBPCurrency">Currency</label>
+                                    <select class="form-control select2" style="width: 100%" id="ddlBPCurrency"></select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group" id="divCustomerRefNo">
+                                    <label for="txtCustomerRefNo">Customer Ref</label>
+                                    <input type="text" id="txtCustomerRefNo" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group" id="divPlaceOfSupply">
+                                    <label for="txtPlaceOfSupply">Place Of Supply</label>
+                                    <input type="text" id="txtPlaceOfSupply" class="form-control" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group" id="divDocDueDate">
+                                    <label for="txtDocDueDate">Delivery Date</label>
+                                    <input type="text" id="txtDocDueDate" class="form-control" value="@DateTime.Now.ToString("dd-MMM-yyyy")" />
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row table-responsive">
+                            <div class="col-md-12">
+                                <div class="card border-dark mb-3">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <!-- Tabs navs -->
+                                            <ul class="nav nav-tabs">
+                                                <li class="nav-item">
+                                                    <a href="#home" class="nav-link active" data-bs-toggle="tab">Contents</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a href="#profile" class="nav-link" data-bs-toggle="tab">Logistics</a>
+                                                </li>
+                                            </ul>
+                                            <div class="tab-content">
+                                                <div class="tab-pane fade show active" id="home">
+                                                    <div class="row">
+                                                        <table class="table table-bordered table-striped table-hover" id="salesOrder">
+                                                            <thead>
+                                                                <tr style="background-color: aliceblue">
+                                                                    <th>#</th>
+                                                                    <th>Item</th>
+                                                                    <th>Description</th>
+                                                                    <th>Qty</th>
+                                                                    <th>Price</th>
+                                                                    <th>Discount</th>
+                                                                    <th>Whs Code</th>
+                                                                    <th>Total</th>
+                                                                    <th>UOM</th>
+                                                                    <th>Stock</th>
+                                                                    <th class="action">Action</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody></tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                <div class="tab-pane fade" id="profile">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group row" id="divShipTo">
+                                                                <label for="lblRestAmount" class="col-md-2 control-label">Ship To</label>
+                                                                <div class="col-md-4">
+                                                                    <select class="form-control select2" style="width: 100%;" id="ddlShipTo"></select>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <textarea class="form-control" id="shipToAddress" name="w3review" rows="2" cols="30"></textarea>
+                                                                </div>
+                                                            </div>
+                                                            <br />
+                                                            <div class="form-group row" id="divBillTo">
+                                                                <label for="taxVat" class="col-md-2 control-label">Bill To</label>
+                                                                <div class="col-md-4">
+                                                                    <select class="form-control select2" style="width: 100%;" id="ddlBillTo"></select>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <textarea class="form-control" id="billToAddress" name="w3review" rows="2" cols="30"></textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="row">
+                                                                <div class="col-md-5">
+                                                                    <div class="form-group" id="divShippingType">
+                                                                        <label for="txtBPCurrency">Shipping Type</label>
+                                                                        <select class="form-control select2" style="width: 100%" id="ddlShippingType"></select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-5">
+                                                                    <div class="form-group" id="divPaymentTerms">
+                                                                        <label for="txtBPCurrency">Payment Terms</label>
+                                                                        <select class="form-control select2" style="width: 100%" id="ddlPaymentTerms"></select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Tabs content -->
+
+
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group row" id="divSalesEmployee">
+                                    <label for="lblRestAmount" class="col-md-4 control-label">Sales Employee</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%;" id="ddlSalesEmployee"></select>
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="form-group row" id="divRrmarks">
+                                    <label for="taxVat" class="col-md-4 control-label">Remarks</label>
+                                    <div class="col-md-6">
+                                        <textarea class="form-control" id="txtRrmarks" name="w3review" rows="3" cols="30"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group row">
+                                    <label for="lblRestAmount" class="col-md-4 control-label">Net Total :</label>
+                                    <div class="col-md-4">
+                                        @*<label id="lblNetAmount"></label>*@
+                                        <input type="number" class="form-control" id="txtNetAmount" disabled />
+                                    </div>
+                                </div>
+                                @*<div class="form-group row">
+                        <label for="taxVat" class="col-md-4 control-label">TAX %:</label>
+                        <div class="col-md-4">
+                            <input type="number" class="form-control" id="txtVatTax" oninput="CalculateAll()"/>
+                        </div>
+                    </div>*@
+                                <div class="form-group row">
+                                    <label for="taxVat" class="col-md-4 control-label">DISCOUNT %:</label>
+                                    <div class="col-md-4">
+                                        @*<label id="lblDiscount"></label>*@
+                                        <input type="number" class="form-control" id="txtDiscount" oninput="CalculateAll()" />
+                                        @*<label> %</label>*@
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="lblRestAmount" class="col-md-4 control-label">Round Total :</label>
+                                    <div class="col-md-4">
+                                        @*<label id="lblRoundTotal"></label>*@
+                                        <input type="number" class="form-control" id="txtRoundTotal" disabled />
+                                    </div>
+                                </div>
+                                @*<div class="form-group row">
+                        <label for="totalqty" class="col-md-4 control-label">Total Qty:</label>
+                        <div class="col-md-4">
+                            <input type="number" class="form-control" id="txtTotalQty" disabled/>
+                        </div>
+                    </div>*@
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-primary" onclick="SaveOrder()">Submit</button>
+                        <button class="btn btn-danger float-right">Cancel</button>
+                    </div>
+                </div>
+            </div>
+            <!-- /.row -->
+        </div><!-- /.container-fluid -->
+
+
+        <input id="salesOrderId" type="number" style="display: none;" value="@ViewBag.SalesOrderId">
+        <input id="eflag" type="text" style="display: none;" value="@ViewBag.eflag">
+    </div>
+</section>
+@section Scripts
+{
+
+    <script>
+        var itemList = {};
+        var whsCodeList = {};
+        var DeleteItem = [];
+        var srcount = 0;
+        $(document).ready(function() {
+            LoadBusinessPartner('ddlCustomer');
+            LoadSalesEmployee('ddlSalesEmployee');
+            LoadCurrency('ddlBPCurrency');
+            LoadShippingType('ddlShippingType');
+            LoadPaymentTerms('ddlPaymentTerms');
+            $('#txtDocDate').datepicker({
+                endDate: new Date(),
+                autoclose: true,
+                todayHighlight: true,
+                format: 'dd-M-yyyy'
+            });
+            LoadDate('#txtDocDueDate');
+            LoadDate('#txtDocumentDate');
+            GetProducts();
+            GetWarehouses();
+
+
+
+            var salesOrderId = $('#salesOrderId').val();
+            debugger;
+
+            if (salesOrderId > 0) {
+                GetSalesOrder(salesOrderId);
+
+            } else {
+
+                AddRow();
+
+            }
+            $('#ddlCustomer').change(function() {
+                var CardCode = $('#ddlCustomer').val();
+                GetBusinessPartnerInfo(CardCode);
+            });
+        });
+        function LoadBusinessPartner(elementId) {
+
+            var CardType = "C";
+            var urlpath = '@Url.Action("GetCustomer", "PrimaryData")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { CardType: CardType },
+                async: false,
+                success: function(data) {
+
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value='0'>--Select Customer--</option>");
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].CardCode).html(data[i].CardCode + " | "+data[i].CardName));
+                    }
+
+                }
+            });
+        }
+        function LoadSalesEmployee(elementId) {
+
+            var urlpath = '@Url.Action("GetSalesEmployee", "PrimaryData")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {},
+                async: false,
+                success: function(data) {
+
+                    $('#' + elementId + '').empty();
+          /*          $('#' + elementId + '').append("<option value='0'>--Select Customer--</option>");*/
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].SlpCode).html(data[i].SlpName));
+                    }
+
+                }
+            });
+        }
+        function LoadCurrency(elementId) {
+
+            var urlpath = '@Url.Action("GetCurrency", "PrimaryData")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {},
+                async: false,
+                success: function(data) {
+
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value='0'>--Select Currency--</option>");
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].CurrCode).html(data[i].CurrName));
+                    }
+
+                }
+            });
+        }
+        function LoadShippingType(elementId) {
+            var urlpath = '@Url.Action("GetShippingType", "PrimaryData")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {},
+                async: false,
+                success: function(data) {
+
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value='0'>--Select Shipping Type--</option>");
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].TrnspCode).html(data[i].TrnspName));
+                    }
+
+                }
+            });
+        }
+        function LoadPaymentTerms(elementId) {
+            var urlpath = '@Url.Action("GetPaymentTerms", "PrimaryData")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {},
+                async: false,
+                success: function(data) {
+
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value='0'>--Select Payment Terms--</option>");
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].GroupNum).html(data[i].PymntGroup));
+                    }
+
+                }
+            });
+        }
+        function GetProducts() {
+            var urlpath = '@Url.Action("GetItems", "PrimaryData")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {  },
+                async: false,
+                success: function(data) {
+
+                    itemList = data;
+
+                }
+            });
+        }
+        function GetWarehouses() {
+            var urlpath = '@Url.Action("GetWarehouse", "PrimaryData")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {  },
+                async: false,
+                success: function(data) {
+
+                    whsCodeList = data;
+
+                }
+            });
+        }
+        function LoadContactPerson(elementId) {
+        var CardCode = $('#ddlCustomer').val();
+            var urlpath = '@Url.Action("GetContactPersonByCardCode", "PrimaryData")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { CardCode: CardCode },
+                async: false,
+                success: function(data) {
+
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value='0'>--Select CntPerson--</option>");
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].CntctCode).html(data[i].Name));
+                    }
+
+                }
+            });
+        }
+        function LoadShipTo(elementId) {
+
+         var CardCode = $('#ddlCustomer').val();
+         var AdresType = "S";
+            var urlpath = '@Url.Action("GetShipToAndBillToByAdresType", "PrimaryData")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { CardCode: CardCode, AdresType: AdresType },
+                async: false,
+                success: function(data) {
+
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value='0'>--Select ShipTo--</option>");
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].Address).html(data[i].Address));
+                    }
+
+                }
+            });
+        }
+        function LoadBillTo(elementId) {
+         var CardCode = $('#ddlCustomer').val();
+         var AdresType = "B";
+            var urlpath = '@Url.Action("GetShipToAndBillToByAdresType", "PrimaryData")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { CardCode: CardCode, AdresType: AdresType },
+                async: false,
+                success: function(data) {
+
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value='0'>--Select BillTo--</option>");
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].Address).html(data[i].Address));
+                    }
+
+                }
+            });
+        }
+        function GetBusinessPartnerInfo(CardCode) {
+
+            var urlpath = '@Url.Action("GetBusinessPartnerByCardCode", "SalesOrder")';
+            $.ajax({
+                url: urlpath,
+                dataType: 'json',
+                type: "Get",
+                data: { CardCode: CardCode },
+                async: false,
+                success: function(data) {
+                    debugger;
+                    $('#txtCustomerName').val(data.CardName);
+                    LoadContactPerson('ddlContactPerson');
+                    $("#ddlContactPerson").val(data.ContactPerson).trigger('change');
+
+                    $("#ddlBPCurrency").val(data.Currency).trigger('change');
+                    $('#txtPlaceOfSupply').val(data.PlaceOfSupply);
+
+
+                    LoadShipTo('ddlShipTo');
+                    $("#ddlShipTo").val(data.ShipToDefault).trigger('change');
+                    $('#shipToAddress').val(data.ShipToAddress);
+
+                    LoadBillTo('ddlBillTo');
+                    $("#ddlBillTo").val(data.BilltoDefault).trigger('change');
+                    $('#billToAddress').val(data.billToAddress);
+
+                    $("#ddlSalesEmployee").val(data.SalesPersonCode).trigger('change');
+                }
+            });
+        }
+        function GetItemDetails(rowId) {
+            var customerId = $('#ddlCustomer').val();
+             if (customerId == 0) {
+                swal("At first select customer ");
+                 $('#Item_' + rowId).val('0').trigger("change");
+                return;
+            }
+             var itemCode = $('#Item_' + rowId).val();
+
+            var urlpath = '@Url.Action("GetItemByItemCode", "SalesOrder")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                dataType: 'json',
+                data: { itemCode: itemCode },
+                async: false,
+                success: function(data) {
+
+                   // debugger;
+                    $("#description_" + rowId).val(data.ItemName);
+                    $("#uom_" + rowId).val(data.UomName);
+                    $("#inStock_" + rowId).val(data.InStock);
+
+                    $("#quantity_" + rowId).val('');
+                    $("#price_" + rowId).val('');
+                    $("#discount_" + rowId).val('');
+                    $("#total_" + rowId).val('');
+
+                    CalculateAll();
+                }
+            });
+        }
+        function CalculateLineTotal(rowId) {
+            debugger;
+            var quantity = isNaN(parseFloat($('#quantity_' + rowId).val())) ? 0 : parseFloat($('#quantity_' + rowId).val());
+            var price = isNaN(parseFloat($('#price_' + rowId).val())) ? 0 : parseFloat($('#price_' + rowId).val());
+            var discount = isNaN(parseFloat($('#discount_' + rowId).val())) ? 0 : parseFloat($('#discount_' + rowId).val());
+            var total = quantity * price;
+            var discountAmount = total * (discount / 100);
+/*            var taxCal = grandTotal * (tax / 100);*/
+            var lineTotal = (total - discountAmount);
+            $('#total_' + rowId).val(lineTotal.toFixed(2));
+            CalculateAll();
+        }
+        function CalculateAll() {
+            var grandTotal = 0;
+            var totalQuantity = 0;
+            $('#salesOrder tbody tr').each(function () {
+
+
+                var idr = $(this).attr('id');
+                var rowId = idr.substring(3);
+
+                var quantity = isNaN(parseFloat($('#quantity_' + rowId).val())) ? 0 : parseFloat($('#quantity_' + rowId).val());
+                var price = isNaN(parseFloat($('#price_' + rowId).val())) ? 0 : parseFloat($('#price_' + rowId).val());
+                var discount = isNaN(parseFloat($('#discount_' + rowId).val())) ? 0 : parseFloat($('#discount_' + rowId).val());
+                var total = quantity * price;
+                var discountAmount = total * (discount / 100);
+/*            var taxCal = grandTotal * (tax / 100);*/
+                grandTotal += (total - discountAmount);
+                totalQuantity += quantity;
+            });
+            $('#txtNetAmount').val(grandTotal.toFixed(2));
+            //var vatTax = isNaN(parseFloat($('#txtVatTax').val())) ? 0 : parseFloat($('#txtVatTax').val());
+            var roundDiscount = isNaN(parseFloat($('#txtDiscount').val())) ? 0 : parseFloat($('#txtDiscount').val());
+            var finalDiscount = grandTotal * (roundDiscount / 100);
+
+            var roundTotal = (grandTotal - finalDiscount);
+            $('#txtRoundTotal').val(roundTotal.toFixed(2));
+         /*   $('#txtTotalQty').val(totalQuantity);*/
+        }
+        function GetSalesOrder(DocEntry) {
+            var jsonData = {};
+            jsonData["DocEntry"] = DocEntry;
+
+            var urlpath = '@Url.Action("GetSalesOrderById", "SalesOrder")';
+            $.ajax({
+                contentType: "application/json",
+                data: JSON.stringify(jsonData),
+                url: urlpath,
+                dataType: 'json',
+                type: "POST",
+               /* data: { id: id },*/
+                async: false,
+                success: function(data) {
+                   
+                    LoadBusinessPartner('ddlCustomer');
+                    $("#ddlCustomer").val(data.CardCode).trigger('change');
+
+                    $('#txtCustomerName').val(data.CardName);
+                    LoadContactPerson('ddlContactPerson');
+                    $("#ddlContactPerson").val(data.ContactPersonCode).trigger('change');
+
+                    LoadCurrency('ddlBPCurrency');
+                    $("#ddlBPCurrency").val(data.DocCurrency).trigger('change');
+                    $('#txtPlaceOfSupply').val(data.ShipPlace);
+
+
+                    LoadShipTo('ddlShipTo');
+                    $("#ddlShipTo").val(data.ShipToCode).trigger('change');
+                    $('#shipToAddress').val(data.Address2);
+
+                    LoadBillTo('ddlBillTo');
+                    $("#ddlBillTo").val(data.PayToCode).trigger('change');
+                    $('#billToAddress').val(data.Address);
+
+                    LoadSalesEmployee('ddlSalesEmployee');
+                    $("#ddlSalesEmployee").val(data.SalesPersonCode).trigger('change');
+                    $('#txtCustomerRefNo').val(data.NumAtCard);
+
+                    
+                    $('#txtDocDate').val(ToJavaScriptDate(data.DocDate));
+                    $("#txtDocDate").prop("disabled", true);
+                    $('#txtDocDueDate').val(ToJavaScriptDate(data.DocDueDate));
+                    $("#txtDocDueDate").prop("disabled", true);
+
+                   
+                    LoadShippingType('ddlShippingType');
+                    $("#ddlShippingType").val(data.TransportationCode).trigger('change');
+                    LoadPaymentTerms('ddlPaymentTerms');
+                    $("#ddlPaymentTerms").val(data.PaymentGroupCode).trigger('change');
+
+
+
+                    GetProducts();
+                    GetWarehouses();
+                    debugger;
+                    for (var i = 0; i < data.SalesOrderLines.length; i++) {
+
+                        var tr = $('#salesOrder tbody tr').length + 1;
+                        AddRow();
+                        $("#Item_" + tr).val(data.SalesOrderLines[i].ItemCode).trigger('change');
+                        $('#description_' + tr).val(data.SalesOrderLines[i].ItemDescription);
+                        $('#quantity_' + tr).val(data.SalesOrderLines[i].Quantity);
+                        $('#price_' + tr).val(data.SalesOrderLines[i].UnitPrice);
+                        $('#discount_' + tr).val(data.SalesOrderLines[i].DiscountPercent);
+                        $("#taxWshCode_" + tr).val(data.SalesOrderLines[i].WarehouseCode).trigger('change');
+                        $('#total_' + tr).val(data.SalesOrderLines[i].LineTotal);
+                        $('#details_' + tr).val(data.SalesOrderLines[i].DocEntry);
+                        $('#lineNum_' + tr).val(data.SalesOrderLines[i].LineNum);
+                        var lineStatus = data.SalesOrderLines[i].LineStatus;
+                        if (lineStatus == 'bost_Close') {
+                            $('#Item_' + tr).prop("disabled", true);
+                            $('#description_' + tr).prop("disabled", true);
+                            $('#quantity_' + tr).prop("disabled", true);
+                            $('#price_' + tr).prop("disabled", true);
+                            $('#discount_' + tr).prop("disabled", true);
+                            $('#taxWshCode_' + tr).prop("disabled", true);
+                            $('#total_' + tr).prop("disabled", true);
+                            $('#btnRemove_' + tr).prop("disabled", true);
+                        } else {
+                            $('#Item_' + tr).prop("disabled", false);
+                            $('#description_' + tr).prop("disabled", false);
+                            $('#quantity_' + tr).prop("disabled", false);
+                            $('#price_' + tr).prop("disabled", false);
+                            $('#discount_' + tr).prop("disabled", false);
+                            $('#taxWshCode_' + tr).prop("disabled", false);
+                            $('#total_' + tr).prop("disabled", false);
+                            $('#btnRemove_' + tr).prop("disabled", false);
+                        }
+
+
+
+
+                        debugger;
+                        var eflag = $('#eflag').val();
+                        //if (eflag == "ed") {
+
+                        //    $('.aHide').hide();
+                        //} else {
+                        //    var picking = $('#picking_' + tr).val();
+                        //    if (picking == '0') {
+                        //        $('.aHide').hide();
+                        //    } else {
+                        //        $('.aHide').show();
+                        //    }
+                        //}
+                    }
+
+                    $('#txtRrmarks').val(data.Comments);
+
+                    $('#txtNetAmount').val(data.DocTotal + data.TotalDiscount);
+                    $("#txtNetAmount").prop("disabled", true);
+                    $('#txtRoundTotal').val(data.DocTotal);
+                    $("#txtRoundTotal").prop("disabled", true);
+                    $('#txtDiscount').val(data.DiscountPercent);
+                    //$('#totalKg').html(data.TotatalOrderAmtKg);
+                    //$('#totalqty').html(data.TotalOrderQty);
+                    //$('#totalIncTacVat').html((data.TotalIncTaxVat).toFixed(2));
+                    //$('#totalExTaxVat').html((data.TotalExTaxVat).toFixed(2));
+                    //$('#lblRestAmount').html((data.TotalDue - data.TotalPaid).toFixed(2));
+                   // $('#lblRestAmount').html(Math.round(data.TotalDue - data.TotalPaid));
+                    //CalculateAll();
+
+                }
+            });
+        }
+        function SaveOrder() {
+
+            if (SaveValidation() == true) {
+                swal({
+                    title: "Are you sure?",
+                    text: "",
+                    type: "success",
+                    showCancelButton: true,
+                    cancelButtonClass: 'btn-secondary waves-effect',
+                    confirmButtonClass: 'btn-success waves-effect waves-light',
+                    confirmButtonText: 'Yes!',
+                    closeOnConfirm: false
+
+                }, function() {
+                    $('.confirm').prop("disabled", true);
+                    $('.cancel').prop("disabled", true);
+                    SaveOdrerFinal();
+
+                });
+            }
+        }
+        function SaveOdrerFinal() {
+            var jsonData = {};
+            jsonData["DocEntry"] = $('#salesOrderId').val();
+            jsonData["CardCode"] = $('#ddlCustomer').val();
+            jsonData["CardName"] = $('#txtCustomerName').val().trim();
+            jsonData["ContactPersonCode"] = $('#ddlContactPerson').val();
+            jsonData["DocDate"] = $('#txtDocDate').val();
+            jsonData["NumAtCard"] = $('#txtCustomerRefNo').val();
+            jsonData["ShipPlace"] = $('#txtPlaceOfSupply').val();
+            jsonData["DocCurrency"] = $('#ddlBPCurrency').val();
+            jsonData["DocDueDate"] = $('#txtDocDueDate').val();
+            //Ship To
+            jsonData["ShipToCode"] = $('#ddlShipTo').val();
+            jsonData["Address2"] = $('#shipToAddress').val();
+            //Bill To
+            jsonData["PayToCode"] = $('#ddlBillTo').val();
+            jsonData["Address"] = $('#billToAddress').val();
+
+            jsonData["SalesPersonCode"] = $('#ddlSalesEmployee').val();
+            jsonData["Comments"] = $('#txtRrmarks').val();
+
+           //Total  Amount
+            jsonData["DiscountPercent"] = $('#txtDiscount').val();
+            //jsonData["VatPercent"] = $('#txtVatTax').val();
+            jsonData["DocTotal"] = $('#txtRoundTotal').val();
+            //Shipping Type
+            jsonData["TransportationCode"] = $('#ddlShippingType').val();
+            //Payment Terms
+            jsonData["PaymentGroupCode"] = $('#ddlPaymentTerms').val();
+
+
+            var jsonObjs = [];
+            $('#salesOrder tbody tr').each(function() {
+
+                var theObj = {};
+                var idr = $(this).attr('id');
+                var id = idr.substring(3);
+                var itemCode = $('#Item_' + id).val();
+                var description = $('#description_' + id).val();
+                var qty = isNaN(parseFloat($('#quantity_' + id).val())) ? 0 : parseFloat($('#quantity_' + id).val());
+                var price = isNaN(parseFloat($('#price_' + id).val())) ? 0 : parseFloat($('#price_' + id).val());
+                var discount = isNaN(parseFloat($('#discount_' + id).val())) ? 0 : parseFloat($('#discount_' + id).val());
+                var whsCode = $('#taxWshCode_' + id).val();
+                var lTotal = isNaN(parseFloat($('#total_' + id).val())) ? 0 : parseFloat($('#total_' + id).val());
+                var detailsId = isNaN(parseFloat($('#details_' + id).val())) ? 0 : parseFloat($('#details_' + id).val());
+                var lineNum = isNaN(parseFloat($('#lineNum_' + id).val())) ? 0 : parseFloat($('#lineNum_' + id).val());
+
+                theObj["DocEntry"] = detailsId;
+                theObj["LineNum"] = lineNum;
+                theObj["ItemCode"] = itemCode;
+                theObj["ItemDescription"] = description;
+                theObj["Quantity"] = qty;
+                theObj["UnitPrice"] = price;
+                theObj["DiscountPercent"] = discount;
+                theObj["WarehouseCode"] = whsCode;
+                theObj["LineTotal"] = lTotal;
+                theObj["ShipDate"] = $('#txtDocDate').val();
+                theObj["Currency"] = $('#ddlBPCurrency').val();
+                theObj["IsDelete"] = false;
+                jsonObjs.push(theObj);
+            });
+            debugger;
+            if (isNaN(parseInt($('#salesOrderId').val())) ? 0 : parseInt($('#salesOrderId').val()) > 0) {
+                for (var ind = 0; ind < DeleteItem.length; ind++) {
+                    jsonObjs.push(DeleteItem[ind]);
+                }
+            }
+            //debugger;
+
+            jsonData["SalesOrderLines"] = jsonObjs;
+
+            var urlpath = '@Url.Action("SaveSalesOrder", "SalesOrder")';
+            $.ajax({
+                    contentType: "application/json",
+                    data: JSON.stringify(jsonData),
+                    dataType: 'json',
+                    url: urlpath,
+                    type: "POST",
+                success: function (result) {
+                    debugger;
+                    if (result.pk > 0) {
+                        swal({
+                            title: " Saved Successfull",
+                            text: '',
+                            type: "success",
+                            showCancelButton: false,
+                            cancelButtonClass: 'btn-secondary waves-effect',
+                            confirmButtonClass: 'btn-success waves-effect waves-light',
+                            confirmButtonText: 'Yes!',
+                            closeOnConfirm: false
+                        }, function () {
+                            window.location.href =  '@Url.Action("Index", "SalesOrder")';
+                            @*var eflag = $('#eflag').val();
+                            if (eflag == "ed") {
+                                window.location.href = '@Url.Action("SalesOrderList", "SalesOrderProcess")';
+                            } else {
+                                window.location.href = '@Url.Action("SalesOrderApprovalList", "SalesOrderProcess")';
+                            }*@
+
+
+                        });
+
+
+                    }
+                }
+                })
+                @*.success(function (result) {
+                    debugger;
+                    if (result.pk > 0) {
+                        swal({
+                            title: " Saved Successfull",
+                            text: '',
+                            type: "success",
+                            showCancelButton: false,
+                            cancelButtonClass: 'btn-secondary waves-effect',
+                            confirmButtonClass: 'btn-success waves-effect waves-light',
+                            confirmButtonText: 'Yes!',
+                            closeOnConfirm: false
+                        }, function () {
+                            window.location.href = window.location.reload();
+                            var eflag = $('#eflag').val();
+                            if (eflag == "ed") {
+                                window.location.href = '@Url.Action("SalesOrderList", "SalesOrderProcess")';
+                            } else {
+                                window.location.href = '@Url.Action("SalesOrderApprovalList", "SalesOrderProcess")';
+                            }
+
+
+                        });
+
+
+                    }
+                });*@
+
+
+        }
+        function CheckCurrentdate() {
+
+            if ($('#txtDocDueDate').val() != '' || $('#txtDocDueDate').val() != null) {
+                var ddate = new Date($('#txtDocDueDate').val());
+                var odate = new Date($('#txtDocDate').val());
+                if (ddate < odate) {
+                    $('#txtDocDueDate').val($('#txtDocDate').val());
+                }
+            }
+
+        }
+        function SaveValidation() {
+            var isValid = true;
+            var message = "Some Values Required";
+            if ($('#ddlCustomer').val() == 0 || $('#ddlCustomer').val() == '') {
+                ValidationColorChangeNew("ddlCustomer", "divCustomer", "Customer Required", true);
+                isValid = false;
+            }
+            if ($('#txtCustomerName').val() == '' || $('#txtCustomerName').val() == null) {
+                ValidationColorChangeNew("txtCustomerName", "divCustomerName", "Customer Required", false);
+                isValid = false;
+            }
+            if ($('#txtDocDate').val() == '' || $('#txtDocDate').val() == null) {
+                ValidationColorChangeNew("txtDocDate", "divDocDate", "Posting Date Required", false);
+                isValid = false;
+            }
+            if ($('#ddlBPCurrency').val() == 0 || $('#ddlBPCurrency').val() == '') {
+                ValidationColorChangeNew("ddlBPCurrency", "divBPCurrency", "Currency Required", true);
+                isValid = false;
+            }
+
+            if ($('#txtDocDueDate').val() == '' || $('#txtDocDueDate').val() == null) {
+                ValidationColorChangeNew("txtDocDueDate", "divDocDueDate", "Due Date Required", false);
+                isValid = false;
+            }
+
+            if ($('#ddlSalesEmployee').val() == 0 || $('#ddlSalesEmployee').val() == '') {
+                ValidationColorChangeNew("ddlSalesEmployee", "divSalesEmployee", "Sales Employee Required", true);
+                isValid = false;
+            }
+            //Items Required
+            if ($('#salesOrder tbody tr').length == 0 || $('#salesOrder tbody tr').length == '') {
+                isValid = false;
+                message = "Items Required";
+            }
+
+
+            $('#salesOrder tbody tr').each(function() {
+
+
+                var idr = $(this).attr('id');
+                var id = idr.substring(3);
+
+                var qty = isNaN(parseFloat($('#quantity_' + id).val())) ? 0 : parseFloat($('#quantity_' + id).val());
+                var price = isNaN(parseFloat($('#price_' + id).val())) ? 0 : parseFloat($('#price_' + id).val());
+                var discount = isNaN(parseFloat($('#discount_' + id).val())) ? 0 : parseFloat($('#discount_' + id).val());
+                var lTotal = isNaN(parseFloat($('#total_' + id).val())) ? 0 : parseFloat($('#total_' + id).val());
+                var itemCode = $('#Item_' + id).val()
+                var wshCode = $('#taxWshCode_' + id).val()
+
+                if (itemCode === '' || itemCode === null) {
+                    isValid = false;
+                    message = "Please Select Item";
+                    $('#Item_' + id).css('border-bottom', '2px solid red');
+                    return;
+                }
+                if (wshCode === '' || wshCode === null) {
+                    isValid = false;
+                    message = "Please Select Warehouse";
+                    $('#taxWshCode_' + id).css('border-bottom', '2px solid red');
+                    return;
+                }
+
+                if (qty === 0) {
+                    isValid = false;
+                    message = "Qty Cannot be 0 ";
+                    $('#quantity_' + id).css('border-bottom', '2px solid red');
+                    return;
+                }
+                if (price === 0) {
+                    isValid = false;
+                    message = "Price Cannot be 0 ";
+                    $('#price_' + id).css('border-bottom', '2px solid red');
+                    return;
+                }
+                if (lTotal === 0) {
+                    isValid = false;
+                    message = "Line Total Cannot be 0 ";
+                    $('#total_' + id).css('border-bottom', '2px solid red');
+                    return;
+                }
+            });
+            if (isValid == false) {
+                ShowMessage(message);
+
+            }
+            return isValid;
+
+
+        }
+        function RemoveRow(id) {
+            debugger;
+            var trLength = $('#salesOrder tbody tr').length;
+            if (trLength > 1) {
+
+                /*var detailsId = $('#details_' + id).val();*/
+                var detailsId = isNaN(parseFloat($('#details_' + id).val())) ? 0 : parseFloat($('#details_' + id).val());
+                if (detailsId > 0) {
+                    debugger;
+                    var itemCode = $('#Item_' + id).val();
+                    var description = $('#description_' + id).val();
+                    var qty = isNaN(parseFloat($('#quantity_' + id).val())) ? 0 : parseFloat($('#quantity_' + id).val());
+                    var price = isNaN(parseFloat($('#price_' + id).val())) ? 0 : parseFloat($('#price_' + id).val());
+                    var discount = isNaN(parseFloat($('#discount_' + id).val())) ? 0 : parseFloat($('#discount_' + id).val());
+                    var whsCode = $('#taxWshCode_' + id).val();
+                    var lTotal = isNaN(parseFloat($('#total_' + id).val())) ? 0 : parseFloat($('#total_' + id).val());
+                    var lineNum = isNaN(parseFloat($('#lineNum_' + id).val())) ? 0 : parseFloat($('#lineNum_' + id).val());
+
+                    var delObj = {};
+                    delObj["DocEntry"] = detailsId;
+                    delObj["LineNum"] = lineNum;
+                    delObj["ItemCode"] = itemCode;
+                    delObj["ItemDescription"] = description;
+                    delObj["Quantity"] = qty;
+                    delObj["UnitPrice"] = price;
+                    delObj["DiscountPercent"] = discount;
+                    delObj["WarehouseCode"] = whsCode;
+                    delObj["LineTotal"] = lTotal;
+                    delObj["IsDelete"] = true;
+                    //delObj["ShipDate"] = $('#txtDocDate').val();
+                    //delObj["Currency"] = $('#ddlBPCurrency').val();
+                    DeleteItem.push(delObj);
+
+                }
+                $('#tr_' + id).remove();
+                SerialTable();
+                CalculateAll();
+            } else {
+                return;
+            }
+
+        }
+        function AddRow() {
+            var tr = $('#salesOrder tbody tr').length + 1;
+            var values = $("#salesOrder tbody tr")
+                .map(function() { return parseInt($(this).attr('id').substring(3)); }).get();
+            var index = values.indexOf(tr);
+            if (index >= 0) {
+                tr = Math.max.apply(Math, values) + 1;
+            }
+            var urlpath = '@Url.Action("AddRowForOrderSap", "SalesOrder")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                dataType: 'html',
+                data: { tr: tr },
+                async: false,
+                success: function(data) {
+
+                    $('#salesOrder tbody').append(data);
+                    LoadItemInRow("Item_" + tr);
+                    LoadWarehouseInRow("taxWshCode_" + tr);
+
+
+                }
+            });
+            $('#Item_' + tr).select2();
+            $('#taxWshCode_' + tr).select2();
+            SerialTable();
+            //CalculateAll();
+        }
+        function SerialTable() {
+            $('#salesOrder tbody tr').each(function(index, element) {
+
+                var idr = $(this).attr('id');
+                var id = idr.substring(3);
+                $('#ts_' + id).html(index + 1);
+
+
+            });
+        }
+        function LoadItemInRow(elementId) {
+
+            var array = [];
+            var rowCount = $('#salesOrder tbody tr').length;
+            for (let count = 0; count < rowCount; count++) {
+                array.push(parseInt($("#Item_" + count).val()));
+            };
+            $('#' + elementId + '').append("<option value='0'>--Select Item--</option>");
+
+            for (var i = 0; i < itemList.length; i++) {
+                if (jQuery.inArray(itemList[i].ItemCode, array) == -1) {
+                    $('#' + elementId + '').append($("<option></option>").val(itemList[i].ItemCode).html(itemList[i].ItemCode + " | "+ itemList[i].ItemName));
+                }
+
+            }
+
+            //$('#' + elementId + '').append("<option value='0'>--Select Product--</option>");
+            //for (var i = 0; i < PrlductList.length; i++) {
+
+            //    $('#' + elementId + '').append($("<option></option>").val(PrlductList[i].ProductId).html(PrlductList[i].ProductName));
+            //}
+
+
+        }
+        function LoadWarehouseInRow(elementId) {
+            var array = [];
+            var rowCount = $('#salesOrder tbody tr').length;
+            for (let count = 0; count < rowCount; count++) {
+                array.push(parseInt($("#taxWshCode_" + count).val()));
+            };
+        /*    $('#' + elementId + '').append("<option value='0'>--Select Warehouse--</option>");*/
+
+            for (var i = 0; i < whsCodeList.length; i++) {
+                if (jQuery.inArray(whsCodeList[i].WhsCode, array) == -1) {
+                    $('#' + elementId + '').append($("<option></option>").val(whsCodeList[i].WhsCode).html(whsCodeList[i].WhsName));
+                }
+
+            }
+        }
+    </script>
+}
+

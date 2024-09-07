@@ -1,0 +1,547 @@
+﻿@{
+    ViewBag.Title = "Inventory Transfer Receipt";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .custom-header {
+        background-color: darkgray !important; /* Blue color #007bff  #808080*/
+        color: black; /* Text color for contrast */
+    }
+
+    .blue-checkbox {
+        color: blue !important;
+    }
+
+    .spinnermodal {
+        background-color: #FFFFFF;
+        height: 100%;
+        left: 0;
+        opacity: 0.5;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 100000;
+    }
+</style>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-12">
+                <!-- general form elements -->
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h3>Inventory Transfer Receipt</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top:3px">
+                        @*<div class="card-body">*@
+                        @*<div class="row">*@
+                        <div class="col-md-4">
+                            <div class="form-group row" id="divReceiptDate">
+                                <label for="txtReceiptDate" class="col-md-4 control-label">Receipt Date</label>
+                                <div class="col-md-6">
+                                    <input type="text" id="txtReceiptDate" class="form-control datepicker" disabled="disabled" />
+                                </div>
+                            </div>
+                        </div>
+                        @*</div>*@
+
+                        @*</div>*@
+
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card-body">
+                                <table class="table table-bordered table-striped table-hover" id="iTransferReceipt">
+                                    <thead>
+                                        <tr style="background-color: aliceblue">
+                                            <th style="text-align:center">#</th>
+                                            <th style="text-align:center"><input type="checkbox" class="icheck-primary d-inline ml-2 form-control-input chackall" id="chk_All" onchange="SelectAllCheckboxFunc()" />Check All</th>
+                                            <th style="text-align:center">Doc No</th>
+                                            <th style="text-align:center">Posting Date</th>
+                                            <th style="text-align:center">Branch</th>
+                                            <th style="text-align:center">Receipt Warehouse</th>
+                                            <th style="text-align:center">Remarks</th>
+
+
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbodyid">
+                                        @{ int count = 1;}
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr id="@count">
+                                                <td>@count</td>
+                                                <td><input type="checkbox" class="icheck-primary d-inline ml-2 form-control-input checkid" id="chk_@count" value="@count" onclick="Checkp(@count)" /></td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary showBtn" data-bs-toggle="modal" data-bs-target="#viewModal" onclick="ShowData(@item.DocEntry)">@item.SAPDocNum</button>
+                                                </td>
+                                                <td>@item.DocDate</td>
+                                                <td>@item.FromBranchName</td>
+                                                <td>
+                                                    <select class="form-control select2" id="fromWarehouse_@count" style="width: 200px"></select>
+                                                </td>
+                                                <td>@item.Remarks</td>
+                                                <td style="display:none">
+                                                    <input type="text" style="display: none" id="docEntry_@count" value="@item.DocEntry" />
+                                                </td>
+                                            </tr>
+                                            count++;
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    @*//footer*@
+                    <div class="card-footer">
+                        <button class="btn btn-warning" id="btnInventoryTransferReceipt" onclick="SaveInventoryTransferReceipt()">Add & New</button>
+                        <button class="btn btn-warning  float-right" onclick="location.reload()">Clear</button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <!-- /.row -->
+    </div><!-- /.container-fluid -->
+    <div class="spinnermodal" id="testSpan" style="display: none; z-index: 10001">
+        <div style="position: fixed; z-index: 10001; top: 50%; left: 50%; height:50px">
+            <img src="~/AssetStatic/img/loading_spinner.gif" />
+        </div>
+    </div>
+</section>
+
+<div class="modal fade" tabindex="-1" id="viewModal" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" style="max-width: 100% !important">
+        <div class="modal-content">
+            <div class="modal-header">
+
+            </div>
+            <div class="modal-body" id="containerDetails">
+
+            </div>
+            <div class="modal-footer">
+                <input type="text" style="display:none;" id="eid" />
+                <button class="btn btn-primary" data-bs-target="#viewModal" data-bs-toggle="modal" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        var itemList = {};
+        var warehouseList = {};
+        $(document).ready(function () {
+            LoadDate_C('#txtReceiptDate');
+            GetWarehouses();
+            AddWarehouse();
+        });//End of the Document Ready
+        function AddWarehouse() {
+            $('#iTransferReceipt tbody tr').each(function (key, value) {
+                soId = $(this).prop("id");
+                LoadFromWarehouseInRow("fromWarehouse_" + soId);
+                $('#fromWarehouse_' + soId).select2();
+            });
+        }
+        function GetWarehouses() {
+        /*    var WhsType = "N";*/
+
+            @*var urlpath = '@Url.Action("GetMainWarehouseAllBranch", "InventoryTransferRequest")';*@
+             var urlpath = '@Url.Action("GetWarehouse", "InventoryTransferRequest")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {  },
+                async: false,
+                success: function(data) {
+                    warehouseList = data;
+                }
+            });
+        }
+        function LoadFromWarehouseInRow(elementId) {
+            var array = [];
+            var rowCount = $('#salesOrder tbody tr').length;
+            for (let count = 0; count < rowCount; count++) {
+                array.push(parseInt($("#fromWarehouse_" + count).val()));
+            };
+        /*    $('#' + elementId + '').append("<option value=''>--Receipt Warehouse--</option>");*/
+
+            for (var i = 0; i < warehouseList.length; i++) {
+                if (jQuery.inArray(warehouseList[i].WhsCode, array) == -1) {
+                    if (warehouseList[i].WarehouseTypeCode == "N") {
+                        $('#' + elementId + '').append($("<option selected></option>").val(warehouseList[i].WhsCode).html(warehouseList[i].WhsName));
+                    }
+                    //else {
+                    //    $('#' + elementId + '').append($("<option></option>").val(warehouseList[i].WhsCode).html(warehouseList[i].WhsName));
+                    //}
+                  
+                }
+            }
+        }
+        function pad2(number) {
+            return (number < 10 ? '0' : '') + number;
+        }
+        function DateConversionToYYYYMMDD(inputDate) {
+            // Split the input date into day, month, and year parts
+            var parts = inputDate.split('-');
+            var day = parts[0];
+            var month = parts[1];
+            var year = parts[2];
+            var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            var monthIndex = monthNames.indexOf(month);
+            monthIndex++; // Adjust for 0-based indexing
+            // Create a Date object with the parsed values
+            var dateObject = new Date(year, monthIndex - 1, day);
+            // Format the date as "YYYYMMDD"
+            var formattedDate = dateObject.getFullYear() + pad2(dateObject.getMonth() + 1) + pad2(dateObject.getDate());
+            return formattedDate
+        }
+        function SaveInventoryTransferReceipt() {
+            if (Validation()) {
+            debugger;
+                var inputDate = $('#txtReceiptDate').val();
+                var formattedDate = DateConversionToYYYYMMDD(inputDate);
+            var jsonObjs = [];
+                $('#iTransferReceipt tbody tr').each(function(key, value) {
+                soId = $(this).prop("id");
+                    var theObjs = {};
+                if ($('#chk_' + soId).is(":checked")) {
+                    debugger;
+                    theObjs["PostingDate"] = formattedDate;
+                    theObjs["DocEntry"] = $('#docEntry_' + soId).val();
+                    theObjs["ReceiptWarehouse"] = $('#fromWarehouse_' + soId).val();
+                    jsonObjs.push(theObjs);
+                }
+                });
+
+               var things = JSON.stringify({ 'things': jsonObjs });
+
+            var urlpath = '@Url.Action("SaveTransferReceipt", "InventoryTransfer")';
+            $.ajax({
+                contentType: "application/json; charset=utf-8",
+                data: things,
+                dataType: 'json',
+                url: urlpath,
+                type: "POST",
+                beforeSend: function () {
+                    debugger;
+                    $('#testSpan').show();
+                    $('#btnInventoryTransferReceipt').prop('disabled', true);
+                },
+                success: function (result) {
+                    $('#testSpan').hide();
+                    if (result.UnAutorized == 1) {
+                        //Web Project Session Out
+                        window.location.href = '@Url.Action("Logout", "Home")';
+                    } else {
+                        if (result.dataList.ReturnCode == "-99999") {
+                            //API Project Session Out
+                            window.location.href = '@Url.Action("Logout", "Home")';
+                        } else {
+                            var message = result.dataList.ReturnMsg;
+                            if (result.dataList.ReturnCode == "0000") {
+                        swal({
+                            title: " Saved Successfull",
+                            text: '',
+                            type: "success",
+                            showCancelButton: false,
+                            cancelButtonClass: 'btn-secondary waves-effect',
+                            confirmButtonClass: 'btn-success waves-effect waves-light',
+                            confirmButtonText: 'Yes!',
+                            closeOnConfirm: false
+                        }, function () {
+                             window.location.href =  '@Url.Action("InventoryTransferReceipt", "InventoryTransfer")';
+                        });
+                    } else {
+                        ShowMessage(message);
+                        $('#btnInventoryTransferReceipt').prop('disabled', false);
+                    }
+                        }
+                    }
+
+                },
+                error: function() {
+                    swal("Network error occured.Please reload the page and try again");
+                    $('#btnInventoryTransferReceipt').prop('disabled', false);
+                }
+            });
+
+            }
+        }
+        //function DateConversionToYYYYMMDD(inputDate) {
+        //    // Split the input date into day, month, and year parts
+        //    var parts = inputDate.split('-');
+        //    var day = parts[0];
+        //    var month = parts[1];
+        //    var year = parts[2];
+
+        //    // Create a Date object with the extracted parts
+        //    var date = new Date(year, month - 1, day);
+
+        //    // Format the date as "yyyyMMdd"
+        //    var formattedDate = date.getFullYear() + ('0' + (date.getMonth() + 1)).slice(-2) + ('0' + date.getDate()).slice(-2);
+        //    return formattedDate
+        //}
+        function Validation() {
+            var isValid = true;
+            var message = "Check at least one checkbox";
+            if ($('#txtReceiptDate').val() == '' || $('#txtReceiptDate').val() == null) {
+                ValidationColorChangeNew("txtReceiptDate", "divReceiptDate", "Receipt Date Required", false);
+                isValid = false;
+            }
+            var checked = $('#tbodyid input:checked').length > 0;
+            if (!checked) {
+                isValid = false;
+                ShowMessage(message);
+            }
+            $('#iTransferReceipt tbody tr').each(function (key, value) {
+                soId = $(this).prop("id");
+                if ($('#chk_' + soId).is(":checked")) {
+                    debugger;
+                    var fromWarehouse = $('#fromWarehouse_' + soId).text().trim();
+                    if (fromWarehouse == '' || fromWarehouse == null) {
+                        ValidationColorChangeNew('fromWarehouse_' + soId, 'fromWarehouse_' + soId, "From Warehouse Required", false);
+                        isValid = false;
+                    }
+                }
+            });
+
+            return isValid;
+        }
+        function SelectAllCheckboxFunc() {
+            if ($("#chk_All").is(":checked")) {
+                $(".checkid").prop("checked", true);
+            } else {
+                $(".checkid").prop("checked", false);
+            }
+        }
+        function Checkp(SLNO) {
+            debugger;
+            //uncheck "select all", if one of the listed checkbox item is unchecked
+            var checkp = $("#chk_" + SLNO).prop("checked");
+            if (checkp == false) { //if this item is unchecked
+                $("#chk_All").prop('checked', false); //change "select all" checked status to false
+            }
+            //check "select all" if all checkbox items are checked
+            if ($('.checkid:checked').length == $('.checkid').length) {
+                $("#chk_All").prop('checked', true);
+            }
+        }
+        function CancelInventoryTransferReceipt() {
+             window.location = "@Url.Action("InventoryTransferReceipt", "InventoryTransfer")"
+        }
+        function ShowData(id) {
+            ViewOrder(id);
+            //$("#eid").val(id);
+            GetInventoryTransfer(id);
+        }
+        function ViewOrder(id) {
+            var urlpath = '@Url.Action("ViewInventoryTransfer", "InventoryTransfer")';
+            $.ajax({
+                url: urlpath,
+                dataType: 'html',
+                data: {id:id},
+                type: "Get",
+                async: false,
+                success: function (data) {
+                    $('#containerDetails').html(data);
+                }
+            });
+        }
+        function GetInventoryTransfer(DocEntry) {
+            //var jsonData = {};
+            //jsonData["DocEntry"] = DocEntry;
+            var docEntry = DocEntry.toString();
+
+            var urlpath = '@Url.Action("InventoryTransferViewData", "InventoryTransfer")';
+            $.ajax({
+                /*contentType: "application/json",*/
+                /*  data: JSON.stringify(jsonData),*/
+                data: { DocEntry: docEntry },
+                url: urlpath,
+                dataType: 'json',
+                type: "Get",
+               /* data: { DocEntry: id },*/
+                /*   async: false,*/
+                beforeSend: function () {
+                    $('#testSpan').show();
+                },
+                success: function (data) {
+                    $('#testSpan').hide();
+                    if (data.UnAutorized == 1) {
+                        window.location.href = '@Url.Action("Logout", "Home")';
+                    } else {
+                        if (data.ReturnCode == "-99999") {
+                            window.location.href = '@Url.Action("Logout", "Home")';
+                        } else {
+                            $('#txtDocumentNo').val(data.SAPDocNum);
+                            $('#salesOrderNo').html(data.SAPDocNum);
+
+                            $('#txtStatus').val(data.DocStatusDesc);
+                            $('#txtDocDate').val(data.DocDate);
+                            $('#txtDocDueDate').val(data.DocDueDate);
+                            $("#ddlFromWarehouse").val(data.FromWhsName)
+                            $("#ddlToWarehouse").val(data.ToWhsName)
+
+
+                            LoadSalesEmployee('ddlSalesEmployee');
+                            $("#ddlSalesEmployee").val(data.SalesEmployeeCode).trigger('change');
+
+
+                            $('#ddlCreateBy').val(data.CreatedBy);
+                            $('#txtRrmarks').val(data.Remarks);
+
+                         /*   GetItem();*/
+                            debugger;
+                            for (var i = 0; i < data.itemsViewModels.length; i++) {
+
+                                var tr = $('#salesOrder tbody tr').length + 1;
+                                AddRow();
+                                debugger;
+                                $("#itemCode_" + tr).val(data.itemsViewModels[i].ItemCode);
+                                $('#itemName_' + tr).val(data.itemsViewModels[i].ItemName);
+                                $('#uom_' + tr).val(data.itemsViewModels[i].unitMsr);
+
+                                $('#quantity_' + tr).val(data.itemsViewModels[i].Quantity);
+                                $('#stock_' + tr).val(data.itemsViewModels[i].OpenQty);
+                                $('#remarks_' + tr).val(data.itemsViewModels[i].Remarks);
+                            }
+                        }
+                    }
+
+
+                }
+            });
+        }
+        function GetItem() {
+            var urlpath = '@Url.Action("GetItem", "InventoryTransferRequest")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {  },
+                async: false,
+                success: function(data) {
+
+                    itemList = data;
+
+                }
+            });
+        }
+        function AddRow() {
+            var tr = $('#salesOrder tbody tr').length + 1;
+            var values = $("#salesOrder tbody tr")
+                .map(function() { return parseInt($(this).attr('id').substring(3)); }).get();
+            var index = values.indexOf(tr);
+            if (index >= 0) {
+                tr = Math.max.apply(Math, values) + 1;
+            }
+            var urlpath = '@Url.Action("AddRowForOrderView", "InventoryTransfer")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                dataType: 'html',
+                data: { tr: tr },
+                async: false,
+                success: function(data) {
+
+                    $('#salesOrder tbody').append(data);
+                 /*   LoadItemInRow("itemCode_" + tr);*/
+                    //LoadFromWarehouseInRow("fromWH_" + tr);
+                    //LoadToWarehouseInRow("toWH_" + tr);
+
+
+                }
+            });
+       /*     $('#itemCode_' + tr).select2();*/
+            //$('#fromWH_' + tr).select2();
+            //$('#toWH_' + tr).select2();
+            SerialTable();
+            //CalculateAll();
+        }
+        function SerialTable() {
+            $('#salesOrder tbody tr').each(function (index, element) {
+
+                var idr = $(this).attr('id');
+                var id = idr.substring(3);
+                $('#ts_' + id).html(index + 1);
+
+
+            });
+        }
+        function LoadItemInRow(elementId) {
+
+            var array = [];
+            var rowCount = $('#salesOrder tbody tr').length;
+            for (let count = 0; count < rowCount; count++) {
+                array.push(parseInt($("#itemCode_" + count).val()));
+            };
+            $('#' + elementId + '').append("<option value='0'>--Select Item--</option>");
+
+            for (var i = 0; i < itemList.length; i++) {
+                if (jQuery.inArray(itemList[i].ItemCode, array) == -1) {
+                    $('#' + elementId + '').append($("<option></option>").val(itemList[i].ItemCode).html(itemList[i].ItemName));
+                }
+
+            }
+        }
+        function LoadSalesEmployee(elementId) {
+
+            var urlpath = '@Url.Action("GetSalesEmployee", "InventoryTransferRequest")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {},
+                async: false,
+                success: function(data) {
+
+                    $('#' + elementId + '').empty();
+          /*          $('#' + elementId + '').append("<option value='0'>--Select Customer--</option>");*/
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].SlpCode).html(data[i].SlpName));
+                    }
+
+                }
+            });
+        }
+        function GetItemDetails(rowId) {
+            var customerId = $('#ddlCustomer').val();
+            // if (customerId == 0) {
+            //    swal("At first select customer ");
+            //     $('#itemCode_' + rowId).val('0').trigger("change");
+            //    return;
+            //}
+            var ItemCode = $('#itemCode_' + rowId).val();
+
+            var urlpath = '@Url.Action("GetItemByItemCode", "InventoryTransferRequest")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                dataType: 'json',
+                data: { ItemCode: ItemCode },
+                async: false,
+                success: function(data) {
+
+                   // debugger;
+                    $("#itemName_" + rowId).val(data.ItemCode);
+                    $("#uom_" + rowId).val(data.InventoryUOM);
+                 /*   $("#inStock_" + rowId).val(data.InStock);*/
+
+                    //$("#quantity_" + rowId).val('');
+                    //$("#price_" + rowId).val('');
+                    //$("#value_" + rowId).val('');
+
+                  /*  CalculateAll();*/
+                }
+            });
+        }
+    </script>
+}

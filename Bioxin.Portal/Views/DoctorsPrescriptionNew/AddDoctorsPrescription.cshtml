@@ -1,0 +1,1115 @@
+﻿@{
+    ViewBag.Title = "Doctor's Prescription";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .custom-header {
+        background-color: darkgray !important; /* Blue color #007bff  #808080*/
+        color: black; /* Text color for contrast */
+    }
+    .spinnermodal {
+        background-color: #FFFFFF;
+        height: 100%;
+        left: 0;
+        opacity: 0.5;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 100000;
+    }
+</style>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-primary">
+                    <div class="card-header custom-header">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <a href="@Url.Action("AddDoctorsPrescription", "DoctorsPrescriptionNew", new {dpId = 0})">
+                                    <h3 class="card-title">
+                                        @if (ViewBag.DoctorsPrescriptionId == 0)
+                                        {
+                                            <span class="" style="color:black"><b>Doctors Prescription</b></span>
+                                        }
+                                        else
+                                        {
+                                            <span class=""> Edit Doctors Prescription</span>
+                                        }
+                                    </h3>
+                                </a>
+                            </div>
+                            <div class="col-md-6 text-right">
+                                <a class="btn btn-outline-warning" href="@Url.Action("Index", "DoctorsPrescriptionNew")">
+                                    <span class="fa fa-list"></span> Doctors Prescription Home
+
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                             
+                                <div class="form-group row" id="divCustomer">
+                                    <label for="ddlCustomer" class="col-md-4 control-label">Code</label>
+                                    <div class="col-md-6">
+                                        <input type="text" placeholder="Search Customer Code" id="txtCustomerCodeSearch" name="UserName" class="form-control" autocomplete="off" />
+                                        <input type="hidden" id="txtCustomerCode" name="txtCustomerCode" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divCustomerName">
+                                    <label for="txtCustomerName" class="col-md-4 control-label">Customer Name</label>
+                                    <div class="col-md-6">
+                                        <input type="text" placeholder="Search Customer Name" id="txtCustomerNameSearch" name="UserName" class="form-control" autocomplete="off" />
+                                        <input type="hidden" id="txtCustomerName" name="txtCustomerName" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divMobileNo">
+                                    <label for="txtMobileNo" class="col-md-4 control-label">Mobile No</label>
+                                    <div class="col-md-6">
+                                        <input type="text" placeholder="Search Mobile No" id="txtNameSearch" name="UserName" class="form-control" autocomplete="off" />
+                                        <input type="hidden" id="ddlCustomer" name="ddlCustomer" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divGender">
+                                    <label for="ddlGender" class="col-md-4 control-label">Gender</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width:100%;" id="ddlGender">
+                                            <option value="">--Select Gender--</option>
+                                            <option value="M">Male</option>
+                                            <option value="F">Female</option>
+                                            <option value="O">Other</option>
+                                        </select>
+                                    </div>
+
+                                </div>
+                                <div class="form-group row mt-1" id="divPatientAge">
+                                    <label for="txtPatientAge" class="col-md-4 control-label">Patient Age</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" id="txtPatientAge" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divAddress" style="display:none">
+                                    <label for="txtAddress" class="col-md-4 control-label">Address</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" id="txtAddress" disabled="disabled" />
+                                        <input type="hidden" id="txtBillToAddressCode" />
+                                        <input type="hidden" id="txtShiptoAddressCode" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divSalesInvoice">
+                                    <label for="ddlSalesInvoice" class="col-md-4 control-label">Sales Invoice</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%;" id="ddlSalesInvoice"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group row" id="divBranch">
+                                    <label for="ddlBranch" class="col-md-4 control-label">Branch</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%; text-align: center" id="ddlBranch" disabled="disabled"></select>
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divSearchItemCode">
+                                    <label for="txtCustomerName" class="col-md-4 control-label">Item Code</label>
+                                    <div class="col-md-6">
+                                        <input type="text" placeholder="Search Item Code" id="txtSearchItemCode" class="form-control" autocomplete="off" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divSearchItemName">
+                                    <label for="txtCustomerName" class="col-md-4 control-label">Item Name</label>
+                                    <div class="col-md-6">
+                                        <input type="text" placeholder="Search Item Name" id="txtSearchItemName" class="form-control" autocomplete="off" />
+                                    </div>
+                                </div>
+                                <div class="row table-responsive mt-5">
+                                    <table class="table table-bordered table-striped table-hover" id="testOrder">
+                                        <thead>
+                                            <tr style="background-color: lightgrey">
+                                                <th>#</th>
+                                                <th>Test Name</th>
+                                                <th>Value</th>
+                                                <th class="action">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group row" id="divDocumentNo">
+                                    <label for="txtDocumentNo" class="col-md-4 control-label">Document No</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtDocumentNo" class="form-control" disabled="disabled" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divStatus">
+                                    <label for="txtStatus" class="col-md-4 control-label">Status</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtStatus" class="form-control" disabled="disabled" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divFollowUp">
+                                    <label for="txtFollowUpDate" class="col-md-4 control-label">Follow Up Date</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtFollowUpDate" class="form-control datepicker" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divDocDate">
+                                    <label for="txtDocDate" class="col-md-4 control-label">Posting Date</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtDocDate" class="form-control datepicker" value="@DateTime.Now.ToString("dd-MMM-yyyy")" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divDocDueDate">
+                                    <label for="txtDocDueDate" class="col-md-4 control-label">Delivery Date</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtDocDueDate" class="form-control datepicker" value="@DateTime.Now.ToString("dd-MMM-yyyy")" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divDoctor">
+                                    <label for="ddlDoctor" class="col-md-4 control-label">Doctors Name</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%;" id="ddlDoctor"></select>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            &nbsp;
+                        </div>
+                        <div class="row table-responsive">
+                            <table class="table table-bordered table-striped table-hover" id="salesOrder">
+                                <thead>
+                                    <tr style="background-color: lightgrey">
+                                        <th>#</th>
+                                        <th>Product/Treatment</th>
+                                        <th>Quantity</th>
+                                        <th>Details</th>
+                                        <th class="action">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group row mt-3" id="divPatientConcern">
+                                    <label for="txtPatientConcern" class="col-md-5 control-label">Chief Complaint</label>
+                                    <div class="col-md-6">
+                                        <textarea id="txtPatientConcern" name="w3review" rows="5" cols="23" style="border: 1px solid #ced4da; border-radius: 4px "></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group row mt-3" id="divDoctorsComment">
+                                    <label for="txtDoctorsComment" class="col-md-5 control-label">Investigation</label>
+                                    <div class="col-md-6">
+                                        <textarea id="txtDoctorsComment" name="w3review" rows="5" cols="23" style="border: 1px solid #ced4da; border-radius: 4px "></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group row mt-3" id="divDoctorsSuggestion">
+                                    <label for="taxDoctorsSuggestion" class="col-md-5 control-label">Advice</label>
+                                    <div class="col-md-6">
+                                        <textarea id="txtDoctorsSuggestion" name="w3review" rows="5" cols="23" style="border: 1px solid #ced4da; border-radius: 4px "></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3" style="display:none">
+                                <div class="form-group row mt-3" id="divDoctorsObserbation">
+                                    <label for="taxDoctorsObserbation" class="col-md-5 control-label">D.Obserbation</label>
+                                    <div class="col-md-6">
+                                        <textarea id="txtDoctorsObserbation" name="w3review" rows="5" cols="23" style="border: 1px solid #ced4da; border-radius: 4px "></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-warning" id="btnDP" onclick="SaveDoctorsPrescription()">Add & New</button>
+                        <button class="btn btn-warning  float-right" onclick="location.reload()">Clear</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <input id="doctorsPrescriptionId" type="number" style="display: none;" value="@ViewBag.DoctorsPrescriptionId">
+        <input id="codeId" type="number" style="display: none;">
+        <input id="branch" type="number" style="display: none;" value="@ViewBag.Branch">
+        <input id="eflag" type="text" style="display: none;" value="@ViewBag.eflag">
+        <input id="empId" type="text" style="display: none;" value="@ViewBag.empId">
+        <input id="empType" type="text" style="display: none;" value="@ViewBag.empType">
+    </div>
+    <div class="spinnermodal" id="testSpan" style="display: none; z-index: 10001">
+        <div style="position: fixed; z-index: 10001; top: 50%; left: 50%; height:50px">
+            <img src="~/AssetStatic/img/loading_spinner.gif" />
+        </div>
+    </div>
+</section>
+@section Scripts
+    {
+    <script>
+            var itemList = {};
+            var itemPatientTestList = {};
+            var itemBreakfastList = {};
+            var itemLunchList = {};
+            var itemDinnerList = {};
+            var workActivitiesList = {};
+            var workStatusList = {};
+            var signatureList = {};
+            var DeleteItem = [];
+            var srcount = 0;
+            $(document).ready(function () {
+                LoadDate_C('#txtDocDate');
+                LoadDate_C('#txtDocDueDate');
+                LoadDate('#txtFollowUpDate');
+                LoadBranch('ddlBranch');
+                LoadDoctor('ddlDoctor');
+                var branch = $('#branch').val();
+                $("#ddlBranch").val(branch).trigger('change');
+                GetPatientTestItem();
+                AddPatientTestRow();
+                debugger;
+                var dt = $('#empType').val();
+                var empid = $('#empId').val();
+                if (empid != "" && dt == "D") {
+                    $("#ddlDoctor").val(empid).trigger('change');
+                }
+
+
+            $("#txtNameSearch").autocomplete({
+            source: function (request, response) {
+
+                var _url = '@Url.Action("AutoCompleteBusinessPartner", "SalesOrderNew")';
+                var mobile = '';
+                $.ajax({
+                    url: _url,
+                    data: "{ 'prefix': '" + request.term + "'}",
+                    dataType: "json",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    cashe: false,
+                    success: function (data) {
+                        if (data.UnAutorized == 1) {
+                            window.location.href = '@Url.Action("Logout", "Home")';
+                        } else {
+                            if (data.dataList[0].ReturnCode == "-99999") {
+                                window.location.href = '@Url.Action("Logout", "Home")';
+                            } else {
+                                response($.map(data.dataList, function (item) {
+                                    return item.Mobile + " | " + item.CardCode + " | " + item.CardName;
+                                }));
+                            }
+                        }
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+            },
+            select: function (event, ui) {
+                debugger;
+                var str = ui.item.value;
+                var ret2 = str.replace(" | ", '|');
+                var ret = ret2.split('|');
+                mobile = ret[0];
+                var cardCode = ret[1];
+                var cardName = ret[2];
+
+                if (cardCode != '') {
+                    LoadCopyFrom('ddlSalesInvoice', cardCode);
+                    GetBusinessPartnerInfo(cardCode);
+                    GetBusinessInfo(cardCode);
+                }
+            },
+                minLength: 3
+                , close: function (event, ui) {
+                    $("#txtNameSearch").val(mobile);
+                }
+            });
+            $("#txtCustomerNameSearch").autocomplete({
+            source: function (request, response) {
+
+                var _url = '@Url.Action("AutoCompleteCustomerName", "SalesOrderNew")';
+                var cardName = '';
+                $.ajax({
+                    url: _url,
+                    data: "{ 'prefix': '" + request.term + "'}",
+                    dataType: "json",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        if (data.UnAutorized == 1) {
+                            window.location.href = '@Url.Action("Logout", "Home")';
+                        } else {
+                            if (data.dataList[0].ReturnCode == "-99999") {
+                                window.location.href = '@Url.Action("Logout", "Home")';
+                            } else {
+                                response($.map(data.dataList, function (item) {
+                                    return item.Mobile + " | " + item.CardCode + " | " + item.CardName;
+                                }));
+                            }
+                        }
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+            },
+            select: function (event, ui) {
+                debugger;
+                var str = ui.item.value;
+                var ret2 = str.replace(" | ", '|');
+                var ret = ret2.split('|');
+                var mobile = ret[0];
+                var cardCode = ret[1];
+                cardName = ret[2];
+
+                if (cardCode != '') {
+                    LoadCopyFrom('ddlSalesInvoice', cardCode);
+                    GetBusinessPartnerInfo(cardCode);
+                    GetBusinessInfo(cardCode);
+                }
+            },
+                minLength: 3
+                , close: function (event, ui) {
+                    debugger;
+                    $("#txtCustomerNameSearch").val(cardName);
+                }
+            });
+            $("#txtCustomerCodeSearch").autocomplete({
+            source: function (request, response) {
+
+                var _url = '@Url.Action("AutoCompleteCustomerCode", "SalesOrderNew")';
+                    var cardCode = '';
+                $.ajax({
+                    url: _url,
+                    data: "{ 'prefix': '" + request.term + "'}",
+                    dataType: "json",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        if (data.UnAutorized == 1) {
+                            window.location.href = '@Url.Action("Logout", "Home")';
+                        } else {
+                            if (data.dataList[0].ReturnCode == "-99999") {
+                                window.location.href = '@Url.Action("Logout", "Home")';
+                            } else {
+                                response($.map(data.dataList, function (item) {
+                                    return item.Mobile + " | " + item.CardCode + " | " + item.CardName;
+                                }));
+                            }
+                        }
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+            },
+            select: function (event, ui) {
+                debugger;
+                var str = ui.item.value;
+                var ret2 = str.replace(" | ", '|');
+                var ret = ret2.split('|');
+                var mobile = ret[0];
+                cardCode = ret[1];
+                var cardName = ret[2];
+
+                if (cardCode != '') {
+                    LoadCopyFrom('ddlSalesInvoice', cardCode);
+                    GetBusinessPartnerInfo(cardCode);
+                    GetBusinessInfo(cardCode);
+                }
+            },
+                minLength: 3
+                , close: function (event, ui) {
+                    $("#txtCustomerCodeSearch").val(cardCode);
+                }
+            });
+            $("#txtSearchItemCode").autocomplete({
+                source: function (request, response) {
+                    var _url = '';
+                    _url = '@Url.Action("AutoCompleteItem", "DoctorsPrescriptionNew")';
+                $.ajax({
+                    url: _url,
+                    data: "{ 'prefix': '" + request.term + "'}",
+                    dataType: "json",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                           if (data.UnAutorized == 1) {
+                            window.location.href = '@Url.Action("Logout", "Home")';
+                           } else {
+                            if (data.dataList[0].ReturnCode == "-99999") {
+                                window.location.href = '@Url.Action("Logout", "Home")';
+                            } else {
+                                response($.map(data.dataList, function (item) {
+                                    return item.ItemCode + " | " + item.ItemName;
+                                }));
+                            }
+                          }
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+            },
+            select: function (event, ui) {
+                var str = ui.item.value;
+                var ret2 = str.replace(" | ", '|');
+                var ret = ret2.split('|');
+                var itemCode = ret[0];
+                var itemName = ret[1];
+                AddItemRow(itemCode);
+                },
+                minLength: 3
+                , close: function (event, ui) {
+                    $("#txtSearchItemCode").val("");
+                }
+            });
+            $("#txtSearchItemName").autocomplete({
+                source: function (request, response) {
+                    var _url = '';
+                        _url = '@Url.Action("AutoCompleteItemName", "DoctorsPrescriptionNew")';
+
+
+                $.ajax({
+                    url: _url,
+                    data: "{ 'prefix': '" + request.term + "'}",
+                    dataType: "json",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                           if (data.UnAutorized == 1) {
+                            window.location.href = '@Url.Action("Logout", "Home")';
+                           } else {
+                            if (data.dataList[0].ReturnCode == "-99999") {
+                                window.location.href = '@Url.Action("Logout", "Home")';
+                            } else {
+                                response($.map(data.dataList, function (item) {
+                                    return item.ItemCode + " | " + item.ItemName;
+                                }));
+                            }
+                          }
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+            },
+            select: function (event, ui) {
+                var str = ui.item.value;
+                var ret2 = str.replace(" | ", '|');
+                var ret = ret2.split('|');
+                var itemCode = ret[0];
+                var itemName = ret[1];
+                AddItemRow(itemCode);
+                },
+                minLength: 3
+                , close: function (event, ui) {
+                    $("#txtSearchItemName").val("");
+                }
+            });
+            });
+
+        function AddItemRow(itemCode) {
+                var tr = $('#salesOrder tbody tr').length + 1;
+                var values = $("#salesOrder tbody tr")
+                    .map(function() { return parseInt($(this).attr('id').substring(3)); }).get();
+                var index = values.indexOf(tr);
+                if (index >= 0) {
+                    tr = Math.max.apply(Math, values) + 1;
+                }
+                var urlpath = '@Url.Action("AddRowForOrder", "DoctorsPrescriptionNew")';
+                $.ajax({
+                    url: urlpath,
+                    type: "Get",
+                    dataType: 'html',
+                    data: { tr: tr },
+                    async: false,
+                    success: function(data) {
+                        $('#salesOrder tbody').append(data);
+                        GetItemDetails(itemCode, tr);
+                    }
+                });
+                SerialTable();
+            }
+            function LoadCopyFrom(elementId, CardCode) {
+            CardCode = $.trim(CardCode);
+            var urlpath = '@Url.Action("GetSalesInvoiceHeaderByCardCode", "DoctorsPrescriptionNew")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { CardCode: CardCode },
+                /*    data: {  },*/
+                async: false,
+                success: function (data) {
+                    //console.log(data)
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value=''>--Select Sales Invoice--</option>");
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].DocEntry).html(data[i].SAPDocNum));
+                    }
+                }
+            });
+        }
+            function LoadBusinessPartner(elementId) {
+                var CardType = "C";
+                var urlpath = '@Url.Action("GetBusinessPartner", "DoctorsPrescriptionNew")';
+                $.ajax({
+                    url: urlpath,
+                    type: "Get",
+                    data: { CardType: CardType },
+                    /*    data: {  },*/
+                    async: false,
+                    success: function(data) {
+                        $('#' + elementId + '').empty();
+                        $('#' + elementId + '').append("<option value=''>--Select Business Partner--</option>");
+                        for (var i = 0; i < data.length; i++) {
+
+                            //$('#' + elementId + '').append($("<option></option>").val(data[i].CardCode).html(data[i].CardCode + " | " + data[i].CardName));
+                            //$('#' + elementId + '').append($("<option></option>").val(data[i].CardCode).html(data[i].CardCode + " | " + data[i].CardName + " | " + data[i].Mobile));
+                            $('#' + elementId + '').append($("<option></option>").val(data[i].CardCode).html(data[i].CardName + " | " + data[i].Mobile));
+
+                        }
+                    }
+                });
+            }
+            function LoadBranch(elementId) {
+                var CardType = "C";
+                var urlpath = '@Url.Action("GetBranch", "DoctorsPrescriptionNew")';
+                $.ajax({
+                    url: urlpath,
+                    type: "Get",
+                    data: { },
+                    async: false,
+                    success: function (data) {
+                        $('#' + elementId + '').empty();
+                        $('#' + elementId + '').append("<option value='0'>--Select Branch--</option>");
+                        for (var i = 0; i < data.length; i++) {
+
+                            $('#' + elementId + '').append($("<option></option>").val(data[i].PrcCode).html(data[i].PrcName));
+                        }
+
+                    }
+                });
+        }
+            function GetBusinessInfo(CardCode) {
+            var urlpath = '@Url.Action("GetBusinessPartnerByCardCode", "SalesOrderNew")';
+            $.ajax({
+                url: urlpath,
+                dataType: 'json',
+                type: "Get",
+                data: { CardCode: CardCode },
+                async: false,
+                success: function (data) {
+                    $('#txtCustomerNameSearch').val(data.CardName);
+                    $('#txtCustomerName').val(data.CardName);
+                    $('#txtCustomerCodeSearch').val(data.CardCode);
+                    $('#ddlCustomer').val(data.CardCode);
+                    $('#txtCustomerCode').val(data.CardCode);
+                    $('#txtNameSearch').val(data.Mobile);
+                    $('#ddlCustomer').val(data.CardCode);
+                    //$('#txtCustomerRef').val(data.ContactPerson);
+                    //$('#txtDeliveryAddress').val(data.ShiptoAddressId);
+
+                }
+            });
+        }
+            function GetBusinessPartnerInfo(CardCode) {
+                var urlpath = '@Url.Action("GetBusinessPartnerByCardCode", "DoctorsPrescriptionNew")';
+                $.ajax({
+                    url: urlpath,
+                    dataType: 'json',
+                    type: "Get",
+                    data: { CardCode: CardCode },
+                    async: false,
+                    success: function (data) {
+                        debugger;
+                        $('#txtCustomerCode').val(data.CardCode);
+                        $("#ddlGender").val(data.Gender).trigger('change');
+                        let Age = data.Age;
+                        Age = (Age != 0) ? Math.round(Age) : 0;
+                        $('#txtPatientAge').val(Age);
+                        let billToAddressId = (data.BillToAddressId != '') ? data.BillToAddressId : '';
+                        let shiptoAddressId = (data.ShiptoAddressId != '') ? data.ShiptoAddressId : '';
+
+                        let full_address = '';
+                        let street = (data.BillToStreet != '') ? data.BillToStreet : '';
+                        let cityName = (data.BillToCity != '') ? "," + data.BillToCity : '';
+                        let stateName = (data.BillToStateName != '') ? "," + data.BillToStateName : '';
+                        let countryName = (data.BillToCountryName != '') ? "," + data.BillToCountryName : '';
+                        full_address = street + cityName + stateName + countryName;
+                        $('#txtAddress').val(full_address);
+                        $('#txtBillToAddressCode').val(billToAddressId);
+                        $('#txtShiptoAddressCode').val(shiptoAddressId);
+
+
+                    }
+                });
+            }
+            function GetPatientTestItem() {
+                var urlpath = '@Url.Action("GetPatientTestItem", "DoctorsPrescriptionNew")';
+                $.ajax({
+                    url: urlpath,
+                    type: "Get",
+                    data: {  },
+                    async: false,
+                    success: function (data) {
+                        itemPatientTestList = data;
+                    }
+                });
+            }
+        function GetItem() {
+                var urlpath = '@Url.Action("GetItem", "DoctorsPrescriptionNew")';
+                $.ajax({
+                    url: urlpath,
+                    type: "Get",
+                    data: {  },
+                    async: false,
+                    success: function (data) {
+                        itemList = data;
+                    }
+                });
+            }
+        function GetItemDetails(itemCode, rowId) {
+            var CardCode = $('#ddlCustomer').val().trim();
+            var HappyHrs = 'N';
+           
+                var urlpath = '@Url.Action("GetItemByItemCodeCardCode", "Common")';
+                $.ajax({
+                    url: urlpath,
+                    type: "Get",
+                    dataType: 'json',
+                    /*   data: { ItemCode: ItemCode },*/
+                    data: { ItemCode: itemCode, CardCode: CardCode, HappyHrs: HappyHrs },
+                    async: false,
+                    success: function(data) {
+                       // debugger;
+                        $("#productTreatmentName_" + rowId).val(data.ItemName);
+                        $("#productTreatment_" + rowId).val(data.ItemCode);
+                        $("#uom_" + rowId).val(data.InventoryUOM);
+                        $("#quantity_" + rowId).val('');
+                        $("#price_" + rowId).val('');
+                        //$("#value_" + rowId).val('');
+                    }
+                });
+            }
+            function CalculateLineTotal(rowId) {
+                //debugger;
+                var quantity = isNaN(parseFloat($('#quantity_' + rowId).val())) ? 0 : parseFloat($('#quantity_' + rowId).val());
+                var price = isNaN(parseFloat($('#price_' + rowId).val())) ? 0 : parseFloat($('#price_' + rowId).val());
+                var total = quantity * price;
+                //$('#value_' + rowId).val(total.toFixed(2));
+            }
+            function GetBillToAddress(CardCode) {
+                var urlpath = '@Url.Action("GetBillToAddress", "DoctorsPrescriptionNew")';
+                $.ajax({
+                    url: urlpath,
+                    dataType: 'json',
+                    type: "Get",
+                    data: { CardCode: CardCode },
+                    async: false,
+                    success: function (data) {
+                        $('#txtAddress').val(data.BillToAddressId + "," + data.BillToCity + "," + data.BillToStateName + "," + data.BillToCountryName);
+                    }
+                });
+            }
+            function GetShipToAddress(CardCode) {
+                var urlpath = '@Url.Action("GetShipToAddress", "DoctorsPrescriptionNew")';
+                $.ajax({
+                    url: urlpath,
+                    dataType: 'json',
+                    type: "Get",
+                    data: { CardCode: CardCode },
+                    async: false,
+                    success: function(data) {
+                        $('#txtAddress').val(data.CardCode);
+                    }
+                });
+            }
+            function LoadDoctor(elementId) {
+                var urlpath = '@Url.Action("GetDoctor", "DoctorsPrescriptionNew")';
+                $.ajax({
+                    url: urlpath,
+                    type: "Get",
+                    data: { },
+                    async: false,
+                    success: function (data) {
+                        $('#' + elementId + '').empty();
+                        $('#' + elementId + '').append("<option value=''>--Select Doctor--</option>");
+                        for (var i = 0; i < data.length; i++) {
+                            $('#' + elementId + '').append($("<option></option>").val(data[i].empID).html(data[i].firstName + " " + data[i].middleName + " " + data[i].lastName));
+                        }
+                    }
+                });
+            }
+            function AddPatientTestRow() {
+                var tr = $('#testOrder tbody tr').length + 1;
+                var values = $("#testOrder tbody tr")
+                    .map(function() { return parseInt($(this).attr('id').substring(3)); }).get();
+                var index = values.indexOf(tr);
+                if (index >= 0) {
+                    tr = Math.max.apply(Math, values) + 1;
+                }
+                var urlpath = '@Url.Action("AddRowForPatienTestOrder", "DoctorsPrescriptionNew")';
+                $.ajax({
+                    url: urlpath,
+                    type: "Get",
+                    dataType: 'html',
+                    data: { tr: tr },
+                    async: false,
+                    success: function(data) {
+                        $('#testOrder tbody').append(data);
+                        LoadPatientTestInRow("patientTest_" + tr);
+                    }
+                });
+                $('#patientTest_' + tr).select2();
+                SerialPatientTestTable();
+            }
+            function RemovePatientTestRow(id) {
+                //debugger;
+                var trLength = $('#testOrder tbody tr').length;
+                if (trLength > 1) {
+                    $('#tr_' + id).remove();
+                    SerialPatientTestTable();
+                } else {
+                    return;
+                }
+            }
+            function SerialPatientTestTable() {
+                $('#testOrder tbody tr').each(function (index, element) {
+                    var idr = $(this).attr('id');
+                    var id = idr.substring(3);
+                    $('#ts_' + id).html(index + 1);
+                });
+            }
+            function LoadPatientTestInRow(elementId) {
+                var array = [];
+                var rowCount = $('#testOrder tbody tr').length;
+                for (let count = 0; count < rowCount; count++) {
+                    array.push(parseInt($("#patientTest_" + count).val()));
+                };
+                $('#' + elementId + '').append("<option value=''>--Select Item--</option>");
+                for (var i = 0; i < itemPatientTestList.length; i++) {
+                    if (jQuery.inArray(itemPatientTestList[i].ItemCode, array) == -1) {
+                        $('#' + elementId + '').append($("<option></option>").val(itemPatientTestList[i].Value).html(itemPatientTestList[i].Description));
+                    }
+                }
+            }
+            function AddRow() {
+                var tr = $('#salesOrder tbody tr').length + 1;
+                var values = $("#salesOrder tbody tr")
+                    .map(function() { return parseInt($(this).attr('id').substring(3)); }).get();
+                var index = values.indexOf(tr);
+                if (index >= 0) {
+                    tr = Math.max.apply(Math, values) + 1;
+                }
+                var urlpath = '@Url.Action("AddRowForOrder", "DoctorsPrescriptionNew")';
+                $.ajax({
+                    url: urlpath,
+                    type: "Get",
+                    dataType: 'html',
+                    data: { tr: tr },
+                    async: false,
+                    success: function(data) {
+                        $('#salesOrder tbody').append(data);
+                        LoadItemInRow("productTreatment_" + tr);
+                    }
+                });
+                $('#productTreatment_' + tr).select2();
+                SerialTable();
+            }
+            function RemoveRow(id) {
+                //debugger;
+                var trLength = $('#salesOrder tbody tr').length;
+                if (trLength >= 1) {
+                    $('#tr_' + id).remove();
+                    SerialTable();
+                } else {
+                    return;
+                }
+            }
+            function SerialTable() {
+                $('#salesOrder tbody tr').each(function (index, element) {
+                    var idr = $(this).attr('id');
+                    var id = idr.substring(3);
+                    $('#ts_' + id).html(index + 1);
+                });
+            }
+            function LoadItemInRow(elementId) {
+                var array = [];
+                var rowCount = $('#salesOrder tbody tr').length;
+                for (let count = 0; count < rowCount; count++) {
+                    array.push(parseInt($("#productTreatment_" + count).val()));
+                };
+                $('#' + elementId + '').append("<option value=''>--Select Item--</option>");
+                for (var i = 0; i < itemList.length; i++) {
+                    if (jQuery.inArray(itemList[i].ItemCode, array) == -1) {
+                        $('#' + elementId + '').append($("<option></option>").val(itemList[i].ItemCode).html(itemList[i].ItemCode + " | " + itemList[i].ItemName));
+                    }
+                }
+            }
+           
+            function SaveValidation() {
+                var isValid = true;
+                var message = "Some Values Required";
+                if ($('#ddlCustomer').val() == '' || $('#ddlCustomer').val() == null) {
+                    ValidationColorChangeNew("ddlCustomer", "divCustomer", "Patient Name Required", false);
+                    isValid = false;
+                }
+                if ($('#ddlGender').val() == '' || $('#ddlGender').val() == null) {
+                    ValidationColorChangeNew("ddlGender", "divGender", "Gender Required", false);
+                    isValid = false;
+                }
+              
+                if ($('#txtDocDate').val() == '' || $('#txtDocDate').val() == null) {
+                    ValidationColorChangeNew("txtDocDate", "divDocDate", "Posting Date Required", false);
+                    isValid = false;
+                }
+                if ($('#txtFollowUpDate').val() == '' || $('#txtFollowUpDate').val() == null) {
+                    ValidationColorChangeNew("txtFollowUpDate", "divFollowUp", "FollowUp Date Required", false);
+                    isValid = false;
+                }
+                if ($('#ddlBranch').val() == 0 || $('#ddlBranch').val() == '') {
+                    ValidationColorChangeNew("ddlBranch", "divBranch", "Branch Required", true);
+                    isValid = false;
+                }
+                if ($('#ddlDoctor').val() == '' || $('#ddlDoctor').val() == null) {
+                    ValidationColorChangeNew("ddlDoctor", "divDoctor", "Doctor Name Required", false);
+                    isValid = false;
+                }
+                if ($('#txtPatientConcern').val() == '' || $('#txtPatientConcern').val() == null) {
+                    ValidationColorChangeNew("txtPatientConcern", "divPatientConcern", "Chief Complaint Required", false);
+                    isValid = false;
+                }
+                //Items Required
+                if ($('#salesOrder tbody tr').length == 0 || $('#salesOrder tbody tr').length == '') {
+                    isValid = false;
+                    message = "Product/Treatment Required";
+                }
+              
+                $('#salesOrder tbody tr').each(function () {
+                    var idr = $(this).attr('id');
+                    var id = idr.substring(3);
+                    var qty = isNaN(parseFloat($('#quantity_' + id).val())) ? 0 : parseFloat($('#quantity_' + id).val());
+                  
+                    var itemCode = $('#productTreatment_' + id).val();
+                    var details = $('#details_' + id).val();
+
+                    if (itemCode === '' || itemCode === null) {
+                        isValid = false;
+                        message = "Please Select Product/Treatment";
+                        $('#productTreatment_' + id).css('border-bottom', '2px solid red');
+                        return;
+                    }
+                    if (details === '' || details === null) {
+                        isValid = false;
+                        message = "Please Select Details";
+                        $('#details_' + id).css('border-bottom', '2px solid red');
+                        return;
+                    }
+                 
+                });
+                if (isValid == false) {
+                    ShowMessage(message);
+
+                }
+                return isValid;
+            }
+            function SaveDoctorsPrescription() {
+                if (SaveValidation() == true) {
+                    swal({
+                        title: "Are you sure?",
+                        text: "",
+                        type: "success",
+                        showCancelButton: true,
+                        cancelButtonClass: 'btn-secondary waves-effect',
+                        confirmButtonClass: 'btn-success waves-effect waves-light',
+                        confirmButtonText: 'Yes!',
+                        closeOnConfirm: true
+
+                    }, function () {
+                        $('.confirm').prop("disabled", true);
+                        $('.cancel').prop("disabled", true);
+                        SaveDPFinal();
+                    });
+                }
+            }
+            function pad2(number) {
+                return (number < 10 ? '0' : '') + number;
+            }
+            function DateConversionToYYYYMMDD(inputDate) {
+                // Split the input date into day, month, and year parts
+                var parts = inputDate.split('-');
+                var day = parts[0];
+                var month = parts[1];
+                var year = parts[2];
+                var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                var monthIndex = monthNames.indexOf(month);
+                monthIndex++; // Adjust for 0-based indexing
+          
+                var dateObject = new Date(year, monthIndex - 1, day);
+                // Format the date as "YYYYMMDD"
+                var formattedDate = dateObject.getFullYear() + pad2(dateObject.getMonth() + 1) + pad2(dateObject.getDate());
+                return formattedDate
+            }
+            function SaveDPFinal() {
+                debugger;
+                var jsonData = {};
+                var date = $('#txtDocDueDate').val();
+                var newdate = DateConversionToYYYYMMDD(date);
+                var inputDate = $('#txtDocDate').val();
+                var formattedDate = DateConversionToYYYYMMDD(inputDate);
+                var followUpDate = $('#txtFollowUpDate').val();
+                var FollowUpDate = DateConversionToYYYYMMDD(followUpDate);
+
+                jsonData["FollowupDate"] = FollowUpDate;
+                jsonData["CardCode"] = $('#ddlCustomer').val();
+                jsonData["Branch"] = $('#ddlBranch').val();
+                jsonData["PostingDate"] = formattedDate;  //"20230814"
+                jsonData["DueDate"] = newdate; //$('#txtDocDueDate').val();
+                jsonData["RefNo"] = "";
+                jsonData["RefDate"] = formattedDate;// $('#txtDocDate').val();
+                jsonData["PhoneNo"] = "";
+                jsonData["ExternalDoctorsRef"] = "";
+                jsonData["ShiptoCode"] = $('#txtShiptoAddressCode').val();
+                jsonData["BilltoCode"] = $('#txtBillToAddressCode').val();
+                jsonData["PatientAge"] = parseInt($('#txtPatientAge').val());
+                jsonData["PatientConcern"] = ($('#txtPatientConcern').val() != "") ? $('#txtPatientConcern').val() : "";
+                jsonData["DoctorsCode"] = ($('#ddlDoctor').val() != "") ? $('#ddlDoctor').val() : "";
+                jsonData["DoctorsComment"] = ($('#txtDoctorsComment').val() != "") ? $('#txtDoctorsComment').val() : "";
+                jsonData["DoctorSuggestion"] = ($('#txtDoctorsSuggestion').val() != "") ? $('#txtDoctorsSuggestion').val() : "";
+                jsonData["DoctorObservation"] = ($('#txtDoctorsObserbation').val() != "") ? $('#txtDoctorsObserbation').val() : "";
+                jsonData["Remarks"] = "";
+                jsonData["InvoiceNo"] = $('#ddlSalesInvoice').val();
+
+                var jsonObjs = [];
+                $('#testOrder tbody tr').each(function () {
+                    var theObj = {};
+                    var idr = $(this).attr('id');
+                    var id = idr.substring(3);
+
+                    var itemCode = $('#patientTest_' + id).val();
+                    var qty = $('#value_' + id).val() ?? "";
+
+                    theObj["TestCode"] = itemCode;
+                    theObj["Value"] = qty;
+                    jsonObjs.push(theObj);
+                });
+
+                jsonData["Testing"] = jsonObjs;
+
+
+                var jsonObjs = [];
+                $('#salesOrder tbody tr').each(function() {
+                    var theObj = {};
+                    var idr = $(this).attr('id');
+                    var id = idr.substring(3);
+
+                    var itemCode = $('#productTreatment_' + id).val();
+                    var qty = $('#quantity_' + id).val() ?? "";
+              
+                    var uom = "";
+                    var price = isNaN(parseFloat($('#price_' + id).val())) ? 0 : parseFloat($('#price_' + id).val());
+                    var details = $('#details_' + id).val();
+                  
+                    theObj["ItemCode"] = itemCode;
+                    theObj["Quantity"] = qty;
+                    theObj["Price"] = price;
+                    theObj["UOM"] = uom;
+                    theObj["Details"] = details;
+                    jsonObjs.push(theObj);
+                });
+
+                jsonData["Items"] = jsonObjs;
+
+                var urlpath2 = '@Url.Action("SaveDoctorsPrescription", "DoctorsPrescriptionNew")';
+                $.ajax({
+                    contentType: "application/json",
+                    data: JSON.stringify(jsonData),
+                    dataType: 'json',
+                    url: urlpath2,
+                    type: "POST",
+                    beforeSend: function () {
+                        debugger;
+                        $('#testSpan').show();
+                        $('#btnDP').prop('disabled', true);
+                    },
+                    success: function (result) {
+                        $('#testSpan').hide();
+                        if (result.UnAutorized == 1) {
+                            //Web Project Session Out
+                            window.location.href = '@Url.Action("Logout", "Home")';
+                        } else {
+                            if (result.dataList.ReturnCode == "-99999") {
+                                //API Project Session Out
+                                window.location.href = '@Url.Action("Logout", "Home")';
+                            } else {
+                                var message = result.dataList.ReturnMsg;
+                                if (result.dataList.ReturnCode == "0000") {
+                            swal({
+                                title: " Saved Successfull",
+                                text: '',
+                                type: "success",
+                                showCancelButton: false,
+                                cancelButtonClass: 'btn-secondary waves-effect',
+                                confirmButtonClass: 'btn-success waves-effect waves-light',
+                                confirmButtonText: 'Yes!',
+                                closeOnConfirm: false
+                            }, function () {
+                                GetprintPage(result.dataList.ReturnDocEntry);
+                                window.location.href =  '@Url.Action("Index", "DoctorsPrescriptionNew")';
+                            });
+                        } else {
+                            ShowMessage(message);
+                            $('#btnDP').prop('disabled', false);
+                        }
+                            }
+                        }
+
+
+                    }
+                })
+        }
+
+            function GetprintPage(DocEntry) {
+            var urlpath = '@Url.Action("GetprintPage", "SalesOrderNew")';
+                $.ajax({
+                    url: urlpath,
+                    type: "Get",
+                    data: {},
+                    async: false,
+                    success: function (data) {
+                        var dynamicURL = data.RPTPort + 'web/webform1.aspx?id1=3&id2=DOCENTRYID|BIOXIN&id3=2&uid=USERID'.replace('DOCENTRYID', DocEntry).replace('BIOXIN', data.Database).replace('USERID', data.UserId);
+                        window.open(dynamicURL, '_blank');
+                    }
+            });
+        }
+    </script>
+}
+

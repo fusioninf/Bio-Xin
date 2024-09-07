@@ -1,0 +1,225 @@
+﻿
+@{
+   var mess = ViewData["LoginMsg"];
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bio-Xin Cosmeceuticals</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
+    <link rel="stylesheet" href="~/AssetStatic/bootstrap-5.0.2-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/AssetStatic/fontawesome-free-5.15.4/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/AssetStatic/custom/css/form-elements.css">
+    @*<link href="~/AssetStatic/custom/css/CustomSite.css" rel="stylesheet" />*@
+    @*<link href="~/AssetStatic/custom/css/site.css" rel="stylesheet" />*@
+    <link href="~/AssetStatic/custom/css/style.css" rel="stylesheet">
+
+    <link href="~/AssetStatic/sweetalert/css/sweetalert.css" rel="stylesheet" />
+
+
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="~/AssetStatic/icon/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="~/AssetStatic/icon/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="~/AssetStatic/icon/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="~/AssetStatic/icon/apple-touch-icon-57-precomposed.png">
+
+
+    <style type="text/css">
+        body {
+            background-image: url('../../AssetStatic/img/SAP-login-Background.jpg');
+            background-size: cover;
+        }
+        html {
+            font-size: 8px;
+        }
+        .btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
+            background-color: #F2B303 !important;
+        }
+    </style>
+    <script type="text/javascript">
+        window.history.forward();
+    </script>
+
+</head>
+
+<body>
+
+    <!-- Top content -->
+    <div class="top-content">
+
+        <div class="inner-bg">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-3"></div>
+                    <div class="col-sm-6 text">
+                        <img src="~/AssetStatic/img/Logo.png" alt="Bio-Xin Cosmeceuticals" width="160" height="120">
+                        @*<h1 style="color:#2251A3 ">
+                            <strong>Bio-Xin Cosmeceuticals</strong>
+                        </h1>*@
+                        <br />
+                        <h1 style="color:red ">
+                            <strong>@mess</strong>
+                        </h1>
+                        @*<img src="~/AssetStatic/Images/IG Food.jpg" />*@
+                        @*<div class="description">
+            <p>
+            </p>
+        </div>*@
+                    </div>
+                    <div class="col-sm-3"></div>
+                </div>
+                <br/>
+                <div class="row">
+                    <div class="col-sm-3"></div>
+                    <div class="col-sm-6" style="background-color: white; border-radius: 35px">
+                        <div class="row">
+                            <div class="col-sm-2"></div>
+                            <div class="col-sm-8">
+                                <div class="form-top" style="border-radius: 35px">
+                                    <div class="form-top-center" style="padding-top:20px">
+                                        <h2 align="center" style="font-family:Calibri"><b>Sign in</b></h2>
+                                    </div>
+                                </div>
+                                <div class="form-bottom" style="background-color: white; border-radius: 35px; padding-top: 2px">
+                                    <form method="post" class="login-form" action="@Url.Action("LoginAction", "Home")">
+                                        <div class="form-group">
+                                            <label class="sr-only" for="form-username">Username</label>
+                                            <input type="text" name="username" placeholder="Username..." class="form-username form-control" id="form-username" style="border-radius: 15px">
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="sr-only" for="form-password">Password</label>
+                                            <input type="password" name="password" placeholder="Password..." class="form-password form-control" id="form-password" style="border-radius: 15px">
+
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="checkbox">
+                                                <input id="checkbox-signup" type="checkbox">
+                                                <label for="checkbox-signup" style="color:black">
+                                                    Remember me
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <br />
+                                        <button type="submit" class="btn btn-primary" style="color: black; border-radius: 15px; font-family: Calibri"><b>Sign in!</b></button>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="col-sm-2"></div>
+                        </div>
+
+                    </div>
+                    <div class="col-sm-3"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- Javascript -->
+    <script src="~/AssetStatic/jquery/jquery-3.7.0.min.js"></script>
+    <script src="~/AssetStatic/bootstrap-5.0.2-dist/js/bootstrap.min.js"></script>
+    @*<script src="~/AssetStatic/assets/js/jquery.backstretch.min.js"></script>*@
+    @*<script src="~/AssetStatic/assets/js/scripts.js"></script>*@
+
+    <script src="~/AssetStatic/sweetalert/js/sweetalert.min.js"></script>
+    <script src="~/AssetStatic/custom/js/custom-functions.js"></script>
+    <script type="text/javascript">
+
+        $(document).keypress(function (event) {
+
+            var keycode = (event.keyCode ? event.keyCode : event.which);
+            if (keycode == '13') {
+                SaveFinal();
+            }
+
+        });
+
+
+
+        function SaveFinal() {
+            if (SaveValidation() == true) {
+                LoginSuccess();
+            }
+        }
+
+
+        function SaveValidation() {
+            var rVal = true;
+            var sameVal = false;
+            var message = 'Some value is required.!!!';
+            if ($('#form-username').val() == '') {
+                rVal = false;
+            }
+
+            if ($('#form-password').val() == '') {
+                rVal = false;
+            }
+
+
+            if (rVal == false) {
+                ShowMessage(message);
+            }
+            return rVal;
+        }
+
+        @*function CheckLogin(userName, pass) {
+
+            var result = 0;
+            var urlpath = '@Url.Action("CheckLogin", "Home")';
+            $.ajax({
+                url: urlpath,
+                dataType: 'json',
+                type: "Get",
+                data: { userName:userName, pass:pass },
+                async: false,
+                success: function (data) {
+
+                    result = data;
+
+                }
+            });
+            return result;
+
+
+        }*@
+
+        @*function LoginSuccess() {
+
+            var userName = $('#form-username').val();
+            var pass = $('#form-password').val();
+            var val = CheckLogin(userName, pass);
+
+
+            if (val.isvalid == true) {
+                rVal = true;
+                window.location.href = '@Url.Action("Index", "Home")';
+            }
+            if (val.isvalid == false) {
+                ShowMessage(val.message);
+            }
+//            else {
+//                rVal = false;
+//                message = 'Invalid Credentials .!!!';
+//            }
+//
+//
+//            if (rVal == false) {
+//                ShowMessage(message);
+//            }
+
+
+        }*@
+    </script>
+
+</body>
+
+</html>

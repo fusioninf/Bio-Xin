@@ -1,0 +1,1286 @@
+﻿
+@{
+    ViewBag.Title = "Sales Order";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .custom-header {
+        background-color: darkgray !important; /* Blue color #007bff  #808080*/
+        color: black; /* Text color for contrast */
+    }
+
+    .select2-container--default .select2-selection--multiple .select2-selection__choice {
+        border: none;
+    }
+    .spinnermodal {
+        background-color: #FFFFFF;
+        height: 100%;
+        left: 0;
+        opacity: 0.5;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 100000;
+    }
+</style>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-primary">
+                    <div class="card-header custom-header">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <a href="@Url.Action("AddMemberRegistration", "MemberRegistration", new {memId = 0})">
+                                    <h3 class="card-title">
+                                        @if (ViewBag.MemberId == "")
+                                        {
+                                            <span class="" style="color:black"><b>Member Registration</b></span>
+                                        }
+                                        else
+                                        {
+                                            <span class=""> Edit Member Registration</span>
+                                        }
+                                    </h3>
+                                </a>
+                            </div>
+                            <div class="col-md-6 text-right">
+                                <h3 id="memberNo"></h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group row mt-1" id="divDocDate" style="display:none">
+                                    <label for="txtDocDate" class="col-md-4 control-label">Posting Date</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtDocDate" class="form-control datepicker" value="@DateTime.Now.ToString("dd-MMM-yyyy")" />
+                                    </div>
+                                </div>
+                                <div class="form-group row" id="divType">
+                                    <label for="txtType" class="col-md-4 control-label">Type</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%;" id="BPType">
+                                            <option value="">--Select BP Type--</option>
+                                            <option value="C">Customer</option>
+                                            <option value="L">Lead</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divName">
+                                    <label for="txtName" class="col-md-4 control-label"><span style="color: red; display: none" id="namered">*&nbsp;</span>Name</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" id="txtName" />
+                                        <input type="text" class="form-control" id="txtCustomerCode" style="display:none" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divDOB">
+                                    <label for="txtDOB" class="col-md-4 control-label"><span id="dobred" style="color: red; display: none">*&nbsp;</span>DOB</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtDOB" class="form-control datepicker" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divAge">
+                                    <label for="txtAge" class="col-md-4 control-label"><span id="agered" style="color: red; display: none">*&nbsp;</span>Age</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtAge" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divGender">
+                                    <label for="ddlGender" class="col-md-4 control-label"><span id="genderred" style="color: red; display: none">*&nbsp;</span>Gender</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%;" id="ddlGender">
+                                            <option value="">--Select Gender--</option>
+                                            <option value="M">Male</option>
+                                            <option value="F">Female</option>
+                                            <option value="O">Other</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divMobile">
+                                    <label for="txtMobile" class="col-md-4 control-label"><span id="mobilered" style="color: red; display: none">*&nbsp;</span>Mobile</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" id="txtMobile" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divEmail">
+                                    <label for="txtEMail" class="col-md-4 control-label">E-mail</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" id="txtEMail" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group row" id="divGroup">
+                                    <label for="ddlGroup" class="col-md-4 control-label"><span id="groupred" style="color: red; display: none">*&nbsp;</span>Membership Group</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%;" id="ddlGroup" onchange="GetGroupDetails()" disabled></select>
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divOccupation">
+                                    <label for="ddlOccupation" class="col-md-4 control-label"><span id="occupationred" style="color: red; display: none">*&nbsp;</span>Occupation</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%;" id="ddlOccupation">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divMobileEmergency">
+                                    <label for="txtMobileEmergency" class="col-md-4 control-label">Mobile (Emergency)</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" id="txtMobileEmergency" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divContactPerson">
+                                    <label for="txtContactPerson" class="col-md-4 control-label">Contact Person</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtContactPerson" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divRelationship">
+                                    <label for="ddlRelationship" class="col-md-4 control-label">Relationship</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%;" id="ddlRelationship"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group row" id="divWebsite">
+                                    <label for="txtWebsite" class="col-md-4 control-label"><span id="websitered" style="color: red; display: none">*&nbsp;</span>Website</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtWebsite" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divPaymentTerms">
+                                    <label for="ddlPaymentTerms" class="col-md-4 control-label">Payment Terms</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%;" id="ddlPaymentTerms"></select>
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divCreditLimited">
+                                    <label for="txtCreditLimited" class="col-md-4 control-label">Credit Limited</label>
+                                    <div class="col-md-6">
+                                        <input type="number" id="txtCreditLimited" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divConnected">
+                                    <label for="txtConnected" class="col-md-4 control-label">Connected</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtConnected" class="form-control" />
+                                    </div>
+                                </div>
+                                <!--<div class="form-group row mt-1" id="divCustomerType">
+                                    <label for="ddlCustomerType" class="col-md-4 control-label">Customer Type</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%;" id="ddlCustomerType">
+                                            <option value="0">--Select Customer Type--</option>
+                                            <option value="L">Lead</option>
+                                            <option value="C">Customer</option>
+                                        </select>
+                                    </div>
+                                </div>-->
+                            </div>
+                        </div>
+                        <div class="row">
+                            &nbsp;
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4" style="text-align:center">
+                                <b><u>Present / Bill Address</u></b>
+                            </div>
+                            <div class="col-md-4" style="text-align:center">
+                                <b><u>Ship Address</u></b>(Same as Bill Address <input type="checkbox" id="chkBillToShip" onchange="CopyBillToShip()" />)
+                            </div>
+                            <div class="col-md-4" style="text-align:center">
+                                <b><u>Bank Details</u></b>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group row mt-2" id="divBillCountry">
+                                    <label for="ddlBillCountry" class="col-md-4 control-label">Country</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%;" id="ddlBillCountry" onchange="GetBillState()" disabled="disabled"></select>
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divBillState">
+                                    <label for="ddlBillState" class="col-md-4 control-label"><span style="color: red; display: none" id="billstatered">*&nbsp;</span>District</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%;" id="ddlBillState" onchange="GetBillThana()"></select>
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divBillCity">
+                                    <label for="txtBillCity" class="col-md-4 control-label"><span style="color: red; display: none" id="billcityred">*&nbsp;</span>Thana</label>
+                                    <div class="col-md-6">
+                                        <!--<input type="text" id="txtBillCity" class="form-control" />-->
+                                        <select class="form-control select2" style="width: 100%;" id="txtBillCity"></select>
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divBillStreet">
+                                    <label for="txtBillStreet" class="col-md-4 control-label"><span style="color: red; display: none" id="billstreetred">*&nbsp;</span>Address</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtBillStreet" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divBillZip">
+                                    <label for="txtBillZip" class="col-md-4 control-label">Zip</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtBillZip" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group row mt-2" id="divShipCountry">
+                                    <label for="ddlShipCountry" class="col-md-4 control-label">Country</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%;" id="ddlShipCountry" onchange="GetShipState()" disabled="disabled"></select>
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divShipState">
+                                    <label for="ddlShipState" class="col-md-4 control-label"><span style="color: red; display: none" id="shipstatered">*&nbsp;</span>District</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%;" id="ddlShipState" onchange="GetShipThana()"></select>
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divShipCity">
+                                    <label for="txtShipCity" class="col-md-4 control-label"><span style="color: red; display: none" id="shipcityred">*&nbsp;</span>Thana</label>
+                                    <div class="col-md-6">
+                                        <!--<input type="text" id="txtShipCity" class="form-control" />-->
+                                        <select class="form-control select2" style="width: 100%;" id="txtShipCity"></select>
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divShipStreet">
+                                    <label for="txtShipStreet" class="col-md-4 control-label"><span style="color: red; display: none" id="shipstreetred">*&nbsp;</span>Address</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtShipStreet" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divShipZip">
+                                    <label for="txtShipZip" class="col-md-4 control-label">Zip</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtShipZip" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group row mt-2" id="divAccountNo">
+                                    <label for="txtAccountNo" class="col-md-4 control-label">A/C No</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtAccountNo" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divSwiftCode">
+                                    <label for="txtSwiftCode" class="col-md-4 control-label">Swift Code</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtSwiftCode" class="form-control" disabled />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divBankName">
+                                    <label for="ddlBankName" class="col-md-4 control-label">Bank</label>
+                                    <div class="col-md-6">
+                                        <!--<input type="text" id="txtBankName" class="form-control" />-->
+                                        <select class="form-control select2" style="width: 100%;" id="ddlBankName"></select>
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divAccountHolderName">
+                                    <label for="txtAccountHolderName" class="col-md-4 control-label">Account Name</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtAccountHolderName" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divBankCountry">
+                                    <label for="ddlBankCountry" class="col-md-4 control-label">Country</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%;" id="ddlBankCountry"></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            &nbsp;
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group row mt-2" id="divBranch">
+                                    <label for="ddlBranch" class="col-md-4 control-label">Branch</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%; text-align: center" id="ddlBranch" disabled="disabled"></select>
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divSalesEmployee">
+                                    <label for="lblRestAmount" class="col-md-4 control-label"><span id="salesemployeered" style="color: red; display: none">*&nbsp;</span>Sales Employee</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%;" id="ddlSalesEmployee"></select>
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divRrmarks">
+                                    <label for="taxVat" class="col-md-4 control-label">Remarks</label>
+                                    <div class="col-md-6">
+                                        <textarea id="txtRrmarks" name="w3review" rows="5" cols="27" style="border: 1px solid #ced4da; border-radius: 4px "></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="form-group row mt-2" id="divHearAboutUs">
+                                    <label for="ddlHearAboutUs" class="col-md-4 control-label"><span id="hearaboutusred" style="color: red; display: none">*&nbsp;</span>How do you hear about us?</label>
+                                    <div class="col-md-6">
+                                        <!--<input type="checkbox" id="chkHearAboutUs" value="Web-search" />&nbsp;Web-search&nbsp;
+                                        <input type="checkbox" id="chkHearAboutUs" value="Facebook" />&nbsp;Facebook&nbsp;
+                                        <input type="checkbox" id="chkHearAboutUs" value="YouTube" />&nbsp;YouTube&nbsp;
+                                        <input type="checkbox" id="chkHearAboutUs" value="Instagram" />&nbsp;Instagram&nbsp;
+                                        <input type="checkbox" id="chkHearAboutUs" value="Tiktok" />&nbsp;Tiktok&nbsp;
+                                        <input type="checkbox" id="chkHearAboutUs" value="Magazine" />&nbsp;Magazine&nbsp;
+                                        <input type="checkbox" id="chkHearAboutUs" value="Friend" />&nbsp;Friend&nbsp;
+                                        <input type="checkbox" id="chkHearAboutUs" value="Others" />&nbsp;Others-->
+                                        <select id="ddlHearAboutUs" class="form-control select2" multiple="multiple" style="width: 100%;">
+                                            <option value="Web-search">Web-search</option>
+                                            <option value="Facebook">Facebook</option>
+                                            <option value="YouTube">YouTube</option>
+                                            <option value="Instagram">Instagram</option>
+                                            <option value="Tiktok">Tiktok</option>
+                                            <option value="Magazine">Magazine</option>
+                                            <option value="Friend">Friend</option>
+                                            <option value="Others">Others</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-2" id="divReasonBranchVisit">
+                                    <label for="ddlReasonBranchVisit" class="col-md-4 control-label"><span style="color: red; display: none" id="branchvisitred">*&nbsp;</span>Concern?</label>
+                                    <div class="col-md-6">
+                                        <select id="ddlReasonBranchVisit" class="form-control select2" multiple="multiple" style="width: 100%;">
+                                            <option value="DoctorConsultation">Doctor Consultation</option>
+                                            <option value="MindCare">Mind Care</option>
+                                            <option value="NutritionistConsultation">Nutritionist Consultation</option>
+                                            <option value="SkinTest">Skin Test</option>
+                                            <option value="BCAtest">BCA test</option>
+                                            <option value="RegularSkinCare">Regular Skin Care</option>
+                                            <option value="Anti-aging">Anti-aging</option>
+                                            <option value="AcneCare">Acne Care</option>
+                                            <option value="HairCare">Hair Care</option>
+                                            <option value="Health&Nutrition">Health & Nutrition</option>
+                                            <option value="SensitiveSkinCare">Sensitive Skin Care</option>
+                                            <option value="UnwantedHair">Unwanted Hair</option>
+                                            <option value="Mole">Mole</option>
+                                            <option value="DrySkinCare">Dry Skin Care</option>
+                                            <option value="OilySkinCare">Oily Skin Care</option>
+                                            <option value="Melasma&Hyperpigmentation">Melasma & Hyperpigmentation</option>
+                                            <option value="Bodycare">Body care</option>
+                                            <option value="BodyShaping">Body Shaping</option>
+                                            <option value="WeightLoss">Weight Loss</option>
+                                            <option value="Whitening&Brightening">Whitening & Brightening</option>
+                                            <option value="Smartskincare&lifestyle">Smart skin care & lifestyle</option>
+                                            <option value="LipCare">Lip Care</option>
+                                            <option value="HygieneCare">Hygiene Care</option>
+                                            <option value="BabyCare">Baby Care</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-warning" id="btnmr" onclick="SaveMemberRegistration()">Add & New</button>
+                        <button class="btn btn-warning  float-right" onclick="location.reload()">Clear</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <input id="memberId" type="text" style="display: none;" value="@ViewBag.MemberId">
+        <input id="codeId" type="number" style="display: none;">
+        <input id="branch" type="number" style="display: none;" value="@ViewBag.Branch">
+        <input id="eflag" type="text" style="display: none;" value="@ViewBag.eflag">
+    </div>
+    <div class="spinnermodal" id="testSpan" style="display: none; z-index: 10001">
+        <div style="position: fixed; z-index: 10001; top: 50%; left: 50%; height:50px">
+            <img src="~/AssetStatic/img/loading_spinner.gif" />
+        </div>
+    </div>
+</section>
+@section Scripts
+{
+    <script>
+        var itemList = {};
+        var itemUPIList = {};
+        var workActivitiesList = {};
+        var workStatusList = {};
+        var signatureList = {};
+        var DeleteItem = [];
+        var selectedHearAboutUs = [];
+        var selectedReasonBranchVisit = [];
+        var srcount = 0;
+        $(document).ready(function () {
+            LoadDate_C('#txtDocDate');
+            LoadDate('#txtDOB');
+            LoadBranch('ddlBranch');
+            var branch = $('#branch').val();
+            $("#ddlBranch").val(branch).trigger('change');
+            $('#ddlHearAboutUs').select2();
+            $('#txtDOB').on('change', function () {
+                calculateAgeFromDOB();
+            });
+            $('#txtAge').on('change', function () {
+                calculateDOBFromAge();
+            });
+            $('#ddlBankName').on('change', function () {
+                var selectedOption = $(this).find('option:selected');
+                var swiftCode = selectedOption.data("swiftcode");
+                $("#txtSwiftCode").val(swiftCode);
+            });
+            var carCode = $("#memberId").val();
+            if (carCode != "" && carCode != null) {
+                $("#memberNo").text("Customer Code : " + carCode);
+                $("#txtCustomerCode").val(carCode);
+
+                GetMemberOrder(carCode);
+            } else {
+                LoadGroupCode('ddlGroup');
+                LoadCountry('ddlBillCountry');
+                LoadCountry('ddlShipCountry');
+                LoadCountry('ddlBankCountry');
+                LoadBankDetails('ddlBankName');
+                LoadSalesEmployee('ddlSalesEmployee');
+                LoadRelationShip('ddlRelationship');
+                LoadOccupation('ddlOccupation');
+                LoadPaymentTerms('ddlPaymentTerms');
+                $("#ddlBillCountry").val('BD').trigger('change');
+                $("#ddlShipCountry").val('BD').trigger('change');
+                $("#ddlBankCountry").val('BD').trigger('change');
+            }
+            $('#BPType').on('change', function () {
+                AddMandatory();
+                //var cusType = $('#BPType').val();
+                //if (cusType == "L") {
+                //    $("#ddlGroup").prop("disabled", false);
+                //}
+                var cusType = $('#BPType').val();
+                if (cusType == "C") {
+                    $('#ddlGroup').val(100).trigger('change');
+                    $("#ddlGroup").prop("disabled", true);
+                }
+                if (cusType == "L") {
+                    $('#ddlGroup').val(108).trigger('change');
+                    $("#ddlGroup").prop("disabled", true);
+                }
+            });
+        });
+        function GetMemberOrder(CardCode) {
+            var cardCode = CardCode.toString();
+            var urlpath = '@Url.Action("MemberRegistrationViewData", "LeadCustomer")';
+            $.ajax({
+                data: { CardCode: cardCode },
+                url: urlpath,
+                dataType: 'json',
+                type: "Get",
+                /*      async: false,*/
+                beforeSend: function () {
+
+                    $('#testSpan').show();
+                },
+                success: function (data) {
+                    $('#testSpan').hide();
+                    if (data.UnAutorized == 0 && data.ReturnCode != null ) {
+                        if (data.ReturnCode == "-99999") {
+                            window.location.href = '@Url.Action("Logout", "Home")';
+                        }
+                    }
+
+                    if (data.UnAutorized == 1) {
+                        window.location.href = '@Url.Action("Logout", "Home")';
+                    } else {
+                            $('#BPType').val(data.CardType).trigger('change');
+                            $('#txtName').val(data.CardName);
+                            let birthDateUpdated = (data.BirthDate != '' && data.BirthDate != null) ? DateConversionToDateMonthYear(data.BirthDate) : '';
+                            $('#txtDOB').val(birthDateUpdated);
+                            $('#txtAge').val(data.Age);
+                            $('#ddlGender').val(data.Gender).trigger('change');
+                            LoadGroupCode('ddlGroup');
+                            $('#ddlGroup').val(data.GroupCode).trigger('change');
+                            LoadOccupation('ddlOccupation');
+                            $('#ddlOccupation').val(data.Occupation).trigger('change');
+                            $('#txtMobile').val(data.Mobile);
+                            $('#txtEMail').val(data.E_Mail);
+                            $('#txtMobileEmergency').val(data.Emergency);
+                            $('#txtContactPerson').val(data.ContactPerson);
+                            LoadRelationShip('ddlRelationship');
+                            $('#ddlRelationship').val(data.Relation).trigger('change');
+
+                            $('#txtWebsite').val(data.WebSite);
+
+                            LoadPaymentTerms('ddlPaymentTerms');
+                            $('#ddlPaymentTerms').val(data.PaymentTermsCode).trigger('change');
+                            $('#txtCreditLimited').val(data.CreditLimit);
+                            $('#txtConnected').val(data.ConnectedVendor);
+                            LoadCountry('ddlBillCountry');
+                            $("#ddlBillCountry").val('BD').trigger('change');
+                            GetBillState();
+                            $('#ddlBillState').val(data.BillToStateCode).trigger('change');
+                            GetBillThana();
+                            $('#txtBillCity').val(data.BillToCity).trigger('change');
+                            $('#txtBillStreet').val(data.BillToAddressId);
+                            $('#txtBillZip').val(data.BillToZipCode);
+                            LoadCountry('ddlShipCountry');
+                            $("#ddlShipCountry").val('BD').trigger('change');
+
+                            GetShipState();
+                            $('#ddlShipState').val(data.ShiptoStateCode).trigger('change');
+                            GetShipThana();
+                            $('#txtShipCity').val(data.ShiptoCity).trigger('change');
+                            $('#txtShipStreet').val(data.ShiptoAddressId);
+                            $('#txtShipZip').val(data.ShiptoZipCode);
+
+                            $('#txtAccountNo').val(data.BankAccount);
+                            $('#txtSwiftCode').val(data.BankSwiftCode);
+                            LoadBankDetails('ddlBankName');
+                            $('#ddlBankName').val(data.BankCode).trigger('change');
+
+                            $('#txtAccountHolderName').val(data.AccountName);
+                            LoadCountry('ddlBankCountry');
+                            $("#ddlBankCountry").val('BD').trigger('change');
+                            LoadSalesEmployee('ddlSalesEmployee');
+                            $("#ddlSalesEmployee").val(data.SalesEmployeeCode).trigger('change');
+                            $('#txtRrmarks').val(data.Remarks);
+
+                            if (data.HWABUS != "" && data.HWABUS != null) {
+                                var arrayArea = [];
+                                arrayArea = data.HWABUS.split(',');
+                                $("#ddlHearAboutUs").val(arrayArea).trigger('change');
+                            }
+                            if (data.RSBRVS != "" && data.RSBRVS != null) {
+                                var arrayArea = [];
+                                arrayArea = data.RSBRVS.split(',');
+                                $("#ddlReasonBranchVisit").val(arrayArea).trigger('change');
+                            }
+
+                            $('#txtContactPerson').val(data.Contact);
+                            $('#txtConnected').val(data.Connected);
+
+                            var cusType = $('#BPType').val();
+                            if (cusType == "C") {
+                                $("#ddlGroup").prop("disabled", true);
+                            } else {
+                                $("#ddlGroup").prop("disabled", false);
+                            }
+                            AddMandatory();
+                    }
+
+
+                }
+            });
+        }
+        function AddMandatory() {
+            var cusType = $('#BPType').val();
+            if (cusType == "C") {
+                $('#namered').show();
+                $('#dobred').show();
+                $('#agered').show();
+                $('#genderred').show();
+                $('#mobilered').show();
+                $('#groupred').show();
+                $('#occupationred').show();
+                $('#billstatered').show();
+                $('#billcityred').show();
+                $('#billstreetred').show();
+                $('#shipstatered').show();
+                $('#shipcityred').show();
+                $('#shipstreetred').show();
+                $('#branchvisitred').show();
+
+                $('#hearaboutusred').hide();
+                $('#salesemployeered').hide();
+                $('#websitered').hide();
+            } else {
+                var branch = $('#branch').val();
+                if (branch == 1015) {
+                    $('#namered').show();
+                    $('#hearaboutusred').show();
+                    $('#salesemployeered').show();
+                    $('#websitered').show();
+
+                    $('#dobred').hide();
+                    $('#agered').hide();
+                    $('#genderred').hide();
+                    $('#mobilered').hide();
+                    $('#groupred').hide();
+                    $('#occupationred').hide();
+                    $('#billstatered').hide();
+                    $('#billcityred').hide();
+                    $('#billstreetred').hide();
+                    $('#shipstatered').hide();
+                    $('#shipcityred').hide();
+                    $('#shipstreetred').hide();
+                    $('#branchvisitred').hide();
+
+                } else {
+                    $('#namered').show();
+                    $('#mobilered').show();
+                    $('#branchvisitred').show();
+
+
+                    $('#dobred').hide();
+                    $('#agered').hide();
+                    $('#genderred').hide();
+                    $('#groupred').hide();
+                    $('#occupationred').hide();
+                    $('#billstatered').hide();
+                    $('#billcityred').hide();
+                    $('#billstreetred').hide();
+                    $('#shipstatered').hide();
+                    $('#shipcityred').hide();
+                    $('#shipstreetred').hide();
+                    $('#hearaboutusred').hide();
+                    $('#salesemployeered').hide();
+                    $('#websitered').hide();
+                }
+            }
+        }
+        function DateConversionToDateMonthYear(inputDate) {
+            var parts = inputDate.split('/');
+            var day = parts[0];
+            var month = parts[1];
+            var year = parts[2];
+            var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            var monthName = monthNames[parseInt(month) - 1];
+            var formattedDate = day + '-' + monthName + '-' + year;
+            return formattedDate
+        }
+        function LoadGroupCode(elementId) {
+            var urlpath = '@Url.Action("GetGroup", "MemberRegistration")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { },
+                async: false,
+                success: function (data) {
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value=''>--Select Group Code--</option>");
+                    for (var i = 0; i < data.length; i++) {
+
+                        if (data[i].GroupCode == 100) {
+                            $('#' + elementId + '').append($("<option selected></option>").val(data[i].GroupCode).html(data[i].GroupName));
+                        } else {
+                            $('#' + elementId + '').append($("<option></option>").val(data[i].GroupCode).html(data[i].GroupName));
+                        }
+
+
+                    }
+
+                }
+            });
+        }
+        function LoadOccupation(elementId) {
+            var urlpath = '@Url.Action("GetOccupation", "MemberRegistration")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { },
+                async: false,
+                success: function (data) {
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value=''>--Select Occupation--</option>");
+                    for (var i = 0; i < data.length; i++) {
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].Value).html(data[i].Description));
+                    }
+                }
+            });
+        }
+        function LoadRelationShip(elementId) {
+            var urlpath = '@Url.Action("GetRelationShip", "MemberRegistration")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { },
+                async: false,
+                success: function (data) {
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value=''>--Select RelationShip--</option>");
+                    for (var i = 0; i < data.length; i++) {
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].Value).html(data[i].Description));
+                    }
+                }
+            });
+        }
+        function LoadPaymentTerms(elementId) {
+            var urlpath = '@Url.Action("GetPaymentTerms", "MemberRegistration")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { },
+                async: false,
+                success: function (data) {
+                    $('#' + elementId + '').empty();
+                    //$('#' + elementId + '').append("<option value=''>--Select Payment Terms--</option>");
+                    for (var i = 0; i < data.length; i++) {
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].PaymentTermsGrpCode).html(data[i].PaymentTermsGrpName));
+                    }
+                }
+            });
+        }
+        function LoadBankDetails(elementId) {
+            var urlpath = '@Url.Action("GetBankDetails", "MemberRegistration")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { },
+                async: false,
+                success: function (data) {
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value=''>--Select Bank--</option>");
+                    for (var i = 0; i < data.length; i++) {
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].BankCode).html(data[i].BankName).attr("data-swiftcode", data[i].SwiftCode));
+                    }
+                }
+            });
+        }
+        function LoadBranch(elementId) {
+            var urlpath = '@Url.Action("GetBranch", "MemberRegistration")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { },
+                async: false,
+                success: function (data) {
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value=''>--Select Branch--</option>");
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].PrcCode).html(data[i].PrcName));
+                    }
+
+                }
+            });
+        }
+        function LoadSalesEmployee(elementId) {
+            var urlpath = '@Url.Action("GetSalesEmployee", "MemberRegistration")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {},
+                async: false,
+                success: function(data) {
+                    $('#' + elementId + '').empty();
+                    /*$('#' + elementId + '').append("<option value=''>--Select Customer--</option>");*/
+                    for (var i = 0; i < data.length; i++) {
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].SlpCode).html(data[i].SlpName));
+                    }
+                }
+            });
+        }
+        function LoadCountry(elementId) {
+            var urlpath = '@Url.Action("GetCountry", "MemberRegistration")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { },
+                async: false,
+                success: function (data) {
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value=''>--Select Country--</option>");
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].CountryCode).html(data[i].CountryName));
+                    }
+
+                }
+            });
+        }
+        function GetBillState() {
+            var countryCode = $('#ddlBillCountry').val();
+            var elementId = 'ddlBillState';
+
+            GetState(countryCode, elementId);
+        }
+        function GetBillThana() {
+            var districtCode = $('#ddlBillState').val();
+            var elementId = 'txtBillCity';
+
+            GetThana(districtCode, elementId);
+        }
+        function GetShipState() {
+            var countryCode = $('#ddlShipCountry').val();
+            var elementId = 'ddlShipState';
+
+            GetState(countryCode, elementId);
+        }
+        function GetShipThana() {
+            var districtCode = $('#ddlShipState').val();
+            var elementId = 'txtShipCity';
+
+            GetThana(districtCode, elementId);
+        }
+        function GetState(countryCode, elementId) {
+            var urlpath = '@Url.Action("GetState", "MemberRegistration")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { CountryCode: countryCode },
+                async: false,
+                success: function (data) {
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value=''>--Select State--</option>");
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].StateCode).html(data[i].StateName));
+                    }
+
+                }
+            });
+        }
+        function GetThana(districtCode, elementId) {
+            var urlpath = '@Url.Action("GetThana", "MemberRegistration")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { DistrictCode: districtCode },
+                async: false,
+                success: function (data) {
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value=''>--Select Thana--</option>");
+                    for (var i = 0; i < data.length; i++) {
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].ThaneCode).html(data[i].ThanaName));
+                    }
+                }
+            });
+        }
+        function GetGroupDetails() {
+            var groupCode = $('#ddlGroup').val();
+            if (groupCode == 0) {
+                swal("At first select group ");
+                return;
+            }
+
+            var urlpath = '@Url.Action("GetGroupDetails", "MemberRegistration")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                dataType: 'json',
+                data: { GroupCode: groupCode },
+                async: false,
+                success: function (data) {
+                    $("#txtType").val(data[0].GroupTypeDesc);
+                }
+            });
+        }
+        function CopyBillToShip() {
+            if ($('#chkBillToShip').prop('checked')) {
+                GetThana($('#ddlBillState').val(), 'txtShipCity');
+
+                $('#ddlShipCountry').val($('#ddlBillCountry').val()).trigger('change');
+                $('#ddlShipState').val($('#ddlBillState').val());
+                $('#txtShipCity').val($('#txtBillCity').val());
+                $('#txtShipStreet').val($('#txtBillStreet').val());
+                $('#txtShipZip').val($('#txtBillZip').val());
+            } else {
+                $('#ddlShipCountry').val(0).trigger('change');
+                $('#ddlShipState').val(0).trigger('change');
+                $('#txtShipCity').val('');
+                $('#txtShipStreet').val('');
+                $('#txtShipZip').val('');
+            }
+        }
+        function calculateAgeFromDOB() {
+            var dob = $('#txtDOB').val();
+            if (dob) {
+                var parts = dob.split('-');
+                var day = parseInt(parts[0]);
+                var month = parts[1];
+                var year = parseInt(parts[2]);
+                var monthMap = {
+                    'Jan': 0, 'Feb': 1, 'Mar': 2, 'Apr': 3, 'May': 4, 'Jun': 5,
+                    'Jul': 6, 'Aug': 7, 'Sep': 8, 'Oct': 9, 'Nov': 10, 'Dec': 11
+                };
+                var monthIndex = monthMap[month];
+                var dobDate = new Date(year, monthIndex, day);
+                var currentDate = new Date();
+                var age = currentDate.getFullYear() - dobDate.getFullYear();
+                if (currentDate.getMonth() < monthIndex || (currentDate.getMonth() === monthIndex && currentDate.getDate() < day)) {
+                    age--;
+                }
+                $('#txtAge').val(age);
+            } else {
+                $('#txtAge').val('');
+            }
+        }
+        function calculateDOBFromAge() {
+            var age = parseInt($('#txtAge').val());
+            if (!isNaN(age) && age >= 0) {
+                var currentDate = new Date();
+                var birthYear = currentDate.getFullYear() - age;
+                //var dob = new Date(birthYear, 0, 1);
+                var dob = new Date(birthYear, currentDate.getMonth(), currentDate.getDate());
+                var day = dob.getDate();
+                var month = dob.getMonth() + 1
+                var year = dob.getFullYear();
+                //var dobMonthStr = month < 10 ? '0' + month : month.toString();
+                var dobDayStr = day < 10 ? '0' + day : day.toString();
+                var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                var monthName = monthNames[parseInt(month) - 1];
+                var formattedDate = dobDayStr + '-' + monthName + '-' + year;
+                $('#txtDOB').val(formattedDate);
+            } else {
+                $('#txtDOB').val('');
+            }
+        }
+        function updateSelectedFruits() {
+            $('input[name="chkHearAboutUs"]:checked').each(function () {
+                selectedHearAboutUs.push($(this).val());
+            });
+        }
+        function updateChkReasonBranchVisit() {
+            $('input[name="chkReasonBranchVisit"]:checked').each(function () {
+                selectedReasonBranchVisit.push($(this).val());
+            });
+        }
+        function SaveValidation() {
+            var isValid = true;
+            var message = "Some Values Required";
+            var cusType = $('#BPType').val();
+            if ($('#BPType').val() == 0 || $('#BPType').val() == '' || $('#BPType').val() == null) {
+                ValidationColorChangeNew("BPType", "divType", "BP Type Required", true);
+                isValid = false;
+            }
+
+            if (cusType == "C") {
+
+                if ($('#txtName').val() == 0 || $('#txtName').val() == '') {
+                    ValidationColorChangeNew("txtName", "divName", "Name Required", true);
+                    isValid = false;
+                }
+                if ($('#txtDOB').val() == '' || $('#txtDOB').val() == null) {
+                    ValidationColorChangeNew("txtDOB", "divDOB", "DOB Required", false);
+                    isValid = false;
+                }
+                if ($('#txtDOB').val() == 0 || $('#txtDOB').val() == '' || $('#txtAge').val() == 0 || $('#txtAge').val() == '') {
+                    ValidationColorChangeNew("txtAge", "divAge", "DOB / Age Required", true);
+                    isValid = false;
+                }
+                if ($('#txtAge').val() == 0 || $('#txtAge').val() == '') {
+                    ValidationColorChangeNew("txtAge", "divAge", "Age Required", true);
+                    isValid = false;
+                }
+                if ($('#ddlGender').val() == 0 || $('#ddlGender').val() == '') {
+                    ValidationColorChangeNew("ddlGender", "divGender", "Gender Required", true);
+                    isValid = false;
+                }
+                if ($('#txtMobile').val() == 0 || $('#txtMobile').val() == '') {
+                    ValidationColorChangeNew("txtMobile", "divMobile", "Mobile Required", true);
+                    isValid = false;
+                }
+                if ($('#txtMobile').val() !== '') {
+                    var regex = /^[0-9]{11}$/;
+                    var mobileValue = $('#txtMobile').val();
+                    if (regex.test(mobileValue)) {
+                    } else {
+                        ValidationColorChangeNew("txtMobile", "divMobile", "Valid 11-digit mobile number using English numerals (0-9) Required", true);
+                        isValid = false;
+                    }
+                }
+                if ($('#ddlGroup').val() == 0 || $('#ddlGroup').val() == '') {
+                    ValidationColorChangeNew("ddlGroup", "divGroup", "Membership Group Required", true);
+                    isValid = false;
+                }
+                if ($('#ddlOccupation').val() == 0 || $('#ddlOccupation').val() == '') {
+                    ValidationColorChangeNew("ddlOccupation", "divOccupation", "Occupation Required", true);
+                    isValid = false;
+                }
+                if ($('#ddlBillState').val() == 0 || $('#ddlBillState').val() == '') {
+                    ValidationColorChangeNew("ddlBillState", "divBillState", "Bill District Required", true);
+                    isValid = false;
+                }
+                if ($('#txtBillCity').val() == 0 || $('#txtBillCity').val() == '' || $('#txtBillCity').val() == null) {
+                    ValidationColorChangeNew("txtBillCity", "divBillCity", "Bill Thana Required", true);
+                    isValid = false;
+                }
+                if ($('#txtBillStreet').val() == 0 || $('#txtBillStreet').val() == '') {
+                    ValidationColorChangeNew("txtBillStreet", "divBillStreet", "Bill Address Required", true);
+                    isValid = false;
+                }
+                if ($('#ddlShipState').val() == 0 || $('#ddlShipState').val() == '') {
+                    ValidationColorChangeNew("ddlShipState", "divShipState", "Ship District Required", true);
+                    isValid = false;
+                }
+                if ($('#txtShipCity').val() == 0 || $('#txtShipCity').val() == '' || $('#txtShipCity').val() == null) {
+                    ValidationColorChangeNew("txtShipCity", "divShipCity", "Ship Thana Required", true);
+                    isValid = false;
+                }
+                if ($('#txtShipStreet').val() == 0 || $('#txtShipStreet').val() == '') {
+                    ValidationColorChangeNew("txtShipStreet", "divShipStreet", "Ship Address Required", true);
+                    isValid = false;
+                }
+                if ($('#ddlBranch').val() == 0 || $('#ddlBranch').val() == '') {
+                    ValidationColorChangeNew("ddlBranch", "divBranch", "Branch Required", true);
+                    isValid = false;
+                }
+                if ($('#ddlReasonBranchVisit').val() == 0 || $('#ddlReasonBranchVisit').val() == '') {
+                    ValidationColorChangeNew("ddlReasonBranchVisit", "divReasonBranchVisit", "Reason for Branch Visit Required", true);
+                    isValid = false;
+                }
+            } else {
+                var branch = $('#branch').val();
+                if (branch == 1015) {
+                    if ($('#txtName').val() == 0 || $('#txtName').val() == '') {
+                        ValidationColorChangeNew("txtName", "divName", "Name Required", true);
+                        isValid = false;
+                    }
+                    if ($('#ddlHearAboutUs').val() == 0 || $('#ddlHearAboutUs').val() == '') {
+                        ValidationColorChangeNew("ddlHearAboutUs", "divHearAboutUs", "Contact Channel Required", true);
+                        isValid = false;
+                    }
+                    if ($('#ddlSalesEmployee').val() == 0 || $('#ddlSalesEmployee').val() == '') {
+                        ValidationColorChangeNew("ddlSalesEmployee", "divSalesEmployee", "Contact Channel Required", true);
+                        isValid = false;
+                    }
+                    if ($('#txtWebsite').val() == 0 || $('#txtWebsite').val() == '') {
+                        ValidationColorChangeNew("txtWebsite", "divWebsite", "Contact Channel Required", true);
+                        isValid = false;
+                    }
+
+                } else {
+                    if ($('#txtName').val() == 0 || $('#txtName').val() == '') {
+                        ValidationColorChangeNew("txtName", "divName", "Name Required", true);
+                        isValid = false;
+                    }
+                    if ($('#txtMobile').val() !== '') {
+                        var regex = /^[0-9]{11}$/;
+                        var mobileValue = $('#txtMobile').val();
+                        if (regex.test(mobileValue)) {
+                        } else {
+                            ValidationColorChangeNew("txtMobile", "divMobile", "Valid 11-digit mobile number using English numerals (0-9) Required", true);
+                            isValid = false;
+                        }
+                    }
+                    if ($('#ddlReasonBranchVisit').val() == 0 || $('#ddlReasonBranchVisit').val() == '') {
+                        ValidationColorChangeNew("ddlReasonBranchVisit", "divReasonBranchVisit", "Reason for Branch Visit Required", true);
+                        isValid = false;
+                    }
+                }
+            }
+
+            if (isValid == false) {
+                ShowMessage(message);
+
+            }
+            return isValid;
+        }
+        function SaveMemberRegistration() {
+            if (SaveValidation() == true) {
+                swal({
+                    title: "Are you sure?",
+                    text: "",
+                    type: "success",
+                    showCancelButton: true,
+                    cancelButtonClass: 'btn-secondary waves-effect',
+                    confirmButtonClass: 'btn-success waves-effect waves-light',
+                    confirmButtonText: 'Yes!',
+                    closeOnConfirm: false
+
+                }, function () {
+                    $('.confirm').prop("disabled", true);
+                    $('.cancel').prop("disabled", true);
+                    SaveMRinal();
+                });
+            }
+        }
+        function pad2(number) {
+            return (number < 10 ? '0' : '') + number;
+        }
+        function DateConversionToYYYYMMDD(inputDate) {
+            // Split the input date into day, month, and year parts
+            var parts = inputDate.split('-');
+            var day = parts[0];
+            var month = parts[1];
+            var year = parts[2];
+            var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            var monthIndex = monthNames.indexOf(month);
+            monthIndex++; // Adjust for 0-based indexing
+            // Create a Date object with the parsed values
+            var dateObject = new Date(year, monthIndex - 1, day);
+            // Format the date as "YYYYMMDD"
+            var formattedDate = dateObject.getFullYear() + pad2(dateObject.getMonth() + 1) + pad2(dateObject.getDate());
+            return formattedDate
+        }
+        function SaveMRinal() {
+            //debugger;
+            swal.close();
+            var jsonData = {};
+            debugger;
+            var dobUpdate = $('#txtDOB').val();
+            let formattedDOBUpdate = (dobUpdate != '' && dobUpdate != null) ? DateConversionToYYYYMMDD(dobUpdate) : '';
+
+
+            var selectedHearAboutUsValues = $('#ddlHearAboutUs').val();
+            var selectedReasonBranchVisit = $('#ddlReasonBranchVisit').val();
+
+            if (selectedHearAboutUsValues.length > 0) {
+                var selectedHearAboutUsValuesString = "";
+                for (var i = 0; i < selectedHearAboutUsValues.length; i++) {
+                    selectedHearAboutUsValuesString += selectedHearAboutUsValues[i];
+                    if (i < selectedHearAboutUsValues.length - 1) {
+                        selectedHearAboutUsValuesString += ",";
+                    }
+                }
+            }
+            if (selectedReasonBranchVisit.length > 0) {
+                var selectedReasonBranchVisitString = "";
+                for (var i = 0; i < selectedReasonBranchVisit.length; i++) {
+                    selectedReasonBranchVisitString += selectedReasonBranchVisit[i];
+                    if (i < selectedReasonBranchVisit.length - 1) {
+                        selectedReasonBranchVisitString += ",";
+                    }
+                }
+            }
+
+
+            jsonData["BPType"] = $('#BPType').val();
+            jsonData["BPCode"] = $("#txtCustomerCode").val();
+            jsonData["Branch"] = $('#ddlBranch').val();
+            jsonData["BPName"] = $('#txtName').val();
+            jsonData["BPGroupCode"] = $('#ddlGroup').val();
+            jsonData["MobileNo"] = $('#txtMobile').val();
+            jsonData["Emergency"] = $('#txtMobileEmergency').val();
+            jsonData["Email"] = $('#txtEMail').val();
+            jsonData["WebSite"] = $('#txtWebsite').val();
+            jsonData["PaymentTerms"] = $('#ddlPaymentTerms').val();
+            jsonData["Occupation"] = $('#ddlOccupation').val();
+            jsonData["RelationShip"] = $('#ddlRelationship').val();
+            jsonData["CreditLimit"] = $('#txtCreditLimited').val();
+            jsonData["Connected"] = $('#txtConnected').val();
+            jsonData["SalesEmployee"] = $('#ddlSalesEmployee').val();
+            jsonData["Remarks"] = $('#txtRrmarks').val();
+            jsonData["BankCode"] = $('#ddlBankName').val();
+            jsonData["AccountHolderName"] = $('#txtAccountHolderName').val();
+            jsonData["BankAccountNo"] = $('#txtAccountNo').val();
+            jsonData["BankSwiftCode"] = $('#txtSwiftCode').val();
+            jsonData["BirthDate"] = formattedDOBUpdate;
+            jsonData["HowDoYouHear"] = selectedHearAboutUsValuesString;
+            jsonData["ReasonBranchVisit"] = selectedReasonBranchVisitString;
+            jsonData["Gender"] = $('#ddlGender').val();
+            jsonData["Contact"] = $('#txtContactPerson').val();
+
+            var sss = $('#eflag').val();
+            if (sss == "Lead") {
+                var inputDate = $('#txtDocDate').val();
+                var PostingDate = DateConversionToYYYYMMDD(inputDate);
+                jsonData["LeadtoCustomerDate"] = PostingDate;
+            }
+
+
+
+
+            var jsonObjs1 = [];
+            var jsonObjs3 = [];
+
+            var cusType = $('#BPType').val();
+            if (cusType == "C") {
+                var theObj1 = {};
+                theObj1["LineId"] = 1;
+                theObj1["AddressType"] = "B";
+                theObj1["AddressLine1"] = $('#txtBillStreet').val();
+                theObj1["AddressLine2"] = "";
+                theObj1["AddressLine3"] = "";
+                theObj1["State"] = $('#ddlBillState').val();
+                theObj1["City"] = $('#txtBillCity').val();
+                theObj1["PinCode"] = $('#txtBillZip').val();
+                theObj1["Defalult"] = "";
+                jsonObjs1.push(theObj1);
+
+                var theObj2 = {};
+                theObj2["LineId"] = 1;
+                theObj2["AddressType"] = "S";
+                theObj2["AddressLine1"] = $('#txtShipStreet').val();
+                theObj2["AddressLine2"] = "";
+                theObj2["AddressLine3"] = "";
+                theObj2["State"] = $('#ddlShipState').val();
+                theObj2["City"] = $('#txtShipCity').val();
+                theObj2["PinCode"] = $('#txtShipZip').val();
+                theObj2["Defalult"] = "";
+                jsonObjs1.push(theObj2);
+
+
+
+
+
+                var theObj3 = {};
+                theObj3["ContactId"] = "";
+                theObj3["LineID"] = 1;
+                theObj3["Name"] = $('#txtContactPerson').val(); //$('#txtName').val();
+                theObj3["Title"] = "";
+                theObj3["FirstName"] = ""; //$('#txtContactPerson').val();
+                theObj3["LastName"] = "";
+                theObj3["Position"] = "";
+                theObj3["EmailId"] = ""; //$('#txtEMail').val();
+                theObj3["MobileNo"] = ""; //$('#txtMobile').val();
+                theObj3["AlternateMobileNo"] = "";
+                theObj3["Defalult"] = "";
+                jsonObjs3.push(theObj3);
+
+            }
+
+
+            jsonData["Addresses"] = jsonObjs1;
+            jsonData["Contacts"] = jsonObjs3;
+
+
+
+            var urlpath2 = '@Url.Action("SaveMemberRegistration", "MemberRegistration")';
+            $.ajax({
+                contentType: "application/json",
+                data: JSON.stringify(jsonData),
+                dataType: 'json',
+                url: urlpath2,
+                type: "POST",
+                /* async: false,*/
+                beforeSend: function () {
+                    $('#testSpan').show();
+                    $('#btnmr').prop('disabled', true);
+                },
+                success: function (result) {
+                    $('#testSpan').hide();
+                    if (result.UnAutorized == 1) {
+                        //Web Project Session Out
+                        window.location.href = '@Url.Action("Logout", "Home")';
+                    } else {
+                        if (result.dataList.ReturnCode == "-99999") {
+                            //API Project Session Out
+                            window.location.href = '@Url.Action("Logout", "Home")';
+                        } else {
+                            var message = result.dataList.ReturnMsg;
+                            if (result.dataList.ReturnCode == "0000") {
+                        swal({
+                            title: " Saved Successfully",
+                            text: '',
+                            type: "success",
+                            showCancelButton: false,
+                            cancelButtonClass: 'btn-secondary waves-effect',
+                            confirmButtonClass: 'btn-success waves-effect waves-light',
+                            confirmButtonText: 'Yes!',
+                            closeOnConfirm: false
+                        }, function () {
+                            var ss = $('#eflag').val();
+                            if (ss == "Lead") {
+                                window.location.href = '@Url.Action("Index", "LeadCustomer")';
+                            } else if (ss == "SalesInvoice") {
+                                window.location.href = "@Url.Action("AddSalesInvoice", "SalesInvoice")" + "?siId=" + 0 + "&eflag=" + result.dataList.ReturnDocEntry;
+                            }
+                            else if (ss == "SalesOrder") {
+                                window.location.href = "@Url.Action("AddSalesOrder", "SalesOrderNew")" + "?soId=" + 0 + "&eflag=" + result.dataList.ReturnDocEntry;
+                            }
+                            else {
+                                        window.location.href =  '@Url.Action("Index", "MemberRegistration")';
+                            }
+
+
+                        });
+                    } else {
+                                ShowMessage(message);
+                                $('#btnmr').prop('disabled', false);
+                    }
+                        }
+                    }
+
+                }
+                })
+        }
+    </script>
+}

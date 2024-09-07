@@ -1,0 +1,780 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .spinnermodal {
+        background-color: #FFFFFF;
+        height: 100%;
+        left: 0;
+        opacity: 0.5;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 100000;
+    }
+</style>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h3>Doctors Prescription Home</h3>
+                            </div>
+                            <div class="col-md-6 text-right ">
+                                <a class="btn btn-outline-warning" href="@Url.Action("AddDoctorsPrescription", "DoctorsPrescriptionNew", new {dpId = 0})">
+                                    <span class="fa fa-plus"></span>Doctors Prescription
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <div class="form-group" id="divFromDate">
+                                        <label for="txtFromDate">From Date</label>
+                                        <input type="text" id="txtFromDate" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group" id="divToDate">
+                                        <label for="txtToDate">To Date</label>
+                                        <input type="text" id="txtToDate" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group" id="divPatientCode">
+                                        <label for="txtPatientCode">Patient Code</label>
+                                        <input type="text" placeholder="Patient Code" id="txtPatientCode" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group" id="divPatientName">
+                                        <label for="txtPatientName">Patient Name</label>
+                                        <input type="text" placeholder="Patient Name" id="txtPatientName" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group" id="divPatientSearch">
+                                        <label for="txtPatientMobile">Patient Mobile</label>
+                                        <input type="text" placeholder="Patient Mobile" id="txtPatientMobile" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group" id="divDoctorName">
+                                        <label for="txtDoctorName">Doctor Name</label>
+                                        <input type="text" placeholder="Doctor Name" id="txtDoctorName" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group" id="divDocNum">
+                                        <label for="txtDocNum">Doc No</label>
+                                        <input type="text" placeholder="Doc Num" id="txtDocNum" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <button style="margin-right: 27px;margin-top:15px" class="btn btn-primary" onclick="ShowReport()">Search</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card-body">
+                                <table class="table table-bordered table-striped table-hover">
+                                    <thead>
+                                        <tr style="background-color: aliceblue">
+                                            <th style="text-align:center">#</th>
+                                            <th style="text-align:center">Doc No</th>
+                                            <th style="text-align:center">Posting Date</th>
+                                            <th style="text-align:center">Patient Code</th>
+                                            <th style="text-align:center">Patient Name</th>
+                                            <th style="text-align:center">Patient Mobile</th>
+                                            <th style="text-align:center">Doctor</th>
+                                            <th style="text-align:center">Status</th>
+                                            @*<th style="text-align:center">Remarks</th>*@
+                                            <th style="text-align:center">Action</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody id="manuallist">
+                                        @{ int count = 1;}
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td>@count</td>
+                                                <td>@item.SAPDocNum</td>
+                                                <td>@item.DocDate</td>
+                                                <td>@item.CardCode</td>
+                                                <td>@item.CardName</td>
+                                                <td>@item.PhoneNo</td>
+                                                <td>@item.DoctorsName</td>
+                                                <td>@item.DocStatusDesc</td>
+                                                @*<td>@item.Remarks</td>*@
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary showBtn" data-bs-toggle="modal" data-bs-target="#viewModal" onclick="ShowData(@item.DocEntry)">View</button>
+                                                </td>
+                                            </tr>
+                                            count++;
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="spinnermodal" id="testSpan" style="display: none; z-index: 10001">
+        <div style="position: fixed; z-index: 10001; top: 50%; left: 50%; height:50px">
+            <img src="~/AssetStatic/img/loading_spinner.gif" />
+        </div>
+    </div>
+</section>
+
+<div class="modal fade" tabindex="-1" id="viewModal" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" style="max-width: 100% !important">
+        <div class="modal-content">
+            <div class="modal-header">
+            </div>
+            <div class="modal-body" id="containerDetails">
+            </div>
+            <div class="modal-footer">
+                <input type="text" style="display:none;" id="eid" />
+                <button class="btn btn-primary" data-bs-target="#viewModal" data-bs-toggle="modal" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            LoadDate_C('#txtFromDate');
+            LoadDate_C('#txtToDate');
+        });
+
+        function ShowReport() {
+            //debugger;
+            var fromdate;
+            var todate;
+            fromdate = $('#txtFromDate').val();
+            todate = $('#txtToDate').val();
+            var patientCode = $('#txtPatientCode').val();
+            var patientName = $('#txtPatientName').val();
+            var patientMobile = $('#txtPatientMobile').val();
+            var doctorName = $('#txtDoctorName').val();
+            var docNum = $('#txtDocNum').val();
+
+
+
+            var urlpath = '@Url.Action("DoctorsPrescriptionList_Search", "DoctorsPrescriptionNew")';
+            $.ajax({
+                url: urlpath,
+                dataType: 'html',
+                type: "Get",
+                data: { fromdate: fromdate, todate: todate, patientCode: patientCode, patientName: patientName, patientMobile: patientMobile, doctorName: doctorName,docNum : docNum},
+               /* async: false,*/
+                beforeSend: function () {
+                    debugger;
+                    $('#testSpan').show();
+                },
+                success: function (data) {
+                    $('#testSpan').hide();
+                    data = JSON.parse(data);
+                    if (data.UnAutorized == 1) {
+                        //Web Project Session TimeOut
+                        window.location.href = '@Url.Action("Logout", "Home")';
+                    } else {
+                        if (data.dataList[0].ReturnCode == "-99999") {
+                            //API Project Session TimeOut
+                            window.location.href = '@Url.Action("Logout", "Home")';
+                        } else {
+                            var row = "";
+                            var count = 1;
+                            $("#manuallist").html("");
+
+                            var count = 1;
+                            $.each(data.dataList, function (index, item) {
+
+                                row += "<tr>";
+                                row += "<td style='text-align:center'>" + count + "</td>";
+                                row += "<td style='text-align:center'>" + item.SAPDocNum + "</td>";
+                                row += "<td style='text-align:center'>" + item.DocDate + "</td>";
+                                row += "<td style='text-align:center'>" + item.CardCode + "</td>";
+                                row += "<td style='text-align:center'>" + item.CardName + "</td>";
+                                row += "<td style='text-align:center'>" + item.PhoneNo + "</td>";
+                                row += "<td style='text-align:center'>" + item.DoctorsName + "</td>";
+                                row += "<td style='text-align:center'>" + item.DocStatusDesc + "</td>";
+                                row += "<td style='text-align:center'><button class='btn btn-sm btn-primary showBtn' data-bs-toggle='modal' data-bs-target='#viewModal' onclick='ShowData(" + item.DocEntry + ")'>View</button></td>";
+                                row += "</tr>";
+                                count = count + 1;
+
+                            });
+                            $("#manuallist").html(row);
+                        }
+                    }
+
+
+
+                }
+            });
+                        }
+        function ShowData(id) {
+            ViewOrder(id);
+            GetItem();
+            GetPatientTestItem();
+            //debugger;
+            GetDoctorsPrescription(id);
+            createPrintButton(id);
+        }
+        function ViewOrder(id) {
+            var urlpath = '@Url.Action("ViewDoctorsPrescription", "DoctorsPrescriptionNew")';
+            $.ajax({
+                url: urlpath,
+                dataType: 'html',
+                data: {id:id},
+                type: "Get",
+                async: false,
+                success: function (data) {
+                    //console.log(data)
+                    $('#containerDetails').html(data);
+                }
+            });
+        }
+        function GetItem() {
+            var urlpath = '@Url.Action("GetItem", "DoctorsPrescriptionNew")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {  },
+                async: false,
+                success: function(data) {
+
+                    itemList = data;
+
+                }
+            });
+        }
+        function GetPatientTestItem() {
+            var urlpath = '@Url.Action("GetPatientTestItem", "DoctorsPrescriptionNew")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {  },
+                async: false,
+                success: function (data) {
+                    itemPatientTestList = data;
+                }
+            });
+        }
+        function GetItemDetails(rowId) {
+            var customerId = $('#ddlCustomer').val();
+             if (customerId == 0) {
+                swal("At first select customer ");
+                 $('#itemCode_' + rowId).val('0').trigger("change");
+                return;
+            }
+            var ItemCode = $('#itemCode_' + rowId).val();
+
+            var urlpath = '@Url.Action("GetItemByItemCode", "DoctorsPrescriptionNew")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                dataType: 'json',
+                data: { ItemCode: ItemCode },
+                async: false,
+                success: function(data) {
+                   // debugger;
+                    $("#itemName_" + rowId).val(data.ItemName);
+                    $("#uom_" + rowId).val(data.InventoryUOM);
+                    /*$("#inStock_" + rowId).val(data.InStock);*/
+                    $("#quantity_" + rowId).val('');
+                    $("#price_" + rowId).val('');
+                    /*$("#discount_" + rowId).val('');*/
+                    $("#value_" + rowId).val('');
+                    /*  CalculateAll();*/
+                }
+            });
+        }
+        function GetDoctorsPrescription(DocEntry) {
+            var docEntry = DocEntry.toString();
+            var urlpath = '@Url.Action("DoctorsPrescriptionViewData", "DoctorsPrescriptionNew")';
+            $.ajax({
+                /*contentType: "application/json",*/
+                /*  data: JSON.stringify(jsonData),*/
+                data: { DocEntry: docEntry },
+                url: urlpath,
+                dataType: 'json',
+                type: "Get",
+               /* data: { DocEntry: id },*/
+                /*  async: false,*/
+                beforeSend: function () {
+                    $('#testSpan').show();
+                },
+                success: function (data) {
+                    $('#testSpan').hide();
+
+                    if (data.UnAutorized == 1) {
+                        window.location.href = '@Url.Action("Logout", "Home")';
+                    } else {
+                        if (data.ReturnCode == "-99999") {
+                            window.location.href = '@Url.Action("Logout", "Home")';
+                        } else {
+
+                            $("#ddlCustomer").val(data.CardCode);
+                            $("#ddlCustomerName").val(data.CardName);
+
+                            $('#txtCustomerCode').val(data.CardCode);
+
+                            $('#txtPatientAge').val(data.PatientAge);
+                            $('#txtAddress').val(data.BillToAddress);
+                            $('#txtPatientConcern').val(data.PatientConcern);
+                            $('#txtPatientHistory').val('');
+
+                            LoadBranch('ddlBranch');
+                            $("#txtDoctors").val(data.DoctorsName);
+
+                            //var branch = $('#branch').val();
+                            $("#ddlBranch").val(data.BranchCode);
+                            $('#txtDoctorsComment').val(data.DoctorsComment);
+
+                            $('#txtDocumentNo').val(data.SAPDocNum);
+                            $('#salesOrderNo').html(data.SAPDocNum);
+
+                            $('#txtStatus').val(data.DocStatusDesc);
+                            $('#txtDocDate').val(data.DocDate);
+                            $('#txtDocDueDate').val(data.DocDueDate);
+
+                            $('#txtDoctorsObserbation').val(data.DoctorsObservation);
+                            $('#txtDoctorsSuggestion').val(data.DoctorsSuggestion);
+
+                      /*      GetItem();*/
+
+                            for (var i = 0; i < data.itemsViewModels.length; i++) {
+                                var tr = $('#salesOrder tbody tr').length + 1;
+                                AddRow();
+                                debugger;
+                             /*   $("#itemCode_" + tr).val(data.itemsViewModels[i].ItemCode).trigger('change');*/
+                                $('#itemName_' + tr).val(data.itemsViewModels[i].ItemName);
+                             /*   $('#uom_' + tr).val(data.itemsViewModels[i].unitMsr);*/
+                                $('#quantitys_' + tr).val(data.itemsViewModels[i].Quantity);
+                                /*$('#price_' + tr).val(data.itemsViewModels[i].Price);
+                                var total = data.itemsViewModels[i].Quantity * data.itemsViewModels[i].Price
+                                $("#value_" + tr).val(total);
+                                $('#stock_' + tr).val(data.itemsViewModels[i].OpenQty);
+                                $('#remarks_' + tr).val(data.itemsViewModels[i].Remarks);*/
+
+                                //$('#timesPerDay_' + tr).val(data.itemsViewModels[i].TimesPerDay);
+                                //$('#days_' + tr).val(data.itemsViewModels[i].Days);
+                                $('#details_' + tr).val(data.itemsViewModels[i].Details);
+                                /*       $('#breakfast_' + tr).val(data.itemsViewModels[i].Breakfast).trigger('change');*/
+                                //$('#breakfast_' + tr).val(data.itemsViewModels[i].BreakFast).change();
+                                //$('#breakfast_' + tr).prop('selected', true);
+                                //$(`#breakfast_` + tr + ` option[value='${data.itemsViewModels[i].BreakFast}']`).prop('selected', true);
+
+                                //$('#lunch_' + tr).val(data.itemsViewModels[i].Lunch).trigger('change');
+                                //$('#dinner_' + tr).val(data.itemsViewModels[i].Dinner).trigger('change');
+
+                                //debugger;
+                                var eflag = $('#eflag').val();
+                            }
+
+                            GetPatientTestItem();
+                            //debugger;
+                            for (var i = 0; i < data.testsViewModels.length; i++) {
+
+                                var tr = $('#testOrder tbody tr').length + 1;
+                                AddPatientTestRow();
+                                $("#patientTest_" + tr).val(data.testsViewModels[i].Test).trigger('change');
+                                $('#value_' + tr).val(data.testsViewModels[i].TestResult);
+
+                                //var TestResultValue = isNaN(parseFloat(data.testsViewModels[i].TestResult)) ? 0 : parseFloat(data.testsViewModels[i].TestResult);;
+                                //if ((Number.isInteger(TestResultValue) || TestResultValue === parseInt(TestResultValue)) || ((TestResultValue * 100) % 1 === 0)) {
+                                //    $('#value_' + tr).val(Math.round(TestResultValue));
+                                //} else {
+                                //    $('#value_' + tr).val(TestResultValue.toFixed(2));
+                                //}
+
+
+                                //debugger;
+                                var eflag = $('#eflag').val();
+                            }
+                        }
+                    }
+
+
+                }
+            });
+        }
+        function createPrintButton(DocEntry) {
+            var printButton = document.createElement("input");
+            printButton.type = "button";
+            printButton.value = "Print";
+            printButton.className = "btn btn-primary";
+            printButton.onclick = function () {
+                /*   printPage(DocEntry);*/
+                GetprintPage(DocEntry);
+            };
+
+            var printButtonContainer = document.getElementById("viewModal").getElementsByClassName("modal-footer")[0];
+            var existingPrintButton = printButtonContainer.querySelector("input[type=button][value='Print']");
+            if (existingPrintButton) {
+                printButtonContainer.removeChild(existingPrintButton);
+            }
+            printButtonContainer.appendChild(printButton);
+        }
+        function printPage(DocEntry) {
+            var dynamicURL = 'http://172.16.1.41:8001/web/webform1.aspx?id1=3&id2=DOCENTRYID|BIOXIN&id3=2'.replace('DOCENTRYID', DocEntry);
+            window.open(dynamicURL, '_blank');
+        }
+        function GetprintPage(DocEntry) {
+            var urlpath = '@Url.Action("GetprintPage", "SalesOrderNew")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {  },
+                async: false,
+                success: function (data) {
+                    var dynamicURL = data.RPTPort + 'web/webform1.aspx?id1=3&id2=DOCENTRYID|BIOXIN&id3=2&uid=USERID'.replace('DOCENTRYID', DocEntry).replace('BIOXIN', data.Database).replace('USERID', data.UserId);
+                    window.open(dynamicURL, '_blank');
+                }
+                //,
+                //complete: function (data) {
+
+                //}
+            });
+        }
+
+        function LoadBusinessPartner(elementId) {
+            var CardType = "C";
+            var urlpath = '@Url.Action("GetBusinessPartner", "DoctorsPrescriptionNew")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { CardType: CardType },
+            /*    data: {  },*/
+                async: false,
+                success: function(data) {
+
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value='0'>--Select Business Partner--</option>");
+                    for (var i = 0; i < data.length; i++) {
+
+                        //$('#' + elementId + '').append($("<option></option>").val(data[i].CardCode).html(data[i].CardCode + " | "+data[i].CardName));
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].CardCode).html(data[i].CardName + " | " + data[i].Mobile));
+
+                    }
+
+                }
+            });
+        }
+        function LoadContactPerson(elementId) {
+            var CardCode = $('#ddlCustomer').val();
+            var urlpath = '@Url.Action("GetBPContactPerson", "DoctorsPrescriptionNew")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { CardCode: CardCode },
+                async: false,
+                success: function(data) {
+
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value=''>--Select CntPerson--</option>");
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].CntctCode).html(data[i].Name));
+                    }
+
+                }
+            });
+        }
+        function GetWarehouses(elementId) {
+            var urlpath = '@Url.Action("GetWarehouse", "DoctorsPrescriptionNew")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {  },
+                async: false,
+                success: function(data) {
+
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value='0'>--Select Warehouse--</option>");
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].WhsCode).html(data[i].WhsName));
+                    }
+
+                }
+            });
+        }
+        function LoadSalesEmployee(elementId) {
+            var urlpath = '@Url.Action("GetSalesEmployee", "DoctorsPrescriptionNew")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {},
+                async: false,
+                success: function(data) {
+
+                    $('#' + elementId + '').empty();
+          /*          $('#' + elementId + '').append("<option value='0'>--Select Customer--</option>");*/
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].SlpCode).html(data[i].SlpName));
+                    }
+
+                }
+            });
+        }
+        function LoadBranch(elementId) {
+            var CardType = "C";
+            var urlpath = '@Url.Action("GetBranch", "DoctorsPrescriptionNew")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { },
+                async: false,
+                success: function (data) {
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value='0'>--Select Branch--</option>");
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].PrcCode).html(data[i].PrcName));
+                    }
+
+                }
+            });
+        }
+        function LoadDoctor(elementId) {
+            var CardType = "C";
+            var urlpath = '@Url.Action("GetDoctor", "DoctorsPrescriptionNew")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { },
+                async: false,
+                success: function (data) {
+                    //$('#txtDoctorsName').val(data[0].CardName);
+                    //$('#txtDoctorsCode').val(data[0].CardCode);
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value=''>--Select Doctor--</option>");
+                    for (var i = 0; i < data.length; i++) {
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].CardCode).html(data[i].CardName));
+                    }
+                }
+            });
+        }
+        function GetBreakfast() {
+            var urlpath = '@Url.Action("GetBreakfast", "DoctorsPrescriptionNew")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {  },
+                async: false,
+                success: function (data) {
+                    itemBreakfastList = data;
+                }
+            });
+        }
+        function GetLunch() {
+            var urlpath = '@Url.Action("GetLunch", "DoctorsPrescriptionNew")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {  },
+                async: false,
+                success: function (data) {
+                    itemLunchList = data;
+                }
+            });
+        }
+        function GetDinner() {
+            var urlpath = '@Url.Action("GetDinner", "DoctorsPrescriptionNew")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {  },
+                async: false,
+                success: function (data) {
+                    itemDinnerList = data;
+                }
+            });
+        }
+
+
+
+
+
+        function AddRow() {
+            var tr = $('#salesOrder tbody tr').length + 1;
+            var values = $("#salesOrder tbody tr")
+                .map(function() { return parseInt($(this).attr('id').substring(3)); }).get();
+            var index = values.indexOf(tr);
+            if (index >= 0) {
+                tr = Math.max.apply(Math, values) + 1;
+            }
+            var urlpath = '@Url.Action("AddRowForOrderView", "DoctorsPrescriptionNew")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                dataType: 'html',
+                data: { tr: tr },
+                async: false,
+                success: function(data) {
+
+                    $('#salesOrder tbody').append(data);
+                    //LoadItemInRow("itemCode_" + tr);
+                    //LoadBreakfastInRow("breakfast_" + tr);
+                    //LoadLunchInRow("lunch_" + tr);
+                    //LoadDinnerInRow("dinner_" + tr);
+                    //LoadWarehouseInRow("WStatus_" + tr);
+                    //LoadsignatureInRow("Signature_" + tr);
+
+
+                }
+            });
+            //$('#itemCode_' + tr).select2();
+            //$('#breakfast_' + tr).select2();
+            //$('#lunch_' + tr).select2();
+            //$('#dinner_' + tr).select2();
+            //$('#WStatus_' + tr).select2();
+            //$('#Signature_' + tr).select2();
+            SerialTable();
+            //CalculateAll();
+        }
+        function SerialTable() {
+            $('#salesOrder tbody tr').each(function(index, element) {
+
+                var idr = $(this).attr('id');
+                var id = idr.substring(3);
+                $('#ts_' + id).html(index + 1);
+
+
+            });
+        }
+        function LoadItemInRow(elementId) {
+            var array = [];
+            var rowCount = $('#salesOrder tbody tr').length;
+            for (let count = 0; count < rowCount; count++) {
+                array.push(parseInt($("#itemCode_" + count).val()));
+            };
+            $('#' + elementId + '').append("<option value='0'>--Select Item--</option>");
+
+            for (var i = 0; i < itemList.length; i++) {
+                if (jQuery.inArray(itemList[i].ItemCode, array) == -1) {
+                    $('#' + elementId + '').append($("<option></option>").val(itemList[i].ItemCode).html(itemList[i].ItemCode + " | " + itemList[i].ItemName));
+                }
+
+            }
+        }
+        function LoadBreakfastInRow(elementId) {
+            var array = [];
+            var rowCount = $('#salesOrder tbody tr').length;
+            for (let count = 0; count < rowCount; count++) {
+                array.push(parseInt($("#breakfast_" + count).val()));
+            };
+            $('#' + elementId + '').append("<option value=''>--Select Item--</option>");
+            for (var i = 0; i < itemBreakfastList.length; i++) {
+                if (jQuery.inArray(itemBreakfastList[i].Value, array) == -1) {
+                    $('#' + elementId + '').append($("<option></option>").val(itemBreakfastList[i].Value).html(itemBreakfastList[i].Description));
+                }
+            }
+        }
+        function LoadLunchInRow(elementId) {
+            var array = [];
+            var rowCount = $('#salesOrder tbody tr').length;
+            for (let count = 0; count < rowCount; count++) {
+                array.push(parseInt($("#lunch_" + count).val()));
+            };
+            $('#' + elementId + '').append("<option value=''>--Select Item--</option>");
+            for (var i = 0; i < itemLunchList.length; i++) {
+                if (jQuery.inArray(itemLunchList[i].Value, array) == -1) {
+                    $('#' + elementId + '').append($("<option></option>").val(itemLunchList[i].Value).html(itemLunchList[i].Description));
+                }
+            }
+        }
+        function LoadDinnerInRow(elementId) {
+            var array = [];
+            var rowCount = $('#salesOrder tbody tr').length;
+            for (let count = 0; count < rowCount; count++) {
+                array.push(parseInt($("#dinner_" + count).val()));
+            };
+            $('#' + elementId + '').append("<option value=''>--Select Item--</option>");
+            for (var i = 0; i < itemDinnerList.length; i++) {
+                if (jQuery.inArray(itemDinnerList[i].Value, array) == -1) {
+                    $('#' + elementId + '').append($("<option></option>").val(itemDinnerList[i].Value).html(itemDinnerList[i].Description));
+                }
+            }
+        }
+
+
+
+
+
+        function AddPatientTestRow() {
+            var tr = $('#testOrder tbody tr').length + 1;
+            var values = $("#testOrder tbody tr")
+                .map(function() { return parseInt($(this).attr('id').substring(3)); }).get();
+            var index = values.indexOf(tr);
+            if (index >= 0) {
+                tr = Math.max.apply(Math, values) + 1;
+            }
+            var urlpath = '@Url.Action("AddRowForPatienTestOrderView", "DoctorsPrescriptionNew")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                dataType: 'html',
+                data: { tr: tr },
+                async: false,
+                success: function(data) {
+                    $('#testOrder tbody').append(data);
+                    LoadPatientTestInRow("patientTest_" + tr);
+                }
+            });
+            $('#patientTest_' + tr).select2();
+            SerialPatientTestTable();
+        }
+        function RemovePatientTestRow(id) {
+            //debugger;
+            var trLength = $('#testOrder tbody tr').length;
+            if (trLength > 1) {
+                $('#tr_' + id).remove();
+                SerialPatientTestTable();
+            } else {
+                return;
+            }
+        }
+        function SerialPatientTestTable() {
+            $('#testOrder tbody tr').each(function (index, element) {
+                var idr = $(this).attr('id');
+                var id = idr.substring(3);
+                $('#ts_' + id).html(index + 1);
+            });
+        }
+        function LoadPatientTestInRow(elementId) {
+            var array = [];
+            var rowCount = $('#testOrder tbody tr').length;
+            for (let count = 0; count < rowCount; count++) {
+                array.push(parseInt($("#patientTest_" + count).val()));
+            };
+            $('#' + elementId + '').append("<option value=''>--Select Item--</option>");
+            for (var i = 0; i < itemPatientTestList.length; i++) {
+                if (jQuery.inArray(itemPatientTestList[i].Value, array) == -1) {
+                    $('#' + elementId + '').append($("<option></option>").val(itemPatientTestList[i].Value).html(itemPatientTestList[i].Description));
+                }
+            }
+        }
+    </script>
+}

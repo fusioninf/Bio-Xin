@@ -1,0 +1,157 @@
+﻿
+@{
+    ViewBag.Title = "Daily Operation CheckList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <p>Daily Operation CheckList</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="ddlCustomer">Manager</label>
+                                    @*<select class="form-control select2" style="width: 100%;" id="ddlCustomer"></select>*@
+                                    <select name="gender" class="form-control">
+                                        @*<option value="">Select Gender </option>*@
+                                        <option value="female">Md Rokunuzzam</option>
+                                        @*<option value="male">Male</option>*@
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group" id="divDocDate">
+                                    <label for="txtDocDate">Date</label>
+                                    <input type="text" id="txtDocDate" class="form-control datepicker" value="@DateTime.Now.ToString("dd-MMM-yyyy")" />
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="gender">Branch:</label>
+                                    <select name="gender" class="form-control">
+                                        <option value="Shantinagar">Shantinagar</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="gender">Session:</label>
+                                    <select name="gender" class="form-control">
+                                        <option value="Shantinagar">Mid Noon Session</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            &nbsp;
+                        </div>
+                        <div class="row">
+                            <table id="SalesReportTable" border="1" class="table table-bordered table-striped table-hover">
+                                <thead>
+                                    <tr style="background-color: aliceblue">
+                                        <th style="text-align: center">SL</th>
+                                        <th style="text-align: left">Work Activities</th>
+                                        <th style="text-align: center"></th>
+                                        <th style="text-align: left">Expected</th>
+                                        <th style="text-align: center"></th>
+                                        <th style="text-align: left">UnExpected</th>
+                                        <th style="text-align: center"></th>
+                                        <th style="text-align: left">Over</th>
+                                        <th style="text-align: left">Comments</th>
+                                        <th style="text-align: left">Signature</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="Traylist">
+                                    <tr>
+                                        <td style="text-align: center">1</td>
+                                        <td style="text-align: left !important">Leave Management Control</td>
+                                        <td style="text-align: center"><input type="checkbox" checked></td>
+                                        <td style="text-align: left !important">Perfect</td>
+                                        <td style="text-align: center"><input type="checkbox"></td>
+                                        <td style="text-align: left !important">Casual</td>
+                                        <td style="text-align: center"><input type="checkbox"></td>
+                                        <td style="text-align: left !important">Failed</td>
+                                        <td style="text-align: center"><input type="text" class="form-control" value="Maintain leave policy"></td>
+                                        <td style="text-align: center"><input type="text" class="form-control"></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: center">2</td>
+                                        <td style="text-align: left !important">Hospitality Service</td>
+                                        <td style="text-align: center"><input type="checkbox" ></td>
+                                        <td style="text-align: left !important">Perfect</td>
+                                        <td style="text-align: center"><input type="checkbox" checked></td>
+                                        <td style="text-align: left !important">Ordinary</td>
+                                        <td style="text-align: center"><input type="checkbox"></td>
+                                        <td style="text-align: left !important">Dissatisfied</td>
+                                        <td style="text-align: center"><input type="text" class="form-control" value="Provide better service"></td>
+                                        <td style="text-align: center"><input type="text" class="form-control"></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: center">3</td>
+                                        <td style="text-align: left !important">Rush Management Control</td>
+                                        <td style="text-align: center"><input type="checkbox" ></td>
+                                        <td style="text-align: left !important">Perfect</td>
+                                        <td style="text-align: center"><input type="checkbox"></td>
+                                        <td style="text-align: left !important">Casual</td>
+                                        <td style="text-align: center"><input type="checkbox" checked></td>
+                                        <td style="text-align: left !important">Failed</td>
+                                        <td style="text-align: center"><input type="text" class="form-control" value="Be cool in rush hours"></td>
+                                        <td style="text-align: center"><input type="text" class="form-control"></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: center">4</td>
+                                        <td style="text-align: left !important">Safety Masures Ensured</td>
+                                        <td style="text-align: center"><input type="checkbox" ></td>
+                                        <td style="text-align: left !important">Done</td>
+                                        <td style="text-align: center"><input type="checkbox" checked></td>
+                                        <td style="text-align: left !important">Ordinary</td>
+                                        <td style="text-align: center"><input type="checkbox"></td>
+                                        <td style="text-align: left !important">Avoided</td>
+                                        <td style="text-align: center"><input type="text" class="form-control" value="Ensure saftey masure"></td>
+                                        <td style="text-align: center"><input type="text" class="form-control"></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: center">5</td>
+                                        <td style="text-align: left !important">Daily Accounts Check</td>
+                                        <td style="text-align: center"><input type="checkbox" ></td>
+                                        <td style="text-align: left !important">Done</td>
+                                        <td style="text-align: center"><input type="checkbox"></td>
+                                        <td style="text-align: left !important">Pending</td>
+                                        <td style="text-align: center"><input type="checkbox" checked></td>
+                                        <td style="text-align: left !important">Failed</td>
+                                        <td style="text-align: left"><input type="text" class="form-control" value="Do regularly"></td>
+                                        <td style="text-align: left"><input type="text" class="form-control"></td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-primary" onclick="SaveOrder()">Submit</button>
+                        <button class="btn btn-danger float-right">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            LoadDate('#txtDocDueDate');
+        });
+    </script>
+}
+

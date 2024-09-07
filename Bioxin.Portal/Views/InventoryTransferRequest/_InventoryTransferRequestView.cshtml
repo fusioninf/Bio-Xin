@@ -1,0 +1,177 @@
+﻿<style>
+    .custom-header {
+        background-color: darkgray !important; /* Blue color #007bff  #808080*/
+        color: black; /* Text color for contrast */
+    }
+</style>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-primary">
+                    <div class="card-header custom-header">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <h3 id="salesOrderNo"></h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                @*<div class="form-group row" id="divType">
+            <label for="ddlType" class="col-md-4 control-label">Type</label>
+            <div class="col-md-6">
+                <input class="form-control" id="ddlType" disabled="disabled" />
+            </div>
+        </div>*@
+                                <div class="form-group row" id="divCustomerCode">
+                                    <label for="txtCustomerCode" class="col-md-4 control-label">BP Code</label>
+                                    <div class="col-md-6">
+                                        <input class="form-control" id="txtCustomerCode" disabled="disabled" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divCustomer">
+                                    <label for="ddlCustomer" class="col-md-4 control-label">BP Name</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%;" id="ddlCustomer" disabled="disabled"></select>
+                                    </div>
+                                </div>
+                                @*<div class="form-group row mt-1" id="divSalesOrder">
+            <label for="ddlSalesOrder" class="col-md-4 control-label">Sales Order</label>
+            <div class="col-md-6">
+                <input class="form-control" id="ddlSalesOrder" disabled="disabled" />
+            </div>
+        </div>*@
+                                <div class="form-group row mt-1" id="divContactPerson">
+                                    <label for="txtContactPerson" class="col-md-4 control-label">Contact Person</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%; text-align: center" id="ddlContactPerson" disabled="disabled"></select>
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divBranch">
+                                    <label for="ddlBranch" class="col-md-4 control-label">Branch</label>
+                                    <div class="col-md-6">
+                                        @*<select class="form-control select2" style="width: 100%; text-align: center" id="ddlBranch" disabled="disabled"></select>*@
+                                        <input class="form-control" id="ddlBranch" disabled="disabled" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divFromWarehouse">
+                                    <label for="ddlFromWarehouse" class="col-md-4 control-label">To Branch</label>
+                                    <div class="col-md-6">
+                                        <input class="form-control" id="ToBranch" disabled="disabled" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4">
+                                <div class="form-group row" id="divDocumentNo">
+                                    <label for="txtDocumentNo" class="col-md-4 control-label">Document No</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtDocumentNo" class="form-control" disabled="disabled" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divStatus">
+                                    <label for="txtStatus" class="col-md-4 control-label">Status</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtStatus" class="form-control" disabled="disabled" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divDocDate">
+                                    <label for="txtDocDate" class="col-md-4 control-label">Posting Date</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtDocDate" class="form-control"  disabled="disabled"/>
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divDocDueDate">
+                                    <label for="txtDocDueDate" class="col-md-4 control-label">Delivery Date</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtDocDueDate" class="form-control" disabled="disabled"/>
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divFromWarehouse">
+                                    <label for="ddlFromWarehouse" class="col-md-4 control-label">From Branch</label>
+                                    <div class="col-md-6">
+                                        <input class="form-control" id="ddlFromWarehouse" disabled="disabled" />
+                                        @*<select class="form-control select2" style="width: 100%;text-align:left" id="ddlFromWarehouse" disabled></select>*@
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            &nbsp;
+                        </div>
+                        <div class="row table-responsive">
+                            <table class="table table-bordered table-striped table-hover" id="salesOrder">
+                                <thead>
+                                    <tr style="background-color: lightgrey">
+                                        <th>#</th>
+                                        <th>Item Code</th>
+                                        <th>Item Name</th>
+                                        <th>UOM</th>
+                                        <th>Quantity</th>
+                                        @*<th>Price</th>
+                                        <th>Value</th>*@
+                                        <th>Stock</th>
+                                        <th>Remarks</th>
+                                        @*<th class="action">Action</th>*@
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group row mt-3" id="divSalesEmployee">
+                                    <label for="lblRestAmount" class="col-md-4 control-label">Sales Employee</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%;" id="ddlSalesEmployee" disabled></select>
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divCreateBy">
+                                    <label for="lblCreateBy" class="col-md-4 control-label">Create By</label>
+                                    <div class="col-md-6">
+                                        @*<select class="form-control select2" style="width: 100%;" id="ddlCreateBy"></select>*@
+                                        <input type="text" class="form-control" id="ddlCreateBy" disabled="disabled"/>
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divRrmarks">
+                                    <label for="txtRrmarks" class="col-md-4 control-label">Remarks</label>
+                                    <div class="col-md-6">
+                                        @*<textarea class="form-control" id="txtRrmarks" name="w3review" rows="3" cols="30"></textarea>*@
+                                        <textarea id="txtRrmarks" name="w3review" rows="5" cols="36" style="border: 1px solid #ced4da; border-radius: 4px " disabled="disabled"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4"></div>
+                        </div>
+                    </div>
+                    @*<div class="card-footer">
+                        <div class="col-md-3"></div>
+                        <div class="col-md-3"></div>
+                        <div class="col-md-3 float-right">
+                            <div class="row">
+                                <div class="col-md-3"></div>
+                                <div class="col-md-2"></div>
+                                <div class="col-md-4">
+                                    <button class="btn btn-warning " onclick="SaveInventoryTransferRequest()" style="background-color: #ffbf00">Add & New</button>
+                                </div>
+                                <div class="col-md-3">
+                                    <button class="btn btn-warning float-right">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>*@
+                </div>
+            </div>
+        </div>
+
+        <input id="inventoryTransferRequestId" type="number" style="display: none;" value="@ViewBag.InventoryTransferRequestId">
+        <input id="branch" type="number" style="display: none;" value="@ViewBag.Branch">
+        <input id="eflag" type="text" style="display: none;" value="@ViewBag.eflag">
+    </div>
+</section>
+

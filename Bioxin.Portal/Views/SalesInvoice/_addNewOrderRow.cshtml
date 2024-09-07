@@ -1,0 +1,72 @@
+﻿@{
+    int sl = Convert.ToInt32(TempData["trSl"]);
+}
+<tr id="tr_@sl">
+
+    <td id="ts_@sl">@sl</td>
+    <td>
+        <input type="text" class="form-control" id="itemCode_@sl" disabled="disabled" />
+    </td>
+    <td>
+        <input type="text" class="form-control" id="itemName_@sl" style="width: 240px;" disabled="disabled" />
+    </td>
+    <td>
+        <input type="number" class="form-control" id="quantity_@sl" value="1" oninput="LineCalculation(@sl)" />
+    </td>
+    <td>
+        <input type="text" class="form-control" id="uom_@sl" disabled="disabled" style="width: 30px" />
+    </td>
+    <td>
+        <input type="number" class="form-control" id="stock_@sl" disabled="disabled" />
+    </td>
+    <td>
+        <input type="number" class="form-control" id="price_@sl" oninput="LineCalculation(@sl)" disabled="disabled" />
+    </td>
+    <td>
+        <input type="hidden" id="docEntry_@sl" />
+        <input type="hidden" id="visOrder_@sl" />
+        <input type="hidden" id="lineNum_@sl" />
+        <input type="hidden" id="objType_@sl" />
+        <input type="hidden" id="lineStatus_@sl" />
+
+        <input type="hidden" id="batchNumberEnable_@sl" />
+        <input type="hidden" id="serialNumberEnable_@sl" />
+
+        <button class="btn btn-sm btn-primary showBtn" data-bs-toggle="modal" data-bs-target="#viewModal" onclick="ShowBatchData(@sl)" id="showBatchBtn_@sl" style="display: none; text-align: center;">Batches</button>
+        <button class="btn btn-sm btn-primary showBtn" data-bs-toggle="modal" data-bs-target="#viewModal" onclick="ShowSerialData(@sl)" id="showSerialBtn_@sl" style="display:none; text-align:center;">Serial</button>
+    </td>
+    <td>
+        <input type="number" class="form-control" id="discount_@sl" style="width: 40px" oninput="LineCalculation(@sl)" />
+        <input type="number" class="form-control" id="discountMode_@sl" style="display:none" oninput="LineCalculation(@sl)" />
+        <input type="hidden" class="form-control" id="taxcode_@sl" style="width: 30px" disabled="disabled" />
+        <input type="hidden" id="taxrate_@sl" />
+    </td>
+    <td>
+        <input type="number" class="form-control" id="discountamount_@sl" disabled="disabled" />
+    </td>
+    <td>
+        <input type="number" class="form-control" id="taxamount_@sl" disabled="disabled" />
+    </td>
+    <td>
+        <input type="number" class="form-control" id="total_@sl" style="width: 80px" disabled="disabled" />
+        <input type="hidden" id="totalbeforetax_@sl" />
+        <input type="hidden" class="form-control" id="deliverydate_@sl" style="width: 80px" />
+    </td>
+    <td id="warehouseNoLine_@sl">
+        <select class="form-control" id="warehouse_@sl" style="width: 80px"></select>
+    </td>
+
+    <td id="voucherSalesNoLine_@sl">
+        <input type="text" class="form-control" id="voucherSalesNo_@sl" style="width: 70px" onkeyup="AutoPriceEnable(@sl)"/>
+        <input type="hidden" id="voucherItemLine_@sl" />
+    </td>
+    <td id="voucherValidDateLine_@sl">
+        <input type="text" class="form-control" id="voucherValidDate_@sl" style="width: 80px" />
+    </td>
+    <td class="actionHide">
+        <div class="form-group">
+            <input type="checkbox" id="chk_@sl" style="display:none;" onclick="AddLineCalculation(@sl)" />
+            <button class="btn btn-xs btn-danger" id="btnRemove_@sl" onclick="RemoveRow(@sl)"><b></b>x</button>
+        </div>
+    </td>
+</tr>

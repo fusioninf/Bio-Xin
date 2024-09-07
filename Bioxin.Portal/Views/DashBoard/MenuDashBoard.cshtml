@@ -1,0 +1,113 @@
+﻿
+@{
+    ViewBag.Title = "Menu DashBoard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@{
+    string color = "#33ccff";
+}
+
+<div class="container">
+    <div class="card-box">
+        <div class="row">
+            <div class="col-md-5">
+                <h3 class="page-title">Dashboard</h3>
+            </div>
+        </div>
+    </div>
+    <div class="card-box">
+
+        <div class="row">
+            <div class="col-md-2"></div>
+
+            <div class="col-md-8">
+                <div class="row">
+                    <div class="col-md-3 col-xs-6" >
+                        <div class="text-center" style="border: 1px solid;height:80px; background-color: lightgray; border-color: powderblue; margin-bottom: 10px;">
+                            <a href="@Url.Action("Create", "SalesOrder")" class="nav-link"><p class="text-blue">Sales Order Entry</p></a>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="col-md-3 col-xs-6">
+                        <div class="text-center" style="border: 1px solid; height: 80px; background-color: lightgray; border-color: powderblue; margin-bottom: 10px;">
+                            <a href="@Url.Action("Create", "DoctorsPrescription")" class="nav-link"><p class="text-blue">Doctors Prescription</p></a>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="col-md-3 col-xs-6">
+                        <div class="text-center" style="border: 1px solid; height: 80px; background-color: lightgray; border-color: powderblue; margin-bottom: 10px;">
+                            <a href="@Url.Action("Prescription", "DoctorsPrescription")" class="nav-link"><p class="text-blue">Doctors Prescription 2</p></a>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-3 col-xs-6">
+                        <div class="text-center" style="border: 1px solid; height: 80px; background-color: lightgray; border-color: powderblue; margin-bottom: 10px;">
+                            <a href="@Url.Action("DailyOperationCheckList", "DoctorsPrescription")" class="nav-link"><p class="text-blue">Daily Operation CheckList</p></a>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="col-md-3 col-xs-6">
+                        <div class="text-center" style="border: 1px solid; height: 80px; background-color: lightgray; border-color: powderblue; margin-bottom: 10px;">
+                            <a href="@Url.Action("TherapistCheckList", "DoctorsPrescription")" class="nav-link"><p class="text-blue">Therapist CheckList</p></a>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="col-md-3 col-xs-6">
+                        <div class="text-center" style="border: 1px solid; height: 80px; background-color: lightgray; border-color: powderblue; margin-bottom: 10px;">
+                            <a href="@Url.Action("EmployeeActivity", "DoctorsPrescription")" class="nav-link"><p class="text-blue">Employee Activity</p></a>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    @*<div class="col-md-3 col-xs-6">
+            <div class="text-center" style="border: 1px solid; height: 80px; background-color: lightgray; border-color: powderblue; margin-bottom: 10px;">
+                <a href="@Url.Action("Create", "BusinessPartner")" class="nav-link"><p class="text-blue">Business Partner</p></a>
+            </div>
+            <div class="clearfix"></div>
+        </div>*@
+
+                </div>
+            </div>
+
+            <div class="col-md-2"></div>
+
+        </div>
+        <div id="LoadingPanel" style="background-image: url(/AssetStatic/Images/loading_spinner.gif); background-position: center center; background-repeat: no-repeat; background-size: 100px 100px; height: 100px; width: 100px; position: fixed; z-index: 1000; left: 50%; top: 50%; margin: -25px 0 0 -25px">
+        </div>
+
+    </div>
+</div>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $('#LoadingPanel').fadeOut(2000);
+        });
+        @*function ApprovalVoucherLink(ControllerName) {
+            debugger;
+            var url;
+            if (ControllerName === "DebitVoucher") {
+                url = "@Url.Action("DebitVoucherApproval", "DebitVoucher")" + "?fromdate=" + null + "&todate=" + null + "&CompanyId=" + 0 + "&BUId=" + 0;
+                window.open(url, '_blank');
+
+            }
+            if (ControllerName === "CreditVoucher") {
+                url = "@Url.Action("CreditVoucherApproval", "CreditVoucher")" + "?fromdate=" + null + "&todate=" + null + "&CompanyId=" + 0 + "&BUId=" + 0;
+                window.open(url, '_blank');
+            }
+            if (ControllerName === "JournalVoucher") {
+                url = "@Url.Action("JournalVoucherApproval", "JournalVoucher")" + "?fromdate=" + null + "&todate=" + null + "&CompanyId=" + 0 + "&BUId=" + 0;
+                window.open(url, '_blank');
+            }
+            if (ControllerName === "ContraVoucher") {
+                url = "@Url.Action("ContraVoucherApproval", "ContraVoucher")" + "?fromdate=" + null + "&todate=" + null + "&CompanyId=" + 0 + "&BUId=" + 0;
+                window.open(url, '_blank');
+            }
+
+        }*@
+    </script>
+}
+

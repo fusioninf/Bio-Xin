@@ -1,0 +1,21 @@
+﻿@{
+    int slb = Convert.ToInt32(TempData["trBSl"]);
+    int slbrowId = Convert.ToInt32(TempData["trBSlrowId"]);
+}
+<tr id="tr_@slb">
+
+    <td id="ts_@slb">@slb</td>
+    <td>
+        <input type="text" class="form-control" id="bacthesName_@slbrowId@slb" />
+    </td>
+    <td>
+        <input type="number" class="form-control" id="batchQuantity_@slbrowId@slb" oninput="ValidationBatchesTotal(@slbrowId@slb)"/>
+    </td>
+
+    <td class="actionHide">
+        <div class="form-group">
+            <button class="btn btn-xs btn-success " id="btnBatchAdd_@slbrowId@slb" onclick="AddBatchRow()"><b>+</b></button>
+            <button class="btn btn-xs btn-danger" id="btnBatchRemove_@slbrowId@slb" onclick="RemoveBatchesRow(@slb)"><b></b>x</button>
+        </div>
+    </td>
+</tr>

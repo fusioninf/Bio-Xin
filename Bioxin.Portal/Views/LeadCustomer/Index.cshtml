@@ -1,0 +1,637 @@
+﻿@{
+    ViewBag.Title = "Lead Customer";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .spinnermodal {
+        background-color: #FFFFFF;
+        height: 100%;
+        left: 0;
+        opacity: 0.5;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 100000;
+    }
+</style>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h3>Lead Customer Home</h3>
+                            </div>
+                            <div class="col-md-6 text-right ">
+                                @*<a class="btn btn-outline-warning" href="@Url.Action("AddMemberRegistration", "MemberRegistration", new {memId = 0})">
+                                    <span class="fa fa-plus"></span>Member Registration
+                                </a>*@
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <div class="form-group" id="divFromDate">
+                                        <label for="txtFromDate">Date</label>
+                                        <input type="text" id="txtFromDate" class="form-control" />
+                                    </div>
+                                </div>
+                                @*<div class="col-md-2">
+                                    <div class="form-group" id="divGroupCode">
+                                        <label for="txtToDate">Group Code</label>
+                                        <select class="form-control select2" style="width: 100%;" id="ddlGroupCode"></select>
+                                    </div>
+                                </div>*@
+                                <div class="col-md-2">
+                                    <div class="form-group" id="divPhone">
+                                        <label for="txtToDate">Phone</label>
+                                        <input type="text" id="txtPhone" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <button style="margin-right: 18px;margin-top:14px" class="btn btn-primary" onclick="ShowReport()">Search</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card-body">
+                                <table class="table table-bordered table-striped table-hover">
+                                    <thead>
+                                        <tr style="background-color: aliceblue">
+                                            <th style="text-align:center">#</th>
+                                            <th style="text-align:center">Card Code</th>
+                                            <th style="text-align:center">Card Name</th>
+                                            <th style="text-align:center">Phone</th>
+                                            <th style="text-align:center">Group Name</th>
+                                            <th style="text-align:center">Company Name</th>
+                                            <th style="text-align:center">Created By</th>
+                                            <th style="text-align:center">Action</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody id="manuallist">
+                                        @if (Model.Count > 0)
+                                        {
+                                            if (Model.Count == 1)
+                                            {
+                                                int count = 1;
+                                                foreach (var item in Model)
+                                                {
+                                                    <tr>
+                                                        @if (@item.ReturnCode == "-44444")
+                                                        {
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td>@item.ReturnMsg</td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td>@count</td>
+                                                            <td>@item.CardCode</td>
+                                                            <td>@item.CardName</td>
+                                                            <td>@item.Mobile</td>
+                                                            <td>@item.GroupName</td>
+                                                            <td>@item.CompanyName</td>
+                                                            <td>@item.CreatedBy</td>
+                                                            <td>
+                                                                @Html.ActionLink("Update", "AddMemberRegistration", "MemberRegistration", new { memId = item.CardCode, eflag = "Lead" }, new { @class = "btn btn-sm btn-warning" })
+                                                            </td>
+                                                        }
+                                                    </tr>
+                                                    count++;
+                                                }
+                                            }
+                                            else
+                                            {
+                                                int count = 1;
+                                                foreach (var item in Model)
+                                                {
+                                                    <tr>
+                                                        <td>@count</td>
+                                                        <td>@item.CardCode</td>
+                                                        <td>@item.CardName</td>
+                                                        <td>@item.Mobile</td>
+                                                        <td>@item.GroupName</td>
+                                                        <td>@item.CompanyName</td>
+                                                        <td>@item.CreatedBy</td>
+                                                        <td>
+                                                            @Html.ActionLink("Update", "AddMemberRegistration", "MemberRegistration", new { memId = item.CardCode, eflag = "Lead" }, new { @class = "btn btn-sm btn-warning" })
+                                                        </td>
+                                                    </tr>
+                                                    count++;
+                                                }
+                                            }
+
+                                        }
+                                        else
+                                        {
+                                            string msg = "No Result Found";
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td><b>@msg</b></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="spinnermodal" id="testSpan" style="display: none; z-index: 10001">
+        <div style="position: fixed; z-index: 10001; top: 50%; left: 50%; height:50px">
+            <img src="~/AssetStatic/img/loading_spinner.gif" />
+        </div>
+    </div>
+</section>
+
+<div class="modal fade" tabindex="-1" id="viewModal" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" style="max-width: 100% !important">
+        <div class="modal-content">
+            <div class="modal-header">
+            </div>
+            <div class="modal-body" id="containerDetails">
+            </div>
+            <div class="modal-footer">
+                <input type="text" style="display:none;" id="eid" />
+                <button class="btn btn-primary" data-bs-target="#viewModal" data-bs-toggle="modal" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            LoadDate_C('#txtFromDate');
+/*            LoadGroupCode('ddlGroupCode');*/
+            LoadOccupation('ddlOccupation');
+            LoadRelationShip('ddlRelationship');
+            LoadPaymentTerms('ddlPaymentTerms');
+            LoadBankDetails('ddlBankName');
+        });
+
+        function ShowReport() {
+            //debugger;
+            var fromdate = '';
+            var groupcode = '';
+            var phone = '';
+
+            fromdate = $('#txtFromDate').val();
+/*            groupcode = $('#ddlGroupCode').val();*/
+            phone = $('#txtPhone').val();
+            if (fromdate == "") {
+                    if (phone == "") {
+                        swal("Please Select at list one filter item");
+                        return;
+                    }
+                    else {
+                        phone = $('#txtPhone').val();
+                    }
+
+            }
+
+            var urlpath = '@Url.Action("MemberRegistrationList_Search", "LeadCustomer")';
+            $.ajax({
+                url: urlpath,
+                dataType: 'html',
+                type: "Get",
+                data: { fromdate: fromdate, groupcode: groupcode, phone: phone },
+                /* async: false,*/
+                beforeSend: function () {
+                    debugger;
+                    $('#testSpan').show();
+                },
+                success: function (data) {
+                    $('#testSpan').hide();
+                    data = JSON.parse(data);
+                   if (data.UnAutorized == 0 && data.dataList.length == 1 ) {
+                        if (data.dataList[0].ReturnCode == "-99999") {
+                            window.location.href = '@Url.Action("Logout", "Home")';
+                        }
+                    }
+                    if (data.UnAutorized == 1) {
+                        //Web Project Session TimeOut
+                        window.location.href = '@Url.Action("Logout", "Home")';
+                    } else {
+                        if (data.dataList.length > 0) {
+
+                            if (data.dataList.length == 1) {
+                                var row = "";
+                                $("#manuallist").html("");
+
+                                var count = 1;
+                                $.each(data.dataList, function (index, item) {
+
+                                    row += "<tr>";
+                                    if (item.ReturnCode == "-44444") {
+                                        row += "<td style='text-align:center'></td>";
+                                        row += "<td style='text-align:center'></td>";
+                                        row += "<td style='text-align:center'></td>";
+                                        row += "<td style='text-align:center'></td>";
+                                        row += "<td style='text-align:center'>" + item.ReturnMsg + "</td>";
+                                        row += "<td style='text-align:center'></td>";
+                                        row += "<td style='text-align:center'></td>";
+                                        row += "<td style='text-align:center'></td>";
+                                    } else {
+                                        row += "<td style='text-align:center'>" + count + "</td>";
+                                        row += "<td style='text-align:center'>" + item.CardCode + "</td>";
+                                        row += "<td style='text-align:center'>" + item.CardName + "</td>";
+                                        row += "<td style='text-align:center'>" + item.Mobile + "</td>";
+                                        row += "<td style='text-align:center'>" + item.GroupName + "</td>";
+                                        row += "<td style='text-align:center'>" + item.CompanyName + "</td>";
+                                        row += "<td style='text-align:center'>" + item.CreatedBy + "</td>";
+                                        row += "<td style='text-align:center'><a class='btn btn-sm btn-warning' type='button' onclick='GoToDo(" + item.CardCode + ")'>Update</a></td>";
+                                    }
+
+                                    row += "</tr>";
+                                    count = count + 1;
+
+                                });
+                                $("#manuallist").html(row);
+                            } else {
+                                var row = "";
+                                $("#manuallist").html("");
+
+                                var count = 1;
+                                $.each(data.dataList, function (index, item) {
+
+                                    row += "<tr>";
+                                    row += "<td style='text-align:center'>" + count + "</td>";
+                                    row += "<td style='text-align:center'>" + item.CardCode + "</td>";
+                                    row += "<td style='text-align:center'>" + item.CardName + "</td>";
+                                    row += "<td style='text-align:center'>" + item.Mobile + "</td>";
+                                    row += "<td style='text-align:center'>" + item.GroupName + "</td>";
+                                    row += "<td style='text-align:center'>" + item.CompanyName + "</td>";
+                                    row += "<td style='text-align:center'>" + item.CreatedBy + "</td>";
+                                    row += "<td style='text-align:center'><a class='btn btn-sm btn-warning' type='button' onclick='GoToDo(" + item.CardCode + ")'>Update</a></td>";
+                                    row += "</tr>";
+                                    count = count + 1;
+
+                                });
+                                $("#manuallist").html(row);
+                            }
+                        }
+                        else {
+                            var row = "";
+                            $("#manuallist").html("");
+                            var count = 1;
+                            var cardName = "No Result Found";
+
+                            row += "<tr>";
+                            row += "<td style='text-align:center'></td>";
+                            row += "<td style='text-align:center'></td>";
+                            row += "<td style='text-align:center'></td>";
+                            row += "<td style='text-align:center'></td>";
+                            row += "<td style='text-align:center'><b>" + cardName + "</b></td>";
+                            row += "<td style='text-align:center'></td>";
+                            row += "<td style='text-align:center'></td>";
+                            row += "<td style='text-align:center'></td>";
+                            row += "</tr>";
+
+                            $("#manuallist").html(row);
+                        }
+
+                    }
+
+
+                }
+            });
+
+        }
+
+        function GoToDo(memId) {
+            window.location = "@Url.Action("AddMemberRegistration", "MemberRegistration")" + "?memId=" + memId + "&eflag=Lead";
+                        }
+        function ShowData(id) {
+            ViewOrder(id);
+
+
+            LoadGroupCode('ddlGroup');
+            LoadCountry('ddlBillCountry');
+            LoadCountry('ddlShipCountry');
+            LoadCountry('ddlBankCountry');
+            LoadGroupCode('ddlGroup');
+            LoadBranch('ddlBranch');
+            LoadSalesEmployee('ddlSalesEmployee');
+            //var branch = $('#branch').val();
+            //$("#ddlBranch").val(branch).trigger('change');
+
+
+            GetMemberOrder(id);
+        }
+        function ViewOrder(id) {
+            var urlpath = '@Url.Action("ViewMemberRegistration", "MemberRegistration")';
+            $.ajax({
+                url: urlpath,
+                dataType: 'html',
+                data: {id:id},
+                type: "Get",
+                async: false,
+                success: function (data) {
+                    $('#containerDetails').html(data);
+                }
+            });
+        }
+        function GetMemberOrder(CardCode) {
+            var cardCode = CardCode.toString();
+            var urlpath = '@Url.Action("MemberRegistrationViewData", "MemberRegistration")';
+            $.ajax({
+                /*contentType: "application/json",*/
+                /*  data: JSON.stringify(jsonData),*/
+                data: { CardCode: cardCode },
+                url: urlpath,
+                dataType: 'json',
+                type: "Get",
+               /* data: { DocEntry: id },*/
+                /*      async: false,*/
+                beforeSend: function () {
+                    debugger;
+                    $('#testSpan').show();
+                },
+                success: function (data) {
+                    $('#testSpan').hide();
+
+                   if (data.UnAutorized == 0 && data.ReturnCode != null ) {
+                        if (data.ReturnCode == "-99999") {
+                            window.location.href = '@Url.Action("Logout", "Home")';
+                        }
+                    }
+
+                    if (data.UnAutorized == 1) {
+                        window.location.href = '@Url.Action("Logout", "Home")';
+                    } else {
+                            $('#txtType').val(data.CardTypeDesc);
+                            $('#txtName').val(data.CardName);
+                            $('#txtDOB').val(DateConversionToDateMonthYear(data.BirthDate));
+                            $('#txtAge').val(data.Age);
+                            $('#ddlGender').val(data.GenderDesc);
+                            $('#ddlGroup').val(data.GroupCode).trigger('change');
+                            $('#ddlOccupation').val(data.OccupationDesc);
+
+                            $('#txtMobile').val(data.Mobile);
+                            $('#txtEMail').val(data.E_Mail);
+                            $('#txtMobileEmergency').val(data.Emergency);
+                            $('#txtContactPerson').val(data.ContactPerson);
+                            $('#ddlRelationship').val(data.RelationDesc);
+
+                            $('#txtWebsite').val(data.WebSite);
+                            $('#txtPaymentTerms').val(data.PaymentTermsName);
+                            $('#txtCreditLimited').val(data.CreditLimit);
+                            $('#txtConnected').val(data.ConnectedVendor);
+
+                            $('#ddlBillCountry').val(data.BillToCountryName); //$('#ddlBillCountry').val(data.BillToCountryCode).trigger('change');
+                            $('#ddlBillState').val(data.BillToStateName);  //$('#ddlBillState').val(data.BillToStateCode).trigger('change');
+                            $('#txtBillCity').val(data.BillThana);
+                            $('#txtBillStreet').val(data.BillToAddressId);
+                            $('#txtBillZip').val(data.BillToZipCode);
+
+                            $('#ddlShipCountry').val(data.ShiptoCountryName); //$('#ddlShipCountry').val(data.ShiptoCountryCode).trigger('change');
+                            $('#ddlShipState').val(data.ShiptoStateName);   //$('#ddlShipState').val(data.ShiptoStateCode).trigger('change');
+                            $('#txtShipCity').val(data.ShipThana);
+                            $('#txtShipStreet').val(data.ShiptoAddressId);
+                            $('#txtShipZip').val(data.ShiptoZipCode);
+
+                            $('#txtAccountNo').val(data.BankAccount);
+                            $('#txtSwiftCode').val(data.BankSwiftCode);
+                            //$('#txtBankName').val(data.AccountName);
+                            $('#ddlBankName').val(data.BankName);    //$('#ddlBankName').val(data.ShiptoStateCode).trigger('change');
+                            $('#txtAccountHolderName').val(data.AccountName);
+                            $('#ddlBankCountry').val(data.BankCountryName);    //$('#ddlBankCountry').val(data.BankCountry).trigger('change');
+
+                            $("#ddlBranch").val(data.BranchCode).trigger('change');
+                            $("#ddlSalesEmployee").val(data.SalesEmployeeCode).trigger('change');
+                            $('#txtRrmarks').val(data.Remarks);
+
+                            $("#ddlHearAboutUs").val(data.HWABUS); //$("#ddlHearAboutUs").val(data.HWABUS).trigger('change');
+                            $("#ddlReasonBranchVisit").val(data.RSBRVS)  //$("#ddlReasonBranchVisit").val(data.RSBRVS).trigger('change');
+                    }
+
+
+                }
+            });
+        }
+        function LoadOccupation(elementId) {
+            var urlpath = '@Url.Action("GetOccupation", "MemberRegistration")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { },
+                async: false,
+                success: function (data) {
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value='0'>--Select Occupation--</option>");
+                    for (var i = 0; i < data.length; i++) {
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].Value).html(data[i].Description));
+                    }
+                }
+            });
+        }
+        function LoadRelationShip(elementId) {
+            var urlpath = '@Url.Action("GetRelationShip", "MemberRegistration")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { },
+                async: false,
+                success: function (data) {
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value='0'>--Select RelationShip--</option>");
+                    for (var i = 0; i < data.length; i++) {
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].Value).html(data[i].Description));
+                    }
+                }
+            });
+        }
+        function LoadPaymentTerms(elementId) {
+            var urlpath = '@Url.Action("GetPaymentTerms", "MemberRegistration")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { },
+                async: false,
+                success: function (data) {
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value='0'>--Select Payment Terms--</option>");
+                    for (var i = 0; i < data.length; i++) {
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].PaymentTermsGrpCode).html(data[i].PaymentTermsGrpName));
+                    }
+                }
+            });
+        }
+        function LoadBankDetails(elementId) {
+            var urlpath = '@Url.Action("GetBankDetails", "MemberRegistration")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { },
+                async: false,
+                success: function (data) {
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value='0'>--Select Bank--</option>");
+                    for (var i = 0; i < data.length; i++) {
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].BankCode).html(data[i].BankName).attr("data-swiftcode", data[i].SwiftCode));
+                    }
+                }
+            });
+        }
+        function LoadGroupCode(elementId) {
+            var CardType = "C";
+            var urlpath = '@Url.Action("GetGroup", "MemberRegistration")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { },
+                async: false,
+                success: function (data) {
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value=''>--Select Group Code--</option>");
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].GroupCode).html(data[i].GroupName));
+                    }
+
+                }
+            });
+        }
+        function LoadSalesEmployee(elementId) {
+            var urlpath = '@Url.Action("GetSalesEmployee", "MemberRegistration")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {},
+                async: false,
+                success: function(data) {
+
+                    $('#' + elementId + '').empty();
+          /*          $('#' + elementId + '').append("<option value='0'>--Select Customer--</option>");*/
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].SlpCode).html(data[i].SlpName));
+                    }
+
+                }
+            });
+        }
+        function LoadBranch(elementId) {
+            var CardType = "C";
+            var urlpath = '@Url.Action("GetBranch", "MemberRegistration")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { },
+                async: false,
+                success: function (data) {
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value='0'>--Select Branch--</option>");
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].PrcCode).html(data[i].PrcName));
+                    }
+
+                }
+            });
+        }
+        function LoadCountry(elementId) {
+            var urlpath = '@Url.Action("GetCountry", "MemberRegistration")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { },
+                async: false,
+                success: function (data) {
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value='0'>--Select Country--</option>");
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].CountryCode).html(data[i].CountryName));
+                    }
+
+                }
+            });
+        }
+        function GetBillState() {
+            var countryCode = $('#ddlBillCountry').val();
+            var elementId = 'ddlBillState';
+
+            GetState(countryCode, elementId);
+        }
+        function GetShipState() {
+            var countryCode = $('#ddlShipCountry').val();
+            var elementId = 'ddlShipState';
+
+            GetState(countryCode, elementId);
+        }
+        function GetState(countryCode, elementId) {
+            var urlpath = '@Url.Action("GetState", "MemberRegistration")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { CountryCode: countryCode },
+                async: false,
+                success: function (data) {
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value='0'>--Select State--</option>");
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].StateCode).html(data[i].StateName));
+                    }
+
+                }
+            });
+        }
+        function GetGroupDetails() {
+            var groupCode = $('#ddlGroup').val();
+            if (groupCode == 0) {
+                swal("At first select group ");
+                return;
+            }
+
+            var urlpath = '@Url.Action("GetGroupDetails", "MemberRegistration")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                dataType: 'json',
+                data: { GroupCode: groupCode },
+                async: false,
+                success: function (data) {
+                    $("#txtType").val(data[0].GroupTypeDesc);
+                }
+            });
+        }
+        function DateConversionToDateMonthYear(inputDate) {
+            var parts = inputDate.split('/');
+            var day = parts[0];
+            var month = parts[1];
+            var year = parts[2];
+            var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            var monthName = monthNames[parseInt(month) - 1];
+            var formattedDate = day + '-' + monthName + '-' + year;
+            return formattedDate
+        }
+    </script>
+}

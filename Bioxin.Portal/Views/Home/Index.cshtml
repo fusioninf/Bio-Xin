@@ -1,0 +1,45 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+@*<style type="text/css">
+        #main {
+            background-image: url('../../AssetStatic/img/BioXinBrand.jpeg');
+            background-size: cover;
+        }
+    </style>*@
+<div class="container">
+    <div class="row"></div>
+    <div class="row" style="margin-top:30px">
+
+        <div class="col-md-8 offset-2">
+            @*<div class="contents">
+                <div id="calendar1" style="max-width: 800px;"></div>
+
+                <h2>Main Controls:</h2>
+                <button onclick="calendarInstance1.destroy();">Destroy (1)</button>
+            </div>*@
+        </div>
+
+    </div>
+</div>
+
+@*@section Scripts{
+    <script>
+        var calendarInstance1 = new calendarJs("calendar1", {
+            exportEventsEnabled: true,
+            useAmPmForTimeDisplays: true
+        });
+
+        document.title += " v" + calendarInstance1.getVersion();
+
+        var event1 = {
+            from: new Date(),
+            to: new Date(),
+            title: "New Event 1",
+            description: "A description of the new event"
+        };
+
+        calendarInstance1.addEvent(event1);
+    </script>
+}*@
+

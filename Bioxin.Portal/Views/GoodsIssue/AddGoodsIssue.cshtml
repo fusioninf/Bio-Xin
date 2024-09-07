@@ -1,0 +1,1058 @@
+﻿
+@{
+    ViewBag.Title = "Goods Issue";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .custom-header {
+        background-color: darkgray !important; /* Blue color #007bff  #808080*/
+        color: black; /* Text color for contrast */
+    }
+    .spinnermodal {
+        background-color: #FFFFFF;
+        height: 100%;
+        left: 0;
+        opacity: 0.5;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 100000;
+    }
+</style>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-primary">
+                    <div class="card-header custom-header">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <a href="@Url.Action("AddGoodsIssue", "GoodsIssue", new {giId = 0})">
+                                    <h3 class="card-title">
+                                        @if (ViewBag.GoodsIssueId == 0)
+                                        {
+                                            <span class="" style="color:black"><b>Goods Issue</b></span>
+                                        }
+                                        else
+                                        {
+                                            <span class=""> Edit GoodsIssue</span>
+                                        }
+                                    </h3>
+                                </a>
+                            </div>
+                            <div class="col-md-6 text-right">
+                                <a class="btn btn-outline-warning" href="@Url.Action("Index", "GoodsIssue")">
+                                    <span class="fa fa-list"></span> Goods Issue Home
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                @*<div class="form-group row" id="divPriceList">
+                                        <label for="ddlPriceList" class="col-md-4 control-label">Price List</label>
+                                        <div class="col-md-6">
+                                            <select class="form-control select2" style="width: 100%; text-align: center" id="ddlPriceList"></select>
+                                        </div>
+                                    </div>*@
+                                <div class="form-group row" id="divDocDate">
+                                    <label for="txtDocDate" class="col-md-3 control-label">Posting Date</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtDocDate" class="form-control datepicker" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divBranch">
+                                    <label for="ddlBranch" class="col-md-3 control-label">Branch</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%; text-align: center" id="ddlBranch" disabled="disabled"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group row mt-1" id="divSearchItemCode">
+                                    <label for="lblSearchItemCode" class="col-md-4 control-label">Item Code</label>
+                                    <div class="col-md-6">
+                                        <input type="text" placeholder="Search Item Code" id="txtSearchItemCode" class="form-control" autocomplete="off" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divSearchItemName">
+                                    <label for="txtCustomerName" class="col-md-4 control-label">Item Name</label>
+                                    <div class="col-md-6">
+                                        <input type="text" placeholder="Search Item Name" id="txtSearchItemName" class="form-control" autocomplete="off" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group row" id="divDocumentNo">
+                                    <label for="txtDocumentNo" class="col-md-4 control-label">Document No</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtDocumentNo" class="form-control" disabled="disabled" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divStatus">
+                                    <label for="txtStatus" class="col-md-4 control-label">Status</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtStatus" class="form-control" disabled="disabled" />
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            &nbsp;
+                        </div>
+                        <div class="row table-responsive">
+                            <table class="table table-bordered table-striped table-hover" id="salesOrder">
+                                <thead>
+                                    <tr style="background-color: lightgrey">
+                                        <th class="action">Action</th>
+                                        <th>#</th>
+                                        <th>Item Code</th>
+                                        <th>Item Name</th>
+                                        <th>UOM</th>
+                                        <th>Stock</th>
+                                        <th>Quantity</th>
+                                        <th>Batch</th>
+                                        <th>Department</th>
+                                        <th>Employee</th>
+                                        <th>Remarks</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group row mt-3" id="divRrmarks">
+                                    <label for="taxVat" class="col-md-3 control-label">Remarks</label>
+                                    <div class="col-md-6">
+                                        <textarea id="txtRrmarks" name="w3review" rows="5" cols="28" style="border: 1px solid #ced4da; border-radius: 4px "></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4">
+                            </div>
+                            <div style="display:none">
+                                <select class="form-control select2" style="width: 100%; text-align: center" id="ddlFromWarehouseItem"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-warning" id="btnGoodsIssue" onclick="SaveGoodsIssue()">Add & New</button>
+                        <button class="btn btn-warning  float-right" onclick="location.reload()">Clear</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div id="main" style="display:none"></div>
+        </div>
+
+        <input id="goodsIssueId" type="number" style="display: none;" value="@ViewBag.GoodsIssueId">
+        <input id="branch" type="number" style="display: none;" value="@ViewBag.Branch">
+        <input id="eflag" type="text" style="display: none;" value="@ViewBag.eflag">
+    </div>
+    <div class="spinnermodal" id="testSpan" style="display: none; z-index: 10001">
+        <div style="position: fixed; z-index: 10001; top: 50%; left: 50%; height:50px">
+            <img src="~/AssetStatic/img/loading_spinner.gif" />
+        </div>
+    </div>
+</section>
+<div class="modal fade" tabindex="-1" id="viewModal" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm" style="max-width: 50% !important">
+        <div class="modal-content">
+            <div class="modal-header">
+
+            </div>
+            <div class="modal-body" id="containerDetails">
+            </div>
+            <div class="modal-footer">
+                <input type="text" style="display:none;" id="eid" />
+                <button class="btn btn-primary" data-bs-target="#viewModal" data-bs-toggle="modal" data-bs-dismiss="modal" onclick="RemoveBatches()">Close</button>
+                <button class="btn btn-primary" data-bs-target="#viewModal" data-bs-toggle="modal" data-bs-dismiss="modal" id="batchesSave" onclick="AddBatches()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        var itemList = {};
+        var dptCCList = {};
+        var empCCList = {};
+        var DeleteItem = [];
+        var srcount = 0;
+        $(document).ready(function () {
+            LoadDate_C('#txtDocDate');
+            LoadBranch('ddlBranch');
+            var branch = $('#branch').val();
+            $("#ddlBranch").val(branch).trigger('change');
+            GetWarehouses('ddlFromWarehouseItem');
+            GetItem();
+            GetDepartmentCostCenter();
+            GetEmployeeCostCenter();
+            $("#txtSearchItemCode").autocomplete({
+            source: function (request, response) {
+                    var _url =  '@Url.Action("AutoCompleteItem", "SalesOrderNew")';
+
+                $.ajax({
+                    url: _url,
+                    data: "{ 'prefix': '" + request.term + "'}",
+                    dataType: "json",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                           if (data.UnAutorized == 1) {
+                            window.location.href = '@Url.Action("Logout", "Home")';
+                           } else {
+                            if (data.dataList[0].ReturnCode == "-99999") {
+                                window.location.href = '@Url.Action("Logout", "Home")';
+                            } else {
+                                response($.map(data.dataList, function (item) {
+                                    return item.ItemCode + " | " + item.ItemName;
+                                }));
+                            }
+                          }
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+            },
+            select: function (event, ui) {
+                var str = ui.item.value;
+                var ret2 = str.replace(" | ", '|');
+                var ret = ret2.split('|');
+                var itemCode = ret[0];
+                var itemName = ret[1];
+                AddItemRow(itemCode);
+                },
+                minLength: 3
+                , close: function (event, ui) {
+                    $("#txtSearchItemCode").val("");
+                }
+            });
+            $("#txtSearchItemName").autocomplete({
+                source: function (request, response) {
+                    var _url = '@Url.Action("AutoCompleteItemName", "SalesOrderNew")';
+                $.ajax({
+                    url: _url,
+                    data: "{ 'prefix': '" + request.term + "'}",
+                    dataType: "json",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                           if (data.UnAutorized == 1) {
+                            window.location.href = '@Url.Action("Logout", "Home")';
+                           } else {
+                            if (data.dataList[0].ReturnCode == "-99999") {
+                                window.location.href = '@Url.Action("Logout", "Home")';
+                            } else {
+                                response($.map(data.dataList, function (item) {
+                                    return item.ItemCode + " | " + item.ItemName;
+                                }));
+                            }
+                          }
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+            },
+            select: function (event, ui) {
+                var str = ui.item.value;
+                var ret2 = str.replace(" | ", '|');
+                var ret = ret2.split('|');
+                var itemCode = ret[0];
+                var itemName = ret[1];
+                AddItemRow(itemCode);
+                },
+                minLength: 3
+                , close: function (event, ui) {
+                    debugger;
+                    $("#txtSearchItemName").val("");
+                }
+            });
+        });
+        function GetWarehouses(elementId) {
+            var urlpath = '@Url.Action("GetWarehouseRow", "SalesInvoice")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {  },
+                async: false,
+                success: function(data) {
+                    $('#' + elementId + '').empty();
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].WhsCode).html(data[i].WhsName));
+                    }
+                }
+            });
+        }
+        function AddItemRow(itemCode) {
+            var tr = $('#salesOrder tbody tr').length + 1;
+            var values = $("#salesOrder tbody tr")
+                .map(function() { return parseInt($(this).attr('id').substring(3)); }).get();
+            var index = values.indexOf(tr);
+            if (index >= 0) {
+                tr = Math.max.apply(Math, values) + 1;
+            }
+            var urlpath = '@Url.Action("AddRowForOrder", "GoodsIssue")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                dataType: 'html',
+                data: { tr: tr },
+                async: false,
+                success: function(data) {
+                    $('#salesOrder tbody').append(data);
+                    /*    LoadItemInRow("barcode_" + tr);*/
+                    debugger;
+                    GetItemDetails(itemCode, tr);
+                    LoadDptInRow("deptCost_" + tr);
+                    LoadEmpInRow("empCost_" + tr);
+                }
+            });
+            /*         $('#barcode_' + tr).select2();*/
+            $('#deptCost_' + tr).select2();
+            $('#empCost_' + tr).select2();
+            SerialTable();
+        }
+        function GetItemDetails(itemCode,rowId) {
+
+            var urlpath = '@Url.Action("GetItemByItemCode", "InventoryTransferRequest")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                dataType: 'json',
+                data: { ItemCode: itemCode },
+                async: false,
+                success: function (data) {
+                    $("#itemCode_" + rowId).val(data.ItemCode);
+                    $("#itemName_" + rowId).val(data.ItemName);
+                    $("#uom_" + rowId).val(data.InventoryUOM);
+                    $("#price_" + rowId).val(data.LastPurchasePrice);
+                    $("#stock_" + rowId).val(data.Stock);
+                    $("#batchNumberEnable_" + rowId).val(data.BatchNumberEnable);
+                    $("#serialNumberEnable_" + rowId).val(data.SerialNumberEnable);
+
+                    /*$("#inStock_" + rowId).val(data.InStock);*/
+                    $("#showBtn_" + rowId).hide();
+                    $("#showSerialBtn_" + rowId).hide();
+                    if (data.BatchNumberEnable == "Y" && data.SerialNumberEnable == "N") {
+                        $("#showBtn_" + rowId).show();
+                        $("#showBtn_" + rowId).prop("disabled", true);
+                    }
+                    if (data.BatchNumberEnable == "N" && data.SerialNumberEnable == "Y") {
+                        $("#showSerialBtn_" + rowId).show();
+                        $("#showSerialBtn_" + rowId).prop("disabled", true);
+                    }
+                    $("#quantity_" + rowId).val('');
+                }
+            });
+        }
+        function LoadBranch(elementId) {
+            var CardType = "C";
+            var urlpath = '@Url.Action("GetBranch", "InventoryTransferRequest")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { },
+                async: false,
+                success: function(data) {
+
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value=''>--Select Branch--</option>");
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].PrcCode).html(data[i].PrcName ));
+                    }
+
+                }
+            });
+        }
+        function GetItem() {
+            var urlpath = '@Url.Action("GetItem", "InventoryTransferRequest")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {  },
+                async: false,
+                success: function(data) {
+
+                    itemList = data;
+
+                }
+            });
+        }
+        function GetDepartmentCostCenter() {
+            var urlpath = '@Url.Action("GetDepartmentCostCenter", "GoodsIssue")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {  },
+                async: false,
+                success: function(data) {
+
+                    dptCCList = data;
+
+                }
+            });
+        }
+        function GetEmployeeCostCenter() {
+            var urlpath = '@Url.Action("GetEmployeeCostCenter", "GoodsIssue")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {  },
+                async: false,
+                success: function(data) {
+
+                    empCCList = data;
+
+                }
+            });
+        }
+        function GetItemCodeDetails(rowId) {
+            var ItemCode = $('#itemCodeName_' + rowId).val();
+
+            var urlpath = '@Url.Action("GetItemByItemCode", "InventoryTransferRequest")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                dataType: 'json',
+                data: { ItemCode: ItemCode },
+                async: false,
+                success: function(data) {
+                    $("#itemCode_" + rowId).val(data.ItemCode).trigger('change');
+                    $("#uom_" + rowId).val(data.InventoryUOM);
+                    $("#price_" + rowId).val(data.LastPurchasePrice);
+                    $("#stock_" + rowId).val(data.Stock);
+                    $("#batchNumberEnable_" + rowId).val(data.BatchNumberEnable);
+                    $("#serialNumberEnable_" + rowId).val(data.SerialNumberEnable);
+                    $("#showBtn_" + rowId).hide();
+                    $("#showSerialBtn_" + rowId).hide();
+                    if (data.BatchNumberEnable == "Y" && data.SerialNumberEnable == "N") {
+                        $("#showBtn_" + rowId).show();
+                        $("#showBtn_" + rowId).prop("disabled", true);
+                    }
+                    if (data.BatchNumberEnable == "N" && data.SerialNumberEnable == "Y") {
+                        $("#showSerialBtn_" + rowId).show();
+                        $("#showSerialBtn_" + rowId).prop("disabled", true);
+                    }
+
+
+                    $("#quantity_" + rowId).val('');
+                }
+            });
+        }
+       
+        function CalculateLineTotal(rowId) {
+            $("#showBtn_" + rowId).prop("disabled", false);
+            $("#showSerialBtn_" + rowId).prop("disabled", false);
+            var quantity = isNaN(parseFloat($('#quantity_' + rowId).val())) ? 0 : parseFloat($('#quantity_' + rowId).val());
+            var price = isNaN(parseFloat($('#price_' + rowId).val())) ? 0 : parseFloat($('#price_' + rowId).val());
+            var total = quantity * price;
+            $('#value_' + rowId).val(total.toFixed(2));
+            CalculateAll();
+        }
+        function CalculateAll() {
+            var grandTotal = 0;
+            $('#salesOrder tbody tr').each(function () {
+                var idr = $(this).attr('id');
+                var rowId = idr.substring(3);
+                var quantity = isNaN(parseFloat($('#quantity_' + rowId).val())) ? 0 : parseFloat($('#quantity_' + rowId).val());
+                var price = isNaN(parseFloat($('#price_' + rowId).val())) ? 0 : parseFloat($('#price_' + rowId).val());
+                var total = quantity * price;
+                grandTotal += total;
+            });
+            $('#grandTotal').val(grandTotal.toFixed(2));
+        }
+        function SaveGoodsIssue() {
+            if (SaveValidation() == true) {
+                swal({
+                    title: "Are you sure?",
+                    text: "",
+                    type: "success",
+                    showCancelButton: true,
+                    cancelButtonClass: 'btn-secondary waves-effect',
+                    confirmButtonClass: 'btn-success waves-effect waves-light',
+                    confirmButtonText: 'Yes!',
+                    closeOnConfirm: true
+                }, function() {
+                    $('.confirm').prop("disabled", true);
+                    $('.cancel').prop("disabled", true);
+                    swal.close()
+                    SaveGIFinal();
+                });
+            }
+        }
+        function pad2(number) {
+            return (number < 10 ? '0' : '') + number;
+        }
+        function DateConversionToYYYYMMDD(inputDate) {
+            // Split the input date into day, month, and year parts
+            var parts = inputDate.split('-');
+            var day = parts[0];
+            var month = parts[1];
+            var year = parts[2];
+            var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            var monthIndex = monthNames.indexOf(month);
+            monthIndex++; // Adjust for 0-based indexing
+            // Create a Date object with the parsed values
+            var dateObject = new Date(year, monthIndex - 1, day);
+            // Format the date as "YYYYMMDD"
+            var formattedDate = dateObject.getFullYear() + pad2(dateObject.getMonth() + 1) + pad2(dateObject.getDate());
+            return formattedDate
+        }
+        function SaveGIFinal() {
+            debugger;
+            var jsonData = {};
+            var postingDate = $('#txtDocDate').val();
+
+            jsonData["Branch"] = $("#ddlBranch").val();
+            jsonData["PostingDate"] = DateConversionToYYYYMMDD(postingDate);  //"20230814"
+            jsonData["RefNo"] = "";
+            jsonData["RefDate"] = DateConversionToYYYYMMDD(postingDate);
+            jsonData["Remarks"] = $('#txtRrmarks').val();
+
+            var count = 0;
+            var jsonObjs = [];
+            $('#salesOrder tbody tr').each(function() {
+
+                var theObj = {};
+                var idr = $(this).attr('id');
+                var id = idr.substring(3);
+
+                var itemCode = $('#itemCode_' + id).val();
+                var uom = $('#uom_' + id).val();
+                var qty = isNaN(parseFloat($('#quantity_' + id).val())) ? 0 : parseFloat($('#quantity_' + id).val());
+                var price = isNaN(parseFloat($('#price_' + id).val())) ? 0 : parseFloat($('#price_' + id).val());
+                var remarks = $('#remarks_' + id).val();
+
+
+                var jsonObjsBatches = [];
+                var jsonObjsSerial = [];
+
+                var batchNumberEnable = $("#batchNumberEnable_" + id).val();
+                var serialNumberEnable = $("#serialNumberEnable_" + id).val();
+
+                if (batchNumberEnable == "Y" && serialNumberEnable == "N") {
+                    $("#batchesItem" + id + " tbody tr").each(function (key, value) {
+                        var BatchesItemObj = {};
+                        var soId = $(this).prop("id");
+                        var batchQuantity= $('#batchQuantity_' + id + soId).val() ?? 0;
+                        BatchesItemObj.VisOrder = count;
+                        BatchesItemObj.BatchNo = $('#batchNo_' + id + soId).val() ?? "";
+                        BatchesItemObj.BatchQuantity = batchQuantity;
+                        if (batchQuantity > 0) {
+                            jsonObjsBatches.push(BatchesItemObj);
+                        }
+
+                    });
+                }
+                if (batchNumberEnable == "N" && serialNumberEnable == "Y") {
+                    $("#serialItem" + id + " tbody tr").each(function (key, value) {
+                        var SerialItemObj = {};
+                        var soId = $(this).prop("id");
+                        if ($('#chk_' + id + soId).is(":checked")) {
+                            SerialItemObj.VisOrder = count;
+                            SerialItemObj.InternalSerialNumber = $('#intrSerialNo_' + id + soId).val() ?? "";
+                            SerialItemObj.SystemSerialNumber = $('#sysSerialNo_' + id + soId).val() ?? "";
+                            SerialItemObj.ManufacturerSerialNumber = $('#suppSerialNo_' + id + soId).val() ?? "";
+                            jsonObjsSerial.push(SerialItemObj);
+                        }
+
+                    });
+                }
+
+                var deptCost = $('#deptCost_' + id).val();
+                var empCost = $('#empCost_' + id).val();
+
+                theObj["VisOrder"] = count;
+                theObj["ItemCode"] = itemCode;
+                theObj["UOM"] = uom;
+                theObj["Quantity"] = qty;
+                theObj["Price"] = price;
+                theObj["Remarks"] = remarks;
+                theObj["EmployeeCostCenter"] = empCost;
+                theObj["DepartmentCostCenter"] = deptCost;
+                theObj["MachineCostCenter"] = "";
+                theObj["Batches"] = jsonObjsBatches;
+                theObj["Serial"] = jsonObjsSerial;
+                jsonObjs.push(theObj);
+                count = count + 1;
+            });
+
+            jsonData["Items"] = jsonObjs;
+
+            var urlpath2 = '@Url.Action("SaveGoodsIssue", "GoodsIssue")';
+            $.ajax({
+                contentType: "application/json",
+                data: JSON.stringify(jsonData),
+                dataType: 'json',
+                url: urlpath2,
+                type: "POST",
+                /* async: false,*/
+                beforeSend: function () {
+                    debugger;
+                    $('#testSpan').show();
+                    $('#btnGoodsIssue').prop('disabled', true);
+                },
+                success: function (result) {
+                    $('#testSpan').hide();
+                    if (result.UnAutorized == 1) {
+                        //Web Project Session Out
+                        window.location.href = '@Url.Action("Logout", "Home")';
+                    } else {
+                        if (result.dataList.ReturnCode == "-99999") {
+                            //API Project Session Out
+                            window.location.href = '@Url.Action("Logout", "Home")';
+                        } else {
+                            var message = result.dataList.ReturnMsg;
+                            if (result.dataList.ReturnCode == "0000") {
+                        swal({
+                            title: " Saved Successfull",
+                            text: '',
+                            type: "success",
+                            showCancelButton: false,
+                            cancelButtonClass: 'btn-secondary waves-effect',
+                            confirmButtonClass: 'btn-success waves-effect waves-light',
+                            confirmButtonText: 'Yes!',
+                            closeOnConfirm: false
+                        }, function () {
+                            window.location.href =  '@Url.Action("Index", "GoodsIssue")';
+                        });
+                    } else {
+                                ShowMessage(message);
+                                $('#btnGoodsIssue').prop('disabled', false);
+                    }
+                        }
+                    }
+
+                }
+                })
+        }
+        function SaveValidation() {
+            var isValid = true;
+            var message = "Some Values Required";
+            if ($('#txtDocDate').val() == '' || $('#txtDocDate').val() == null) {
+                ValidationColorChangeNew("txtDocDate", "divDocDate", "Posting Date Required", false);
+                isValid = false;
+            }
+
+            //Items Required
+            if ($('#salesOrder tbody tr').length == 0 || $('#salesOrder tbody tr').length == '') {
+                isValid = false;
+                message = "Item Required";
+            }
+
+
+            $('#salesOrder tbody tr').each(function() {
+
+
+                var idr = $(this).attr('id');
+                var id = idr.substring(3);
+
+                var qty = isNaN(parseFloat($('#quantity_' + id).val())) ? 0 : parseFloat($('#quantity_' + id).val());
+                var price = isNaN(parseFloat($('#price_' + id).val())) ? 0 : parseFloat($('#price_' + id).val());
+
+                var itemCode = $('#itemCode_' + id).val()
+
+                var batchNumberEnable = $("#batchNumberEnable_" + id).val();
+                var serialNumberEnable = $("#serialNumberEnable_" + id).val();
+
+                if (batchNumberEnable == "Y" && serialNumberEnable == "N") {
+                    if ($('#dynamic' + id).length) {
+
+                    } else {
+                        isValid = false;
+                        message = "Please add batche " + itemCode;
+                        return;
+                    }
+                    var batchesTotal = 0;
+                    $("#batchesItem" + id + " tbody tr").each(function (key, value) {
+                        debugger;
+                        var soId = $(this).prop("id");
+                        var batchQty = isNaN(parseFloat($('#batchQuantity_' + id + soId).val())) ? 0 : parseFloat($('#batchQuantity_' + id + soId).val());
+                        batchesTotal += batchQty;
+                    });
+                    if (qty < batchesTotal) {
+                        isValid = false;
+                        message = "Batches Total Quantity can't be greater than Item Quantity";
+                        return;
+                    }
+                }
+
+                if (batchNumberEnable == "N" && serialNumberEnable == "Y") {
+                    if ($('#dynamic' + id).length) {
+
+                    } else {
+                        isValid = false;
+                        message = "Please add serial" + itemCode;
+                        return;
+                    }
+                    var serialTotal = 0;
+                    $("#serialItem" + id + " tbody tr").each(function (key, value) {
+                        soId = $(this).prop("id");
+                        if ($('#chk_' + id + soId).is(":checked")) {
+                            debugger;
+                            var serialQty = isNaN(parseFloat($('#serialStock_' + id + soId).val())) ? 0 : parseFloat($('#serialStock_' + id + soId).val());
+                            serialTotal += serialQty;
+                        }
+                    });
+
+                    if (qty < serialTotal) {
+                        isValid = false;
+                        message = "Serial Total Quantity can't be greater than Item Quantity";
+                        return;
+                    }
+                    if (qty > serialTotal) {
+                        isValid = false;
+                        message = "Item Quantity  can't be greater than Serial Total Quantity";
+                        return;
+                    }
+                }
+
+                if (itemCode === '' || itemCode === null) {
+                    isValid = false;
+                    message = "Please Select Item";
+                    $('#itemCode_' + id).css('border-bottom', '2px solid red');
+                    return;
+                }
+                if (qty === 0) {
+                    isValid = false;
+                    message = "Qty Cannot be 0 ";
+                    $('#quantity_' + id).css('border-bottom', '2px solid red');
+                    return;
+                }
+            });
+            if (isValid == false) {
+                ShowMessage(message);
+
+            }
+            return isValid;
+
+
+        }
+        function RemoveRow(id) {
+            debugger;
+            var trLength = $('#salesOrder tbody tr').length;
+            if (trLength >= 1) {
+                $('#tr_' + id).remove();
+                SerialTable();
+            } else {
+                return;
+            }
+
+        }
+        function AddRow() {
+            var tr = $('#salesOrder tbody tr').length + 1;
+            var values = $("#salesOrder tbody tr")
+                .map(function() { return parseInt($(this).attr('id').substring(3)); }).get();
+            var index = values.indexOf(tr);
+            if (index >= 0) {
+                tr = Math.max.apply(Math, values) + 1;
+            }
+            var urlpath = '@Url.Action("AddRowForOrder", "GoodsIssue")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                dataType: 'html',
+                data: { tr: tr },
+                async: false,
+                success: function(data) {
+                    $('#salesOrder tbody').append(data);
+                    LoadItemInRow("itemCode_" + tr);
+                    LoadItemCodeInRow("itemCodeName_" + tr);
+                    LoadDptInRow("deptCost_" + tr);
+                    LoadEmpInRow("empCost_" + tr);
+                }
+            });
+            $('#itemCode_' + tr).select2();
+            $('#itemCodeName_' + tr).select2();
+            $('#deptCost_' + tr).select2();
+            $('#empCost_' + tr).select2();
+            SerialTable();
+        }
+        function SerialTable() {
+            $('#salesOrder tbody tr').each(function(index, element) {
+                var idr = $(this).attr('id');
+                var id = idr.substring(3);
+                $('#ts_' + id).html(index + 1);
+            });
+        }
+        function LoadItemInRow(elementId) {
+            var array = [];
+            var rowCount = $('#salesOrder tbody tr').length;
+            for (let count = 0; count < rowCount; count++) {
+                array.push(parseInt($("#itemCode_" + count).val()));
+            };
+            $('#' + elementId + '').append("<option value=''>--Select Item--</option>");
+
+            for (var i = 0; i < itemList.length; i++) {
+                if (jQuery.inArray(itemList[i].ItemCode, array) == -1) {
+                    $('#' + elementId + '').append($("<option></option>").val(itemList[i].ItemCode).html(itemList[i].ItemName));
+/*                    $('#' + elementId + '').append($("<option></option>").val(itemList[i].ItemCode).html(itemList[i].ItemCode + " | " + itemList[i].ItemName));*/
+                }
+
+            }
+        }
+        function LoadItemCodeInRow(elementId) {
+            var array = [];
+            var rowCount = $('#salesOrder tbody tr').length;
+            for (let count = 0; count < rowCount; count++) {
+                array.push(parseInt($("#itemCodeName_" + count).val()));
+            };
+            $('#' + elementId + '').append("<option value=''>--Select Item--</option>");
+
+            for (var i = 0; i < itemList.length; i++) {
+                if (jQuery.inArray(itemList[i].ItemCode, array) == -1) {
+                    $('#' + elementId + '').append($("<option></option>").val(itemList[i].ItemCode).html(itemList[i].ItemCode));
+                    /*                    $('#' + elementId + '').append($("<option></option>").val(itemList[i].ItemCode).html(itemList[i].ItemCode + " | " + itemList[i].ItemName));*/
+                }
+            }
+        }
+        function LoadDptInRow(elementId) {
+            var array = [];
+            var rowCount = $('#salesOrder tbody tr').length;
+            for (let count = 0; count < rowCount; count++) {
+                array.push(parseInt($("#deptCost_" + count).val()));
+            };
+            $('#' + elementId + '').append("<option value=''>--Dpt Cost Center--</option>");
+
+            for (var i = 0; i < dptCCList.length; i++) {
+                if (jQuery.inArray(dptCCList[i].PrcCode, array) == -1) {
+                    $('#' + elementId + '').append($("<option></option>").val(dptCCList[i].PrcCode).html(dptCCList[i].PrcName));
+                }
+
+            }
+        }
+        function LoadEmpInRow(elementId) {
+            var array = [];
+            var rowCount = $('#salesOrder tbody tr').length;
+            for (let count = 0; count < rowCount; count++) {
+                array.push(parseInt($("#empCost_" + count).val()));
+            };
+            $('#' + elementId + '').append("<option value=''>--Emp Cost Center--</option>");
+
+            for (var i = 0; i < empCCList.length; i++) {
+                if (jQuery.inArray(empCCList[i].PrcCode, array) == -1) {
+                    $('#' + elementId + '').append($("<option></option>").val(empCCList[i].PrcCode).html(empCCList[i].PrcName));
+                }
+
+            }
+        }
+        function CancelGoodsIssue() {
+             window.location = "@Url.Action("AddGoodsIssue", "GoodsIssue")"
+        }
+        //Start Batches
+        function ShowData(id) {
+            ViewOrder(id);
+            $("#eid").val(id);
+            debugger;
+            var itemQty = isNaN(parseFloat($('#quantity_' + id).val())) ? 0 : parseFloat($('#quantity_' + id).val());
+            $(".rowBatchesQty").html(itemQty);
+        }
+        function ViewOrder(id) {
+            var itemCode = $('#itemCode_' + id).val();
+            var fromWH = $('#ddlFromWarehouseItem').val();
+            if (fromWH == null || fromWH == "")
+            {
+                var message = "The warehouse can not be null please login again.";
+                ShowMessage(message);
+                window.location.href = '@Url.Action("Logout", "Home")';
+            }
+            var urlpath = '@Url.Action("ViewBatchesPage", "SalesInvoice")';
+            $.ajax({
+                url: urlpath,
+                dataType: 'html',
+                data: { ItemCode: itemCode, WareHouse: fromWH, id: id},
+                type: "Get",
+                async: false,
+                success: function (data) {
+                  
+                    $("#containerDetails").append("<div id='containerDetailsRow" + id + "'></div>");
+                    $('#containerDetailsRow' + id).html(data);
+                }
+            });
+        }
+        function RemoveBatches() {
+            var rowId = parseFloat($("#eid").val());
+            $("#containerDetailsRow" + rowId).remove();
+        }
+        function AddBatches() {
+            var rowId = parseFloat($("#eid").val());
+            var batchNumberEnable = $("#batchNumberEnable_" + rowId).val();
+            var serialNumberEnable = $("#serialNumberEnable_" + rowId).val();
+            debugger;
+            if (batchNumberEnable == "Y" && serialNumberEnable == "N") {
+                if (ValidationBatches() == true) {
+                    const table = document.getElementById("batchesItem");
+                    table.setAttribute("id", "batchesItem" + rowId);
+
+                    $("#main").append("<div id='dynamic" + rowId + "'></div>");
+                    $('#dynamic' + rowId).append($('#containerDetailsRow' + rowId));
+                    $("#showBtn_" + rowId).prop("disabled", true);
+                    $("#quantity_" + rowId).prop("disabled", true);
+                    $("#showBtn_" + rowId).removeClass("btn-primary").addClass("btn-success");
+                    $("#price_" + rowId).prop("disabled", true);
+                }
+            }
+            if (batchNumberEnable == "N" && serialNumberEnable == "Y") {
+                if (ValidationSerial() == true) {
+                    const table = document.getElementById("serialItem");
+                    table.setAttribute("id", "serialItem" + rowId);
+
+                    $("#main").append("<div id='dynamic" + rowId + "'></div>");
+                    $('#dynamic' + rowId).append($('#containerDetailsRow' + rowId));
+                    $("#showSerialBtn_" + rowId).prop("disabled", true);
+                    $("#quantity_" + rowId).prop("disabled", true);
+                    $("#price_" + rowId).prop("disabled", true);
+
+                }
+            }
+
+        }
+        function ValidationBatchesTotal(rowIdCount) {
+            debugger;
+            var isValid = true;
+            var message = "Some Values Required";
+            debugger;
+            var itemRow = $('#batchRow_' + rowIdCount).val();
+            var itemQty = isNaN(parseFloat($('#quantity_' + itemRow).val())) ? 0 : parseFloat($('#quantity_' + itemRow).val());
+
+            var batchQuantity = isNaN(parseFloat($('#batchQuantity_' + rowIdCount).val())) ? 0 : parseFloat($('#batchQuantity_' + rowIdCount).val());
+            var batchStock = isNaN(parseFloat($('#batchStock_' + rowIdCount).val())) ? 0 : parseFloat($('#batchStock_' + rowIdCount).val());
+
+
+            if (batchStock < batchQuantity) {
+                isValid = false;
+                message = "Quantity can't be greater than stock";
+                $('#batchQuantity_' + rowIdCount).css('border-bottom', '2px solid red');
+                ShowMessage(message);
+                $('#batchQuantity_' + rowIdCount).val(batchStock);
+                return;
+            }
+            // each function does not work '#salesOrder tbody tr'
+            var batchesTotal = 0;
+            $('#batchesItem tbody tr').each(function () {
+                var idr = $(this).attr('id');
+                var batchQty =isNaN(parseFloat($('#batchQuantity_' + itemRow + idr).val())) ? 0 : parseFloat($('#batchQuantity_' + itemRow + idr).val());
+                batchesTotal += batchQty;
+            });
+
+            if (itemQty < batchesTotal) {
+                isValid = false;
+                message = "Batches Total Quantity can't be greater than Item Quantity";
+                $('#batchQuantity_' + rowIdCount).css('border-bottom', '2px solid red');
+                $('#batchQuantity_' + rowIdCount).val(0);
+                ShowMessage(message);
+                return;
+            }
+
+
+        }
+        function ValidationBatches() {
+            debugger;
+            var isValid = true;
+            var message = "Some Values Required";
+            var rowId = parseFloat($("#eid").val());
+            var itemQty = isNaN(parseFloat($('#quantity_' + rowId).val())) ? 0 : parseFloat($('#quantity_' + rowId).val());
+            var batchesTotal = 0;
+            $('#batchesItem tbody tr').each(function () {
+                var idr = $(this).attr('id');
+                var batchQty = isNaN(parseFloat($('#batchQuantity_' + rowId + idr).val())) ? 0 : parseFloat($('#batchQuantity_' + rowId + idr).val());
+                batchesTotal += batchQty;
+            });
+
+            if (itemQty < batchesTotal) {
+                isValid = false;
+                message = "Batches Total Quantity can't be greater than Item Quantity";
+                return;
+            }
+            if (batchesTotal == 0) {
+                isValid = false;
+                message = "Batches Total Quantity can't be Zero";
+                return;
+            }
+
+            if (isValid == false) {
+                ShowMessage(message);
+            }
+            return isValid;
+        }
+ 
+        function ShowSerialData(id) {
+            ViewSerial(id);
+            $("#eid").val(id);
+            var itemQty = isNaN(parseFloat($('#quantity_' + id).val())) ? 0 : parseFloat($('#quantity_' + id).val());
+            $(".rowSerialQty").html(itemQty);
+        }
+        function ViewSerial(id) {
+            var itemCode = $('#itemCode_' + id).val();
+            var urlpath = '@Url.Action("ViewSerial", "GoodsIssue")';
+            $.ajax({
+                url: urlpath,
+                dataType: 'html',
+                data: { ItemCode: itemCode, id: id},
+                type: "Get",
+                async: false,
+                success: function (data) {
+                    $("#containerDetails").append("<div id='containerDetailsRow" + id + "'></div>");
+                    $('#containerDetailsRow' + id).html(data);
+                }
+            });
+        }
+        function ValidationSerial() {
+            debugger;
+            var isValid = true;
+            var message = "Some Values Required";
+            var rowId = parseFloat($("#eid").val());
+            var itemQty = isNaN(parseFloat($('#quantity_' + rowId).val())) ? 0 : parseFloat($('#quantity_' + rowId).val());
+
+            var checked = $('#tbodyid input:checked').length > 0;
+            if (!checked) {
+                isValid = false;
+                message = "Check at least one checkbox";
+            }
+
+            var batchesTotal = 0;
+            $('#serialItem tbody tr').each(function (key, value) {
+                soId = $(this).prop("id");
+                if ($('#chk_' + rowId + soId).is(":checked")) {
+                    debugger;
+                    var batchQty = isNaN(parseFloat($('#serialStock_' + rowId + soId).val())) ? 0 : parseFloat($('#serialStock_' + rowId + soId).val());
+                    batchesTotal += batchQty;
+                }
+            });
+
+            if (itemQty < batchesTotal) {
+                isValid = false;
+                message = "Serial Total Quantity can't be greater than Item Quantity";
+            }
+            if (itemQty > batchesTotal) {
+                isValid = false;
+                message = "Item Quantity  can't be greater than Serial Total Quantity";
+            }
+
+            if (isValid == false) {
+                ShowMessage(message);
+            }
+            return isValid;
+        }
+    </script>
+}
+

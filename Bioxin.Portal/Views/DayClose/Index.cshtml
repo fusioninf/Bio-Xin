@@ -1,0 +1,267 @@
+﻿@{
+    ViewBag.Title = "Day Closes";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-12">
+                <!-- general form elements -->
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h3>Day Close</h3>
+                            </div>
+                            <div class="col-md-6 text-end">
+                                <a href="@Url.Action("Add", "DayClose")" class="btn btn-warning">Add Day Close</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <div class="form-group" id="divFromDate">
+                                        <label for="txtFromDate">From Date</label>
+                                        <input type="text" id="txtFromDate" class="form-control datepicker" value="@DateTime.UtcNow.ToString("dd-MMM-yyyy")" autocomplete="off" />
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group" id="divToDate">
+                                        <label for="txtToDate">To Date</label>
+                                        <input type="text" id="txtToDate" class="form-control datepicker" value="@DateTime.UtcNow.ToString("dd-MMM-yyyy")" autocomplete="off" />
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <button style="margin-right: 27px;margin-top:12px" class="btn btn-primary" onclick="GetDayCloseHeaders()">Search</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row table-responsive">
+                            <table class="table table-bordered table-striped table-hover">
+                                <thead>
+                                    <tr style="background-color: aliceblue">
+                                        <th>Action</th>
+                                        <th style="text-align:center">#</th>
+                                        <th style="text-align:center">Date</th>
+                                        <th style="text-align:center">Branch</th>
+                                        <th style="text-align:center">Cash</th>
+                                        <th style="text-align:center">Extra Cash</th>
+                                        <th style="text-align:center">Other Amount</th>
+                                        <th style="text-align:center">Total Cash</th>
+                                        <th style="text-align:center">Status</th>
+                                        <th style="text-align:center">Remarks</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbodyid">
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="15" class="text-end">
+                                            <div id="pagination-container"></div>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.row -->
+    </div><!-- /.container-fluid -->
+    <div class="spinnermodal" id="testSpan" style="display: none; z-index: 10001">
+        <div style="position: fixed; z-index: 10001; top: 50%; left: 50%; height:50px">
+            <img src="~/AssetStatic/img/loading_spinner.gif" />
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="details-view" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Day Close Details</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table table-sm table-borderless" id="header-data">
+                              
+                            </table>
+                        </div>
+                        <div class="col-md-4">
+                            <table class="table table-sm table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>SL</th>
+                                        <th>Received</th>
+                                        <th class="text-right">Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="receive-items">
+                                  
+                                </tbody>
+                            </table>
+
+                            <table class="table table-sm table-bordered mt-4">
+                                <thead>
+                                    <tr>
+                                        <th>SL</th>
+                                        <th>Card</th>
+                                        <th>Card/Payment Name</th>
+                                        <th class="text-right">Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="banks-list">
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-8">
+                            <table class="table table-sm table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>SL</th>
+                                        <th class="text-right">Currency</th>
+                                        <th class="text-center">Type</th>
+                                        <th class="text-right">Number</th>
+                                        <th class="text-right">Amount</th>
+                                        <th>Remarks</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="lines">
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts{
+    <script>
+
+        //Fetch day close details
+        function getDayCloseDetails(docKey) {
+            const url = '@Url.Action("Details", "DayClose")' + `?docKey=${docKey}`;
+            common.ajaxCallGetRequest(url, (response) => {
+                console.log(response);
+                bindHeaderData(response);
+                bindReceivs(response.Receiveds);
+                bindBankPayment(response.Banks);
+                bindCashDetails(response.Lines);
+                $('#details-view').modal('show');
+            });
+        }
+
+        function bindCashDetails(lines) {
+            let tr = '';
+            lines.forEach((item, index) => {
+                tr += '<tr>'
+                tr += `<td>${index + 1}</td>
+                    <td style="text-align: right !important">${Number(item.Currency).toFixed(0)}</td>
+                    <td>${item.CurrencyType == 'N' ? 'Note' : 'Coin'}</td>
+                    <td style="text-align: right !important">${item.NumberOfAmount}</td>
+                    <td style="text-align: right !important">${Number(item.TotalAmount).toFixed(0)}</td>
+                    <td style="text-align: right !important">${item.LineRemarks}</td>
+                    `;
+                tr += '</tr>';
+            });
+            $('#lines').html(tr);
+        }
+        function bindBankPayment(banks) {
+            let tr = '';
+            banks.forEach((item, index) => {
+                tr += '<tr>'
+                tr += `<td>${index + 1}</td>
+                      <td style="text-align: left !important">${item.CreditCard}</td>
+                      <td style="text-align: left !important">${item.CardName}</td>
+                      <td style="text-align: right !important">${item.Amount}</td>`;
+                tr += '</tr>';
+            });
+            $('#banks-list').html(tr);
+        }
+        function bindReceivs(receivs) {
+            let tr = '';
+            receivs.forEach((item, index) => {
+                tr += '<tr>'
+                tr += ` <td>${index + 1}</td>
+                        <td style="text-align: left !important">${item.ItmsGrpNam}</td>
+                        <td style="text-align: right !important">${item.TotalValue}</td>`;
+                tr += '</tr>';
+            });
+            $('#receive-items').html(tr);
+        }
+
+        function bindHeaderData(response) {
+            $('#header-data').html(`
+              <tr>
+                  <th style="width: 7%">Date:</th>
+                  <td style="text-align: left !important">${response.DayCloseDate}</td>
+                  <th style="width: 7%">Code:</th>
+                  <td style="text-align: left !important">${response.Code}</td>
+                  <th style="width: 7%">Branch:</th>
+                  <td style="text-align: left !important">${response.BranchName}</td>
+                  <th style="width: 7%">Remarks:</th>
+                  <td style="text-align: left !important">${response.Remarks}</td>
+              </tr>
+              <tr>
+                  <th style="width: 7%">Cash:</th>
+                  <td style="text-align: left !important">${response.CashAmount.toFixed(2)}</td>
+                  <th style="width: 7%">Extra Cash:</th>
+                  <td style="text-align: left !important">${response.ExtraCash.toFixed(2) }</td>
+                  <th style="width: 7%">Other:</th>
+                  <td style="text-align: left !important">${response.OtherAmount.toFixed(2) }</td>
+                  <th style="width: 7%">Total Amount:</th>
+                  <td style="text-align: left !important">${Number(response.ExtraCash) + Number(response.CashAmount) + Number(response.OtherAmount) }</td>
+              </tr>
+            `)
+        }
+        //Fetch list of day close headers
+        function GetDayCloseHeaders() {
+            const fromDate = $('#txtFromDate').val();
+            const toDate = $('#txtToDate').val();
+            const url = '@Url.Action("Search", "DayClose")' + `?fromDate=${fromDate}&toDate=${toDate}`;
+
+            common.ajaxCallGetRequest(url, (response) => {
+                generateRow(response);
+            });
+        }
+
+        function generateRow(rows) {
+            let tableRows = '';
+            let count = 0;
+            $.each(rows, function (index, item) {
+                tableRows += "<tr>";
+                tableRows += `<td id='action_${count}' ><button class="btn btn-primary" type="button" onClick="getDayCloseDetails(${item.DocEntry})">View</button></td>`;
+                tableRows += `<td style='text-align:center'>${count+1}</td>`;
+                tableRows += `<td style='text-align:center'>${item.DayCloseDate}</td>`;
+                tableRows += `<td style='text-align:center'>${item.BranchName}</td>`;
+                tableRows += `<td style='text-align:right'>${item.CashAmount}</td>`;
+                tableRows += `<td style='text-align:right'>${item.ExtraCash}</td>`;
+                tableRows += `<td style='text-align:right'>${item.OtherAmount}</td>`;
+                tableRows += `<td style='text-align:end'>${item.ExtraCash + item.CashAmount + item.OtherAmount}</td>`;
+                tableRows += `<td style='text-align:center'>${item.Status}</td>`;
+                tableRows += `<td>${item.Remarks}</td>`;
+                tableRows += "</tr>";
+                 count++;
+            });
+
+            $('#tbodyid').html(tableRows);
+        }
+    </script>
+}

@@ -1,0 +1,480 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .custom-header {
+        background-color: darkgray !important; /* Blue color #007bff  #808080*/
+        color: black; /* Text color for contrast */
+    }
+</style>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-primary">
+                    <div class="card-header custom-header">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <a href="#">
+                                    <h3 class="card-title">
+                                        <span class="">Prepaid Card Recharge</span>
+                                    </h3>
+                                </a>
+                            </div>
+                            <div class="col-md-6 text-right">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group row" id="divCustomer">
+                                    <label for="ddlCustomer" class="col-md-4 control-label">Code</label>
+                                    <div class="col-md-6">
+                                        <!--<select class="form-control select2" style="width: 100%; text-align: center" id="txtCustomerCode" disabled="disabled"></select>-->
+                                        <input class="form-control" id="txtCustomerCode" disabled="disabled" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divCustomerName">
+                                    <label for="txtCustomerName" class="col-md-4 control-label">Customer Name</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%;" id="ddlCustomer"></select>
+                                    </div>
+                                </div>
+                                <!--<div class="form-group row mt-1" id="divBranch">
+                                    <label for="ddlBranch" class="col-md-4 control-label">Branch</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%; text-align: center" id="ddlBranch" disabled="disabled"></select>
+                                    </div>
+                                </div>-->
+                            </div>
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4">
+                                <div class="form-group row mt-1" id="divDocDate">
+                                    <label for="txtDocDate" class="col-md-4 control-label">Posting Date</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtDocDate" class="form-control datepicker" value="@DateTime.Now.ToString("dd-MMM-yyyy")" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divPreCardPayment">
+                                    <label for="txtPreCardBalAmount" class="col-md-4 control-label">Balanced Amount</label>
+                                    <div class="col-md-6">
+                                        <input type="number" class="form-control" id="txtPreCardBalAmount" readonly="readonly" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            &nbsp;
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12" align="center">
+                                <input type="checkbox" id="rdPaymentType_Cash" name="rdPaymentType_Cash" value="S">Cash Payment         &nbsp;
+                                <input type="checkbox" id="rdPaymentType_Card" name="rdPaymentType_Card" value="C">Card Payment         &nbsp;
+                                <input type="checkbox" id="rdPaymentType_Upi" name="rdPaymentType_Upi" value="U">UPI Payment            &nbsp;
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12" align="center" id="divPaymentError">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4" id="divCashPayment">
+                                <!--<div class="form-group row mt-1" id="divCashTranid">
+                                    <label for="txtTotalBeforeTax" class="col-md-4 control-label">Transaction ID</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" id="txtCashTranid" readonly="readonly" />
+                                    </div>
+                                </div>-->
+                                <div class="form-group row mt-1" id="divCashAmount">
+                                    <label for="txtTotalBeforeTax" class="col-md-4 control-label">Amount</label>
+                                    <div class="col-md-6">
+                                        <input type="number" class="form-control" id="txtCashAmount" readonly="readonly" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4" id="divCardPayment">
+                                <div class="form-group row mt-1" id="divCardTranid">
+                                    <label for="txtTotalBeforeTax" class="col-md-4 control-label">Transaction ID</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" id="txtCardTranid" readonly="readonly" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divCardNo">
+                                    <label for="txtTotalBeforeTax" class="col-md-4 control-label">Card No</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" id="txtCardNo" readonly="readonly" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divCardHolderName">
+                                    <label for="txtTotalBeforeTax" class="col-md-4 control-label">Card Holder Name</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" id="txtCardHolderName" readonly="readonly" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divCardAmount">
+                                    <label for="txtTotalBeforeTax" class="col-md-4 control-label">Amount</label>
+                                    <div class="col-md-6">
+                                        <input type="number" class="form-control" id="txtCardAmount" readonly="readonly" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4" id="divUPIPayment">
+                                <div class="form-group row mt-1" id="divUPITranid">
+                                    <label for="txtTotalBeforeTax" class="col-md-4 control-label">Transaction ID</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" id="txtUPITranid" readonly="readonly" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divUPIName">
+                                    <label for="txtTotalBeforeTax" class="col-md-4 control-label">UPI Name</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%;" id="ddlUPI" readonly="readonly"></select>
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divUPIAmount">
+                                    <label for="txtTotalBeforeTax" class="col-md-4 control-label">Amount</label>
+                                    <div class="col-md-6">
+                                        <input type="number" class="form-control" id="txtUPIAmount" readonly="readonly" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="col-md-3"></div>
+                        <div class="col-md-3"></div>
+                        <div class="col-md-3 float-right">
+                            <div class="row">
+                                <div class="col-md-3"></div>
+                                <div class="col-md-2"></div>
+                                <div class="col-md-4">
+                                    <button class="btn btn-warning " onclick="SavePrePaidRecharge()" style="background-color: #ffbf00">Add & New</button>
+                                </div>
+                                <div class="col-md-3">
+                                    <button class="btn btn-warning float-right">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <input id="codeId" type="number" style="display: none;">
+        <input id="branch" type="number" style="display: none;" value="@ViewBag.Branch">
+        <input id="eflag" type="text" style="display: none;" value="@ViewBag.eflag">
+    </div>
+</section>
+@section Scripts
+{
+    <script>
+        var itemList = {};
+        var itemUPIList = {};
+        var workActivitiesList = {};
+        var workStatusList = {};
+        var signatureList = {};
+        var DeleteItem = [];
+        var srcount = 0;
+        $(document).ready(function () {
+            LoadDate_C('#txtDocDate');
+
+            LoadBusinessPartner('ddlCustomer');
+            //LoadSalesEmployee('ddlSalesEmployee');
+            LoadBranch('ddlBranch');
+            var branch = $('#branch').val();
+            $("#ddlBranch").val(branch).trigger('change');
+            $('#ddlCustomer').change(function () {
+                var CardCode = $('#ddlCustomer').val();
+
+                $('#txtCustomerCode').val('');
+                if (CardCode != '') {
+                    GetBusinessPartnerInfo(CardCode);
+                }
+            });
+
+            LoadUPI('ddlUPI');
+
+
+
+            function toggleReadOnly(elementId, isReadOnly) {
+                $("#" + elementId).prop("readonly", isReadOnly);
+            }
+            function handleCheckboxChange(checkboxId, divId) {
+                $("#" + checkboxId).change(function () {
+                    toggleReadOnly(divId, !this.checked);
+                });
+            }
+
+            handleCheckboxChange("rdPaymentType_Cash", "txtCashTranid");
+            handleCheckboxChange("rdPaymentType_Cash", "txtCashAmount");
+
+            handleCheckboxChange("rdPaymentType_Card", "txtCardTranid");
+            handleCheckboxChange("rdPaymentType_Card", "txtCardNo");
+            handleCheckboxChange("rdPaymentType_Card", "txtCardHolderName");
+            handleCheckboxChange("rdPaymentType_Card", "txtCardAmount");
+
+            handleCheckboxChange("rdPaymentType_Upi", "txtUPITranid");
+            handleCheckboxChange("rdPaymentType_Upi", "ddlUPI");
+            handleCheckboxChange("rdPaymentType_Upi", "txtUPIAmount");
+
+        });
+
+
+
+
+        function LoadBusinessPartner(elementId) {
+            var CardType = "C";
+            var urlpath = '@Url.Action("GetBusinessPartner", "PrepaidCardRecharge")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { CardType: CardType },
+                /*    data: {  },*/
+                async: false,
+                success: function(data) {
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value=''>--Select Business Partner--</option>");
+                    for (var i = 0; i < data.length; i++) {
+
+                        //$('#' + elementId + '').append($("<option></option>").val(data[i].CardCode).html(data[i].CardCode + " | " + data[i].CardName + " | " + data[i].Mobile));
+                        //$('#' + elementId + '').append($("<option></option>").val(data[i].CardCode).html(data[i].CardName));
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].CardCode).html(data[i].CardName + " | " + data[i].Mobile));
+
+                    }
+                }
+            });
+        }
+        function LoadBranch(elementId) {
+            var CardType = "C";
+            var urlpath = '@Url.Action("GetBranch", "PrepaidCardRecharge")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { },
+                async: false,
+                success: function (data) {
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value='0'>--Select Branch--</option>");
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].PrcCode).html(data[i].PrcName));
+                    }
+
+                }
+            });
+        }
+        function GetBusinessPartnerInfo(CardCode) {
+            var urlpath = '@Url.Action("GetBusinessPartnerByCardCode", "PrepaidCardRecharge")';
+            $.ajax({
+                url: urlpath,
+                dataType: 'json',
+                type: "Get",
+                data: { CardCode: CardCode },
+                async: false,
+                success: function (data) {
+                    //debugger;
+                    //console.log(data)
+                    $('#txtCustomerCode').val(data.CardCode);
+                    $('#txtPreCardBalAmount').val(data.DownPaymentBalance);
+                }
+            });
+        }
+        function LoadSalesEmployee(elementId) {
+            var urlpath = '@Url.Action("GetSalesEmployee", "PrepaidCardRecharge")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {},
+                async: false,
+                success: function(data) {
+                    $('#' + elementId + '').empty();
+                    /*$('#' + elementId + '').append("<option value='0'>--Select Customer--</option>");*/
+                    for (var i = 0; i < data.length; i++) {
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].SlpCode).html(data[i].SlpName));
+                    }
+                }
+            });
+        }
+        function GetUPI() {
+            var urlpath = '@Url.Action("GetUPI", "PrepaidCardRecharge")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {  },
+                async: false,
+                success: function (data) {
+                    itemUPIList = data;
+                }
+            });
+        }
+        function LoadUPI(elementId) {
+            var urlpath = '@Url.Action("GetUPI", "PrepaidCardRecharge")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { },
+                async: false,
+                success: function (data) {
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value='0'>--Select Branch--</option>");
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].Value).html(data[i].Description));
+                    }
+
+                }
+            });
+        }
+
+
+
+
+        function SaveValidation() {
+            var isValid = true;
+            var message = "Some Values Required";
+            if ($('#txtDocDate').val() == '' || $('#txtDocDate').val() == null) {
+                ValidationColorChangeNew("txtDocDate", "divDocDate", "Posting Date Required", false);
+                isValid = false;
+            }
+
+            if (isValid == false) {
+                ShowMessage(message);
+
+            }
+            return isValid;
+        }
+        function SavePrePaidRecharge() {
+            if (SaveValidation() == true) {
+                swal({
+                    title: "Are you sure?",
+                    text: "",
+                    type: "success",
+                    showCancelButton: true,
+                    cancelButtonClass: 'btn-secondary waves-effect',
+                    confirmButtonClass: 'btn-success waves-effect waves-light',
+                    confirmButtonText: 'Yes!',
+                    closeOnConfirm: false
+
+                }, function () {
+                    $('.confirm').prop("disabled", true);
+                    $('.cancel').prop("disabled", true);
+                    SavePRinal();
+                });
+            }
+        }
+        function pad2(number) {
+            return (number < 10 ? '0' : '') + number;
+        }
+        function DateConversionToYYYYMMDD(inputDate) {
+            // Split the input date into day, month, and year parts
+            var parts = inputDate.split('-');
+            var day = parts[0];
+            var month = parts[1];
+            var year = parts[2];
+            var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            var monthIndex = monthNames.indexOf(month);
+            monthIndex++; // Adjust for 0-based indexing
+            // Create a Date object with the parsed values
+            var dateObject = new Date(year, monthIndex - 1, day);
+            // Format the date as "YYYYMMDD"
+            var formattedDate = dateObject.getFullYear() + pad2(dateObject.getMonth() + 1) + pad2(dateObject.getDate());
+            return formattedDate
+        }
+        function SavePRinal() {
+            //debugger;
+            var jsonData = {};
+            var inputDate = $('#txtDocDate').val();
+            var formattedDate = DateConversionToYYYYMMDD(inputDate);
+
+            let CashAmount = isNaN(parseFloat($('#txtCashAmount').val())) ? 0 : parseFloat($('#txtCashAmount').val());
+            let CardAmount = isNaN(parseFloat($('#txtCardAmount').val())) ? 0 : parseFloat($('#txtCardAmount').val());
+            let UPIAmount = isNaN(parseFloat($('#txtUPIAmount').val())) ? 0 : parseFloat($('#txtUPIAmount').val());
+            let totalPyamentValue = CashAmount + CardAmount + UPIAmount;
+
+            jsonData["CardCode"] = $('#ddlCustomer').val();
+            jsonData["PostingDate"] = formattedDate;  //"20230814"
+            //jsonData["Branch"] = $('#ddlBranch').val();
+            jsonData["FullAmount"] = totalPyamentValue;
+
+
+            var jsonObjs2 = [];
+            //var theObj2 = {};
+            var isCashChecked = $("#rdPaymentType_Cash").prop("checked");
+            var isCardChecked = $("#rdPaymentType_Card").prop("checked");
+            var isUpiChecked = $("#rdPaymentType_Upi").prop("checked");
+            if (isCashChecked) {
+                var theObj2 = {};
+
+                theObj2["PaymentType"] = "S";
+                theObj2["UpiName"] = "";
+                theObj2["CardNo"] = "";
+                theObj2["CardHolderName"] = "";
+                theObj2["Tranid"] = ""; //$('#txtCashTranid').val();
+                theObj2["Amount"] = $('#txtCashAmount').val();
+
+                jsonObjs2.push(theObj2);
+            }
+            if (isCardChecked) {
+                var theObj2 = {};
+
+                theObj2["PaymentType"] = "C";
+                theObj2["UpiName"] = "";
+                theObj2["CardNo"] = $('#txtCardNo').val();
+                theObj2["CardHolderName"] = $('#txtCardHolderName').val();
+                theObj2["Tranid"] = $('#txtCardTranid').val();
+                theObj2["Amount"] = $('#txtCardAmount').val();
+
+                jsonObjs2.push(theObj2);
+            }
+            if (isUpiChecked) {
+                var theObj2 = {};
+
+                theObj2["PaymentType"] = "U";
+                theObj2["UpiName"] = $('#ddlUPI').val()
+                theObj2["CardNo"] = "";
+                theObj2["CardHolderName"] = "";
+                theObj2["Tranid"] = $('#txtUPITranid').val();
+                theObj2["Amount"] = $('#txtUPIAmount').val();
+
+                jsonObjs2.push(theObj2);
+            }
+            jsonData["PaymentDetails"] = jsonObjs2;
+
+
+
+            var urlpath2 = '@Url.Action("SavePrepaidCardRecharge", "PrepaidCardRecharge")';
+            $.ajax({
+                contentType: "application/json",
+                data: JSON.stringify(jsonData),
+                dataType: 'json',
+                url: urlpath2,
+                type: "POST",
+               /* async: false,*/
+                success: function (result) {
+                    //debugger;
+                    var message = result.ReturnMsg;
+                    if (result.ReturnCode == "0000") {
+                        swal({
+                            title: " Saved Successfull",
+                            text: '',
+                            type: "success",
+                            showCancelButton: false,
+                            cancelButtonClass: 'btn-secondary waves-effect',
+                            confirmButtonClass: 'btn-success waves-effect waves-light',
+                            confirmButtonText: 'Yes!',
+                            closeOnConfirm: false
+                        }, function () {
+                            window.location.href =  '@Url.Action("Index", "PrepaidCardRecharge")';
+                        });
+                    } else {
+                        ShowMessage(message);
+                    }
+                }
+                })
+        }
+    </script>
+}

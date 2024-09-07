@@ -1,0 +1,81 @@
+﻿@{
+    int sl = Convert.ToInt32(TempData["trSl"]);
+}
+<tr id="tr_@sl">
+
+    <td id="ts_@sl">@sl</td>
+    <td>
+        @*<select class="form-control select2" id="itemCode_@sl" style="width: 150px" onchange="GetItemDetails(@sl)" disabled="disabled"></select>*@
+        <input type="text" class="form-control" id="itemCode_@sl" style="width: 150px" disabled="disabled" />
+    </td>
+    <td>
+        <input type="text" class="form-control" id="itemName_@sl" style="width: 250px" disabled="disabled" />
+    </td>
+    @*<td>
+            <select class="form-control select2" id="fromWH_@sl" style="width: 150px"></select>
+        </td>
+        <td>
+
+            <select class="form-control select2" id="toWH_@sl" style="width: 150px"></select>
+        </td>*@
+    <td>
+
+        <input type="number" class="form-control" id="quantity_@sl" style="width: 80px" oninput="LineCalculation(@sl)" disabled="disabled" />
+    </td>
+    <td>
+        <input type="text" class="form-control" id="uom_@sl" style="width: 80px" disabled="disabled" />
+    </td>
+    @*<td>
+            <input type="number" class="form-control" id="batchSerialNo_@sl" />
+        </td>*@
+    <td>
+        <input type="number" class="form-control" id="price_@sl" style="width: 150px" oninput="LineCalculation(@sl)" disabled="disabled" />
+        <input type="hidden" id="docEntry_@sl" />
+        <input type="hidden" id="visOrder_@sl" />
+        <input type="hidden" id="lineNum_@sl" />
+        <input type="hidden" id="objType_@sl" />
+        <input type="hidden" id="lineStatus_@sl" />
+
+        <input type="hidden" id="batchNumberEnable_@sl" />
+        <input type="hidden" id="serialNumberEnable_@sl" />
+    </td>
+    @*<td>
+
+
+            <button class="btn btn-sm btn-primary showBtn" data-bs-toggle="modal" data-bs-target="#viewModal" onclick="ShowBatchData(@sl)" id="showBatchBtn_@sl" style="display: none; text-align: center;">Batches</button>
+            <button class="btn btn-sm btn-primary showBtn" data-bs-toggle="modal" data-bs-target="#viewModal" onclick="ShowSerialData(@sl)" id="showSerialBtn_@sl" style="display:none; text-align:center;">Serial</button>
+        </td>*@
+    <td>
+        <input type="number" class="form-control" id="discount_@sl" style="width: 80px" oninput="LineCalculation(@sl)" disabled="disabled" />
+    </td>
+    <td>
+        <input type="number" class="form-control" id="discountamount_@sl" style="width: 150px" disabled="disabled" />
+    </td>
+    <td>
+        <input type="text" class="form-control" id="taxcode_@sl" style="width: 100px" disabled="disabled" />
+        <input type="hidden" id="taxrate_@sl" />
+    </td>
+    <td>
+        <input type="number" class="form-control" id="taxamount_@sl" style="width: 150px" disabled="disabled" />
+    </td>
+
+    <td>
+        <input type="number" class="form-control" id="total_@sl" style="width: 150px" disabled="disabled" />
+        <input type="hidden" id="totalbeforetax_@sl" />
+    </td>
+    <td>
+        <input type="number" class="form-control" id="stock_@sl" style="width: 100px" disabled="disabled" />
+    </td>
+    <td>
+        <input type="text" class="form-control" id="deliverydate_@sl" disabled="disabled" style="width: 120px" />
+    </td>
+    <td>
+        <select class="form-control select2" id="warehouse_@sl" disabled="disabled" style="width: 150px"></select>
+    </td>
+    @*<td class="actionHide">
+            <div class="form-group">
+                <button class="btn btn-xs btn-success " id="btnAdd_@sl" onclick="AddRow()"><b>+</b></button>
+                <button class="btn btn-xs btn-danger" id="btnRemove_@sl" onclick="RemoveRow(@sl)"><b></b>x</button>
+            </div>
+        </td>*@
+</tr>

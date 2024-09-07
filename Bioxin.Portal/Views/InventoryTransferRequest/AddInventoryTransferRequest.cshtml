@@ -1,0 +1,1255 @@
+﻿
+@{
+    ViewBag.Title = "Add Inventory Transfer Request";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .custom-header {
+        background-color: darkgray !important; /* Blue color #007bff  #808080*/
+        color: black; /* Text color for contrast */
+    }
+    .spinnermodal {
+        background-color: #FFFFFF;
+        height: 100%;
+        left: 0;
+        opacity: 0.5;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 100000;
+    }
+</style>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-primary">
+                    <div class="card-header custom-header">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <a href="@Url.Action("AddInventoryTransferRequest", "InventoryTransferRequest", new {itrId = 0})">
+                                    <h3 class="card-title">
+                                        @if (ViewBag.InventoryTransferRequestId == 0)
+                                        {
+                                            <span class="" style="color:black"><b>Inventory Transfer Request</b></span>
+                                        }
+                                        else
+                                        {
+                                            <span class=""> Edit Inventory Transfer Request</span>
+                                        }
+                                    </h3>
+                                </a>
+                            </div>
+                            <div class="col-md-6 text-right">
+                                <a class="btn btn-outline-warning" href="@Url.Action("Index", "InventoryTransferRequest")">
+                                    <span class="fa fa-list"></span> Inventory Transfer Request Home
+
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group row" id="divType">
+                                    <label for="ddlType" class="col-md-4 control-label">Type</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%;" id="ddlType" onchange="TypeChange()"></select>
+                                    </div>
+                                </div>
+                                @*<div class="form-group row mt-1" id="divCustomerCode">
+            <label for="txtCustomerCode" class="col-md-4 control-label">BP Code</label>
+            <div class="col-md-6">
+                <input class="form-control" id="txtCustomerCode" disabled="disabled" />
+            </div>
+        </div>
+        <div class="form-group row mt-1" id="divCustomer">
+            <label for="ddlCustomer" class="col-md-4 control-label">BP Name</label>
+            <div class="col-md-6">
+                <select class="form-control select2" style="width: 100%;" id="ddlCustomer"></select>
+            </div>
+        </div>*@
+                                <div class="form-group row" id="divCustomer">
+                                    <label for="ddlCustomer" class="col-md-4 control-label">Code</label>
+                                    <div class="col-md-6">
+                                        <input type="text" placeholder="Search Customer Code" id="txtCustomerCodeSearch" name="UserName" class="form-control" autocomplete="off" />
+                                        <input type="hidden" id="txtCustomerCode" name="txtCustomerCode" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divCustomerName">
+                                    <label for="txtCustomerName" class="col-md-4 control-label">Customer Name</label>
+                                    <div class="col-md-6">
+                                        <input type="text" placeholder="Search Customer Name" id="txtCustomerNameSearch" name="UserName" class="form-control" autocomplete="off" />
+                                        <input type="hidden" id="txtCustomerName" name="txtCustomerName" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divMobileNo" style="display:none">
+                                    <label for="txtMobileNo" class="col-md-4 control-label">Mobile No</label>
+                                    <div class="col-md-6">
+                                        <input type="text" placeholder="Search Mobile No" id="txtNameSearch" name="UserName" class="form-control" autocomplete="off" />
+                                        <input type="hidden" id="ddlCustomer" name="ddlCustomer" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divSalesOrder">
+                                    <label for="ddlSalesOrder" class="col-md-4 control-label">Sales Order</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%; text-align: center" id="ddlSalesOrder" onchange="GetSalesItemBySaleOrder()"></select>
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divContactPerson">
+                                    <label for="txtContactPerson" class="col-md-4 control-label">Contact Person</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%; text-align: center" id="ddlContactPerson"></select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row mt-1" id="divBranch">
+                                    <label for="ddlBranch" class="col-md-4 control-label">Branch</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%; text-align: center" id="ddlBranch" disabled="disabled"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                @*<div class="form-group" id="divSearchItemCode">
+            <label for="txtCustomerName" style="text-align:center">Item Code</label>
+            <input type="text" placeholder="Search Item Code" id="txtSearchItemCode" class="form-control" autocomplete="off" />
+        </div>*@
+                                <div class="form-group row mt-1">
+                                    <label for="txtCustomerName" class="col-md-3 control-label">Item Code</label>
+                                    <div class="col-md-6">
+                                        <input type="text" placeholder="Search Item Code" id="txtSearchItemCode" class="form-control" autocomplete="off" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1">
+                                    <label for="txtCustomerName" class="col-md-3 control-label">Item Name</label>
+                                    <div class="col-md-6">
+                                        <input type="text" placeholder="Search Item Name" id="txtSearchItemName" class="form-control" autocomplete="off" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group row" id="divDocumentNo">
+                                    <label for="txtDocumentNo" class="col-md-4 control-label">Document No</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtDocumentNo" class="form-control" disabled="disabled" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divStatus">
+                                    <label for="txtStatus" class="col-md-4 control-label">Status</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtStatus" class="form-control" disabled="disabled" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divDocDate">
+                                    <label for="txtDocDate" class="col-md-4 control-label">Posting Date</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtDocDate" class="form-control datepicker" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divDocDueDate">
+                                    <label for="txtDocDueDate" class="col-md-4 control-label">Expecting Date</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtDocDueDate" class="form-control datepicker" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divApprovedBy">
+                                    <label for="ddlApprovedBy" class="col-md-4 control-label">Approved By</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%; text-align: center" id="ddlApprovedBy"></select>
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divApprovedDate">
+                                    <label for="txtApprovedDate" class="col-md-4 control-label">Approved Date</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtApprovedDate" class="form-control datepicker" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divFromWarehouse">
+                                    <label for="ddlFromWarehouse" class="col-md-4 control-label">From Warehouse</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%;text-align:center" id="ddlFromWarehouse"></select>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            &nbsp;
+                        </div>
+                        <div class="row table-responsive">
+                            <table class="table table-bordered table-striped table-hover" id="salesOrder">
+                                <thead>
+                                    <tr style="background-color: lightgrey">
+                                        <th>#</th>
+                                        <th>Item Code</th>
+                                        <th>Item Name</th>
+                                        <th>Quantity</th>
+                                        <th>UOM</th>
+                                        @*<th>Price</th>
+                                            <th>Value</th>*@
+                                        <th>Stock</th>
+                                        <th>Remarks</th>
+                                        <th class="action">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group row mt-3" id="divSalesEmployee">
+                                    <label for="lblRestAmount" class="col-md-4 control-label">Requested By</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%;" id="ddlSalesEmployee"></select>
+                                    </div>
+                                </div>
+                                @*<div class="form-group row mt-1" id="divCreateBy">
+                                        <label for="lblCreateBy" class="col-md-4 control-label">Create By</label>
+                                        <div class="col-md-6">
+                                            <select class="form-control select2" style="width: 100%;" id="ddlCreateBy"></select>
+                                        </div>
+                                    </div>*@
+                                <div class="form-group row mt-1" id="divRrmarks">
+                                    <label for="txtRrmarks" class="col-md-4 control-label">Remarks</label>
+                                    <div class="col-md-6">
+                                        <textarea id="txtRrmarks" name="w3review" rows="5" cols="28" style="border: 1px solid #ced4da; border-radius: 4px "></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4"></div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-warning" id="btnitr" onclick="SaveInventoryTransferRequest()">Add & New</button>
+                        <button class="btn btn-warning  float-right" onclick="location.reload()">Clear</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <input id="inventoryTransferRequestId" type="number" style="display: none;" value="@ViewBag.InventoryTransferRequestId">
+        <input id="branch" type="number" style="display: none;" value="@ViewBag.Branch">
+        <input id="userId" type="text" style="display: none;" value="@ViewBag.UserId">
+        <input id="eflag" type="text" style="display: none;" value="@ViewBag.eflag">
+        <input id="txtMainWarehouse" type="text" style="display: none;">
+    </div>
+    <div class="spinnermodal" id="testSpan" style="display: none; z-index: 10001">
+        <div style="position: fixed; z-index: 10001; top: 50%; left: 50%; height:50px">
+            <img src="~/AssetStatic/img/loading_spinner.gif" />
+        </div>
+    </div>
+</section>
+@section Scripts
+{
+    <script>
+        var itemList = {};
+        var DeleteItem = [];
+        var srcount = 0;
+        $(document).ready(function () {
+            LoadDate_C('#txtDocDate');
+            LoadDate_C('#txtDocDueDate');
+            LoadDate_C('#txtApprovedDate');
+            LoadInventoryTransType('ddlType');
+            LoadSalesEmployee('ddlSalesEmployee');
+            LoadApprovedBy('ddlApprovedBy');
+            LoadContactPerson('ddlContactPerson');
+            GetWarehouses('ddlFromWarehouse');
+            LoadBranch('ddlBranch');
+            var branch = $('#branch').val();
+            $("#ddlBranch").val(branch).trigger('change');
+            $("#txtNameSearch").autocomplete({
+            source: function (request, response) {
+
+                var _url = '@Url.Action("AutoCompleteBusinessPartner", "SalesOrderNew")';
+                    var mobile = '';
+                    var cardCode = '';
+                $.ajax({
+                    url: _url,
+                    data: "{ 'prefix': '" + request.term + "'}",
+                    dataType: "json",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    cashe: false,
+                    success: function (data) {
+                        if (data.UnAutorized == 1) {
+                            window.location.href = '@Url.Action("Logout", "Home")';
+                        } else {
+                            if (data.dataList[0].ReturnCode == "-99999") {
+                                window.location.href = '@Url.Action("Logout", "Home")';
+                            } else {
+                                response($.map(data.dataList, function (item) {
+                                    return item.Mobile + " | " + item.CardCode + " | " + item.CardName;
+                                }));
+                            }
+                        }
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+            },
+            select: function (event, ui) {
+                debugger;
+                var str = ui.item.value;
+                var ret2 = str.replace(" | ", '|');
+                var ret = ret2.split('|');
+                 mobile = ret[0];
+                 cardCode = ret[1];
+                var cardName = ret[2];
+
+                if (cardCode != '') {
+                    GetBusinessPartnerInfo(cardCode);
+                }
+            },
+                minLength: 3
+                , close: function (event, ui) {
+                    $("#txtNameSearch").val(mobile);
+                }
+            });
+            $("#txtCustomerNameSearch").autocomplete({
+            source: function (request, response) {
+
+                var _url = '@Url.Action("AutoCompleteCustomerName", "SalesOrderNew")';
+                    var cardName = '';
+                    var cardCode = '';
+                $.ajax({
+                    url: _url,
+                    data: "{ 'prefix': '" + request.term + "'}",
+                    dataType: "json",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        if (data.UnAutorized == 1) {
+                            window.location.href = '@Url.Action("Logout", "Home")';
+                        } else {
+                            if (data.dataList[0].ReturnCode == "-99999") {
+                                window.location.href = '@Url.Action("Logout", "Home")';
+                            } else {
+                                response($.map(data.dataList, function (item) {
+                                    return item.Mobile + " | " + item.CardCode + " | " + item.CardName;
+                                }));
+                            }
+                        }
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+            },
+            select: function (event, ui) {
+                debugger;
+                var str = ui.item.value;
+                var ret2 = str.replace(" | ", '|');
+                var ret = ret2.split('|');
+                var mobile = ret[0];
+                cardCode = ret[1];
+                cardName = ret[2];
+
+
+                if (cardCode != '') {
+                    GetBusinessPartnerInfo(cardCode);
+                }
+            },
+                minLength: 3
+                , close: function (event, ui) {
+                    debugger;
+                    $("#txtCustomerNameSearch").val(cardName);
+                }
+            });
+            $("#txtCustomerCodeSearch").autocomplete({
+            source: function (request, response) {
+
+                var _url = '@Url.Action("AutoCompleteCustomerCode", "SalesOrderNew")';
+                    var cardCode = '';
+                $.ajax({
+                    url: _url,
+                    data: "{ 'prefix': '" + request.term + "'}",
+                    dataType: "json",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        if (data.UnAutorized == 1) {
+                            window.location.href = '@Url.Action("Logout", "Home")';
+                        } else {
+                            if (data.dataList[0].ReturnCode == "-99999") {
+                                window.location.href = '@Url.Action("Logout", "Home")';
+                            } else {
+                                response($.map(data.dataList, function (item) {
+                                    return item.Mobile + " | " + item.CardCode + " | " + item.CardName;
+                                }));
+                            }
+                        }
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+            },
+            select: function (event, ui) {
+                debugger;
+                var str = ui.item.value;
+                var ret2 = str.replace(" | ", '|');
+                var ret = ret2.split('|');
+                var mobile = ret[0];
+                cardCode = ret[1];
+                var cardName = ret[2];
+
+                if (cardCode != '') {
+                    GetBusinessPartnerInfo(cardCode);
+                }
+            },
+                minLength: 3
+                , close: function (event, ui) {
+                    debugger;
+                    $("#txtCustomerCodeSearch").val(cardCode);
+                }
+            });
+            GetMainWarehouses();
+
+            $("#txtSearchItemCode").prop("disabled", true);
+            $("#txtSearchItemName").prop("disabled", true);
+          $("#txtSearchItemCode").autocomplete({
+            source: function (request, response) {
+
+                var _url = '@Url.Action("AutoCompleteItem", "InventoryTransferRequest")';
+
+                $.ajax({
+                    url: _url,
+                    data: "{ 'prefix': '" + request.term + "'}",
+                    dataType: "json",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                           if (data.UnAutorized == 1) {
+                            window.location.href = '@Url.Action("Logout", "Home")';
+                           } else {
+                            if (data.dataList[0].ReturnCode == "-99999") {
+                                window.location.href = '@Url.Action("Logout", "Home")';
+                            } else {
+                                response($.map(data.dataList, function (item) {
+                                    return item.ItemCode + " | " + item.ItemName;
+                                }));
+                            }
+                          }
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+            },
+            select: function (event, ui) {
+                debugger;
+                var str = ui.item.value;
+                var ret2 = str.replace(" | ", '|');
+                var ret = ret2.split('|');
+                var itemCode = ret[0];
+                var itemName = ret[1];
+                AddItemRow(itemCode);
+                },
+                minLength: 3
+              , close: function (event, ui) {
+
+                  $("#txtSearchItemCode").val("");
+              }
+          });
+          $("#txtSearchItemName").autocomplete({
+                source: function (request, response) {
+                    debugger;
+                    var _url = '';
+                        _url = '@Url.Action("AutoCompleteItemName", "InventoryTransferRequest")';
+
+
+                $.ajax({
+                    url: _url,
+                    data: "{ 'prefix': '" + request.term + "'}",
+                    dataType: "json",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                           if (data.UnAutorized == 1) {
+                            window.location.href = '@Url.Action("Logout", "Home")';
+                           } else {
+                            if (data.dataList[0].ReturnCode == "-99999") {
+                                window.location.href = '@Url.Action("Logout", "Home")';
+                            } else {
+                                response($.map(data.dataList, function (item) {
+                                    return item.ItemCode + " | " + item.ItemName;
+                                }));
+                            }
+                          }
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+            },
+            select: function (event, ui) {
+                debugger;
+                var str = ui.item.value;
+                var ret2 = str.replace(" | ", '|');
+                var ret = ret2.split('|');
+                var itemCode = ret[0];
+                var itemName = ret[1];
+                AddItemRow(itemCode);
+                },
+                minLength: 3
+                , close: function (event, ui) {
+                    debugger;
+                    $("#txtSearchItemName").val("");
+                }
+            });
+        });
+        function LoadInventoryTransType(elementId) {
+            var urlpath = '@Url.Action("GetInventoryTransType", "InventoryTransferRequest")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {},
+                async: false,
+                success: function(data) {
+
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value='0'>--Select Transfer Type--</option>");
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].Value).html(data[i].Description));
+                    }
+
+                }
+            });
+        }
+        function TypeChange() {
+            debugger;
+            var Type = $('#ddlType').val();
+            // S = Sales Order N = Normal
+            if (Type == "N") {
+                $("#txtNameSearch").prop("disabled", true);
+                $("#txtCustomerNameSearch").prop("disabled", true);
+                $("#txtCustomerCodeSearch").prop("disabled", true);
+                $('#txtCustomerNameSearch').val('');
+                $('#txtCustomerName').val('');
+                $('#txtCustomerCodeSearch').val('');
+                $('#ddlCustomer').val('');
+                $('#txtCustomerCode').val('');
+                $('#txtNameSearch').val('');
+                $('#ddlCustomer').val('');
+            /*    $("#txtCustomerCode").prop("disabled", true);*/
+                $("#ddlContactPerson").prop("disabled", true);
+                $("#ddlSalesOrder").prop("disabled", true);
+                $("#txtSearchItemCode").prop("disabled", false);
+                $("#txtSearchItemName").prop("disabled", false);
+
+                $('#txtCustomerCode').val('');
+                $('#ddlContactPerson').val('').trigger('change');
+                $("#ddlSalesOrder").empty();
+
+                var rowIndexToRemove = $('#salesOrder tbody tr').length;
+                if (rowIndexToRemove > 0 && rowIndexToRemove <= $('#salesOrder tbody tr').length) {
+                    // Remove the row
+                    $('#salesOrder tbody tr').remove();
+                }
+
+            } else {
+                debugger;
+                $("#txtNameSearch").prop("disabled", false);
+                $("#txtCustomerNameSearch").prop("disabled", false);
+                $("#txtCustomerCodeSearch").prop("disabled", false);
+          /*      $("#txtCustomerCode").prop("disabled", false);*/
+                $("#ddlContactPerson").prop("disabled", false);
+                $("#ddlSalesOrder").prop("disabled", false);
+                $("#txtSearchItemCode").prop("disabled", true);
+                $("#txtSearchItemName").prop("disabled", true);
+
+                var rowIndexToRemove = $('#salesOrder tbody tr').length;
+                if (rowIndexToRemove > 0 && rowIndexToRemove <= $('#salesOrder tbody tr').length) {
+                    // Remove the row
+                    $('#salesOrder tbody tr').remove();
+                }
+                //AddRow();
+
+            }
+
+        }
+        function LoadBusinessPartner(elementId) {
+
+            var CardType = "C";
+            var urlpath = '@Url.Action("GetBusinessPartner", "InventoryTransferRequest")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { CardType: CardType },
+            /*    data: {  },*/
+                async: false,
+                success: function(data) {
+
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value=''>--Select Business Partner--</option>");
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].CardCode).html(data[i].CardName + " | " + data[i].CardCode + " | " + data[i].Mobile));
+                    }
+
+                }
+            });
+        }
+        function GetBusinessPartnerInfo(CardCode) {
+            if (CardCode != null && CardCode != "") {
+
+                var urlpath = '@Url.Action("GetBusinessPartnerByCardCode", "InventoryTransferRequest")';
+                $.ajax({
+                    url: urlpath,
+                    dataType: 'json',
+                    type: "Get",
+                    data: { CardCode: CardCode },
+                    async: false,
+                    success: function (data) {
+                        $('#txtCustomerNameSearch').val(data.CardName);
+                        $('#txtCustomerName').val(data.CardName);
+                        $('#txtCustomerCodeSearch').val(data.CardCode);
+                        $('#ddlCustomer').val(data.CardCode);
+                        $('#txtCustomerCode').val(data.CardCode);
+                        $('#txtNameSearch').val(data.Mobile);
+                        $('#ddlCustomer').val(data.CardCode);
+                        LoadContactPerson('ddlContactPerson');
+                        $("#ddlContactPerson").val(data.ContactPerson).trigger('change');
+                    }
+                });
+                var Type = $('#ddlType').val();
+                // S = Sales Order N = Normal
+                if (Type == "S") {
+                    var urlpath2 = '@Url.Action("GetSalesOrder", "Activity")';
+                    $.ajax({
+                        url: urlpath2,
+                        type: "Get",
+                        dataType: 'json',
+                        data: { CardCode: CardCode },
+                        async: false,
+                        success: function (data) {
+                            /*   $("#salesOrder_" + rowId).empty();*/
+                            $("#ddlSalesOrder").empty();
+                            $("#ddlSalesOrder").append("<option value=''>--Select Sale Order--</option>");
+                            for (var i = 0; i < data.length; i++) {
+                                $("#ddlSalesOrder").append($("<option></option>").val(data[i].DocEntry).html(data[i].SAPDocNum));
+                            }
+                        }
+                    });
+                } else {
+
+                }
+            } else {
+                $('#txtCustomerNameSearch').val('');
+                $('#txtCustomerName').val('');
+                $('#txtCustomerCodeSearch').val('');
+                $('#ddlCustomer').val('');
+                $('#txtCustomerCode').val('');
+                $('#txtNameSearch').val('');
+                $('#ddlCustomer').val('');
+                $("#ddlContactPerson").empty();
+                $("#ddlSalesOrder").empty();
+            }
+
+
+        }
+        function GetSalesItemBySaleOrder() {
+            var SaleOrder = $('#ddlSalesOrder').val();
+            var customer = $('#ddlCustomer').val();
+
+            if (customer == 0) {
+                swal("At first select customer ");
+                return;
+            }
+            var Type = $('#ddlType').val();
+            // S = Sales Order N = Normal
+            if (Type == "S") {
+            var urlpath = '@Url.Action("GetItemBySalesOrder", "InventoryTransferRequest")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                dataType: 'json',
+                data: { SaleOrder: SaleOrder },
+                async: false,
+                success: function (data) {
+                    debugger;
+                    var rowIndexToRemove = $('#salesOrder tbody tr').length;
+                    if (rowIndexToRemove > 0 && rowIndexToRemove <= $('#salesOrder tbody tr').length) {
+                        // Remove the row
+                        $('#salesOrder tbody tr').remove();
+                    }
+
+                    for (var i = 0; i < data.length; i++) {
+                        var tr = $('#salesOrder tbody tr').length + 1;
+                        AddRow();
+                        debugger;
+                        if (data[i].ItemCode != "" && data[i].ItemCode != null) {
+                            $("#itemCode_" + tr).val(data[i].ItemCode);
+                            $('#itemName_' + tr).val(data[i].ItemName);
+
+                            $('#uom_' + tr).val(data[i].unitMsr);
+                            $('#quantity_' + tr).prop("disabled", true);
+                            $('#quantity_' + tr).val(data[i].Quantity);
+                            $('#price_' + tr).val(data[i].Price);
+                            var total = data[i].Quantity * data[i].Price
+                            $("#value_" + tr).val(total);
+                            $('#stock_' + tr).val(data[i].OpenQty);
+                            $('#remarks_' + tr).val(data[i].Remarks);
+
+                            $('#baseEntry_' + tr).val(data[i].DocEntry);
+                            $('#baseLine_' + tr).val(data[i].LineNum);
+                            $('#baseType_' + tr).val(data[i].ObjType);
+                        }
+                    }
+                }
+            });
+            } else {
+
+            }
+
+        }
+        function LoadSalesEmployee(elementId) {
+
+            var urlpath = '@Url.Action("GetSalesEmployee", "InventoryTransferRequest")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {},
+                async: false,
+                success: function(data) {
+
+                    $('#' + elementId + '').empty();
+          /*          $('#' + elementId + '').append("<option value='0'>--Select Customer--</option>");*/
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].SlpCode).html(data[i].SlpName));
+                    }
+
+                }
+            });
+        }
+        function LoadApprovedBy(elementId) {
+
+            var urlpath = '@Url.Action("GetApprovedBy", "InventoryTransferRequest")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {},
+                async: false,
+                success: function(data) {
+
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value='0'>--Select Approved By--</option>");
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].empID).html(data[i].firstName + " " + data[i].middleName + " " + data[i].lastName));
+                    }
+
+                }
+            });
+        }
+        function LoadContactPerson(elementId) {
+
+        var CardCode = $('#ddlCustomer').val();
+            var urlpath = '@Url.Action("GetBPContactPerson", "InventoryTransferRequest")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { CardCode: CardCode },
+                async: false,
+                success: function(data) {
+
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value=''>--Select CntPerson--</option>");
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].CntctCode).html(data[i].Name));
+                    }
+
+                }
+            });
+        }
+        function LoadBranch(elementId) {
+
+            var CardType = "C";
+            var urlpath = '@Url.Action("GetBranch", "InventoryTransferRequest")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { },
+                async: false,
+                success: function(data) {
+
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value=''>--Select Branch--</option>");
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].PrcCode).html(data[i].PrcName ));
+                    }
+
+                }
+            });
+        }
+        function GetWarehouses(elementId) {
+            var WhsType = "N";
+            var urlpath = '@Url.Action("GetMainWarehouseAllBranch", "InventoryTransferRequest")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { WhsType: WhsType  },
+                async: false,
+                success: function(data) {
+
+                    $('#' + elementId + '').empty();
+/*                    $('#' + elementId + '').append("<option value=''>--Select Warehouse--</option>");*/
+                    for (var i = 0; i < data.length; i++) {
+                        if (data[i].WhsCode == "100101") {
+                            $('#' + elementId + '').append($("<option></option>").val(data[i].WhsCode).html(data[i].WhsName));
+                        }
+                      
+                    }
+
+                }
+            });
+        }
+        function GetMainWarehouses() {
+            var WhsType = "N";
+            var urlpath = '@Url.Action("GetMainWarehouse", "InventoryTransferRequest")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { WhsType: WhsType },
+                async: false,
+                success: function (data) {
+                    $('#txtMainWarehouse').val(data.WhsCode)
+
+                    //$('#' + elementId + '').empty();
+                    //$('#' + elementId + '').append("<option value=''>--Select Warehouse--</option>");
+                    //for (var i = 0; i < data.length; i++) {
+
+                    //    $('#' + elementId + '').append($("<option></option>").val(data[i].WhsCode).html(data[i].WhsName));
+                    //}
+
+                }
+            });
+        }
+        function GetItem() {
+            var urlpath = '@Url.Action("GetItem", "InventoryTransferRequest")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {  },
+                async: false,
+                success: function(data) {
+
+                    itemList = data;
+
+                }
+            });
+        }
+        function AddItemRow(itemCode) {
+            var tr = $('#salesOrder tbody tr').length + 1;
+            var values = $("#salesOrder tbody tr")
+                .map(function() { return parseInt($(this).attr('id').substring(3)); }).get();
+            var index = values.indexOf(tr);
+            if (index >= 0) {
+                tr = Math.max.apply(Math, values) + 1;
+            }
+       var urlpath = '@Url.Action("AddRowForOrder", "InventoryTransferRequest")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                dataType: 'html',
+                data: { tr: tr },
+                async: false,
+                success: function(data) {
+                    $('#salesOrder tbody').append(data);
+                    GetItemNewDetails(itemCode, tr)
+                }
+            });
+            SerialTable();
+        }
+        function GetItemNewDetails(itemCode,rowId) {
+
+            var urlpath = '@Url.Action("GetItemByItemCode", "InventoryTransferRequest")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                dataType: 'json',
+                data: { ItemCode: itemCode },
+                async: false,
+                success: function(data) {
+                   // debugger;
+                    $("#itemCode_" + rowId).val(data.ItemCode);
+                    $("#itemName_" + rowId).val(data.ItemName);
+                    $("#uom_" + rowId).val(data.InventoryUOM);
+                    $("#price_" + rowId).val(data.Price);
+
+                /*    $("#total_" + rowId).val('');*/
+                    $("#stock_" + rowId).val(data.Stock);
+
+                    //$("#itemName_" + rowId).val(data.ItemCode);
+                    //$("#uom_" + rowId).val(data.InventoryUOM);
+                    //$("#price_" + rowId).val(data.LastPurchasePrice);
+                    //$("#quantity_" + rowId).val('');
+                    //$("#value_" + rowId).val('');
+                }
+            });
+        }
+        function GetItemDetails(rowId) {
+            var customerId = $('#ddlCustomer').val();
+            // if (customerId == 0) {
+            //    swal("At first select customer ");
+            //     $('#itemCode_' + rowId).val('0').trigger("change");
+            //    return;
+            //}
+            var ItemCode = $('#itemCode_' + rowId).val();
+
+            var urlpath = '@Url.Action("GetItemByItemCode", "InventoryTransferRequest")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                dataType: 'json',
+                data: { ItemCode: ItemCode },
+                async: false,
+                success: function(data) {
+
+                   // debugger;
+                    $("#itemName_" + rowId).val(data.ItemCode);
+                    $("#uom_" + rowId).val(data.InventoryUOM);
+                    $("#price_" + rowId).val(data.LastPurchasePrice);
+                    $("#quantity_" + rowId).val('');
+                    $("#value_" + rowId).val('');
+                }
+            });
+
+            ///Stock Quantity
+
+        /*    var fromWarehouse = $('#ddlFromWarehouse').val();*/
+            var mainWarehouse = $('#txtMainWarehouse').val();
+         var urlpath2 = '@Url.Action("GetItemeWareHouseWiseStock", "InventoryTransferRequest")';
+            $.ajax({
+                url: urlpath2,
+                type: "Get",
+                dataType: 'json',
+                data: { ItemCode: ItemCode, WhsCode: mainWarehouse },
+                async: false,
+                success: function(data) {
+
+                    $("#stock_" + rowId).val(data.OnHand);
+
+                    $("#quantity_" + rowId).val('');
+           /*         $("#price_" + rowId).val('');*/
+                    $("#value_" + rowId).val('');
+
+                }
+            });
+
+
+        }
+        function CalculateLineTotal(rowId) {
+            debugger;
+
+            var quantity = isNaN(parseFloat($('#quantity_' + rowId).val())) ? 0 : parseFloat($('#quantity_' + rowId).val());
+            var price = isNaN(parseFloat($('#price_' + rowId).val())) ? 0 : parseFloat($('#price_' + rowId).val());
+
+            var total = quantity * price;
+
+            $('#value_' + rowId).val(total.toFixed(2));
+
+/*            CalculateAll();*/
+        }
+        function SaveInventoryTransferRequest() {
+
+            if (SaveValidation() == true) {
+                swal({
+                    title: "Are you sure?",
+                    text: "",
+                    type: "success",
+                    showCancelButton: true,
+                    cancelButtonClass: 'btn-secondary waves-effect',
+                    confirmButtonClass: 'btn-success waves-effect waves-light',
+                    confirmButtonText: 'Yes!',
+                    closeOnConfirm: false
+
+                }, function() {
+                    $('.confirm').prop("disabled", true);
+                    $('.cancel').prop("disabled", true);
+                    SaveITRFinal();
+
+                });
+            }
+        }
+        function pad2(number) {
+            return (number < 10 ? '0' : '') + number;
+        }
+        function DateConversionToYYYYMMDD(inputDate) {
+            // Split the input date into day, month, and year parts
+            var parts = inputDate.split('-');
+            var day = parts[0];
+            var month = parts[1];
+            var year = parts[2];
+            var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            var monthIndex = monthNames.indexOf(month);
+            monthIndex++; // Adjust for 0-based indexing
+            // Create a Date object with the parsed values
+            var dateObject = new Date(year, monthIndex - 1, day);
+            // Format the date as "YYYYMMDD"
+            var formattedDate = dateObject.getFullYear() + pad2(dateObject.getMonth() + 1) + pad2(dateObject.getDate());
+            return formattedDate
+        }
+        //function DateConversionToYYYYMMDD(inputDate) {
+
+        //    // Split the input date into day, month, and year parts
+        //    var parts = inputDate.split('-');
+        //    var day = parts[0];
+        //    var month = parts[1];
+        //    var year = parts[2];
+
+        //    // Create a Date object with the extracted parts
+        //    var date = new Date(year, month - 1, day);
+
+        //    // Format the date as "yyyyMMdd"
+        //    var formattedDate = date.getFullYear() + ('0' + (date.getMonth() + 1)).slice(-2) + ('0' + date.getDate()).slice(-2);
+        //    return formattedDate
+        //}
+        function SaveITRFinal() {
+            swal.close();
+            var jsonData = {};
+
+            var dueDate = $('#txtDocDueDate').val();
+            var postingDate = $('#txtDocDate').val();
+            var approvedDate = $('#txtApprovedDate').val();
+
+
+           /* jsonData["DocEntry"] = $('#dailyOperationId').val();*/
+            jsonData["CardCode"] = $('#ddlCustomer').val();
+            jsonData["PostingDate"] = DateConversionToYYYYMMDD(postingDate);  //"20230814"
+            jsonData["DueDate"] = DateConversionToYYYYMMDD(dueDate); //$('#txtDocDueDate').val();
+            jsonData["RefDate"] = DateConversionToYYYYMMDD(postingDate);// $('#txtDocDate').val();
+            jsonData["ShiptoCode"] = "";
+            jsonData["FromWarehouse"] = $('#ddlFromWarehouse').val();
+            jsonData["ContactPerson"] = $('#ddlContactPerson').val();
+            jsonData["Remarks"] = $('#txtRrmarks').val();
+            jsonData["SalesEmployee"] = $('#ddlSalesEmployee').val();
+            jsonData["BaseEntry"] = $('#ddlSalesOrder').val();
+            jsonData["ApprovedBy"] = $('#ddlApprovedBy').val();
+            jsonData["ApprovedDate"] = DateConversionToYYYYMMDD(approvedDate);
+
+
+            var jsonObjs = [];
+            $('#salesOrder tbody tr').each(function() {
+
+                var theObj = {};
+                var idr = $(this).attr('id');
+                var id = idr.substring(3);
+
+                var itemCode = $('#itemCode_' + id).val();
+                var qty = isNaN(parseFloat($('#quantity_' + id).val())) ? 0 : parseFloat($('#quantity_' + id).val());
+                var price = isNaN(parseFloat($('#price_' + id).val())) ? 0 : parseFloat($('#price_' + id).val());
+                var remarks = $('#remarks_' + id).val();
+
+                var baseType = $('#baseType_' + id).val();
+                var baseEntry = $('#baseEntry_' + id).val();
+                var baseLine = $('#baseLine_' + id).val();
+
+                //theObj["DocEntry"] = detailsId;
+                theObj["ItemCode"] = itemCode;
+                theObj["Quantity"] = qty;
+                theObj["Price"] = price;
+                theObj["Remarks"] = remarks;
+                theObj["BaseEntry"] = baseEntry;
+                theObj["BaseLine"] = baseLine;
+                theObj["BaseType"] = baseType;
+                jsonObjs.push(theObj);
+            });
+
+            jsonData["Items"] = jsonObjs;
+
+            var urlpath2 = '@Url.Action("SaveTransferRequset", "InventoryTransferRequest")';
+            $.ajax({
+                contentType: "application/json",
+                data: JSON.stringify(jsonData),
+                dataType: 'json',
+                url: urlpath2,
+                type: "POST",
+                beforeSend: function () {
+                    $('#testSpan').show();
+                    $('#btnitr').prop('disabled', true);
+                },
+                success: function (result) {
+                    $('#testSpan').hide();
+                    if (result.UnAutorized == 1) {
+                        //Web Project Session Out
+                        window.location.href = '@Url.Action("Logout", "Home")';
+                    } else {
+                        if (result.dataList.ReturnCode == "-99999") {
+                            //API Project Session Out
+                            window.location.href = '@Url.Action("Logout", "Home")';
+                        } else {
+                            var message = result.dataList.ReturnMsg;
+                            if (result.dataList.ReturnCode == "0000") {
+                        swal({
+                            title: " Saved Successfully",
+                            text: '',
+                            type: "success",
+                            showCancelButton: false,
+                            cancelButtonClass: 'btn-secondary waves-effect',
+                            confirmButtonClass: 'btn-success waves-effect waves-light',
+                            confirmButtonText: 'Yes!',
+                            closeOnConfirm: false
+                        }, function () {
+                            window.location.href =  '@Url.Action("Index", "InventoryTransferRequest")';
+                        });
+                    } else {
+                                ShowMessage(message);
+                                $('#btnitr').prop('disabled', false);
+                    }
+                        }
+                    }
+
+
+                }
+                })
+        }
+        function SaveValidation() {
+
+
+            var isValid = true;
+            var message = "Some Values Required";
+            if ($('#txtDocDate').val() == '' || $('#txtDocDate').val() == null) {
+                ValidationColorChangeNew("txtDocDate", "divDocDate", "Posting Date Required", false);
+                isValid = false;
+            }
+            if ($('#ddlFromWarehouse').val() == 0 || $('#ddlFromWarehouse').val() == '') {
+                ValidationColorChangeNew("ddlFromWarehouse", "divFromWarehouse", "From Warehouse Required", true);
+                isValid = false;
+            }
+            if ($('#salesOrder tbody tr').length == 0 || $('#salesOrder tbody tr').length == '') {
+                isValid = false;
+                message = "Item Required";
+            }
+
+
+            $('#salesOrder tbody tr').each(function() {
+
+
+                var idr = $(this).attr('id');
+                var id = idr.substring(3);
+
+                var qty = isNaN(parseFloat($('#quantity_' + id).val())) ? 0 : parseFloat($('#quantity_' + id).val());
+                var price = isNaN(parseFloat($('#price_' + id).val())) ? 0 : parseFloat($('#price_' + id).val());
+                var itemCode = $('#itemCode_' + id).val()
+
+                if (itemCode === '' || itemCode === null) {
+                    isValid = false;
+                    message = "Please Select Item";
+                    $('#itemCode_' + id).css('border-bottom', '2px solid red');
+                    return;
+                }
+
+
+                if (qty === 0) {
+                    isValid = false;
+                    message = "Qty Cannot be 0 ";
+                    $('#quantity_' + id).css('border-bottom', '2px solid red');
+                    return;
+                }
+            });
+            if (isValid == false) {
+                ShowMessage(message);
+
+            }
+            return isValid;
+
+
+        }
+        function RemoveRow(id) {
+            debugger;
+            var trLength = $('#salesOrder tbody tr').length;
+            if (trLength >= 1) {
+                $('#tr_' + id).remove();
+                SerialTable();
+            } else {
+                return;
+            }
+
+        }
+        function AddRow() {
+            var tr = $('#salesOrder tbody tr').length + 1;
+            var values = $("#salesOrder tbody tr")
+                .map(function() { return parseInt($(this).attr('id').substring(3)); }).get();
+            var index = values.indexOf(tr);
+            if (index >= 0) {
+                tr = Math.max.apply(Math, values) + 1;
+            }
+            var urlpath = '@Url.Action("AddRowForOrder", "InventoryTransferRequest")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                dataType: 'html',
+                data: { tr: tr },
+                async: false,
+                success: function(data) {
+
+                    $('#salesOrder tbody').append(data);
+                }
+            });
+            SerialTable();
+        }
+        function SerialTable() {
+            $('#salesOrder tbody tr').each(function(index, element) {
+
+                var idr = $(this).attr('id');
+                var id = idr.substring(3);
+                $('#ts_' + id).html(index + 1);
+
+
+            });
+        }
+        function LoadItemInRow(elementId) {
+
+            var array = [];
+            var rowCount = $('#salesOrder tbody tr').length;
+            for (let count = 0; count < rowCount; count++) {
+                array.push(parseInt($("#itemCode_" + count).val()));
+            };
+            $('#' + elementId + '').append("<option value=''>--Select Item--</option>");
+
+            for (var i = 0; i < itemList.length; i++) {
+                if (jQuery.inArray(itemList[i].ItemCode, array) == -1) {
+                    $('#' + elementId + '').append($("<option></option>").val(itemList[i].ItemCode).html(itemList[i].ItemName));
+/*                    $('#' + elementId + '').append($("<option></option>").val(itemList[i].ItemCode).html(itemList[i].ItemCode + " | " + itemList[i].ItemName));*/
+                }
+
+            }
+
+            //$('#' + elementId + '').append("<option value='0'>--Select Product--</option>");
+            //for (var i = 0; i < PrlductList.length; i++) {
+
+            //    $('#' + elementId + '').append($("<option></option>").val(PrlductList[i].ProductId).html(PrlductList[i].ProductName));
+            //}
+
+
+        }
+        function CancelInventoryTransferRequest() {
+             window.location = "@Url.Action("AddInventoryTransferRequest", "InventoryTransferRequest")"
+        }
+    </script>
+}
+

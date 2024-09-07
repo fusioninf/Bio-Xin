@@ -1,0 +1,59 @@
+﻿@model IEnumerable<WebSolution.Models.MenuStepOne>
+
+<!-- Sidebar Menu -->
+<nav class="mt-2">
+    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+        <!-- Add icons to the links using the .nav-icon class
+        with font-awesome or any other icon font library -->
+
+        @foreach (WebSolution.Models.MenuStepOne aStepOne in Model)
+        {
+        <li class="nav-item has-treeview">
+            @if (string.IsNullOrEmpty(@aStepOne.ControllerName))
+            {
+                if (@aStepOne.MenuStepTwoList.Count > 0)
+                {
+                    <a href="javascript:void(0);" class="nav-link"><i class="fas fa-paper-plane">&nbsp;</i><p class="text-blue">@aStepOne.MenuName</p><i class="right fas fa-angle-left"></i></a>
+                }
+                else
+                {
+                    <a href="javascript:void(0);" class="nav-link"><i class="fas fa-paper-plane">&nbsp;</i><p class="text-blue">@aStepOne.MenuName</p></a>
+                }
+            }
+            else if (string.IsNullOrEmpty(@aStepOne.ParantMenu) && !string.IsNullOrEmpty(@aStepOne.ControllerName))
+            {
+                if (@aStepOne.MenuStepTwoList.Count > 0)
+                {
+                    <a href="@Url.Action(@aStepOne.ActionName, @aStepOne.ControllerName)" class="nav-link"><i class="fas fa-paper-plane">&nbsp;</i><p class="text-blue">@aStepOne.MenuName</p><i class="right fas fa-angle-left"></i></a>
+
+                }
+                else
+                {
+                    <a href="@Url.Action(@aStepOne.ActionName, @aStepOne.ControllerName)" class="nav-link"><i class="fas fa-paper-plane">&nbsp;</i><p class="text-blue">@aStepOne.MenuName</p></a>
+
+                }
+            }
+
+            @if (@aStepOne.MenuStepTwoList.Count > 0)
+            {
+            <ul class="nav nav-treeview">
+                @foreach (WebSolution.Models.MenuStepTwo aStepTwo in aStepOne.MenuStepTwoList)
+                {
+                  
+                                    if (string.IsNullOrEmpty(@aStepTwo.ControllerName))
+                                    {
+                                        <li class="nav-item"><a href="javascript:void(0);" class="nav-link"><i class="far fa-flag">&nbsp;</i><p>@aStepTwo.MenuName</p></a></li>
+                                    }
+                                    else
+                                    {
+                                        <li class="nav-item"><a href="@Url.Action(@aStepTwo.ActionName, @aStepTwo.ControllerName)" class="nav-link"><i class="far fa-flag">&nbsp;</i><p>@aStepTwo.MenuName</p></a></li>
+                                    }
+                }
+            </ul>
+        }
+
+        </li>
+        }
+
+    </ul>
+</nav>

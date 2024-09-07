@@ -1,0 +1,384 @@
+﻿<style>
+    .custom-header {
+        background-color: darkgray !important; /* Blue color #007bff  #808080*/
+        color: black; /* Text color for contrast */
+    }
+    .select2-container--default .select2-selection--multiple .select2-selection__choice {
+        border: none;
+    }
+</style>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-primary">
+                    <div class="card-header custom-header">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h3 class="card-title">
+                                    <span class="" style="color:black"><b>Member Registration</b></span>
+                                </h3>
+                            </div>
+                            <div class="col-md-6 text-right">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group row" id="divType">
+                                    <label for="txtType" class="col-md-4 control-label">Type</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%;" id="BPType" disabled>
+                                            @*<option value="">--Select Type--</option>*@
+                                            <option value="C" selected>Customer</option>
+                                            <option value="L">Lead</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divName">
+                                    <label for="txtName" class="col-md-4 control-label"><span style="color:red;">*&nbsp;</span>Name</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" id="txtName" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divDOB">
+                                    <label for="txtDOB" class="col-md-4 control-label"><span style="color:red;">*&nbsp;</span>DOB</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtDOB" class="form-control datepicker" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divAge">
+                                    <label for="txtAge" class="col-md-4 control-label"><span style="color:red;">*&nbsp;</span>Age</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtAge" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divGender">
+                                    <label for="ddlGender" class="col-md-4 control-label"><span style="color:red;">*&nbsp;</span>Gender</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%;" id="ddlGender">
+                                            <option value="">--Select Gender--</option>
+                                            <option value="M">Male</option>
+                                            <option value="F">Female</option>
+                                            <option value="O">Other</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divMobile">
+                                    <label for="txtMobile" class="col-md-4 control-label"><span style="color:red;">*&nbsp;</span>Mobile</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" id="txtMobile" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divEmail">
+                                    <label for="txtEMail" class="col-md-4 control-label">E-mail</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" id="txtEMail" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group row" id="divGroup">
+                                    <label for="ddlGroup" class="col-md-4 control-label"><span style="color:red;">*&nbsp;</span>Membership Group</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%;" id="ddlGroup" onchange="GetGroupDetails()" disabled></select>
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divOccupation">
+                                    <label for="ddlOccupation" class="col-md-4 control-label"><span style="color:red;">*&nbsp;</span>Occupation</label>
+                                    <div class="col-md-6">
+                                        <!--<input type="text" id="txtOccupation" class="form-control" />-->
+                                        <select class="form-control select2" style="width: 100%;" id="ddlOccupation">
+                                            <!--<option value="0">--Select Type--</option>
+                                <option value="Student">Student</option>
+                                <option value="Housewife">Housewife</option>
+                                <option value="ServiceHolder">Service Holder</option>
+                                <option value="Others">Others</option>-->
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divMobileEmergency">
+                                    <label for="txtMobileEmergency" class="col-md-4 control-label">Mobile (Emergency)</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" id="txtMobileEmergency" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divContactPerson">
+                                    <label for="txtContactPerson" class="col-md-4 control-label">Contact Person</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtContactPerson" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divRelationship">
+                                    <label for="ddlRelationship" class="col-md-4 control-label">Relationship</label>
+                                    <div class="col-md-6">
+                                        <!--<input type="text" class="form-control" id="txtRelationship" />-->
+                                        <select class="form-control select2" style="width: 100%;" id="ddlRelationship"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group row" id="divWebsite">
+                                    <label for="txtWebsite" class="col-md-4 control-label">Website</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtWebsite" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divPaymentTerms">
+                                    <label for="ddlPaymentTerms" class="col-md-4 control-label">Payment Terms</label>
+                                    <div class="col-md-6">
+                                        <!--<input type="text" id="txtPaymentTerms" class="form-control" />-->
+                                        <select class="form-control select2" style="width: 100%;" id="ddlPaymentTerms"></select>
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divCreditLimited">
+                                    <label for="txtCreditLimited" class="col-md-4 control-label">Credit Limited</label>
+                                    <div class="col-md-6">
+                                        <input type="number" id="txtCreditLimited" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divConnected">
+                                    <label for="txtConnected" class="col-md-4 control-label">Connected</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtConnected" class="form-control" />
+                                    </div>
+                                </div>
+                                <!--<div class="form-group row mt-1" id="divCustomerType">
+                    <label for="ddlCustomerType" class="col-md-4 control-label">Customer Type</label>
+                    <div class="col-md-6">
+                        <select class="form-control select2" style="width: 100%;" id="ddlCustomerType">
+                            <option value="0">--Select Customer Type--</option>
+                            <option value="L">Lead</option>
+                            <option value="C">Customer</option>
+                        </select>
+                    </div>
+                </div>-->
+                            </div>
+                        </div>
+                        <div class="row">
+                            &nbsp;
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4" style="text-align:center">
+                                <b><span style="color:red;">*&nbsp;</span><u>Present / Bill Address</u></b>
+                            </div>
+                            <div class="col-md-4" style="text-align:center">
+                                <b><span style="color:red;">*&nbsp;</span><u>Ship Address</u></b>(Same as Bill Address <input type="checkbox" id="chkBillToShip" onchange="CopyBillToShip()" />)
+                            </div>
+                            <div class="col-md-4" style="text-align:center">
+                                <b><u>Bank Details</u></b>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group row mt-2" id="divBillCountry">
+                                    <label for="ddlBillCountry" class="col-md-4 control-label">Country</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%;" id="ddlBillCountry" onchange="GetBillState()" disabled="disabled"></select>
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divBillState">
+                                    <label for="ddlBillState" class="col-md-4 control-label"><span style="color:red;">*&nbsp;</span>District</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%;" id="ddlBillState" onchange="GetBillThana()"></select>
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divBillCity">
+                                    <label for="txtBillCity" class="col-md-4 control-label"><span style="color:red;">*&nbsp;</span>Thana</label>
+                                    <div class="col-md-6">
+                                        <!--<input type="text" id="txtBillCity" class="form-control" />-->
+                                        <select class="form-control select2" style="width: 100%;" id="txtBillCity"></select>
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divBillStreet">
+                                    <label for="txtBillStreet" class="col-md-4 control-label"><span style="color:red;">*&nbsp;</span>Address</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtBillStreet" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divBillZip">
+                                    <label for="txtBillZip" class="col-md-4 control-label">Zip</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtBillZip" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group row mt-2" id="divShipCountry">
+                                    <label for="ddlShipCountry" class="col-md-4 control-label">Country</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%;" id="ddlShipCountry" onchange="GetShipState()" disabled="disabled"></select>
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divShipState">
+                                    <label for="ddlShipState" class="col-md-4 control-label"><span style="color:red;">*&nbsp;</span>District</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%;" id="ddlShipState" onchange="GetShipThana()"></select>
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divShipCity">
+                                    <label for="txtShipCity" class="col-md-4 control-label"><span style="color:red;">*&nbsp;</span>Thana</label>
+                                    <div class="col-md-6">
+                                        <!--<input type="text" id="txtShipCity" class="form-control" />-->
+                                        <select class="form-control select2" style="width: 100%;" id="txtShipCity"></select>
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divShipStreet">
+                                    <label for="txtShipStreet" class="col-md-4 control-label"><span style="color:red;">*&nbsp;</span>Address</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtShipStreet" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divShipZip">
+                                    <label for="txtShipZip" class="col-md-4 control-label">Zip</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtShipZip" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group row mt-2" id="divAccountNo">
+                                    <label for="txtAccountNo" class="col-md-4 control-label">A/C No</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtAccountNo" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divSwiftCode">
+                                    <label for="txtSwiftCode" class="col-md-4 control-label">Swift Code</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtSwiftCode" class="form-control" disabled />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divBankName">
+                                    <label for="ddlBankName" class="col-md-4 control-label">Bank</label>
+                                    <div class="col-md-6">
+                                        <!--<input type="text" id="txtBankName" class="form-control" />-->
+                                        <select class="form-control select2" style="width: 100%;" id="ddlBankName"></select>
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divAccountHolderName">
+                                    <label for="txtAccountHolderName" class="col-md-4 control-label">Account Name</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtAccountHolderName" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divBankCountry">
+                                    <label for="ddlBankCountry" class="col-md-4 control-label">Country</label>
+                                    <div class="col-md-6">
+                                  <select class="form-control select2" style="width: 100%;" id="ddlBankCountry"></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            &nbsp;
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group row mt-2" id="divBranchMr">
+                                    <label for="ddlBranch" class="col-md-4 control-label">Branch</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%; text-align: center" id="ddlBranchMr" disabled="disabled"></select>
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divSalesEmployeeMr">
+                                    <label for="lblRestAmount" class="col-md-4 control-label">Sales Employee</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%;" id="ddlSalesEmployeeMr"></select>
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divRrmarks">
+                                    <label for="taxVat" class="col-md-4 control-label">Remarks</label>
+                                    <div class="col-md-6">
+                                        <textarea id="txtRrmarks" name="w3review" rows="5" cols="23" style="border: 1px solid #ced4da; border-radius: 4px "></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="form-group row mt-2" id="divHearAboutUs">
+                                    <label for="ddlHearAboutUs" class="col-md-4 control-label">How do you hear about us?</label>
+                                    <div class="col-md-6">
+                                        <!--<input type="checkbox" id="chkHearAboutUs" value="Web-search" />&nbsp;Web-search&nbsp;
+                        <input type="checkbox" id="chkHearAboutUs" value="Facebook" />&nbsp;Facebook&nbsp;
+                        <input type="checkbox" id="chkHearAboutUs" value="YouTube" />&nbsp;YouTube&nbsp;
+                        <input type="checkbox" id="chkHearAboutUs" value="Instagram" />&nbsp;Instagram&nbsp;
+                        <input type="checkbox" id="chkHearAboutUs" value="Tiktok" />&nbsp;Tiktok&nbsp;
+                        <input type="checkbox" id="chkHearAboutUs" value="Magazine" />&nbsp;Magazine&nbsp;
+                        <input type="checkbox" id="chkHearAboutUs" value="Friend" />&nbsp;Friend&nbsp;
+                        <input type="checkbox" id="chkHearAboutUs" value="Others" />&nbsp;Others-->
+                                        <select id="ddlHearAboutUs" class="form-control select2" multiple="multiple" style="width: 100%;">
+                                            <option value="Web-search">Web-search</option>
+                                            <option value="Facebook">Facebook</option>
+                                            <option value="YouTube">YouTube</option>
+                                            <option value="Instagram">Instagram</option>
+                                            <option value="Tiktok">Tiktok</option>
+                                            <option value="Magazine">Magazine</option>
+                                            <option value="Friend">Friend</option>
+                                            <option value="Others">Others</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-2" id="divReasonBranchVisit">
+                                    <label for="ddlReasonBranchVisit" class="col-md-4 control-label"><span style="color:red;">*&nbsp;</span>Concern?</label>
+                                    <div class="col-md-6">
+                                        <!--<input type="checkbox" id="chkReasonBranchVisit" value="DoctorVisit" />&nbsp;Doctor Visit&nbsp;
+                        <input type="checkbox" id="chkReasonBranchVisit" value="SkinAnalysis" />&nbsp;Skin Analysis&nbsp;
+                        <input type="checkbox" id="chkReasonBranchVisit" value="NutritionistVisit" />&nbsp;Nutritionist Visit&nbsp;
+                        <input type="checkbox" id="chkReasonBranchVisit" value="BCATest" />&nbsp;BCA Test&nbsp;
+                        <input type="checkbox" id="chkReasonBranchVisit" value="BioHydraFacial" />&nbsp;Bio-Hydra Facial&nbsp;
+                        <input type="checkbox" id="chkReasonBranchVisit" value="BioLaser" />&nbsp;Bio Laser&nbsp;
+                        <input type="checkbox" id="chkReasonBranchVisit" value="EPN" />&nbsp;EPN&nbsp;
+                        <input type="checkbox" id="chkReasonBranchVisit" value="PlasmaTherapy" />&nbsp;Plasma Therapy&nbsp;
+                        <input type="checkbox" id="chkReasonBranchVisit" value="DrLight" />&nbsp;Dr. Light&nbsp;
+                        <input type="checkbox" id="chkReasonBranchVisit" value="GlowingFacial" />&nbsp;Glowing Facial&nbsp;
+                        <input type="checkbox" id="chkReasonBranchVisit" value="MoleRemoval" />&nbsp;Mole Removal&nbsp;
+                        <input type="checkbox" id="chkReasonBranchVisit" value="ComfortDual" />&nbsp;Comfort Dual&nbsp;
+                        <input type="checkbox" id="chkReasonBranchVisit" value="3Max" />&nbsp;3 Max&nbsp;
+                        <input type="checkbox" id="chkReasonBranchVisit" value="Slimming" />&nbsp;Slimming&nbsp;
+                        <input type="checkbox" id="chkReasonBranchVisit" value="NDYagLaser" />&nbsp;ND Yag Laser-->
+                                        <select id="ddlReasonBranchVisit" class="form-control select2" multiple="multiple" style="width: 100%;">
+                                            <option value="DoctorConsultation">Doctor Consultation</option>
+                                            <option value="MindCare">Mind Care</option>
+                                            <option value="NutritionistConsultation">Nutritionist Consultation</option>
+                                            <option value="SkinTest">Skin Test</option>
+                                            <option value="BCAtest">BCA test</option>
+                                            <option value="RegularSkinCare">Regular Skin Care</option>
+                                            <option value="Anti-aging">Anti-aging</option>
+                                            <option value="AcneCare">Acne Care</option>
+                                            <option value="HairCare">Hair Care</option>
+                                            <option value="Health&Nutrition">Health & Nutrition</option>
+                                            <option value="SensitiveSkinCare">Sensitive Skin Care</option>
+                                            <option value="UnwantedHair">Unwanted Hair</option>
+                                            <option value="Mole">Mole</option>
+                                            <option value="DrySkinCare">Dry Skin Care</option>
+                                            <option value="OilySkinCare">Oily Skin Care</option>
+                                            <option value="Melasma&Hyperpigmentation">Melasma & Hyperpigmentation</option>
+                                            <option value="Bodycare">Body care</option>
+                                            <option value="BodyShaping">Body Shaping</option>
+                                            <option value="WeightLoss">Weight Loss</option>
+                                            <option value="Whitening&Brightening">Whitening & Brightening</option>
+                                            <option value="Smartskincare&lifestyle">Smart skin care & lifestyle</option>
+                                            <option value="LipCare">Lip Care</option>
+                                            <option value="HygieneCare">Hygiene Care</option>
+                                            <option value="BabyCare">Baby Care</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-warning" id="btnmrin" onclick="SaveMemberRegistration()">Add & New</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @*<input id="memberId" type="number" style="display: none;" value="@ViewBag.MemberId">*@
+        @*<input id="codeId" type="number" style="display: none;">*@
+        <input id="branchMem" type="number" style="display: none;" value="@ViewBag.BranchMem">
+        @*<input id="eflag" type="text" style="display: none;" value="@ViewBag.eflag">*@
+    </div>
+</section>

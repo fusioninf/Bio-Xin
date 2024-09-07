@@ -1,0 +1,51 @@
+﻿@{
+    int sl = Convert.ToInt32(TempData["trSl"]);
+}
+<tr id="tr_@sl">
+
+    <td id="ts_@sl">@sl</td>
+    <td>
+        <input type="text" class="form-control" id="itemCode_@sl" style="width: 80px" disabled="disabled" />
+ 
+
+    </td>
+    <td>
+        <input type="text" class="form-control" id="itemName_@sl" style="width: 500px" disabled="disabled" />
+        @*<select class="form-control select2" id="itemCode_@sl" style="width: 240px" onchange="GetItemDetails(@sl)" disabled="disabled"></select>*@
+    </td>
+    <td>
+        <input type="text" class="form-control" id="uom_@sl" style="width: 40px" disabled="disabled" />
+    </td>
+
+    @*<td>
+
+    </td>
+    <td>
+
+    
+    </td>*@
+    <td>
+
+        <input type="number" class="form-control" id="quantity_@sl" oninput="CalculateLineTotal(@sl)" disabled="disabled"/>
+    </td>
+    <td>
+        @*<input type="number" class="form-control" id="batchSerialNo_@sl" style="width: 80px" disabled="disabled" />*@
+        @*<button class="btn btn-sm btn-primary showBtn" data-bs-toggle="modal" data-bs-target="#viewModal" onclick="ShowData()">View</button>*@
+    </td>
+    <td>
+        @*<select class="form-control select2" id="fromWH_@sl" style="width: 100px"></select>
+        <select class="form-control select2" id="toWH_@sl" style="width: 100px"></select>*@
+        <input type="hidden" class="form-control" id="price_@sl" oninput="CalculateLineTotal(@sl)" />
+        <input type="hidden" class="form-control" id="value_@sl" style="width: 60px" disabled="disabled" />
+        <input type="text" class="form-control" id="remarks_@sl" disabled="disabled"/>
+    </td>
+    @*<td class="actionHide">
+        <div class="form-group">
+            <button class="btn btn-xs btn-success " id="btnAdd_@sl" onclick="AddRow()"><b>+</b></button>
+            <button class="btn btn-xs btn-danger" id="btnRemove_@sl" onclick="RemoveRow(@sl)"><b></b>x</button>
+            <input type="text" style="display: none" id="baseEntry_@sl" />
+            <input type="text" style="display: none" id="baseLine_@sl" />
+            <input type="text" style="display: none" id="baseType_@sl" />
+        </div>
+    </td>*@
+</tr>

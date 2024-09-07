@@ -1,0 +1,502 @@
+﻿
+@{
+    ViewBag.Title = "Add Cash Entry";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .custom-header {
+        background-color: darkgray !important; /* Blue color #007bff  #808080*/
+        color: black; /* Text color for contrast */
+    }
+    .spinnermodal {
+        background-color: #FFFFFF;
+        height: 100%;
+        left: 0;
+        opacity: 0.5;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 100000;
+    }
+</style>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-primary">
+                    <div class="card-header custom-header">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <a href="@Url.Action("AddCashEntry", "CashEntry", new {ceId = 0})">
+                                    <h3 class="card-title">
+                                        @if (ViewBag.CashEntryId == 0)
+                                        {
+                                            <span class="" style="color:black"><b>Cash Entry</b></span>
+                                        }
+                                        else
+                                        {
+                                            <span class=""> Edit Cash Entry</span>
+                                        }
+                                    </h3>
+                                </a>
+                            </div>
+                            <div class="col-md-6 text-right">
+                                <a class="btn btn-outline-warning" href="@Url.Action("Index", "CashEntry")">
+                                    <span class="fa fa-list"></span> Cash Entry Home
+
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group row" id="divExpenseAccount">
+                                    <label for="txtExpenseAccount" class="col-md-4 control-label">Expense Account</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" id="txtExpenseAccount" disabled="disabled" />
+                                        <input type="text" class="form-control" id="txtExpenseAccountCode" hidden="hidden" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divAccountBalance">
+                                    <label for="txtAccountBalance" class="col-md-4 control-label">Balance</label>
+                                    <div class="col-md-6">
+                                        <input type="number" class="form-control" id="txtAccountBalance" disabled="disabled" />
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-4">
+
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group row mt-1" id="divBranch">
+                                    <label for="ddlBranch" class="col-md-4 control-label">Branch</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%; text-align: center" id="ddlBranch" disabled="disabled"></select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row mt-1" id="divDocDate">
+                                    <label for="txtDocDate" class="col-md-4 control-label">Posting Date</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtDocDate" class="form-control datepicker" disabled="disabled" />
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            &nbsp;
+                        </div>
+                        <div class="row table-responsive">
+                            <table class="table table-bordered table-striped table-hover" id="salesOrder">
+                                <thead>
+                                    <tr style="background-color: lightgrey">
+                                        <th class="action">Action</th>
+                                        <th>#</th>
+                                        <th>Account</th>
+                                        <th>Employee</th>
+                                        <th>Amount</th>
+                                        <th>Remarks</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group row mt-1" id="divRrmarks">
+                                    <label for="txtRrmarks" class="col-md-4 control-label">Remarks</label>
+                                    <div class="col-md-6">
+                                        <textarea id="txtRrmarks" name="w3review" rows="5" cols="28" style="border: 1px solid #ced4da; border-radius: 4px "></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4">
+                                <div class="form-group row mt-1" id="divTotalAmount">
+                                    <label for="txtTotalAmount" class="col-md-4 control-label">Total Amount</label>
+                                    <div class="col-md-6">
+                                        <input type="number" class="form-control" id="txtTotalAmount" disabled="disabled" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-warning" id="btnCashEntry" onclick="SaveCashEntry()">Add & New</button>
+                        <button class="btn btn-warning  float-right" onclick="location.reload()">Clear</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <input id="cashEntryId" type="number" style="display: none;" value="@ViewBag.CashEntryId">
+        <input id="branch" type="number" style="display: none;" value="@ViewBag.Branch">
+        <input id="userId" type="text" style="display: none;" value="@ViewBag.UserId">
+    </div>
+    <div class="spinnermodal" id="testSpan" style="display: none; z-index: 10001">
+        <div style="position: fixed; z-index: 10001; top: 50%; left: 50%; height:50px">
+            <img src="~/AssetStatic/img/loading_spinner.gif" />
+        </div>
+    </div>
+</section>
+@section Scripts
+{
+    <script>
+        var accountList = {};
+        var employeeList = {};
+        var DeleteItem = [];
+        var srcount = 0;
+        $(document).ready(function () {
+            LoadDate_C('#txtDocDate');
+            LoadBranch('ddlBranch');
+            var branch = $('#branch').val();
+            $("#ddlBranch").val(branch).trigger('change');
+            GetAccountCodeandBalance();
+            GetAccount();
+            GetEmployee();
+        for (let i = 0; i < 5; i++) {
+            AddRow();
+            }
+        });
+        function GetAccountCodeandBalance() {
+
+            var urlpath = '@Url.Action("GetAccountCodeandBalance", "CashEntry")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                dataType: 'json',
+                data: { },
+                async: false,
+                success: function(data) {
+                    $("#txtExpenseAccount").val(data.AcctName);
+                    $("#txtExpenseAccountCode").val(data.AcctCode);
+                    $("#txtAccountBalance").val(data.CurrTotal);
+                }
+            });
+        }
+        function LoadBranch(elementId) {
+
+            var CardType = "C";
+            var urlpath = '@Url.Action("GetBranch", "InventoryTransferRequest")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { },
+                async: false,
+                success: function(data) {
+
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value=''>--Select Branch--</option>");
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].PrcCode).html(data[i].PrcName ));
+                    }
+                }
+            });
+        }
+        function CalculateLineTotal(rowId) {
+
+            var totalAmount = 0;
+            $('#salesOrder tbody tr').each(function () {
+                var idr = $(this).attr('id');
+                var id = idr.substring(3);
+                var rowAmount = isNaN(parseFloat($('#amount_' + id).val())) ? 0 : parseFloat($('#amount_' + id).val());
+                totalAmount += rowAmount;
+            });
+            $('#txtTotalAmount').val(totalAmount.toFixed(2));
+
+        }
+        function SaveCashEntry() {
+
+            if (SaveValidation() == true) {
+                swal({
+                    title: "Are you sure?",
+                    text: "",
+                    type: "success",
+                    showCancelButton: true,
+                    cancelButtonClass: 'btn-secondary waves-effect',
+                    confirmButtonClass: 'btn-success waves-effect waves-light',
+                    confirmButtonText: 'Yes!',
+                    closeOnConfirm: true
+
+                }, function() {
+                    $('.confirm').prop("disabled", true);
+                    $('.cancel').prop("disabled", true);
+                    SaveCashEntryFinal();
+
+                });
+            }
+        }
+        function pad2(number) {
+            return (number < 10 ? '0' : '') + number;
+        }
+        function DateConversionToYYYYMMDD(inputDate) {
+            // Split the input date into day, month, and year parts
+            var parts = inputDate.split('-');
+            var day = parts[0];
+            var month = parts[1];
+            var year = parts[2];
+            var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            var monthIndex = monthNames.indexOf(month);
+            monthIndex++;
+            var dateObject = new Date(year, monthIndex - 1, day);
+            var formattedDate = dateObject.getFullYear() + pad2(dateObject.getMonth() + 1) + pad2(dateObject.getDate());
+            return formattedDate
+        }
+      
+        function SaveCashEntryFinal() {
+            debugger;
+            var jsonData = {};
+            var postingDate = $('#txtDocDate').val();
+
+            jsonData["AccountCode"] = $('#txtExpenseAccountCode').val();
+            jsonData["PostingDate"] = DateConversionToYYYYMMDD(postingDate);  //"20230814"
+            jsonData["TotalValue"] = $('#txtTotalAmount').val() ;
+            jsonData["Remarks"] = $('#txtRrmarks').val();
+
+            var jsonObjs = [];
+            $('#salesOrder tbody tr').each(function() {
+
+                var theObj = {};
+                var idr = $(this).attr('id');
+                var id = idr.substring(3);
+
+                var account = $('#account_' + id).val();
+                var employee = $('#employee_' + id).val();
+                var amount = isNaN(parseFloat($('#amount_' + id).val())) ? 0 : parseFloat($('#amount_' + id).val());
+                var remarks = $('#remarks_' + id).val();
+
+                theObj["AccountCode"] = account;
+                theObj["EmployeeCode"] = employee;
+                theObj["Anount"] = amount;
+                theObj["Remarks"] = remarks;
+                if (amount > 0) {
+                    jsonObjs.push(theObj);
+                }
+            });
+
+            jsonData["Items"] = jsonObjs;
+
+            var urlpath2 = '@Url.Action("SaveCashEntry", "CashEntry")';
+            $.ajax({
+                contentType: "application/json",
+                data: JSON.stringify(jsonData),
+                dataType: 'json',
+                url: urlpath2,
+                type: "POST",
+                beforeSend: function () {
+                    debugger;
+                    $('#testSpan').show();
+                    $('#btnCashEntry').prop('disabled', true);
+                },
+                success: function (result) {
+                    $('#testSpan').hide();
+                    if (result.UnAutorized == 1) {
+                        window.location.href = '@Url.Action("Logout", "Home")';
+                    } else {
+                        if (result.dataList.ReturnCode == "-99999") {
+                            window.location.href = '@Url.Action("Logout", "Home")';
+                        } else {
+                            var message = result.dataList.ReturnMsg;
+                            if (result.dataList.ReturnCode == "0000") {
+                          swal({
+                            title: " Saved Successfull",
+                            text: '',
+                            type: "success",
+                            showCancelButton: false,
+                            cancelButtonClass: 'btn-secondary waves-effect',
+                            confirmButtonClass: 'btn-success waves-effect waves-light',
+                            confirmButtonText: 'Yes!',
+                            closeOnConfirm: false
+                          }, function () {
+                              GetprintPage(result.dataList.ReturnDocEntry);
+                              window.location.href =  '@Url.Action("Index", "CashEntry")';
+                          });
+                           } else {
+                                ShowMessage(message);
+                                $('#btnCashEntry').prop('disabled', false);
+                          }
+                        }
+                    }
+                }
+                })
+        }
+        function SaveValidation() {
+            var isValid = true;
+            var message = "Some Values Required";
+            if ($('#txtDocDate').val() == '' || $('#txtDocDate').val() == null) {
+                ValidationColorChangeNew("txtDocDate", "divDocDate", "Posting Date Required", false);
+                isValid = false;
+            }
+            var accountBalance = isNaN(parseFloat($('#txtAccountBalance').val())) ? 0 : parseFloat($('#txtAccountBalance').val());
+            var totalAmount = isNaN(parseFloat($('#txtTotalAmount').val())) ? 0 : parseFloat($('#txtTotalAmount').val());
+            if (totalAmount > accountBalance ) {
+                ValidationColorChangeNew("txtTotalAmount", "divTotalAmount", "Total Amount Can't greater than Expense Account Balance", false);
+                isValid = false;
+            }
+            //Items Required
+            if ($('#salesOrder tbody tr').length == 0 || $('#salesOrder tbody tr').length == '') {
+                isValid = false;
+                message = "Item Required";
+            }
+            $('#salesOrder tbody tr').each(function() {
+                var idr = $(this).attr('id');
+                var id = idr.substring(3);
+
+                var amount = isNaN(parseFloat($('#amount_' + id).val())) ? 0 : parseFloat($('#amount_' + id).val());
+                var account = $('#account_' + id).val();
+                var employee = $('#employee_' + id).val();
+                var remarks = $('#remarks_' + id).val();
+                if (amount > 0) {
+                    if (account === '' || account === null) {
+                        isValid = false;
+                        message = "Please Select Account";
+                        $('#account_' + id).css('border-bottom', '2px solid red');
+                        return;
+                    }
+                    if (employee === '' || employee === null) {
+                        isValid = false;
+                        message = "Please Select Employee";
+                        $('#employee_' + id).css('border-bottom', '2px solid red');
+                        return;
+                    }
+
+                    if (remarks !== '' && remarks !== null && remarks.length > 250) {
+                        isValid = false;
+                        message = "Remarks must be less than 250 characters";
+                        $('#remarks_' + id).css('border-bottom', '2px solid red');
+                        return;
+                    }
+
+                } else if (employee != "" && employee != null && account != "" && account != null) {
+                    if (amount === 0) {
+                        isValid = false;
+                        message = "Amount Cannot be 0 ";
+                        $('#amount_' + id).css('border-bottom', '2px solid red');
+                        return;
+                    }
+                }
+            });
+            if (isValid == false) {
+                ShowMessage(message);
+            }
+            return isValid;
+        }
+        function GetprintPage(DocEntry) {
+            var postingDate = DateConversionToYYYYMMDD($('#txtDocDate').val());
+            var branch = $('#ddlBranch').val();
+            var urlpath = '@Url.Action("GetprintPage", "SalesOrderNew")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {  },
+                async: false,
+                success: function (data) {
+                    var dynamicURL = data.RPTPort + 'web/webform1.aspx?id1=16&id2=DATE|PRCCODE|BIOXIN|DOCENTRYID&id3=2&uid=USERID'.replace('DATE', postingDate).replace('PRCCODE', branch).replace('DOCENTRYID', DocEntry).replace('BIOXIN', data.Database).replace('USERID', data.UserId);
+                    window.open(dynamicURL, '_blank');
+                }
+            });
+        }
+        function GetAccount() {
+            var urlpath = '@Url.Action("GetExpenseAccountList", "CashEntry")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {  },
+                async: false,
+                success: function(data) {
+                    accountList = data;
+                }
+            });
+        }
+        function GetEmployee() {
+            var urlpath = '@Url.Action("GetEmployeeCostCenter", "CashEntry")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {  },
+                async: false,
+                success: function(data) {
+                    employeeList = data;
+                }
+            });
+        }
+        function RemoveRow(id) {
+            debugger;
+            var trLength = $('#salesOrder tbody tr').length;
+            if (trLength >= 1) {
+                $('#tr_' + id).remove();
+                SerialTable();
+            } else {
+                return;
+            }
+        }
+        function AddRow() {
+            var tr = $('#salesOrder tbody tr').length + 1;
+            var values = $("#salesOrder tbody tr")
+                .map(function() { return parseInt($(this).attr('id').substring(3)); }).get();
+            var index = values.indexOf(tr);
+            if (index >= 0) {
+                tr = Math.max.apply(Math, values) + 1;
+            }
+            var urlpath = '@Url.Action("AddRowForOrder", "CashEntry")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                dataType: 'html',
+                data: { tr: tr },
+                async: false,
+                success: function(data) {
+                    $('#salesOrder tbody').append(data);
+                    LoadAccountInRow("account_" + tr);
+                    LoadEmployeeInRow("employee_" + tr);
+                }
+            });
+            $('#account_' + tr).select2();
+            $('#employee_' + tr).select2();
+            SerialTable();
+        }
+        function SerialTable() {
+            $('#salesOrder tbody tr').each(function(index, element) {
+                var idr = $(this).attr('id');
+                var id = idr.substring(3);
+                $('#ts_' + id).html(index + 1);
+            });
+        }
+        function LoadAccountInRow(elementId) {
+
+            var array = [];
+            var rowCount = $('#salesOrder tbody tr').length;
+            for (let count = 0; count < rowCount; count++) {
+                array.push(parseInt($("#account_" + count).val()));
+            };
+
+            $('#' + elementId + '').append("<option value=''>--Select Account--</option>");
+
+            for (var i = 0; i < accountList.length; i++) {
+                if (jQuery.inArray(accountList[i].AcctCode, array) == -1) {
+                    $('#' + elementId + '').append($("<option></option>").val(accountList[i].AcctCode).html(accountList[i].AcctName));
+                }
+            }
+        }
+        function LoadEmployeeInRow(elementId) {
+
+            var array = [];
+            var rowCount = $('#salesOrder tbody tr').length;
+            for (let count = 0; count < rowCount; count++) {
+                array.push(parseInt($("#employee_" + count).val()));
+            };
+            $('#' + elementId + '').append("<option value=''>--Select Employee--</option>");
+            for (var i = 0; i < employeeList.length; i++) {
+                if (jQuery.inArray(employeeList[i].PrcCode, array) == -1) {
+                    $('#' + elementId + '').append($("<option></option>").val(employeeList[i].PrcCode).html(employeeList[i].PrcName));
+                }
+            }
+        }
+    </script>
+}
+

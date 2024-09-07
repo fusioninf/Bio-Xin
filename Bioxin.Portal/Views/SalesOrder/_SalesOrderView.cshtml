@@ -1,0 +1,238 @@
+﻿
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-12">
+                <!-- general form elements -->
+                <div class="card card-primary">
+                    @*<div class="card-header">
+                        <p>Sales Order Entry</p>
+                    </div>*@
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <h3 id="salesOrderNo"></h3>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group" id="divCustomer">
+                                    <label for="ddlCustomer">Customer</label>
+                                    <select class="form-control select2" style="width: 100%;text-align:center" id="ddlCustomer"></select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group" id="divCustomerName">
+                                    <label for="txtCustomerName">Name</label>
+                                    <input type="text" id="txtCustomerName" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group" id="divContactPerson">
+                                    <label for="txtContactPerson">Contact Person</label>
+                                    @*<input type="text" id="txtContactPerson" class="form-control"  />*@
+                                    <select class="form-control select2" style="width: 100%;text-align:center" id="ddlContactPerson"></select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group" id="divDocDate">
+                                    <label for="txtDocDate">Posting Date</label>
+                                    <input type="text" id="txtDocDate" class="form-control datepicker" value="@DateTime.Now.ToString("dd-MMM-yyyy")" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group" id="divBPCurrency">
+                                    <label for="txtBPCurrency">Currency</label>
+                                    <select class="form-control select2" style="width: 100%" id="ddlBPCurrency"></select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group" id="divCustomerRefNo">
+                                    <label for="txtCustomerRefNo">Customer Ref</label>
+                                    <input type="text" id="txtCustomerRefNo" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group" id="divPlaceOfSupply">
+                                    <label for="txtPlaceOfSupply">Place Of Supply</label>
+                                    <input type="text" id="txtPlaceOfSupply" class="form-control" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group" id="divDocDueDate">
+                                    <label for="txtDocDueDate">Delivery Date</label>
+                                    <input type="text" id="txtDocDueDate" class="form-control" value="@DateTime.Now.ToString("dd-MMM-yyyy")" />
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row table-responsive">
+                            <div class="col-md-12">
+                                <div class="card border-dark mb-3">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <!-- Tabs navs -->
+                                            <ul class="nav nav-tabs">
+                                                <li class="nav-item">
+                                                    <a href="#home" class="nav-link active" data-bs-toggle="tab">Contents</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a href="#profile" class="nav-link" data-bs-toggle="tab">Logistics</a>
+                                                </li>
+                                            </ul>
+                                            <div class="tab-content">
+                                                <div class="tab-pane fade show active" id="home">
+                                                    <div class="row">
+                                                        <table class="table table-bordered table-striped table-hover" id="salesOrder">
+                                                            <thead>
+                                                                <tr style="background-color: aliceblue">
+                                                                    <th>#</th>
+                                                                    <th>Item</th>
+                                                                    <th>Description</th>
+                                                                    <th>Qty</th>
+                                                                    <th>Price</th>
+                                                                    <th>Discount</th>
+                                                                    <th>Whs Code</th>
+                                                                    <th>Total</th>
+                                                                    <th>UOM</th>
+                                                                    <th>Stock</th>
+                                                                    <th class="action">Action</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody></tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                <div class="tab-pane fade" id="profile">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group row" id="divShipTo">
+                                                                <label for="lblRestAmount" class="col-md-2 control-label">Ship To</label>
+                                                                <div class="col-md-4">
+                                                                    <select class="form-control select2" style="width: 100%;" id="ddlShipTo"></select>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <textarea class="form-control" id="shipToAddress" name="w3review" rows="2" cols="30"></textarea>
+                                                                </div>
+                                                            </div>
+                                                            <br />
+                                                            <div class="form-group row" id="divBillTo">
+                                                                <label for="taxVat" class="col-md-2 control-label">Bill To</label>
+                                                                <div class="col-md-4">
+                                                                    <select class="form-control select2" style="width: 100%;" id="ddlBillTo"></select>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <textarea class="form-control" id="billToAddress" name="w3review" rows="2" cols="30"></textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="row">
+                                                                <div class="col-md-5">
+                                                                    <div class="form-group" id="divShippingType">
+                                                                        <label for="txtBPCurrency">Shipping Type</label>
+                                                                        <select class="form-control select2" style="width: 100%" id="ddlShippingType"></select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-5">
+                                                                    <div class="form-group" id="divPaymentTerms">
+                                                                        <label for="txtBPCurrency">Payment Terms</label>
+                                                                        <select class="form-control select2" style="width: 100%" id="ddlPaymentTerms"></select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Tabs content -->
+
+
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group row" id="divSalesEmployee">
+                                    <label for="lblRestAmount" class="col-md-4 control-label">Sales Employee</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%;" id="ddlSalesEmployee"></select>
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="form-group row" id="divRrmarks">
+                                    <label for="taxVat" class="col-md-4 control-label">Remarks</label>
+                                    <div class="col-md-6">
+                                        <textarea class="form-control" id="txtRrmarks" name="w3review" rows="3" cols="30"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group row">
+                                    <label for="lblRestAmount" class="col-md-4 control-label">Net Total :</label>
+                                    <div class="col-md-4">
+                                        @*<label id="lblNetAmount"></label>*@
+                                        <input type="number" class="form-control" id="txtNetAmount" disabled />
+                                    </div>
+                                </div>
+                                @*<div class="form-group row">
+                                    <label for="taxVat" class="col-md-4 control-label">TAX %:</label>
+                                    <div class="col-md-4">
+                                        <input type="number" class="form-control" id="txtVatTax" oninput="CalculateAll()"/>
+                                    </div>
+                                </div>*@
+                                <div class="form-group row">
+                                    <label for="taxVat" class="col-md-4 control-label">DISCOUNT %:</label>
+                                    <div class="col-md-4">
+                                        @*<label id="lblDiscount"></label>*@
+                                        <input type="number" class="form-control" id="txtDiscount" oninput="CalculateAll()" />
+                                        @*<label> %</label>*@
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="lblRestAmount" class="col-md-4 control-label">Round Total :</label>
+                                    <div class="col-md-4">
+                                        @*<label id="lblRoundTotal"></label>*@
+                                        <input type="number" class="form-control" id="txtRoundTotal" disabled />
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="totalqty" class="col-md-4 control-label">Total Qty:</label>
+                                    <div class="col-md-4">
+                                        @*<label id="lblTotalQty"></label>*@
+                                        <input type="number" class="form-control" id="txtTotalQty" disabled />
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                    @*<div class="card-footer">
+                        <button class="btn btn-primary appButton" onclick="ApproveOrder(true)">Approve</button>
+                        <button class="btn btn-danger appButton" onclick="ApproveOrder(false)">Reject</button>
+                    </div>*@
+                </div>
+            </div>
+            <!-- /.row -->
+        </div><!-- /.container-fluid -->
+
+        <input id="mSalesOrderId" type="number" style="display: none;" value="@ViewBag.SalesOrder">
+    </div>
+</section>

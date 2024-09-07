@@ -1,0 +1,419 @@
+﻿
+@{
+    ViewBag.Title = "Doctors Prescription";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-12">
+                <!-- general form elements -->
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <p>Doctors Prescription</p>
+                    </div>
+                    @*<div class="card-header">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <a href="@Url.Action("Index", "SalesOrder", new {id = 0})">
+                                    <h3 class="card-title">
+                                        @if (ViewBag.SalesOrderId == 0)
+                                        {
+                                            <span class=""> New Sales Order</span>
+
+                                        }
+                                        else
+                                        {
+                                            <span class=""> Edit Sales Order</span>
+                                        }
+                                    </h3>
+                                </a>
+                            </div>
+                            <div class="col-md-6 text-right">
+                                <a class="btn btn-outline-warning" href="@Url.Action("SalesOrderList", "SalesOrder")">
+                                    <span class="fa fa-list"></span> Go To Sales Order List
+
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>*@
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="ddlPatient">Patient</label>
+                                    @*<select class="form-control select2" style="width: 100%;" id="ddlPatient"></select>*@
+                                    <select name="gender" class="form-control">
+                                        @*<option value="">Select Gender </option>*@
+                                        <option value="female">Jannatul Mawa</option>
+                                        @*<option value="male">Male</option>*@
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="txtCustomerName">Age</label>
+                                        <input type="text" id="txtCustomerName" class="form-control" value="19"/>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="gender">Gender:</label>
+                                    <select name="gender" class="form-control">
+                                        @*<option value="">Select Gender </option>*@
+                                        <option value="female">Female</option>
+                                        @*<option value="male">Male</option>*@
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="txtCustomerRefNo">Address</label>
+                                        <input type="text" id="txtCustomerRefNo" class="form-control" value="Mirpur 10"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="txtBPCurrency">Mobile</label>
+                                        <input type="text" id="txtBPCurrency" class="form-control" value="01735844725"/>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group" id="divDocDate">
+                                    <label for="txtDocDate">Date</label>
+                                    <input type="text" id="txtDocDate" class="form-control datepicker" value="@DateTime.Now.ToString("dd-MMM-yyyy")" />
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="ddlCustomer">Doctor</label>
+                                    @*<select class="form-control select2" style="width: 100%;" id="ddlCustomer"></select>*@
+                                    <select name="gender" class="form-control">
+                                        @*<option value="">Select Gender </option>*@
+                                        <option value="female">Umme Habiba</option>
+                                        @*<option value="male">Male</option>*@
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="txtBPCurrency">Branch</label>
+                                    @*<input type="text" id="txtBPCurrency" class="form-control" />*@
+                                    <select name="gender" class="form-control">
+                                        @*<option value="">Select Gender </option>*@
+                                        <option value="female">Shantinagar</option>
+                                        @*<option value="male">Male</option>*@
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="txtBPCurrency">Patient History</label>
+                                    <textarea class="form-control" name="w3review" rows="4" cols="50">
+BP 120/80, Pulse 72, Temp 98, SpO2 98, RBS 6.2,Heart S1+S2+M0, Lungs NAD
+</textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="txtBPCurrency">Doctors Observation</label>
+                                    <textarea class="form-control" name="w3review" rows="4" cols="50">
+Her face skin is extremely dry and flaky
+</textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="txtBPCurrency">Doctors Suggestion</label>
+                                    <textarea class="form-control" name="w3review" rows="4" cols="50">
+Need to Bio Laser Treatment
+</textarea>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        @*<div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <span id="spnote" style="color: red; display: none;">
+                        1% weight loss discount is aplicable on proccess product for dealer on <b>***base price***</b> .
+                        Sale Price is showing after 1% secondary weight loss.
+                    </span>
+                </div>
+            </div>
+            <div id="sr" class="col-md-3 d-none ">
+                <div class="form-group" id="divSR">
+                    <label for="ddlSr">SR Name</label>
+                    <select class="form-control select2" style="width: 100%;" id="ddlSr"></select>
+                </div>
+            </div>
+        </div>*@
+                        <div class="row table-responsive">
+                            <div class="col-md-12">
+                                <div class="card-body">
+                                    <table class="table table-bordered table-striped table-hover" id="salesOrder">
+                                        <thead>
+                                            <tr style="background-color: aliceblue">
+                                                <th>#</th>
+                                                <th>Medicine</th>
+                                                <th>Time</th>
+                                                <th>Qty</th>
+                                                <th>Days</th>
+                                                <th class="action">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                      
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-primary" onclick="SaveOrder()">Submit</button>
+                        <button class="btn btn-danger float-right">Cancel</button>
+                    </div>
+                </div>
+            </div>
+            <!-- /.row -->
+        </div><!-- /.container-fluid -->
+
+
+        @*<input id="salesOrderId" type="number" style="display: none;" value="@ViewBag.SalesOrderId">
+        <input id="eflag" type="text" style="display: none;" value="@ViewBag.eflag">*@
+    </div>
+</section>
+@section Scripts
+{
+
+    <script>
+        var PrlductList = {};
+        var DeleteProduct = [];
+        var srcount = 0;
+        $(document).ready(function() {
+
+            //LoadCompany('ddlCompany');
+            //$("#ddlCompany").val("7");
+            ////LoadCustomerType('ddlCustomerType');
+            //LoadCustomerTypeLocal('ddlCustomerType');
+
+
+            $('#txtDocDate').datepicker({
+                endDate: new Date(),
+                autoclose: true,
+                todayHighlight: true,
+                format: 'dd-M-yyyy'
+            });
+            //$('#txtDocDueDate').datepicker({
+            //    endDate: new Date(),
+            //    autoclose: true,
+            //    todayHighlight: true,
+            //    format: 'dd-M-yyyy'
+            //});
+             LoadDate('#txtDocDueDate');
+
+            LoadDate('#txtDocumentDate');
+            //LoadDate('#txtChequeDate');
+
+            //LoadDate('#txtRefDate');
+
+
+            AddRow();
+
+
+           
+            $('#ddlCustomer').change(function() {
+                var custype = $('#ddlCustomerType').val();
+                if (custype == 5) {
+                    var customerId = $(this).val();
+                    LoadSr('ddlSr', customerId);
+                    debugger;
+                    srcount = parseInt($('select#ddlSr option').length);
+
+                }
+
+
+            });
+
+            
+        });
+
+
+       
+
+        function CheckCurrentdate() {
+
+            if ($('#txtDocDueDate').val() != '' || $('#txtDocDueDate').val() != null) {
+                var ddate = new Date($('#txtDocDueDate').val());
+                var odate = new Date($('#txtDocDate').val());
+                if (ddate < odate) {
+                    $('#txtDocDueDate').val($('#txtDocDate').val());
+                }
+            }
+
+        }
+
+
+        function RemoveRow(id) {
+
+
+            var trLength = $('#salesOrder tbody tr').length;
+            if (trLength > 1) {
+
+                var detailsId = $('#details_' + id).val();
+                if (detailsId > 0) {
+                    var productId = isNaN(parseFloat($('#pro_' + id).val())) ? 0 : parseFloat($('#pro_' + id).val());
+                    var saleQty = isNaN(parseFloat($('#saleQty_' + id).val())) ? 0 : parseFloat($('#saleQty_' + id).val());
+                    var stockRate = isNaN(parseFloat($('#stRate_' + id).val())) ? 0 : parseFloat($('#stRate_' + id).val());
+                    var saleRate = isNaN(parseFloat($('#saleRate_' + id).val())) ? 0 : parseFloat($('#saleRate_' + id).val());
+
+                    var saleKg = isNaN(parseFloat($('#saleKG_' + id).val())) ? 0 : parseFloat($('#saleKG_' + id).val());
+
+                    var disPer = isNaN(parseFloat($('#disPer_' + id).val())) ? 0 : parseFloat($('#disPer_' + id).val());
+                    var disAmt = isNaN(parseFloat($('#disNum_' + id).val())) ? 0 : parseFloat($('#disNum_' + id).val());
+                    var total = isNaN(parseFloat($('#totalG_' + id).val())) ? 0 : parseFloat($('#totalG_' + id).val());
+                    var haschallan = $('#haschallan_' + id).val();
+                    var alreadypicked = $('#already_' + id).is(':checked');
+
+                    var picking = isNaN(parseFloat($('#picking_' + id).val())) ? 0 : parseFloat($('#picking_' + id).val());
+
+                    var delObj = {};
+                    delObj["ProductId"] = productId;
+                    delObj["SalesOrderProcessDetailsId"] = detailsId;
+                    delObj["ProductQty"] = saleQty;
+                    delObj["StockRate"] = stockRate;
+                    delObj["SaleRate"] = saleRate;
+                    delObj["ProductKg"] = saleKg;
+                    delObj["DiscountAmount"] = disAmt;
+                    delObj["DiscountPercent"] = disPer;
+                    delObj["TotalPrice"] = total;
+                    delObj["IsDelete"] = true;
+                    delObj["OperationIdDelete"] = 1;
+                    delObj["eflag"] = $('#eflag').val();
+                    delObj["haschallan"] = haschallan;
+                    delObj["alreadypicked"] = alreadypicked;
+
+
+                    DeleteProduct.push(delObj);
+
+                }
+                $('#tr_' + id).remove();
+                // var aProd = new object();
+                SerialTable();
+                CalculateAll();
+            } else {
+                return;
+            }
+
+        }
+
+        function AddRow() {
+/*            var customertype = $('#ddlCustomerType').val();*/
+            var tr = $('#salesOrder tbody tr').length + 1;
+            var values = $("#salesOrder tbody tr")
+                .map(function() { return parseInt($(this).attr('id').substring(3)); }).get();
+            var index = values.indexOf(tr);
+            if (index >= 0) {
+                tr = Math.max.apply(Math, values) + 1;
+            }
+            var urlpath = '@Url.Action("AddRowForOrder", "DoctorsPrescription")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                dataType: 'html',
+                data: { tr: tr },
+                async: false,
+                success: function(data) {
+
+                    $('#salesOrder tbody').append(data);
+                    //LoadProductInRow("pro_" + tr);
+
+
+                }
+            });
+/*            $('#pro_' + tr).select2();*/
+            SerialTable();
+            //debugger;
+            //var eflag = $('#eflag').val();
+            //if (eflag == "ed") {
+
+            //    $('.aHide').hide();
+            //} else {
+
+            //    $('.aHide').show();
+
+
+            //}
+            //CalculateAll();
+        }
+
+        function SerialTable() {
+            $('#salesOrder tbody tr').each(function(index, element) {
+
+                var idr = $(this).attr('id');
+                var id = idr.substring(3);
+                $('#ts_' + id).html(index + 1);
+
+
+            });
+        }
+
+        function LoadProductInRow(elementId) {
+
+            var array = [];
+            var rowCount = $('#salesOrder tbody tr').length;
+            for (let count = 0; count < rowCount; count++) {
+                array.push(parseInt($("#pro_" + count).val()));
+            };
+            $('#' + elementId + '').append("<option value='0'>--Select Product--</option>");
+
+            for (var i = 0; i < PrlductList.length; i++) {
+                if (jQuery.inArray(PrlductList[i].ProductId, array) == -1) {
+                    $('#' + elementId + '').append($("<option></option>").val(PrlductList[i].ProductId).html(PrlductList[i].ProductName));
+                }
+
+            }
+
+            //$('#' + elementId + '').append("<option value='0'>--Select Product--</option>");
+            //for (var i = 0; i < PrlductList.length; i++) {
+
+            //    $('#' + elementId + '').append($("<option></option>").val(PrlductList[i].ProductId).html(PrlductList[i].ProductName));
+            //}
+
+
+        }
+
+
+        function GetProducts() {
+
+
+            var urlpath = '@Url.Action("GetSaleableProductByGroup", "Utility")';
+            @*var urlpath = '@Url.Action("GetProductByGroup", "Utility")';*@
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { groupId: 5 },
+                async: false,
+                success: function(data) {
+
+                    PrlductList = data;
+
+                }
+            });
+        }
+
+       
+
+    </script>
+}
+

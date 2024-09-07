@@ -1,0 +1,535 @@
+﻿
+@{
+    ViewBag.Title = "Add Day Close";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .spinnermodal {
+        background-color: #FFFFFF;
+        height: 100%;
+        left: 0;
+        opacity: 0.5;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 100000;
+    }
+</style>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group" id="divFromDate">
+                    <label for="txtFromDate">Today</label>
+                    <input type="text" id="txtFromDate" class="form-control" onchange="LoadData()" disabled="disabled" />
+                </div>
+            </div>
+            <div class="col-md-3">
+                <input id="branch" type="number" style="display: none;" value="@ViewBag.Branch">
+                <input id="userId" type="text" style="display: none;" value="@ViewBag.UserId">
+
+                <button style="margin-right: 27px;margin-top:17px" class="btn btn-primary" id="btnDayClose" onclick="SaveDayClose()">Day Close</button>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card-body">
+                    <table class="table table-bordered table-striped table-hover" id="dailyAllRecivedDetailsList">
+                        <thead>
+                            <tr style="background-color: aliceblue">
+                                <th style="text-align:center">Recived</th>
+                                <th style="text-align:center">Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!--<div class="col-md-2">
+            </div>-->
+            <div class="col-md-6">
+                <div class="card-body">
+                    <table class="table table-bordered table-striped table-hover" id="dailyClosingStockNoteDetailsList">
+                        <thead>
+                            <tr style="background-color: aliceblue">
+                                <th style="text-align:center">Sl</th>
+                                <th style="text-align:center">Note</th>
+                                <th style="text-align:center">Type</th>
+                                <th style="text-align:center">Number</th>
+                                <th style="text-align:center">Amount</th>
+                                <th style="text-align:center">Remarks</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>Total</td>
+                                <td><input type="text" id="dailyClosingStockNoteDetailsListCalculateTotal" disabled="disabled" /></td>
+                                <td><span id="divMsgdailyClosingStockNoteDetailsList"></span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card-body">
+                    <table class="table table-bordered table-striped table-hover" id="dailyBankRecivedDetailsList">
+                        <thead>
+                            <tr style="background-color: aliceblue">
+                                <th style="text-align:center">Card</th>
+                                <th style="text-align:center">Card/Payment Name</th>
+                                <th style="text-align:center">Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td></td>
+                                <td>Total</td>
+                                <td><input type="text" id="dailyBankRecivedDetailsListCalculateTotal" disabled="disabled" /></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-4">
+                <div class="col-md-6">
+                    <div class="card-body">
+                        <table class="table table-bordered table-striped table-hover" id="dailyExtraCash">
+                            <thead>
+                                <tr style="background-color: aliceblue">
+                                    <th style="text-align:center">Extra Cash</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><input type="number" id="dailyExtraCashTotal" /></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="spinnermodal" id="testSpan" style="display: none; z-index: 10001">
+        <div style="position: fixed; z-index: 10001; top: 50%; left: 50%; height:50px">
+            <img src="~/AssetStatic/img/loading_spinner.gif" />
+        </div>
+    </div>
+</section>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        var dailyAllRecivedDetails = {};
+        var dailyBankRecivedDetails = {};
+        var dailyClosingStockNoteDetails = {};
+        var isDayClose = false;
+        $(document).ready(function () {
+            debugger;
+            LoadDate_C('#txtFromDate');
+            isDayClose = get_data();
+            GetAllRowNote()
+        });
+
+        function LoadData() {
+            debugger;
+            $("#dailyAllRecivedDetailsList tbody").empty();
+
+           var closeDate = $('#txtFromDate').val();
+            if (closeDate != '') {
+                GetDailyAllRecivedDetails(closeDate);
+                GetDailyBankRecivedDetails(closeDate);
+                GetDailyClosingStockNoteDetails();
+
+
+                GetAllRow();
+            }
+
+        }
+        function GetAllRowNote() {
+            //dailyClosingStockNoteDetails
+            if (dailyClosingStockNoteDetails.length > 0) {
+                for (var i = 0; i < dailyClosingStockNoteDetails.length; i++) {
+                    var tr = i + 1;
+                    var newRow = $('<tr id="tr_' + tr + '">');
+                    var notetype = (dailyClosingStockNoteDetails[i].TypeCode == 'N') ? 'Note' : 'Coin';
+
+                    var td1 = $('<td>');
+                    td1.text(dailyClosingStockNoteDetails[i].SL);
+                    var textbox1 = $('<input class="form-control" >')
+                        .attr('type', 'hidden')
+                        .attr('id', 'sl_' + tr)
+                        .val(dailyClosingStockNoteDetails[i].SL);
+                    td1.append(textbox1);
+                    newRow.append(td1);
+
+                    var td2 = $('<td>');
+                    td2.text(dailyClosingStockNoteDetails[i].Currency);
+                    var textbox2 = $('<input class="form-control" >')
+                        .attr('type', 'hidden')
+                        .attr('id', 'note_' + tr)
+                        .val(dailyClosingStockNoteDetails[i].Currency);
+                    var textbox2_2 = $('<input class="form-control" >')
+                        .attr('type', 'hidden')
+                        .attr('id', 'typecode_' + tr)
+                        .val(dailyClosingStockNoteDetails[i].TypeCode);
+                    td2.append(textbox2);
+                    td2.append(textbox2_2);
+                    newRow.append(td2);
+
+                    var td6 = $('<td>');
+                    var textbox6 = $('<input class="form-control" style="width: 80px" disabled="disabled" >')
+                        .attr('type', 'text')
+                        .attr('id', 'notetype_' + tr)
+                        .val(notetype);
+                    td6.append(textbox6);
+                    newRow.append(td6);
+
+                    var td3 = $('<td>');
+                    var textbox3 = $('<input class="form-control"  style="width: 80px" >')
+                        .attr('type', 'number')
+                        .attr('id', 'number_' + tr)
+                        .attr('oninput', 'LineCalculationStockNote(' + tr + ')');
+                    td3.append(textbox3);
+                    newRow.append(td3);
+
+                    var td4 = $('<td>');
+                    var textbox4 = $('<input class="form-control" style="width: 80px" disabled="disabled" >')
+                        .attr('type', 'number')
+                        .attr('id', 'amount_' + tr);
+                    td4.append(textbox4);
+                    newRow.append(td4);
+
+                    var td5 = $('<td>');
+                    var textbox5 = $('<input class="form-control" >')
+                        .attr('type', 'text')
+                        .attr('id', 'remarks_' + tr);
+                    td5.append(textbox5);
+                    newRow.append(td5);
+
+                    //$('#dailyClosingStockNoteDetailsList tbody').append(newRow);
+                    $('#dailyClosingStockNoteDetailsList tbody').find('tr:last').before(newRow);
+                }
+            } else {
+                //$("#dailyClosingStockNoteDetailsList tbody").empty();
+                $("#dailyClosingStockNoteDetailsListCalculateTotal").val($("#totalCashAmount").val());
+            }
+        }
+        function GetDailyAllRecivedDetails(closeDate) {
+            var urlpath = '@Url.Action("GetDailyAllRecivedDetails", "DayClose")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { closingDate: closeDate },
+                async: false,
+                success: function(data) {
+                    dailyAllRecivedDetails = data;
+                    //console.log("dailyAllRecivedDetails->",dailyAllRecivedDetails);
+                }
+            });
+        }
+        function GetDailyBankRecivedDetails(closeDate) {
+            var urlpath = '@Url.Action("GetDailyBankRecivedDetails", "DayClose")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { closingDate: closeDate },
+                async: false,
+                success: function(data) {
+                    dailyBankRecivedDetails = data;
+                    //console.log("dailyBankRecivedDetails->",dailyBankRecivedDetails);
+                }
+            });
+        }
+        function GetDailyClosingStockNoteDetails() {
+            var urlpath = '@Url.Action("GetDailyClosingStockNoteDetails", "DayClose")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {  },
+                async: false,
+                success: function(data) {
+                    dailyClosingStockNoteDetails = data;
+                    //console.log("dailyClosingStockNoteDetails->",dailyClosingStockNoteDetails);
+                }
+            });
+        }
+        function GetAllRow() {
+            //dailyAllRecivedDetails
+            if (dailyAllRecivedDetails.length > 0) {
+                for (var i = 0; i < dailyAllRecivedDetails.length; i++) {
+                    var tr = i + 1;
+                    var newRow = $('<tr id="tr_' + tr + '">');
+
+                    var td1 = $('<td>');
+                    td1.text(dailyAllRecivedDetails[i].ItmsGrpNam);
+                    newRow.append(td1);
+
+                    var td2 = $('<td>');
+                    td2.text(Math.round(dailyAllRecivedDetails[i].TotalValue));
+                    if (dailyAllRecivedDetails[i].ItmsGrpCo == 'TotCash') {
+                        var textbox2 = $('<input >')
+                            .attr('type', 'hidden')
+                            .attr('id', 'totalCashAmount')
+                            .val(Math.round(dailyAllRecivedDetails[i].TotalValue));
+                        td2.append(textbox2);
+                    }
+                    if (dailyAllRecivedDetails[i].ItmsGrpCo == 'TotBank') {
+                        var textbox2_2 = $('<input >')
+                            .attr('type', 'hidden')
+                            .attr('id', 'totalBankAmount')
+                            .val(dailyAllRecivedDetails[i].TotalValue);
+                        td2.append(textbox2_2);
+                    }
+                    newRow.append(td2);
+
+                    $('#dailyAllRecivedDetailsList tbody').append(newRow);
+                }
+            } else {
+                $("#dailyAllRecivedDetailsList tbody").empty();
+            }
+
+
+
+            //dailyBankRecivedDetails
+            if (dailyBankRecivedDetails.length > 0) {
+                $("#dailyBankRecivedDetailsList tbody tr:not(:last)").remove();
+                $("#dailyBankRecivedDetailsListCalculateTotal").val('');
+                for (var i = 0; i < dailyBankRecivedDetails.length; i++) {
+                    var tr = i + 1;
+                    var newRow = $('<tr id="tr_' + tr + '">');
+
+                    var td1 = $('<td>');
+                    td1.text(dailyBankRecivedDetails[i].CreditCard);
+                    newRow.append(td1);
+
+                    var td2 = $('<td>');
+                    td2.text(dailyBankRecivedDetails[i].CardName);
+                    newRow.append(td2);
+
+                    var td3 = $('<td>');
+                    td3.text(dailyBankRecivedDetails[i].Amount);
+                    newRow.append(td3);
+
+                    //$('#dailyBankRecivedDetailsList tbody').append(newRow);
+                    $('#dailyBankRecivedDetailsList tbody').find('tr:last').before(newRow);
+                }
+                $("#dailyBankRecivedDetailsListCalculateTotal").val($("#totalBankAmount").val())
+            } else {
+                //$("#dailyBankRecivedDetailsList tbody").empty();
+                $("#dailyBankRecivedDetailsListCalculateTotal").val($("#totalBankAmount").val());
+            }
+        }
+        function LineCalculationStockNote(rowId) {
+            var note = isNaN(parseFloat($('#note_' + rowId).val())) ? 0 : parseFloat($('#note_' + rowId).val());
+            var number = isNaN(parseFloat($('#number_' + rowId).val())) ? 0 : parseFloat($('#number_' + rowId).val());
+
+            var total = (note * number);
+            $('#amount_' + rowId).val(total.toFixed(2));
+
+            TotalCalculationStockNote();
+        }
+        function TotalCalculationStockNote() {
+            var TotalCashAmountByNote = 0;
+
+            $('#dailyClosingStockNoteDetailsList tbody tr').each(function () {
+                var idr = $(this).attr('id');
+                if (idr) {
+                    var id = idr.substring(3);
+
+                    var totalAmount_ = isNaN(parseFloat($('#amount_' + id).val())) ? 0 : parseFloat($('#amount_' + id).val());
+
+                    TotalCashAmountByNote = TotalCashAmountByNote + totalAmount_;
+                    $('#dailyClosingStockNoteDetailsListCalculateTotal').val(TotalCashAmountByNote.toFixed(2));
+                }
+            });
+        }
+        function SaveDayClose() {
+            if (SaveValidation() == true) {
+                swal({
+                    title: "Are you sure?",
+                    text: "",
+                    type: "success",
+                    showCancelButton: true,
+                    cancelButtonClass: 'btn-secondary waves-effect',
+                    confirmButtonClass: 'btn-success waves-effect waves-light',
+                    confirmButtonText: 'Yes!',
+                    closeOnConfirm: false
+
+                }, function () {
+                    $('.confirm').prop("disabled", true);
+                    $('.cancel').prop("disabled", true);
+                    if (isDayClose == false) {
+                        saveData();
+                    }
+                    else {
+                        ShowMessage("Data Already Exists");
+                    }
+                });
+            }
+        }
+        function saveData() {
+            var jsonData = {};
+            var date = $('#txtFromDate').val();
+            var newdate = DateConversionToYYYYMMDD(date);
+
+            jsonData["PostingDate"] = newdate;  //"20230814"
+            jsonData["CashAmount"] = isNaN(parseFloat($('#totalCashAmount').val())) ? 0 : parseFloat($('#totalCashAmount').val());  //isNaN(parseFloat($('#dailyClosingStockNoteDetailsListCalculateTotal').val())) ? 0 : parseFloat($('#dailyClosingStockNoteDetailsListCalculateTotal').val());
+            jsonData["OthersAmount"] = isNaN(parseFloat($('#dailyBankRecivedDetailsListCalculateTotal').val())) ? 0 : parseFloat($('#dailyBankRecivedDetailsListCalculateTotal').val());
+            jsonData["ExtraCashAmount"] = isNaN(parseFloat($('#dailyExtraCashTotal').val())) ? 0 : parseFloat($('#dailyExtraCashTotal').val());
+            jsonData["Remarks"] = "";
+
+
+            var jsonObjs = [];
+            $('#dailyClosingStockNoteDetailsList tbody tr').each(function () {
+                var theObj = {};
+                var idr = $(this).attr('id');
+                if (idr) {
+                    var id = idr.substring(3);
+
+                    var serialNo = $('#sl_' + id).val();
+                    var currency = $('#note_' + id).val();
+                    var typeCode = $('#typecode_' + id).val();
+                    var totalAmount = $('#amount_' + id).val();
+                    var number = $('#number_' + id).val();
+                    var remarks = $('#remarks_' + id).val();
+                    if (totalAmount > 0) {
+                        theObj["SerialNo"] = serialNo;
+                        theObj["Currency"] = currency;
+                        theObj["TypeCode"] = typeCode;
+                        theObj["No"] = number;
+                        theObj["TotalAmount"] = totalAmount;
+                        theObj["Remarks"] = remarks;
+                        jsonObjs.push(theObj);
+                    }
+                }
+            });
+            jsonData["Items"] = jsonObjs;
+
+            var urlpath2 = '@Url.Action("SaveDayClose", "DayClose")';
+            $.ajax({
+                contentType: "application/json",
+                data: JSON.stringify(jsonData),
+                dataType: 'json',
+                url: urlpath2,
+                type: "POST",
+                beforeSend: function () {
+                    debugger;
+                    $('#testSpan').show();
+                    $('#btnDayClose').prop('disabled', true);
+                },
+                success: function (result) {
+                    if (result.UnAutorized == 1) {
+                        window.location.href = '@Url.Action("Logout", "Home")';
+                    } else {
+                        if (result.dataList.ReturnCode == "-99999") {
+                            //API Project Session Out
+                            window.location.href = '@Url.Action("Logout", "Home")';
+                        } else {
+                        var message = result.dataList.ReturnMsg;
+                        if (result.dataList.ReturnCode == "0000") {
+                        swal({
+                            title: " Saved Successfull",
+                            text: '',
+                            type: "success",
+                            showCancelButton: false,
+                            cancelButtonClass: 'btn-secondary waves-effect',
+                            confirmButtonClass: 'btn-success waves-effect waves-light',
+                            confirmButtonText: 'Yes!',
+                            closeOnConfirm: false
+                        }, function () {
+                            window.location.href =  '@Url.Action("Index", "DayClose")';
+                        });
+                        } else {
+                            ShowMessage(message);
+                            $('#btnDayClose').prop('disabled', false);
+                        }
+                        }
+
+                    }
+                }
+            })
+        }
+        function get_data() {
+            var date;
+            var value;
+            if($('#txtFromDate').val() == "") {
+                swal("Please input from date");
+                return;
+            }
+            else {
+                date = $('#txtFromDate').val();
+            }
+            var fromdate = DateConversionToYYYYMMDD(date);
+            var urlpath = '@Url.Action("GetDayClose", "DayClose")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { fromdate: fromdate },
+                /*    data: {  },*/
+                async: false,
+                success: function (data) {
+                    if (data.length==0) {
+                        value= false;
+                    }
+                    else {
+                        value= true;
+                    }
+                }
+            });
+            return value;
+        }
+        function pad2(number) {
+            return (number < 10 ? '0' : '') + number;
+        }
+        function DateConversionToYYYYMMDD(inputDate) {
+            // Split the input date into day, month, and year parts
+            var parts = inputDate.split('-');
+            var day = parts[0];
+            var month = parts[1];
+            var year = parts[2];
+            var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            var monthIndex = monthNames.indexOf(month);
+            monthIndex++; // Adjust for 0-based indexing
+            // Create a Date object with the parsed values
+            var dateObject = new Date(year, monthIndex - 1, day);
+            // Format the date as "YYYYMMDD"
+            var formattedDate = dateObject.getFullYear() + pad2(dateObject.getMonth() + 1) + pad2(dateObject.getDate());
+            return formattedDate
+        }
+        function SaveValidation() {
+            var isValid = true;
+            var message = "Some Values Required";
+            var dailyClosingStockNoteDetailsListCalculateTotal = isNaN(parseFloat($('#dailyClosingStockNoteDetailsListCalculateTotal').val())) ? 0 : parseFloat($('#dailyClosingStockNoteDetailsListCalculateTotal').val())
+            var totalCashAmount = isNaN(parseFloat($('#totalCashAmount').val())) ? 0 : parseFloat($('#totalCashAmount').val())
+            var dailyExtraCashTotal = isNaN(parseFloat($('#dailyExtraCashTotal').val())) ? 0 : parseFloat($('#dailyExtraCashTotal').val())
+
+            //if (parseFloat($('#dailyClosingStockNoteDetailsListCalculateTotal').val()) != (parseFloat($('#totalCashAmount').val()) + parseFloat($('#dailyExtraCashTotal').val()))) {
+            if (dailyClosingStockNoteDetailsListCalculateTotal != totalCashAmount + dailyExtraCashTotal) {
+                ValidationColorChangeNew("dailyClosingStockNoteDetailsListCalculateTotal", "divMsgdailyClosingStockNoteDetailsList", "Cash Total calculated amount need to same as 'Received Through Cash + Extra Cash'.", true);
+                isValid = false;
+            }
+
+            if (isValid == false) {
+                ShowMessage(message);
+            }
+            return isValid;
+        }
+    </script>
+}

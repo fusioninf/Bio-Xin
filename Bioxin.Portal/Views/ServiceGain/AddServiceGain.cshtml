@@ -1,0 +1,659 @@
+﻿
+@{
+    ViewBag.Title = "Add Therapist Checklist";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .custom-header {
+        background-color: darkgray !important; /* Blue color #007bff  #808080*/
+        color: black; /* Text color for contrast */
+    }
+    .spinnermodal {
+        background-color: #FFFFFF;
+        height: 100%;
+        left: 0;
+        opacity: 0.5;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 100000;
+    }
+</style>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-primary">
+                    <div class="card-header custom-header">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <a href="@Url.Action("AddServiceGain", "ServiceGain", new {sgId = 0})">
+                                    <h3 class="card-title">
+                                        @if (ViewBag.ActivityId == 0)
+                                        {
+                                            <span class="" style="color:black"><b>Service Gain</b></span>
+                                        }
+                                        else
+                                        {
+                                            <span class="" style="color:black"> Edit Service Gain</span>
+                                        }
+                                    </h3>
+                                </a>
+                            </div>
+                            <div class="col-md-6 text-right">
+                                <a class="btn btn-outline-warning" href="@Url.Action("Index", "ServiceGain")">
+                                    <span class="fa fa-list"></span> Service Gain
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group row mt-1" id="divActivityType">
+                                    <label for="ddlActivityType" class="col-md-4 control-label">Activity Type</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%;" id="ddlActivityType" onchange="LoadActivity()" disabled="disabled"></select>
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divActivity">
+                                    <label for="ddlActivity" class="col-md-4 control-label">Activity</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%;" id="ddlActivity" disabled="disabled"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group row mt-1" id="divSearchInvoiceNo">
+                                    <label for="txtInvoiceNo" class="col-md-4 control-label">InvoiceNo</label>
+                                    <div class="col-md-6">
+                                        <input type="text" placeholder="Search Invoice No" id="txtSearchInvoiceNo" class="form-control" autocomplete="off" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group row mt-1" id="divActivityDate">
+                                    <label for="txtActivityDate" class="col-md-4 control-label">Activity Date</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtActivityDate" class="form-control datepicker" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divBranch">
+                                    <label for="ddlBranch" class="col-md-4 control-label">Branch</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%; text-align: center" id="ddlBranch" disabled="disabled"></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            &nbsp;
+                        </div>
+                        <div class="row table-responsive">
+                            <table class="table table-bordered table-striped table-hover" id="salesOrder">
+                                <thead>
+                                    <tr style="background-color: lightgrey">
+                                        <th>#</th>
+                                        <th>Invoice No</th>
+                                        <th>Order No</th>
+                                        <th>Customer Name</th>
+                                        <th>Contact No</th>
+                                        <th>Service Name</th>
+                                        <th>Session</th>
+                                        <th>Therapist</th>
+                                        <th>Doctor</th>
+                                        <th>Shift</th>
+                                        <th>Remarks</th>
+                                        <th class="action">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-warning" id="btnActivity" onclick="SaveActivity()">Add & New</button>
+                        <button class="btn btn-warning  float-right" onclick="location.reload()">Clear</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <input id="activityId" type="number" style="display: none;" value="@ViewBag.ActivityId">
+        <input id="branch" type="number" style="display: none;" value="@ViewBag.Branch">
+        <input id="userId" type="text" style="display: none;" value="@ViewBag.UserId">
+        <input id="eflag" type="text" style="display: none;" value="@ViewBag.eflag">
+        <input id="empId" type="text" style="display: none;" value="@ViewBag.empId">
+        <input id="empType" type="text" style="display: none;" value="@ViewBag.empType">
+    </div>
+    <div class="spinnermodal" id="testSpan" style="display: none; z-index: 10001">
+        <div style="position: fixed; z-index: 10001; top: 50%; left: 50%; height:50px">
+            <img src="~/AssetStatic/img/loading_spinner.gif" />
+        </div>
+    </div>
+</section>
+@section Scripts
+{
+    <script>
+        var invoiceToList = {};
+        var therapistToList = {};
+        var doctorToList = {};
+        var shiftToList = {};
+        $(document).ready(function () {
+            LoadDate_C('#txtActivityDate');
+            LoadActivityType('ddlActivityType');
+            LoadActivity('ddlActivity');
+            LoadBranch('ddlBranch');
+            var branch = $('#branch').val();
+            $("#ddlBranch").val(branch).trigger('change');
+            GetInvoiceNo();
+            GetTherapist();
+            GetDoctor();
+            GetShift();
+/*            AddRow();*/
+            $("#txtSearchInvoiceNo").autocomplete({
+                source: function (request, response) {
+                    var _url = '';
+                        _url = '@Url.Action("AutoCompleteInvoice", "ServiceGain")';
+
+                $.ajax({
+                    url: _url,
+                    data: "{ 'prefix': '" + request.term + "'}",
+                    dataType: "json",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                           if (data.UnAutorized == 1) {
+                            window.location.href = '@Url.Action("Logout", "Home")';
+                           } else {
+                            if (data.dataList[0].ReturnCode == "-99999") {
+                                window.location.href = '@Url.Action("Logout", "Home")';
+                            } else {
+                                response($.map(data.dataList, function (item) {
+                                    return item.DocEntry + " | " + item.SAPDocNum;
+                                }));
+                            }
+                          }
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+                },
+
+                select:function (event, ui) {
+                debugger;
+                var str = ui.item.value;
+                var ret2 = str.replace(" | ", '|');
+                var ret = ret2.split('|');
+                var docEntry = ret[0];
+                var sAPDocNum = ret[1];
+                 AddItemRow(docEntry);
+                }
+               , minLength: 3
+                , close: function (event, ui) {
+                    debugger;
+                    $("#txtSearchInvoiceNo").val("");
+                }
+            });
+        });
+        function LoadActivityType(elementId) {
+            var urlpath = '@Url.Action("GetActivityTypeforMemu", "ServiceGain")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { ActivityType: "S" },
+                async: false,
+                success: function(data) {
+                    $('#' + elementId + '').empty();
+                    //$('#' + elementId + '').append("<option value=''>--Select Activity Type--</option>");
+                    for (var i = 0; i < data.length; i++) {
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].Code).html(data[i].Description));
+                    }
+                }
+            });
+        }
+        function LoadActivity(elementId) {
+            var activityType = $('#ddlActivityType').val();
+            var urlpath = '@Url.Action("GetActivityMaster", "ServiceGain")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { ActivityType: activityType },
+                async: false,
+                success: function(data) {
+                    //activityList = data;
+                    $('#' + elementId + '').empty();
+                    //$('#' + elementId + '').append("<option value=''>--Select Activity--</option>");
+                    for (var i = 0; i < data.length; i++) {
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].ActivityCode).html(data[i].ActivityName));
+                    }
+                }
+            });
+        }
+        function LoadBranch(elementId) {
+            var urlpath = '@Url.Action("GetBranch", "TherapistChecklist")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { },
+                async: false,
+                success: function(data) {
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value=''>--Select Branch--</option>");
+                    for (var i = 0; i < data.length; i++) {
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].PrcCode).html(data[i].PrcName ));
+                    }
+                }
+            });
+        }
+        function GetInvoiceNo() {
+            var urlpath = '@Url.Action("GetInvoiceNo", "ServiceGain")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {  },
+                async: false,
+                success: function (data) {
+                    debugger;
+                    invoiceToList = data;
+                }
+            });
+        }
+        function GetTherapist() {
+            var urlpath = '@Url.Action("GetAssinedTo", "ServiceGain")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {  },
+                async: false,
+                success: function(data) {
+                    therapistToList = data;
+                }
+            });
+        }
+        function GetDoctor() {
+            var urlpath = '@Url.Action("GetDoctor", "ServiceGain")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {  },
+                async: false,
+                success: function(data) {
+                    doctorToList = data;
+                }
+            });
+        }
+        function GetShift() {
+            var urlpath = '@Url.Action("GetActivitySession", "ServiceGain")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {  },
+                async: false,
+                success: function(data) {
+                    shiftToList = data;
+                }
+            });
+        }
+        function GetInvoiceDetailsById(docEntry,rowId) {
+           // var docEntry = $('#invoiceNo_' + rowId).val();
+            var urlpath = '@Url.Action("GetInvoiceNo", "ServiceGain")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { DocEntry: docEntry  },
+                async: false,
+                success: function (data) {
+                    $('#docEntry_' + rowId).val(data[0].DocEntry);
+                    $('#invoiceNo_' + rowId).val(data[0].SAPDocNum);
+                    $('#objType_' + rowId).val(data[0].ObjType);
+                    $('#cardCode_' + rowId).val(data[0].CardCode);
+                    $('#orderNo_' + rowId).val(data[0].SAPSODocNum);
+                    $('#customerName_' + rowId).val(data[0].CardName);
+                    $('#contactNo_' + rowId).val(data[0].Mobile);
+                }
+            });
+
+            var urlpath2 = '@Url.Action("GetInvoiceDetail", "ServiceGain")';
+            $.ajax({
+                url: urlpath2,
+                type: "Get",
+                data: { DocEntry: docEntry  },
+                async: false,
+                success: function (data) {
+                    $('#lineNumber_' + rowId).val(data[0].LineNum);
+                    $('#serviceName_' + rowId).val(data[0].ItemName);
+        /*            $('#session_' + rowId).val(data[0].Session);*/
+                }
+            });
+
+            LoadSessionInRow("session_" + rowId, docEntry);
+        }
+        function LoadSessionInRow(elementId, docEntry) {
+            var urlpath3 = '@Url.Action("GetSeviveSessionInvoice", "ServiceGain")';
+            $.ajax({
+                url: urlpath3,
+                type: "Get",
+                data: { DocEntry: docEntry },
+                async: false,
+                success: function (data) {
+                    debugger;
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value=''>--Select Session--</option>");
+                    for (var i = 0; i < data.length; i++) {
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].LineNum).html(data[i].SequenceNo));
+                    }
+                }
+            });
+        }
+        function AddItemRow(docEntry) {
+            var tr = $('#salesOrder tbody tr').length + 1;
+            var values = $("#salesOrder tbody tr")
+                .map(function() { return parseInt($(this).attr('id').substring(3)); }).get();
+            var index = values.indexOf(tr);
+            if (index >= 0) {
+                tr = Math.max.apply(Math, values) + 1;
+            }
+            var urlpath = '@Url.Action("AddRowForOrder", "ServiceGain")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                dataType: 'html',
+                data: { tr: tr },
+                async: false,
+                success: function(data) {
+                    $('#salesOrder tbody').append(data);
+                    GetInvoiceDetailsById(docEntry, tr);
+                    //LoadInvoiceInRow("invoiceNo_" + tr);
+                    LoadTherapistInRow("therapist_" + tr);
+                    LoadDoctorInRow("doctor_" + tr);
+                    LoadShiftInRow("shift_" + tr);
+                }
+            });
+
+            //$('#invoiceNo_' + tr).select2();
+            $('#therapist_' + tr).select2();
+            $('#doctor_' + tr).select2();
+            $('#shift_' + tr).select2();
+            var dt = $('#empType').val();
+      /*      var empId = isNaN(parseFloat($('#empId').val())) ? 0 : parseFloat($('#empId').val());*/
+            var empId = $('#empId').val();
+            if (dt == "D") {
+                $('#doctor_' + tr).val(empId).trigger('change');
+            }else if (dt == "T") {
+                $('#therapist_' + tr).val(empId).trigger('change');
+            }
+            SerialTable();
+        }
+
+
+
+        function SerialTable() {
+            $('#salesOrder tbody tr').each(function (index, element) {
+                var idr = $(this).attr('id');
+                var id = idr.substring(3);
+                $('#ts_' + id).html(index + 1);
+            });
+        }
+        function LoadInvoiceInRow(elementId) {
+            var array = [];
+            var rowCount = $('#salesOrder tbody tr').length;
+            for (let count = 0; count < rowCount; count++) {
+                array.push(parseInt($("#invoiceNo_" + count).val()));
+            };
+            $('#' + elementId + '').append("<option value=''>--Select Invoice No--</option>");
+            for (var i = 0; i < invoiceToList.length; i++) {
+                if (jQuery.inArray(invoiceToList[i].DocEntry, array) == -1) {
+                    $('#' + elementId + '').append($("<option></option>").val(invoiceToList[i].DocEntry).html(invoiceToList[i].SAPDocNum));
+                }
+
+            }
+        }
+        function LoadTherapistInRow(elementId) {
+            $('#' + elementId + '').append("<option value=''>--Select Therapist--</option>");
+            for (var i = 0; i < therapistToList.length; i++) {
+                    $('#' + elementId + '').append($("<option></option>").val(therapistToList[i].empID).html(therapistToList[i].firstName + " " + therapistToList[i].middleName + " " + therapistToList[i].lastName));
+            }
+        }
+        function LoadDoctorInRow(elementId) {
+            $('#' + elementId + '').append("<option value=''>--Select Doctor--</option>");
+            for (var i = 0; i < doctorToList.length; i++) {
+                    $('#' + elementId + '').append($("<option></option>").val(doctorToList[i].empID).html(doctorToList[i].firstName + " " + doctorToList[i].middleName + " " + doctorToList[i].lastName));
+            }
+        }
+        function LoadShiftInRow(elementId) {
+            $('#' + elementId + '').append("<option value=''>--Select Shift--</option>");
+            for (var i = 0; i < shiftToList.length; i++) {
+                    $('#' + elementId + '').append($("<option></option>").val(shiftToList[i].Value).html(shiftToList[i].Description));
+            }
+        }
+        function SaveActivity() {
+            if (SaveValidation() == true) {
+                swal({
+                    title: "Are you sure?",
+                    text: "",
+                    type: "success",
+                    showCancelButton: true,
+                    cancelButtonClass: 'btn-secondary waves-effect',
+                    confirmButtonClass: 'btn-success waves-effect waves-light',
+                    confirmButtonText: 'Yes!',
+                    closeOnConfirm: false
+
+                }, function() {
+                    $('.confirm').prop("disabled", true);
+                    $('.cancel').prop("disabled", true);
+                    SaveActivityFinal();
+                });
+            }
+        }
+        function pad2(number) {
+            return (number < 10 ? '0' : '') + number;
+        }
+        function DateConversionToYYYYMMDD(inputDate) {
+            // Split the input date into day, month, and year parts
+            var parts = inputDate.split('-');
+            var day = parts[0];
+            var month = parts[1];
+            var year = parts[2];
+            var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            var monthIndex = monthNames.indexOf(month);
+            monthIndex++; // Adjust for 0-based indexing
+            // Create a Date object with the parsed values
+            var dateObject = new Date(year, monthIndex - 1, day);
+            // Format the date as "YYYYMMDD"
+            var formattedDate = dateObject.getFullYear() + pad2(dateObject.getMonth() + 1) + pad2(dateObject.getDate());
+            return formattedDate
+        }
+        function SaveActivityFinal() {
+            var jsonData = {};
+            var date = $('#txtActivityDate').val();
+            var newdate=DateConversionToYYYYMMDD(date);
+
+            jsonData["ActivityDate"] = newdate;  //"20230814"
+
+            var activityType = $('#ddlActivityType').val();
+            var activity = $('#ddlActivity').val();
+            var branch = $('#ddlBranch').val();
+
+            var jsonObjs = [];
+            $('#salesOrder tbody tr').each(function() {
+                var theObj = {};
+                var idr = $(this).attr('id');
+                var id = idr.substring(3);
+
+                var therapist = $('#therapist_' + id).val();
+                var remarks = $('#remarks_' + id).val();
+                var shift = $('#shift_' + id).val();
+                var cardCode = $('#cardCode_' + id).val();
+                var docEntry = $('#docEntry_' + id).val();
+                var lineNumber = $('#lineNumber_' + id).val();
+                var lineNum = $('#session_' + id).val();
+                var doctor = $('#doctor_' + id).val();
+                var therapist = $('#therapist_' + id).val();
+                var objType = $('#objType_' + id).val();
+
+                var dt = $('#empType').val();
+                if (dt == "D") {
+                    theObj["AssignedEmployeeId"] = doctor;
+                }
+                if (dt == "T") {
+                    theObj["AssignedEmployeeId"] = therapist;
+                }
+
+
+                theObj["ActivityType"] = activityType;
+                theObj["Activity"] = activity;
+                theObj["FromTime"] = ""; //txtFromTime;
+                theObj["ToTime"] = "";  //txtToTime;
+                theObj["Status"] = ""; //status;
+                theObj["DailyOperationStatus"] = "";
+                theObj["Comments"] = remarks;
+                theObj["TaskDetails"] = "";
+                theObj["Session"] = shift;
+                theObj["CardCode"] = cardCode;
+                theObj["SoEntry"] = docEntry;
+                theObj["AgentCode"] = "";
+                theObj["VisitingBranch"] = "";
+                theObj["LineId"] = lineNum;
+                theObj["Doctor"] = doctor;
+                theObj["Therapist"] = therapist;
+                theObj["ObjType"] = objType;
+                theObj["HowManySession"] = "";
+
+                jsonObjs.push(theObj);
+            });
+
+            jsonData["Activity"] = jsonObjs;
+
+            var urlpath2 = '@Url.Action("SaveActivity", "ServiceGain")';
+            $.ajax({
+                contentType: "application/json",
+                data: JSON.stringify(jsonData),
+                dataType: 'json',
+                url: urlpath2,
+                type: "POST",
+                beforeSend: function () {
+                    debugger;
+                    $('#testSpan').show();
+                    $('#btnActivity').prop('disabled', true);
+                },
+                success: function (result) {
+                    $('#testSpan').hide();
+                    if (result.UnAutorized == 1) {
+                  /*      TempData["message"] = "Session Out, Please Login Again";*/
+                        window.location.href = '@Url.Action("Logout", "Home")';
+                    } else {
+                        if (result.dataList.ReturnCode == "-99999") {
+                            //API Project Session Out
+                            window.location.href = '@Url.Action("Logout", "Home")';
+                        } else {
+                        var message = result.dataList.ReturnMsg;
+                        if (result.dataList.ReturnCode == "0000") {
+                        swal({
+                            title: " Saved Successfull",
+                            text: '',
+                            type: "success",
+                            showCancelButton: false,
+                            cancelButtonClass: 'btn-secondary waves-effect',
+                            confirmButtonClass: 'btn-success waves-effect waves-light',
+                            confirmButtonText: 'Yes!',
+                            closeOnConfirm: false
+                        }, function () {
+                            window.location.href =  '@Url.Action("Index", "ServiceGain")';
+                        });
+
+
+                      } else {
+                            ShowMessage(message);
+                            $('#btnActivity').prop('disabled', false);
+                      }
+                        }
+
+                    }
+
+                }
+            })
+        }
+        function SaveValidation() {
+            var isValid = true;
+            var message = "Some Values Required";
+            if ($('#txtActivityDate').val() == '' || $('#txtActivityDate').val() == null) {
+                ValidationColorChangeNew("txtActivityDate", "divActivityDate", "Activity Date Required", false);
+                isValid = false;
+            }
+            //Tasks Required
+            if ($('#salesOrder tbody tr').length == 0 || $('#salesOrder tbody tr').length == '') {
+                isValid = false;
+                message = "Tasks Required";
+            }
+
+
+            $('#salesOrder tbody tr').each(function() {
+
+                var idr = $(this).attr('id');
+                var id = idr.substring(3);
+
+                var invoiceNo = $('#invoiceNo_' + id).val();
+                var therapist = $('#therapist_' + id).val();
+                var doctor = $('#doctor_' + id).val();
+                var shift = $('#shift_' + id).val();
+                var session = $('#session_' + id).val();
+
+
+                if (invoiceNo === '' || invoiceNo === null) {
+                    isValid = false;
+                    message = "Please Select Invoice No";
+                    $('#invoiceNo_' + id).css('border-bottom', '2px solid red');
+                    return;
+                }
+                //if (therapist === '' || therapist === null) {
+                //    isValid = false;
+                //    message = "Please Select Therapist";
+                //    $('#therapist_' + id).css('border-bottom', '2px solid red');
+                //    return;
+                //}
+                //if (doctor === '' || doctor === null) {
+                //    isValid = false;
+                //    message = "Please Select Doctor";
+                //    $('#doctor_' + id).css('border-bottom', '2px solid red');
+                //    return;
+                //}
+                if (session === '' || session === null) {
+                    isValid = false;
+                    message = "Please Select Session";
+                    $('#session_' + id).css('border-bottom', '2px solid red');
+                    return;
+                }
+                if (shift === '' || shift === null) {
+                    isValid = false;
+                    message = "Please Select Shift";
+                    $('#shift_' + id).css('border-bottom', '2px solid red');
+                    return;
+                }
+            });
+            if (isValid == false) {
+                ShowMessage(message);
+
+            }
+            return isValid;
+
+
+        }
+        function RemoveRow(id) {
+            var trLength = $('#salesOrder tbody tr').length;
+            if (trLength >= 1) {
+                $('#tr_' + id).remove();
+                SerialTable();
+            } else {
+                return;
+            }
+
+        }
+    </script>
+}
+

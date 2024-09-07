@@ -1,0 +1,133 @@
+﻿<style>
+    .custom-header {
+        background-color: darkgray !important; /* Blue color #007bff  #808080*/
+        color: black; /* Text color for contrast */
+    }
+</style>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-primary">
+                    <div class="card-header custom-header">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <h3 id="salesOrderNo"></h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group row" id="divPriceList">
+                                    <label for="ddlPriceList" class="col-md-4 control-label">Price List</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%; text-align: center" id="ddlPriceList"></select>
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-5" id="divBranch">
+                                    <label for="ddlBranch" class="col-md-4 control-label">Branch</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="ddlBranch" class="form-control" disabled="disabled" />
+                                        @*<select class="form-control select2" style="width: 100%; text-align: center" id="ddlBranch" disabled="disabled"></select>*@
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4">
+                                <div class="form-group row" id="divDocumentNo">
+                                    <label for="txtDocumentNo" class="col-md-4 control-label">Document No</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtDocumentNo" class="form-control" disabled="disabled" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divStatus">
+                                    <label for="txtStatus" class="col-md-4 control-label">Status</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtStatus" class="form-control" disabled="disabled" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divDocDate">
+                                    <label for="txtDocDate" class="col-md-4 control-label">Posting Date</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtDocDate" class="form-control datepicker" value="@DateTime.Now.ToString("dd-MM-yyyy")" />
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            &nbsp;
+                        </div>
+                        <div class="row table-responsive">
+                            <table class="table table-bordered table-striped table-hover" id="salesOrder">
+                                <thead>
+                                    <tr style="background-color: lightgrey">
+                                        <th>#</th>
+                                        <th>Item Code</th>
+                                        <th>Item Name</th>
+                                        <th>UOM</th>
+                                        <th>Quantity</th>
+                                        <th>Batch/Serial</th>
+                                        <th>Price</th>
+                                        <th>Value</th>
+                                        <th>Remarks</th>
+                                        @*<th class="action">Action</th>*@
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group row mt-1" id="divCreateBy">
+                                    <label for="lblCreateBy" class="col-md-4 control-label">Create By</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="ddlCreateBy" class="form-control" disabled="disabled" />
+                                        @*<select class="form-control select2" style="width: 100%;" id="ddlCreateBy"></select>*@
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divRrmarks">
+                                    <label for="taxVat" class="col-md-4 control-label">Remarks</label>
+                                    <div class="col-md-6">
+                                        <textarea class="form-control" id="txtRrmarks" name="w3review" rows="3" cols="30"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4">
+                                <div class="form-group row mt-1" id="divGrandTotal">
+                                    <label for="lblCreateBy" class="col-md-4 control-label">Grand Total</label>
+                                    <div class="col-md-6">
+                                        <input type="number" class="form-control" id="grandTotal" disabled="disabled" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @*<div class="card-footer">
+                        <div class="col-md-3"></div>
+                        <div class="col-md-3"></div>
+                        <div class="col-md-3 float-right">
+                            <div class="row">
+                                <div class="col-md-3"></div>
+                                <div class="col-md-2"></div>
+                                <div class="col-md-4">
+                                    <button class="btn btn-warning " onclick="SaveGoodsReceipt()" style="background-color: #ffbf00">Add & New</button>
+                                </div>
+                                <div class="col-md-3">
+                                    <button class="btn btn-warning float-right">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>*@
+                </div>
+            </div>
+        </div>
+
+        <input id="goodsReceiptId" type="number" style="display: none;" value="@ViewBag.GoodsReceiptId">
+        <input id="branch" type="number" style="display: none;" value="@ViewBag.Branch">
+        <input id="eflag" type="text" style="display: none;" value="@ViewBag.eflag">
+    </div>
+</section>

@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Servers>
+  <Server
+	  sapdbServer="BH0@172.16.1.9:30013"
+	  dbServer="172.16.1.9:30015" 
+	  dbUid="SYSTEM" 
+	  dbPwd="3146315B32325F51335531243831334B56325E4A315D5040544E78434642"
+	  dbType="9" 
+	  licenseServer="172.16.1.9:40000"
+		CompanyDB="BIOXIN_PRD" 
+		ArtWrkDb="APM_ARTWORK"
+		SAPUid="SAPUser"
+		SAPPwd="3E60343348335B32325D4F313E4D40423B6E4F5A69415E78594C6F453F69434642" 
+		SessionTime="120"/>
+</Servers>

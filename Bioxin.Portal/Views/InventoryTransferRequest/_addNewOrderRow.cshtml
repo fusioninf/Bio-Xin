@@ -1,0 +1,56 @@
+﻿@{
+    int sl = Convert.ToInt32(TempData["trSl"]);
+}
+<tr id="tr_@sl">
+
+    <td id="ts_@sl">@sl</td>
+    <td>
+        @*<input type="text" class="form-control" id="itemName_@sl" style="width: 65px" />*@
+        <input type="text" class="form-control" id="itemCode_@sl" disabled="disabled" style="width: 80px;"/>
+    </td>
+    <td>
+        @*<select class="form-control select2" id="itemCode_@sl" style="width: 240px" onchange="GetItemDetails(@sl)"></select>*@
+        <input type="text" class="form-control" id="itemName_@sl" style="width: 300px;" disabled="disabled" />
+    </td>
+    <td>
+
+        <input type="number" class="form-control" id="quantity_@sl" value="1" oninput="CalculateLineTotal(@sl)" style="width: 80px"/>
+    </td>
+    <td>
+        <input type="text" class="form-control" id="uom_@sl" style="width: 40px" disabled="disabled" />
+    </td>
+
+    @*<td>
+            <select class="form-control select2" id="fromWH_@sl" style="width: 150px"></select>
+        </td>
+        <td>
+
+            <select class="form-control select2" id="toWH_@sl" style="width: 150px"></select>
+        </td>*@
+
+    @*<td>
+            <input type="number" class="form-control" id="batchSerialNo_@sl" />
+        </td>*@
+    @*<td>
+
+            <input type="number" class="form-control" id="price_@sl" oninput="CalculateLineTotal(@sl)" />
+        </td>
+        <td>
+            <input type="number" class="form-control" id="value_@sl" />
+        </td>*@
+    <td>
+        <input type="number" class="form-control" id="stock_@sl" style="width: 80px" disabled="disabled"/>
+    </td>
+    <td>
+        <input type="text" class="form-control" id="remarks_@sl" style="width: 250px"/>
+    </td>
+    <td class="actionHide">
+        <div class="form-group">
+            @*<button class="btn btn-xs btn-success " id="btnAdd_@sl" onclick="AddRow()"><b>+</b></button>*@
+            <button class="btn btn-xs btn-danger" id="btnRemove_@sl" onclick="RemoveRow(@sl)"><b></b>x</button>
+            <input type="text" style="display: none" id="baseEntry_@sl" />
+            <input type="text" style="display: none" id="baseLine_@sl" />
+            <input type="text" style="display: none" id="baseType_@sl" />
+        </div>
+    </td>
+</tr>

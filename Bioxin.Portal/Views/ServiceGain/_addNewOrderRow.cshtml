@@ -1,0 +1,50 @@
+﻿@{
+    int sl = Convert.ToInt32(TempData["trSl"]);
+}
+<tr id="tr_@sl">
+
+    <td id="ts_@sl">@sl</td>
+    <td>
+        @*<select class="form-control select2" id="invoiceNo_@sl" style="width: 180px" onchange="GetInvoiceDetailsById(@sl)"></select>*@
+        <input type="text" class="form-control" id="invoiceNo_@sl" style="width: 180px" disabled="disabled" />
+        <input type="hidden" id="docEntry_@sl" />
+        <input type="hidden" id="objType_@sl" />
+        <input type="hidden" id="cardCode_@sl" />
+    </td>
+    <td>
+        <input type="text" class="form-control" id="orderNo_@sl" style="width: 180px" disabled="disabled" />
+    </td>
+    <td>
+        <input type="text" class="form-control" id="customerName_@sl" style="width: 120px" disabled="disabled" />
+    </td>
+    <td>
+        <input type="text" class="form-control" id="contactNo_@sl" style="width: 100px" disabled="disabled" />
+    </td>
+    <td>
+        <input type="hidden" id="lineNumber_@sl" />
+        @*<select class="form-control select2" id="serviceName_@sl" style="width: 120px"></select>*@
+        <input type="text" class="form-control" id="serviceName_@sl" style="width: 120px" disabled="disabled" />
+    </td>
+    <td>
+        <select class="form-control select2" id="session_@sl" style="width: 120px"></select>
+        @*<input type="text" class="form-control" id="session_@sl" style="width: 100px" disabled="disabled" />*@
+    </td>
+    <td>
+        <select class="form-control select2" id="therapist_@sl" style="width: 180px"></select>
+    </td>
+    <td>
+        <select class="form-control select2" id="doctor_@sl" style="width: 120px"></select>
+    </td>
+    <td>
+        <select class="form-control select2" id="shift_@sl" style="width: 120px"></select>
+    </td>
+    <td>
+        <input type="text" class="form-control" id="remarks_@sl" style="width: 200px" />
+    </td>
+    <td class="actionHide">
+        <div class="form-group">
+            <button class="btn btn-xs btn-success " id="btnAdd_@sl" onclick="AddRow()"><b>+</b></button>
+            <button class="btn btn-xs btn-danger" id="btnRemove_@sl" onclick="RemoveRow(@sl)"><b></b>x</button>
+        </div>
+    </td>
+</tr>

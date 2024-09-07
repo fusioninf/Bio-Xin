@@ -1,0 +1,147 @@
+﻿
+@{
+    ViewBag.Title = "Therapist CheckList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <p>Therapist CheckList</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="ddlCustomer">Therapist</label>
+                                    @*<select class="form-control select2" style="width: 100%;" id="ddlCustomer"></select>*@
+                                    <select name="gender" class="form-control">
+                                        @*<option value="">Select Gender </option>*@
+                                        <option value="female">Md Kamal Uddan</option>
+                                        @*<option value="male">Male</option>*@
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group" id="divDocDate">
+                                    <label for="txtDocDate">Date</label>
+                                    <input type="text" id="txtDocDate" class="form-control datepicker" value="@DateTime.Now.ToString("dd-MMM-yyyy")" />
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="gender">Branch:</label>
+                                    <select name="gender" class="form-control">
+                                        <option value="Shantinagar">Shantinagar</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="gender">Check By:</label>
+                                    <select name="gender" class="form-control">
+                                        <option value="Labonno">Labonno</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            &nbsp;
+                        </div>
+                        <div class="row">
+                            <table id="SalesReportTable" border="1" class="table table-bordered table-striped table-hover">
+                                <thead>
+                                    <tr style="background-color: aliceblue">
+                                        <th style="text-align: center">SL</th>
+                                        <th style="text-align: left">Work Details</th>
+                                        <th style="text-align: left">Work Status</th>
+                                        <th style="text-align: left">Comments</th>
+                                        <th style="text-align: left">Signature</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="Traylist">
+                                    <tr>
+                                        <td style="text-align: center">1</td>
+                                        <td style="text-align: left !important">Uniform</td>
+                                        <td style="text-align: left !important"><input type="text" class="form-control" value="Uniform done"></td>
+                                        <td style="text-align: center"><input type="text" class="form-control"></td>
+                                        <td style="text-align: center"><input type="text" class="form-control"></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: center">2</td>
+                                        <td style="text-align: left !important">Makeover</td>
+                                        <td style="text-align: center"><input type="text" class="form-control" value="Makeover done"></td>
+                                        <td style="text-align: center"><input type="text" class="form-control"></td>
+                                        <td style="text-align: center"><input type="text" class="form-control"></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: center">3</td>
+                                        <td style="text-align: left !important">Product Information</td>
+                                        <td style="text-align: center"><input type="text" class="form-control" value="Product Information done"></td>
+                                        <td style="text-align: center"><input type="text" class="form-control"></td>
+                                        <td style="text-align: center"><input type="text" class="form-control"></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: center">4</td>
+                                        <td style="text-align: left !important">Device Counting</td>
+                                        <td style="text-align: center"><input type="text" class="form-control" value="13 devices are counted"></td>
+                                        <td style="text-align: center"><input type="text" class="form-control"></td>
+                                        <td style="text-align: center"><input type="text" class="form-control"></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: center">5</td>
+                                        <td style="text-align: left !important">Device Cleaning</td>
+                                        <td style="text-align: center"><input type="text" class="form-control" value="All device are cleaned"></td>
+                                        <td style="text-align: center"><input type="text" class="form-control"></td>
+                                        <td style="text-align: center"><input type="text" class="form-control"></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: center">6</td>
+                                        <td style="text-align: left !important">Service Eqiupment Check and requisition</td>
+                                        <td style="text-align: center"><input type="text" class="form-control" value="No Requisition"></td>
+                                        <td style="text-align: center"><input type="text" class="form-control"></td>
+                                        <td style="text-align: center"><input type="text" class="form-control"></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: center">7</td>
+                                        <td style="text-align: left !important">Device Problem</td>
+                                        <td style="text-align: center"><input type="text" class="form-control" value="One Laser Device Problem"></td>
+                                        <td style="text-align: center"><input type="text" class="form-control"></td>
+                                        <td style="text-align: center"><input type="text" class="form-control"></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: center">8</td>
+                                        <td style="text-align: left !important">Service related questions and queries</td>
+                                        <td style="text-align: center"><input type="text" class="form-control" value="No"></td>
+                                        <td style="text-align: center"><input type="text" class="form-control"></td>
+                                        <td style="text-align: center"><input type="text" class="form-control"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-primary" onclick="SaveOrder()">Submit</button>
+                        <button class="btn btn-danger float-right">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            LoadDate('#txtDocDueDate');
+        });
+    </script>
+}
+

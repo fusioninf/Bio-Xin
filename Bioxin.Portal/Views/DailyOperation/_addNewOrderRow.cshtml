@@ -1,0 +1,27 @@
+﻿@{
+    int sl = Convert.ToInt32(TempData["trSl"]);
+}
+<tr id="tr_@sl">
+
+    <td id="ts_@sl">@sl</td>
+    <td>
+        <select class="form-control select2" id="WActivities_@sl" style="width:350px"></select>
+    </td>
+    <td>
+        <select class="form-control select2" id="WStatus_@sl" style="width:350px"></select>
+    </td>
+    <td>
+        <select class="form-control select2" id="Signature_@sl" style="width:350px"></select>
+    </td>
+    <td>
+        <input type="text" class="form-control" id="Comments_@sl"/>
+    </td>
+    <td class="actionHide">
+        <div class="form-group">
+            <button class="btn btn-xs btn-success " id="btnAdd_@sl" onclick="AddRow()"><b>+</b></button>
+            <button class="btn btn-xs btn-danger" id="btnRemove_@sl" onclick="RemoveRow(@sl)"><b></b>x</button>
+            <input type="number" value="0" style="display: none" id="details_@sl" />
+            <input type="number" value="-1" style="display: none" id="lineNum_@sl" />
+        </div>
+    </td>
+</tr>

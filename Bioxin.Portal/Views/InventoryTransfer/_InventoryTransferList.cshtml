@@ -1,0 +1,38 @@
+﻿@model IEnumerable<WebSolution.Models.DocumentsViewModel>
+@{
+    Layout = null;
+}
+
+<table id="myTable" class="table table-striped" style="width:100%">
+    <thead>
+        <tr style="background-color: aliceblue">
+            <th style="text-align:center">#</th>
+            <th style="text-align:center">Doc No</th>
+            <th style="text-align:center">Posting Date</th>
+            <th style="text-align:center">From Warehouse</th>
+            <th style="text-align:center">To Warehouse</th>
+            @*<th style="text-align:center">Status</th>*@
+            <th style="text-align:center">Remarks</th>
+            <th style="text-align:center">Action</th>
+
+        </tr>
+    </thead>
+    <tbody id="manuallist">
+        @{ int count = 1;}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@count</td>
+                <td>@item.SAPDocNum</td>
+                <td>@item.DocDate</td>
+                <td>@item.FromWhsName</td>
+                <td>@item.ToWhsName</td>
+                <td>@item.Remarks</td>
+                <td>
+                    <button class="btn btn-sm btn-primary showBtn" data-bs-toggle="modal" data-bs-target="#viewModal" onclick="ShowData(@item.DocEntry)">View</button>
+                </td>
+            </tr>
+            count++;
+        }
+    </tbody>
+</table>

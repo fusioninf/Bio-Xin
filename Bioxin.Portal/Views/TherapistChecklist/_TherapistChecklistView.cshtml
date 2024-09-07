@@ -1,0 +1,78 @@
+﻿<style>
+    .custom-header {
+        background-color: darkgray !important; /* Blue color #007bff  #808080*/
+        color: black; /* Text color for contrast */
+    }
+</style>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-primary">
+                    <div class="card-header custom-header">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <h3 id="salesOrderNo">Therapist Checklist</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group row" id="divActivityType">
+                                    <label for="ddlActivityType" class="col-md-4 control-label">Activity Type</label>
+                                    <div class="col-md-6">
+                                        <input class="form-control" id="ddlActivityTypeDisplay" disabled="disabled" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divActivityDate">
+                                    <label for="txtActivityDate" class="col-md-4 control-label">Activity Date</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtActivityDate" class="form-control" disabled="disabled" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4">
+                                <div class="form-group row mt-1" id="divBranch">
+                                    <label for="ddlBranch" class="col-md-4 control-label">Branch</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="ddlBranch" class="form-control" disabled="disabled" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divAssignedTo">
+                                    <label for="txtAssignedTo" class="col-md-4 control-label">Assigned To</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtAssignedTo" class="form-control" disabled="disabled" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            &nbsp;
+                        </div>
+                        <div class="row table-responsive">
+                            <table class="table table-bordered table-striped table-hover" id="salesOrder">
+                                <thead>
+                                    <tr style="background-color: lightgrey">
+                                        <th>#</th>
+                                        <th>Activity</th>
+                                        <!--<th>Task Status</th>-->
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <input id="activityId" type="number" style="display: none;" value="@ViewBag.ActivityId">
+        <input id="branch" type="number" style="display: none;" value="@ViewBag.Branch">
+        <input id="userId" type="text" style="display: none;" value="@ViewBag.UserId">
+        <input id="eflag" type="text" style="display: none;" value="@ViewBag.eflag">
+    </div>
+</section>

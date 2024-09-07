@@ -1,0 +1,71 @@
+﻿<style>
+    .custom-header {
+        background-color: darkgray !important;
+        color: black;
+    }
+</style>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-primary">
+                    <div class="card-header custom-header">
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label for="lblRestAmount" class="col-md-6 control-label"><b>Serial</b> Quantity :</label>
+                                <div class="col-md-6">
+                                    <span class="rowSerialQty"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row table-responsive">
+                            <table class="table table-bordered table-striped table-hover" id="serialItem">
+                                <thead>
+                                    <tr style="background-color: aliceblue">
+                                        <th style="text-align:center">#</th>
+                                        @*<th style="text-align:center"><input type="checkbox" class="icheck-primary d-inline ml-2 form-control-input chackall" id="chk_All" onchange="SelectAllCheckboxFunc()" />Check All</th>*@
+                                        <th style="text-align:center">Check</th>
+                                        <th style="text-align:center">Item</th>
+                                        <th style="text-align:center">Internal</th>
+                                        <th style="text-align:center">System</th>
+                                        <th style="text-align:center">Supplier</th>
+                                        <th style="text-align:center">ExpDate</th>
+                                        <th style="text-align:center">InDate</th>
+                                        <th style="text-align:center">Stock</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbodyid">
+                                    @{ int count = 1;}
+                                    @foreach (var item in Model)
+                                    {
+                                    <tr id="@count">
+                                        <td>@count</td>
+                                        <td><input type="checkbox" class="icheck-primary d-inline ml-2 form-control-input checkid" id="chk_@item.RowId@count" value="@item.RowId@count"/></td>
+                                        <td>@item.ItemName</td>
+                                        <td>@item.IntrSerial</td>
+                                        <td>@item.SysSerial</td>
+                                        <td>@item.SuppSerial</td>
+                                        <td>@item.ExpDate</td>
+                                        <td>@item.InDate</td>
+                                        <td>@item.Stock</td>
+                                        <td style="display:none">
+                                            <input type="text" style="display: none" id="intrSerialNo_@item.RowId@count" value="@item.IntrSerial" />
+                                            <input type="text" style="display: none" id="sysSerialNo_@item.RowId@count" value="@item.SysSerial" />
+                                            <input type="text" style="display: none" id="suppSerialNo_@item.RowId@count" value="@item.SuppSerial" />
+                                            <input type="number" style="display: none" id="serialStock_@item.RowId@count" value="@item.Stock" />
+                                            <input type="number" id="serialRow_@item.RowId@count" value="@item.RowId" style="display:none" />
+                                        </td>
+                                    </tr>
+                                        count++;
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

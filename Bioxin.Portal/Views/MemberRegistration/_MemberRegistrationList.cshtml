@@ -1,0 +1,37 @@
+﻿@model IEnumerable<WebSolution.Models.BusinessPartnerViewModel>
+@{
+    Layout = null;
+}
+
+<table id="myTable" class="table table-striped" style="width:100%">
+    <thead>
+        <tr style="background-color: aliceblue">
+            <th style="text-align:center">#</th>
+            <th style="text-align:center">Card Code</th>
+            <th style="text-align:center">Card Name</th>
+            <th style="text-align:center">Phone</th>
+            <th style="text-align:center">Group Name</th>
+            <th style="text-align:center">Company Name</th>
+            <th style="text-align:center">Action</th>
+
+        </tr>
+    </thead>
+    <tbody id="manuallist">
+        @{ int count = 1;}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@count</td>
+                <td>@item.CardCode</td>
+                <td>@item.CardName</td>
+                <td>@item.Mobile</td>
+                <td>@item.GroupName</td>
+                <td>@item.CompanyName</td>
+                <td>
+                    <button class="btn btn-sm btn-primary showBtn" data-bs-toggle="modal" data-bs-target="#viewModal" onclick="ShowData(@item.CardCode)">View</button>
+                </td>
+            </tr>
+            count++;
+        }
+    </tbody>
+</table>

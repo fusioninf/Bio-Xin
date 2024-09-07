@@ -1,0 +1,13 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace WebSolution.Models
+{
+    public class ExpenseAccount
+    {
+        public string AcctCode { get; set; }
+        public string AcctName { get; set; }
+    }
+}

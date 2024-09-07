@@ -1,0 +1,10 @@
+
+**** Log file opened at 2023-10-10 18:48:24.642708 UTC+06:00 (Bangladesh Standard Time), Encoding UTF-8
+NW RFC Library: SDK variant, Release 750 Patch Level 7, Compiled on Sep 19 2020 01:34:20
+ CPIC library: 753.2020.09.14 version 3, NI library: 40, Kernel Release: 753 Patch Level 711
+ Current working directory: C:\inetpub\publish_crystal\web, Program: crw64
+ Hardware: PC with Windows NT 20x AMD64 Level 6 (Mod 151 Step 2), Operating_system: Windows NT 10.0
+ Hostname: BB1RDS, IP address: 172.16.1.41, IPv6 address: fe80::23ac:7b95:4651:2c70
+
+2023-10-10 18:48:24.642870 [15576] >> Info entry
+	Did not find config file C:\inetpub\publish_crystal\web\sapnwrfc.ini.

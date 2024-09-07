@@ -1,0 +1,137 @@
+﻿<style>
+    .custom-header {
+        background-color: darkgray !important; /* Blue color #007bff  #808080*/
+        color: black; /* Text color for contrast */
+    }
+</style>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-primary">
+                    <div class="card-header custom-header">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <h3 id="salesOrderNo">Activity</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group row" id="divActivityType">
+                                    <label for="ddlActivityType" class="col-md-4 control-label">Activity Type</label>
+                                    <div class="col-md-6">
+                                        <input class="form-control" id="ddlActivityType" disabled="disabled"/>
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divActivity">
+                                    <label for="ddlActivity" class="col-md-4 control-label">Activity</label>
+                                    <div class="col-md-6">
+                                        <input class="form-control" id="ddlActivity" disabled="disabled"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4">
+                                <div class="form-group row" id="divActivityDate">
+                                    <label for="txtActivityDate" class="col-md-4 control-label">Activity Date</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtActivityDate" class="form-control" disabled="disabled"/>
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divBranch">
+                                    <label for="ddlBranch" class="col-md-4 control-label">Branch</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="ddlBranch" class="form-control" disabled="disabled"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            &nbsp;
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group" id="divCustomerName">
+                                    <label for="txtCustomerName">Task Details</label>
+                                    <input type="text" id="txtTaskDetails" class="form-control" disabled="disabled"/>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group" id="divCustomerName">
+                                    <label for="txtCustomerName">From Time</label>
+                                    <input type="text" id="txtFromTime" class="form-control" disabled="disabled"/>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group" id="divCustomerName">
+                                    <label for="txtCustomerName">To Time</label>
+                                    <input type="text" id="txtToTime" class="form-control" disabled="disabled"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group" id="divCustomerName">
+                                    <label for="txtCustomerName">Assined To</label>
+                                    <input type="text" id="txtAssinedTo" class="form-control" disabled="disabled"/>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group" id="divCustomerName">
+                                    <label for="txtCustomerName">Task Status</label>
+                                    <input type="text" id="txtTaskStatus" class="form-control" disabled="disabled"/>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group" id="divCustomerName">
+                                    <label for="txtCustomerName">Status</label>
+                                    <input type="text" id="txtStatus" class="form-control" disabled="disabled"/>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group" id="divCustomerName">
+                                    <label for="txtCustomerName">Session</label>
+                                    <input type="text" id="txtSession" class="form-control" disabled="disabled"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group" id="divCustomerName">
+                                    <label for="txtCustomerName">Customer</label>
+                                    <input type="text" id="txtCustomer" class="form-control" disabled="disabled"/>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group" id="divCustomerName">
+                                    <label for="txtCustomerName">Sales Order</label>
+                                    <input type="text" id="txtSalesOrder" class="form-control" disabled="disabled"/>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group" id="divCustomerName">
+                                    <label for="txtCustomerName">Sales Item</label>
+                                    <input type="text" id="txtSalesItem" class="form-control" disabled="disabled"/>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group" id="divCustomerName">
+                                    <label for="txtCustomerName">Comments</label>
+                                    <input type="text" id="txtComments" class="form-control" disabled="disabled"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <input id="activityId" type="number" style="display: none;" value="@ViewBag.ActivityId">
+        <input id="branch" type="number" style="display: none;" value="@ViewBag.Branch">
+        <input id="userId" type="text" style="display: none;" value="@ViewBag.UserId">
+        <input id="eflag" type="text" style="display: none;" value="@ViewBag.eflag">
+    </div>
+</section>

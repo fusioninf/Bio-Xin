@@ -1,0 +1,25 @@
+﻿@{
+    int sl = Convert.ToInt32(TempData["trSl"]);
+}
+<tr id="tr_@sl">
+
+    @*<td id="ts_@sl">@sl</td>*@
+    <td>
+        <input type="text" class="form-control" id="mode_@sl" disabled="disabled"/>
+    </td>
+    <td>
+        <input type="text" class="form-control" id="account_@sl" disabled="disabled"/>
+    </td>
+    <td>
+        <input type="text" class="form-control" id="voucher_@sl" disabled="disabled"/>
+    </td>
+    <td>
+        <input type="number" class="form-control" id="amount_@sl" disabled="disabled"/>
+    </td>
+    <td>
+        <input type="text" class="form-control" id="transactionID_@sl" disabled="disabled"/>
+    </td>
+    <td>
+        <input type="text" class="form-control" id="cardNumber_@sl" disabled="disabled"/>
+    </td>
+</tr>

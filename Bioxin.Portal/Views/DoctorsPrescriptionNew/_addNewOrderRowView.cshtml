@@ -1,0 +1,74 @@
+﻿@{
+    int sl = Convert.ToInt32(TempData["trSl"]);
+}
+<tr id="tr_@sl">
+
+    <td id="ts_@sl">@sl</td>
+    <td>
+        @*<select class="form-control select2" id="itemCode_@sl" style="width: 300px" disabled="disabled"></select>*@
+        <input type="text" class="form-control" id="itemName_@sl" style="width: 300px" disabled="disabled" />
+    </td>
+    <td>
+        <input type="text" class="form-control" id="quantitys_@sl" disabled="disabled" />
+    </td>
+    @*<td>
+        <input type="number" class="form-control" id="timesPerDay_@sl" disabled="disabled" />
+    </td>
+    <td>
+        <input type="number" class="form-control" id="days_@sl" disabled="disabled" />
+    </td>*@
+    <td>
+        <input type="text" class="form-control" id="details_@sl" style="width: 350px"/>
+    </td>
+    @*<td>
+            <select class="form-control select2" id="breakfast_@sl" style="width: 150px" disabled="disabled"></select>
+        </td>
+        <td>
+            <select class="form-control select2" id="lunch_@sl" style="width: 150px" disabled="disabled"></select>
+        </td>
+        <td>
+            <select class="form-control select2" id="dinner_@sl" style="width: 150px" disabled="disabled"></select>
+        </td>*@
+
+
+    <!--<td>
+        <input type="text" class="form-control" id="itemName_@sl" style="width: 250px" />
+    </td>
+    <td>
+        <input type="text" class="form-control" id="uom_@sl" style="width: 80px" disabled="disabled"/>
+    </td>
+
+    @*<td>
+            <select class="form-control select2" id="fromWH_@sl" style="width: 150px"></select>
+        </td>
+        <td>
+
+            <select class="form-control select2" id="toWH_@sl" style="width: 150px"></select>
+        </td>*@
+    <td>
+
+        <input type="number" class="form-control" id="quantity_@sl" oninput="CalculateLineTotal(@sl)" />
+    </td>
+    @*<td>
+            <input type="number" class="form-control" id="batchSerialNo_@sl" />
+        </td>*@
+    <td>
+
+        <input type="number" class="form-control" id="price_@sl" oninput="CalculateLineTotal(@sl)" />
+    </td>-->
+    <!--<td>
+        <input type="number" class="form-control" id="value_@sl" />
+    </td>
+    <td>
+        <input type="number" class="form-control" id="stock_@sl" />
+    </td>
+    <td>
+        <input type="text" class="form-control" id="remarks_@sl" style="width: 250px" />
+    </td>-->
+    @*<td class="actionHide">
+            <div class="form-group">
+                <button class="btn btn-xs btn-success " id="btnAdd_@sl" onclick="AddRow()"><b>+</b></button>
+                <button class="btn btn-xs btn-danger" id="btnRemove_@sl" onclick="RemoveRow(@sl)"><b></b>x</button>
+            </div>
+        </td>*@
+</tr>

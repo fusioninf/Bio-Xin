@@ -1,0 +1,47 @@
+﻿@{
+    int sl = Convert.ToInt32(TempData["trSl"]);
+}
+<tr id="tr_@sl">
+
+    <td id="ts_@sl">@sl</td>
+    <td>
+        <input type="text" class="form-control" id="task_@sl" style="width: 200px" />
+
+    </td>
+    <td>
+        <select class="form-control select2" id="assinedTo_@sl" style="width: 120px"></select>
+    </td>
+    <td>
+        <input type="text" class="form-control" id="txtFromTime_@sl" style="width: 80px" />
+    </td>
+    <td>
+        <input type="text" class="form-control" id="txtToTime_@sl" style="width: 80px" />
+    </td>
+    <td id="therapistCustomer_@sl">
+        <select class="form-control select2" id="customer_@sl" style="width: 150px" onchange="GetSalesOrderByCardCode(@sl)"></select>
+    </td>
+    <td id="therapistSalesOrder_@sl">
+        <select class="form-control select2" id="salesOrder_@sl" style="width: 150px" onchange="GetSalesItemBySaleOrder(@sl)"></select>
+    </td>
+    <td id="therapistSalesItem_@sl">
+        <select class="form-control select2" id="salesItem_@sl" style="width: 150px"></select>
+    </td>
+    <td>
+        <select class="form-control select2" id="status_@sl" style="width: 120px"></select>
+    </td>
+    <td>
+        <select class="form-control select2" id="operationStatus_@sl" style="width: 120px"></select>
+    </td>
+    <td>
+        <select class="form-control select2" id="session_@sl" style="width: 120px"></select>
+    </td>
+    <td>
+        <input type="text" class="form-control" id="comments_@sl" style="width: 200px"/>
+    </td>
+    <td class="actionHide">
+        <div class="form-group">
+            <button class="btn btn-xs btn-success " id="btnAdd_@sl" onclick="AddRow()"><b>+</b></button>
+            <button class="btn btn-xs btn-danger" id="btnRemove_@sl" onclick="RemoveRow(@sl)"><b></b>x</button>
+        </div>
+    </td>
+</tr>

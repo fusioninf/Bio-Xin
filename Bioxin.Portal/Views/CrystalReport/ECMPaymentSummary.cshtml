@@ -1,0 +1,131 @@
+﻿
+@{
+    ViewBag.Title = "ECM Sales Invoice Payment Summary";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .custom-header {
+        background-color: darkgray !important;
+        color: black;
+    }
+</style>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-primary">
+                    <div class="card-header custom-header">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <a href="#">
+                                    <h3 class="card-title">
+                                        <span class="">ECM Sales Invoice Payment Summary</span>
+                                    </h3>
+                                </a>
+                            </div>
+                            <div class="col-md-6 text-right">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group" id="divFromDate">
+                                    <label for="txtFromDate" class="control-label">From Date</label>
+                                    <div>
+                                        <input type="text" id="txtFromDate" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group" id="divToDate">
+                                    <label for="txtToDate" class="control-label">To Date</label>
+                                    <div class="">
+                                        <input type="text" id="txtToDate" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group" id="divReportType">
+                                    <label for="ddlGroupCode" class="control-label">Report Type</label>
+                                    <div class="">
+                                        <select class="form-control select2" style="width: 100%;" id="ddlReportType">
+                                            <option value="2" selected>PDF</option>
+                                            <option value="1">Crystal Report</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            &nbsp;
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-md-8"></div>
+                            <div class="col-md-4 text-end">
+                                <input type="button" value="Get Report" class="btn btn-primary" onclick="PrintReport()" />
+                            </div>
+                         
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <input id="branch" type="number" style="display: none;" value="@ViewBag.Branch">
+    </div>
+</section>
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            LoadDate_C('#txtFromDate');
+            LoadDate_C('#txtToDate');
+        });
+
+        function PrintValidation() {
+            var isValid = true;
+            var message = "Some Values Required";
+            if ($('#txtFromDate').val() == '' || $('#txtFromDate').val() == null) {
+                ValidationColorChangeNew("txtFromDate", "divFromDate", "From Date Required", false);
+                isValid = false;
+            }
+            if ($('#txtToDate').val() == '' || $('#txtToDate').val() == null) {
+                ValidationColorChangeNew("txtToDate", "divToDate", "To Date Required", false);
+                isValid = false;
+            }
+
+            if (isValid == false) {
+                ShowMessage(message);
+            }
+            return isValid;
+        }
+        function PrintReport() {
+            if (PrintValidation() == true) {
+                var FromDate = $('#txtFromDate').val();
+                var ToDate = $('#txtToDate').val();
+                var ReportType = $('#ddlReportType').val();
+                GetprintPage(FromDate, ToDate, ReportType);
+            }
+        }
+        function GetprintPage(FromDate, ToDate, ReportType) {
+            var urlpath = '@Url.Action("GetprintPage", "SalesOrderNew")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {  },
+                async: false,
+                success: function (data) {
+                    var dynamicURL = data.RPTPort + 'web/webform1.aspx?id1=23&id2=BIOXIN|FROMDATE|TODATE&id3=TYPE&uid=USERID'.replace('FROMDATE', FromDate).replace('TODATE', ToDate).replace('TYPE', ReportType).replace('BIOXIN', data.Database).replace('USERID', data.UserId);
+                    window.open(dynamicURL, '_blank');
+                }
+            });
+        }
+    </script>
+}
+

@@ -1,0 +1,510 @@
+﻿
+@{
+    ViewBag.Title = "Add Therapist Checklist";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .custom-header {
+        background-color: darkgray !important; /* Blue color #007bff  #808080*/
+        color: black; /* Text color for contrast */
+    }
+    .spinnermodal {
+        background-color: #FFFFFF;
+        height: 100%;
+        left: 0;
+        opacity: 0.5;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 100000;
+    }
+</style>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-primary">
+                    <div class="card-header custom-header">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <a href="@Url.Action("AddDoctorAppointment", "DoctorAppointment", new {daId = 0})">
+                                    <h3 class="card-title">
+                                        @if (ViewBag.ActivityId == 0)
+                                        {
+                                            <span class="" style="color:black"><b>Doctor Appointment</b></span>
+                                        }
+                                        else
+                                        {
+                                            <span class="" style="color:black"> Edit Doctor Appointment</span>
+                                        }
+                                    </h3>
+                                </a>
+                            </div>
+                            <div class="col-md-6 text-right">
+                                <a class="btn btn-outline-warning" href="@Url.Action("Index", "DoctorAppointment")">
+                                    <span class="fa fa-list"></span> Doctor Appointment
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group row" id="divActivityType">
+                                    <label for="ddlActivityType" class="col-md-4 control-label">Activity Type</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%;" id="ddlActivityType" onchange="LoadActivity()" disabled="disabled"></select>
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divActivity">
+                                    <label for="ddlActivity" class="col-md-4 control-label">Activity</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%;" id="ddlActivity" disabled="disabled"></select>
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divCustomer">
+                                    <label for="txtCustomerCode" class="col-md-4 control-label">Code</label>
+                                    <div class="col-md-6">
+                                        <input class="form-control" id="txtCustomerCode" disabled="disabled" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divCustomerName">
+                                    <label for="txtCustomerName" class="col-md-4 control-label">Customer Name</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" id="txtCustomerName" disabled="disabled" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divMobileNo">
+                                    <label for="txtMobileNo" class="col-md-4 control-label">Contact No</label>
+                                    <div class="col-md-6">
+                                        <input type="text" placeholder="Search Mobile No" id="txtNameSearch" name="UserName" class="form-control" autocomplete="off" />
+                                        <input type="hidden" id="ddlCustomer" name="ddlCustomer" />
+                                    </div>
+                                    <div class="col-md-2">
+                                        @*<button class="btn btn-sm btn-primary showBtn" data-bs-toggle="modal" data-bs-target="#viewModal2" onclick="AddNewCustomer()" id="btnAddCustomer"><b>+</b></button>*@
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divSalesEmployee">
+                                    <label for="lblRestAmount" class="col-md-4 control-label">Agent Name</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%;" id="ddlSalesEmployee"></select>
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divBranch">
+                                    <label for="ddlBranch" class="col-md-4 control-label">Branch</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%; text-align: center" id="ddlBranch" disabled="disabled"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4">
+                                <div class="form-group row mt-1" id="divAppointmentDate">
+                                    <label for="txtAppointmentDate" class="col-md-4 control-label">Appointment Date</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtAppointmentDate" class="form-control datepicker" value="@DateTime.Now.ToString("dd-MMM-yyyy")" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divVisitingDate">
+                                    <label for="txtVisitingDate" class="col-md-4 control-label">Proposed Visiting Date</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtVisitingDate" class="form-control" value="@DateTime.Now.ToString("dd-MMM-yyyy")" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divVisitingBranch">
+                                    <label for="ddlVisitingBranch" class="col-md-4 control-label">Proposed Visiting Branch</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%;" id="ddlVisitingBranch"></select>
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divStatus">
+                                    <label for="ddlStatus" class="col-md-4 control-label">Status</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%; text-align: center" id="ddlStatus"></select>
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divAssinedTo">
+                                    <label for="ddlAssinedTo" class="col-md-4 control-label">Check By</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%; text-align: center" id="ddlAssinedTo"></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            &nbsp;
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-warning" id="btnActivity" onclick="SaveActivity()">Add & New</button>
+                        <button class="btn btn-warning  float-right" onclick="location.reload()">Clear</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <input id="activityId" type="number" style="display: none;" value="@ViewBag.ActivityId">
+        <input id="branch" type="number" style="display: none;" value="@ViewBag.Branch">
+        <input id="userId" type="text" style="display: none;" value="@ViewBag.UserId">
+        <input id="eflag" type="text" style="display: none;" value="@ViewBag.eflag">
+    </div>
+    <div class="spinnermodal" id="testSpan" style="display: none; z-index: 10001">
+        <div style="position: fixed; z-index: 10001; top: 50%; left: 50%; height:50px">
+            <img src="~/AssetStatic/img/loading_spinner.gif" />
+        </div>
+    </div>
+</section>
+@section Scripts
+{
+    <script>
+        var customerList = {};
+        var assinedToList = {};
+        var statusList = {};
+        var operationStatusList = {};
+        var sessionList = {};
+        var activityList = {};
+        $(document).ready(function () {
+            LoadDate_C('#txtAppointmentDate');
+            LoadDate_C('#txtVisitingDate');
+            LoadActivityType('ddlActivityType');
+            LoadBranch('ddlBranch');
+            var branch = $('#branch').val();
+            $("#ddlBranch").val(branch).trigger('change');
+            LoadBranch('ddlVisitingBranch');
+            LoadStatus('ddlStatus');
+            LoadSalesEmployee('ddlSalesEmployee');
+            LoadAssinedTo('ddlAssinedTo');
+            LoadActivity('ddlActivity');
+
+            $("#txtNameSearch").autocomplete({
+                source: function (request, response) {
+                    var _url = '@Url.Action("AutoCompleteBusinessPartner", "DoctorAppointment")';
+                    $.ajax({
+                        url: _url,
+                        data: "{ 'prefix': '" + request.term + "'}",
+                        dataType: "json",
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        success: function (data) {
+                        if (data.UnAutorized == 1) {
+                            window.location.href = '@Url.Action("Login", "Home")';
+                        } else {
+                            if (data.dataList[0].ReturnCode == "-99999") {
+                                window.location.href = '@Url.Action("Login", "Home")';
+                            } else {
+                                response($.map(data.dataList, function (item) {
+                                    return item.Mobile + " | " + item.CardCode + " | " + item.CardName;
+                                }));
+                            }
+                        }
+                        },
+                        error: function (response) {
+                            alert(response.responseText);
+                        },
+                        failure: function (response) {
+                            alert(response.responseText);
+                        }
+                    });
+                },
+                select: function (event, ui) {
+                    var str = ui.item.value;
+                    var ret2 = str.replace(" | ", '|');
+                    var ret = ret2.split('|');
+                    var mobile = ret[0];
+                    var cardCode = ret[1];
+                    var cardName = ret[2];
+                    $("#ddlCustomer").val(cardCode);
+                    $("#txtCustomerCode").val(cardCode);
+                    $("#txtCustomerName").val(cardName);
+                    if (cardCode != '') {
+                        GetBusinessPartnerInfo(cardCode);
+                    }
+                },
+                minLength: 3
+            });
+        });
+        function LoadBranch(elementId) {
+            var urlpath = '@Url.Action("GetBranch", "DoctorAppointment")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { },
+                async: false,
+                success: function(data) {
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value=''>--Select Branch--</option>");
+                    for (var i = 0; i < data.length; i++) {
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].PrcCode).html(data[i].PrcName ));
+                    }
+                }
+            });
+        }
+        function LoadActivityType(elementId) {
+            var urlpath = '@Url.Action("GetActivityTypeforMemu", "DoctorAppointment")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { ActivityType: "A" },
+                async: false,
+                success: function(data) {
+                    $('#' + elementId + '').empty();
+                    //$('#' + elementId + '').append("<option value=''>--Select Activity Type--</option>");
+                    for (var i = 0; i < data.length; i++) {
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].Code).html(data[i].Description));
+                    }
+                }
+            });
+        }
+        function LoadStatus(elementId) {
+            var urlpath = '@Url.Action("GetDailyOpertaionStatus", "DoctorAppointment")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {  },
+                async: false,
+                success: function(data) {
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value=''>--Select Status--</option>");
+                    for (var i = 0; i < data.length; i++) {
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].Value).html(data[i].Description));
+                    }
+                }
+            });
+        }
+        function LoadSalesEmployee(elementId) {
+            var urlpath = '@Url.Action("GetSalesEmployee", "DoctorAppointment")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {},
+                async: false,
+                success: function(data) {
+                    $('#' + elementId + '').empty();
+                    /*$('#' + elementId + '').append("<option value='0'>--Select Customer--</option>");*/
+                    for (var i = 0; i < data.length; i++) {
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].SlpCode).html(data[i].SlpName));
+                    }
+                }
+            });
+        }
+        function LoadActivity(elementId) {
+            var activityType = $('#ddlActivityType').val();
+            var urlpath = '@Url.Action("GetActivityMaster", "DoctorAppointment")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { ActivityType: activityType },
+                async: false,
+                success: function(data) {
+                    //activityList = data;
+                    $('#' + elementId + '').empty();
+                    //$('#' + elementId + '').append("<option value=''>--Select Activity--</option>");
+                    for (var i = 0; i < data.length; i++) {
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].ActivityCode).html(data[i].ActivityName));
+                    }
+                }
+            });
+        }
+        function LoadAssinedTo(elementId) {
+            var urlpath = '@Url.Action("GetAssinedTo", "DoctorAppointment")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { },
+                async: false,
+                success: function(data) {
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value=''>--Select Check By--</option>");
+                    for (var i = 0; i < data.length; i++) {
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].empID).html(data[i].firstName + " " + data[i].middleName + " " + data[i].lastName));
+                    }
+                }
+            });
+        }
+        function GetBusinessPartnerInfo(CardCode) {
+            var urlpath = '@Url.Action("GetBusinessPartnerByCardCode", "DoctorAppointment")';
+            $.ajax({
+                url: urlpath,
+                dataType: 'json',
+                type: "Get",
+                data: { CardCode: CardCode },
+                async: false,
+                success: function (data) {
+                    $('#txtCustomerCode').val(data.CardCode);
+                    $('#txtPreCardBalAmount').val(data.DownPaymentBalance);
+                    if ($("#txtPreCardBalAmount").val() != '' && $("#txtPreCardBalAmount").val() > 0) {
+                        $("#divPreCardAmount").show();
+                        $("#rdPaymentType_PreCard").prop("checked", true);
+                        $("#rdPaymentType_PreCard").css("color", "blue");   //.addClass("blue-checkbox");
+                    }
+                }
+            });
+        }
+        function SaveActivity() {
+            if (SaveValidation() == true) {
+                swal({
+                    title: "Are you sure?",
+                    text: "",
+                    type: "success",
+                    showCancelButton: true,
+                    cancelButtonClass: 'btn-secondary waves-effect',
+                    confirmButtonClass: 'btn-success waves-effect waves-light',
+                    confirmButtonText: 'Yes!',
+                    closeOnConfirm: true
+
+                }, function() {
+                    $('.confirm').prop("disabled", true);
+                    $('.cancel').prop("disabled", true);
+                    SaveActivityFinal();
+                });
+            }
+        }
+        function pad2(number) {
+            return (number < 10 ? '0' : '') + number;
+        }
+        function DateConversionToYYYYMMDD(inputDate) {
+            // Split the input date into day, month, and year parts
+            var parts = inputDate.split('-');
+            var day = parts[0];
+            var month = parts[1];
+            var year = parts[2];
+            var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            var monthIndex = monthNames.indexOf(month);
+            monthIndex++; // Adjust for 0-based indexing
+            // Create a Date object with the parsed values
+            var dateObject = new Date(year, monthIndex - 1, day);
+            // Format the date as "YYYYMMDD"
+            var formattedDate = dateObject.getFullYear() + pad2(dateObject.getMonth() + 1) + pad2(dateObject.getDate());
+            return formattedDate
+        }
+        function SaveActivityFinal() {
+            var jsonData = {};
+            var date = $('#txtAppointmentDate').val();
+            var newdate=DateConversionToYYYYMMDD(date);
+
+            jsonData["ActivityDate"] = newdate;
+            var jsonObjs = [];
+
+                var theObj = {};
+
+                theObj["AssignedEmployeeId"] = $('#ddlAssinedTo').val();
+                theObj["ActivityType"] = $('#ddlActivityType').val();
+                theObj["Activity"] = $('#ddlActivity').val();
+                theObj["FromTime"] = "";
+                theObj["ToTime"] = "";
+                theObj["Status"] = "";
+                theObj["DailyOperationStatus"] = $('#ddlStatus').val();
+                theObj["Comments"] = "";
+                theObj["TaskDetails"] = "";
+                theObj["Session"] = "";
+                theObj["CardCode"] = $('#ddlCustomer').val().trim();
+                theObj["SoEntry"] = "";
+                theObj["AgentCode"] = $('#ddlSalesEmployee').val();
+                theObj["VisitingBranch"] = $('#ddlVisitingBranch').val();
+                theObj["LineId"] = "";
+                jsonObjs.push(theObj);
+
+            jsonData["Activity"] = jsonObjs;
+
+            var urlpath2 = '@Url.Action("SaveActivity", "DoctorAppointment")';
+            $.ajax({
+                contentType: "application/json",
+                data: JSON.stringify(jsonData),
+                dataType: 'json',
+                url: urlpath2,
+                type: "POST",
+                beforeSend: function () {
+                    $('#testSpan').show();
+                    $('#btnActivity').prop('disabled', true);
+                },
+                success: function (result) {
+                    $('#testSpan').hide();
+
+                    if (result.UnAutorized == 0 && result.dataList.length == 1 ) {
+                        if (result.dataList.ReturnCode == "-99999") {
+                            window.location.href = '@Url.Action("Logout", "Home")';
+                        }
+                    }
+
+                    if (result.UnAutorized == 1) {
+                        window.location.href = '@Url.Action("Logout", "Home")';
+                    } else {
+                        var message = result.dataList.ReturnMsg;
+                        if (result.dataList.ReturnCode == "0000") {
+                        swal({
+                            title: " Saved Successfull",
+                            text: '',
+                            type: "success",
+                            showCancelButton: false,
+                            cancelButtonClass: 'btn-secondary waves-effect',
+                            confirmButtonClass: 'btn-success waves-effect waves-light',
+                            confirmButtonText: 'Yes!',
+                            closeOnConfirm: false
+                        }, function () {
+                            window.location.href =  '@Url.Action("Index", "DoctorAppointment")';
+                        });
+
+
+                      } else {
+                            ShowMessage(message);
+                            $('#btnActivity').prop('disabled', false);
+                        }
+                    }
+
+                }
+            })
+        }
+        function SaveValidation() {
+            var isValid = true;
+            var message = "Some Values Required";
+            if ($('#txtNameSearch').val() == 0 || $('#txtNameSearch').val() == '') {
+                ValidationColorChangeNew("txtNameSearch", "divMobileNo", "Contact No Required", true);
+                isValid = false;
+            }
+            if ($('#ddlSalesEmployee').val() == 0 || $('#ddlSalesEmployee').val() == '' || $('#ddlSalesEmployee').val() == '-1') {
+                ValidationColorChangeNew("ddlSalesEmployee", "divSalesEmployee", "Agent Name Required", true);
+                isValid = false;
+            }
+            if ($('#txtAppointmentDate').val() == '' || $('#txtAppointmentDate').val() == null) {
+                ValidationColorChangeNew("txtAppointmentDate", "divAppointmentDate", "Appointment Date Required", false);
+                isValid = false;
+            }
+            if ($('#txtVisitingDate').val() == '' || $('#txtVisitingDate').val() == null) {
+                ValidationColorChangeNew("txtVisitingDate", "divVisitingDate", "Proposed Visiting Date Required", false);
+                isValid = false;
+            }
+            if ($('#ddlVisitingBranch').val() == '' || $('#ddlVisitingBranch').val() == null) {
+                ValidationColorChangeNew("ddlVisitingBranch", "divVisitingBranch", "Proposed Visiting Branch Required", false);
+                isValid = false;
+            }
+            if ($('#ddlStatus').val() == '' || $('#ddlStatus').val() == null) {
+                ValidationColorChangeNew("ddlStatus", "divStatus", "Status Required", false);
+                isValid = false;
+            }
+            if ($('#ddlAssinedTo').val() == '' || $('#ddlAssinedTo').val() == null) {
+                ValidationColorChangeNew("ddlAssinedTo", "divAssinedTo", "Check By Required", false);
+                isValid = false;
+            }
+
+            if (isValid == false) {
+                ShowMessage(message);
+
+            }
+            return isValid;
+
+
+        }
+        function RemoveRow(id) {
+            var trLength = $('#salesOrder tbody tr').length;
+            if (trLength >= 1) {
+                $('#tr_' + id).remove();
+                SerialTable();
+            } else {
+                return;
+            }
+
+        }
+    </script>
+}
+

@@ -1,0 +1,60 @@
+﻿@{
+    int sl = Convert.ToInt32(TempData["trSl"]);
+}
+<tr id="tr_@sl">
+    <td class="actionHide">
+        <div class="form-group">
+            <input type="checkbox" id="chk_@sl" onclick="AddLineCalculation(@sl)" />
+        </div>
+    </td>
+    <td id="ts_@sl">@sl</td>
+    <td>
+        <input type="text" class="form-control" id="itemCodeEx_@sl" disabled="disabled" />
+    </td>
+    <td>
+        <input type="text" class="form-control" id="itemNameEx_@sl" style="width: 220px;" disabled="disabled" />
+    </td>
+    <td>
+        <input type="number" class="form-control" id="sessionEx_@sl" disabled="disabled" />
+    </td>
+    <td>
+        <input type="text" class="form-control" id="deliverydateEx_@sl" disabled="disabled" />
+    </td>
+    <td>
+        <input type="number" class="form-control" id="quantityEx_@sl" value="1" disabled="disabled" />
+    </td>
+    @*<td>
+            <input type="number" class="form-control" id="returnQtyEx_@sl" disabled="disabled" oninput="LineRetuneTotal(@sl)" />
+        </td>*@
+    <td>
+        <input type="text" class="form-control" id="uomEx_@sl" disabled="disabled" style="width: 30px" />
+    </td>
+
+    <td>
+        <input type="number" class="form-control" id="priceEx_@sl" disabled="disabled" />
+        <input type="hidden" id="docEntryEx_@sl" />
+        <input type="hidden" id="visOrderEx_@sl" />
+        <input type="hidden" id="lineNumEx_@sl" />
+        <input type="hidden" id="objTypeEx_@sl" />
+        <input type="hidden" id="lineStatusEx_@sl" />
+    </td>
+    <td>
+        <input type="number" class="form-control" id="discountEx_@sl" style="width: 40px" disabled="disabled" />
+        <input type="hidden" class="form-control" id="taxcodeEx_@sl" style="width: 30px" disabled="disabled" />
+        <input type="hidden" id="taxrateEx_@sl" />
+    </td>
+    <td>
+        <input type="number" class="form-control" id="discountamountEx_@sl" disabled="disabled" />
+    </td>
+    <td>
+        <input type="number" class="form-control" id="taxamountEx_@sl" disabled="disabled" />
+    </td>
+
+    <td>
+        <input type="number" class="form-control" id="totalEx_@sl" style="width: 80px" disabled="disabled" />
+        <input type="hidden" id="totalbeforetaxEx_@sl" />
+        <input type="hidden" class="form-control" id="deliverydateEx_@sl" style="width: 80px" />
+        <input type="hidden" class="form-control" id="warehouseEx_@sl" style="width: 80px" />
+        @*<select class="form-control select2" id="warehouseEx_@sl" style="width: 80px" type="hidden"></select>*@
+    </td>
+</tr>

@@ -1,0 +1,2010 @@
+﻿@model WebSolution.Models.SalesOrder
+
+@{
+    ViewBag.Title = "Create Sales Order";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-12">
+                <!-- general form elements -->
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <p>Sales Order Entry</p>
+                    </div>
+                    @*<div class="card-header">
+            <div class="row">
+                <div class="col-md-6">
+                    <a href="@Url.Action("Index", "SalesOrder", new {id = 0})">
+                        <h3 class="card-title">
+                            @if (ViewBag.SalesOrderId == 0)
+                            {
+                                <span class=""> New Sales Order</span>
+
+                            }
+                            else
+                            {
+                                <span class=""> Edit Sales Order</span>
+                            }
+                        </h3>
+                    </a>
+                </div>
+                <div class="col-md-6 text-right">
+                    <a class="btn btn-outline-warning" href="@Url.Action("SalesOrderList", "SalesOrder")">
+                        <span class="fa fa-list"></span> Go To Sales Order List
+
+                    </a>
+                </div>
+            </div>
+
+        </div>*@
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="ddlCustomer">Customer</label>
+                                    @*<select class="form-control select2" style="width: 100%;" id="ddlCustomer"></select>*@
+                                    <select name="gender" class="form-control">
+                                        @*<option value="">Select Customer </option>*@
+                                        <option value="female">01735844725</option>
+                                        @*<option value="male">Male</option>*@
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="txtCustomerName">Name</label>
+                                    <input type="text" id="txtCustomerName" class="form-control" value="Guest"/>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="txtContactPerson">Contact Person</label>
+                                    <input type="text" id="txtContactPerson" class="form-control" value="Lubna"/>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="txtCustomerRefNo">Reference</label>
+                                    <input type="text" id="txtCustomerRefNo" class="form-control" value="Supta"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            @*<div class="col-md-3">
+            <div class="form-group">
+                <label for="txtBPCurrency">Currency</label>
+                <input type="text" id="txtBPCurrency" class="form-control" />
+            </div>
+        </div>*@
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="txtPlaceOfSupply">Place Of Supply</label>
+                                    <input type="text" id="txtPlaceOfSupply" class="form-control" value="Mirpur 10" />
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group" id="divDocDate">
+                                    <label for="txtDocDate">Posting Date</label>
+                                    <input type="text" id="txtDocDate" class="form-control datepicker" value="@DateTime.Now.ToString("dd-MMM-yyyy")" />
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group" id="divDocDueDate">
+                                    <label for="txtDocDueDate">Delivery Date</label>
+                                    <input type="text" id="txtDocDueDate" class="form-control" value="@DateTime.Now.ToString("dd-MMM-yyyy")" />
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group" id="divDocumentDate">
+                                    <label for="txtDocumentDate">Document Date</label>
+                                    <input type="text" id="txtDocumentDate" class="form-control" value="@DateTime.Now.ToString("dd-MMM-yyyy")" />
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        @*<div class="row">
+                            <div class="col-md-3">
+                            </div>
+                            <div class="col-md-3">
+                            </div>
+                            <div class="col-md-3">
+                            </div>
+
+
+
+                        </div>*@
+
+                        @*<div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <span id="spnote" style="color: red; display: none;">
+                            1% weight loss discount is aplicable on proccess product for dealer on <b>***base price***</b> .
+                            Sale Price is showing after 1% secondary weight loss.
+                        </span>
+                    </div>
+                </div>
+                <div id="sr" class="col-md-3 d-none ">
+                    <div class="form-group" id="divSR">
+                        <label for="ddlSr">SR Name</label>
+                        <select class="form-control select2" style="width: 100%;" id="ddlSr"></select>
+                    </div>
+                </div>
+            </div>*@
+                        <div class="row table-responsive">
+                            <div class="col-md-12">
+                                <div class="card border-dark mb-3">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="row">
+                                                    @*<div class="form-group">*@
+                                                    <div class="col-md-3">
+                                                        <label for="txtPlaceOfSupply">Barcode:</label>
+                                                    </div>
+
+                                                    <div class="col-md-9">
+                                                        <input type="text" id="txtPlaceOfSupply" class="form-control" value="760139" />
+                                                    </div>
+                                                    @*</div>*@
+                                                </div>
+
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <label for="txtPlaceOfSupply">Item  :</label>
+                                                    </div>
+                                                    <div class="col-md-9">
+                                                        <input type="text" id="txtPlaceOfSupply" class="form-control" value="Skinclinic Rosanic Cream" />
+                                                    </div>
+                                                </div>
+                                                @*<div class="form-group">*@
+
+                                                @*</div>*@
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <label for="txtPlaceOfSupply">Price :</label>
+                                                    </div>
+                                                    <div class="col-md-9">
+                                                        <input type="text" id="txtPlaceOfSupply" class="form-control" value="1500" />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="row">
+                                            <table class="table table-bordered table-striped table-hover" id="salesOrder">
+                                                <thead>
+                                                    <tr style="background-color: aliceblue">
+                                                        <th>#</th>
+                                                        <th>Barcode</th>
+                                                        <th>Item</th>
+                                                        <th>Qty</th>
+                                                        <th>Price</th>
+                                                        <th>Discount</th>
+                                                        <th>Total</th>
+                                                        <th>UOM</th>
+                                                        <th>Stock</th>
+                                                        <th class="action">Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+
+                                    </div>
+                                </div>
+                           
+                            </div>
+                        </div>
+                        <div class="row">
+                <div class="col-md-6">
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label for="lblRestAmount" class="col-md-4 control-label">Net Total :</label>
+                        <div class="col-md-4">
+                            <label id="lblRestAmount">2500</label>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="taxVat" class="col-md-4 control-label">TAX :</label>
+                        <div class="col-md-4">
+                            <label id="taxVat">200</label>
+                            @*<label> %</label>*@
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="taxVat" class="col-md-4 control-label">DISCOUNT :</label>
+                        <div class="col-md-4">
+                            <label id="taxVat">500</label>
+                            @*<label> %</label>*@
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="lblRestAmount" class="col-md-4 control-label">Round Total :</label>
+                        <div class="col-md-4">
+                            <label id="lblRestAmount">2200</label>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="totalqty" class="col-md-4 control-label">Total Qty:</label>
+                        <div class="col-md-4">
+                            <label id="totalqty">3</label>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-primary" onclick="SaveOrder()">Submit</button>
+                        <button class="btn btn-danger float-right">Cancel</button>
+                    </div>
+                </div>
+            </div>
+            <!-- /.row -->
+        </div><!-- /.container-fluid -->
+
+
+        @*<input id="salesOrderId" type="number" style="display: none;" value="@ViewBag.SalesOrderId">
+        <input id="eflag" type="text" style="display: none;" value="@ViewBag.eflag">*@
+    </div>
+</section>
+@section Scripts
+{
+
+    <script>
+        var PrlductList = {};
+        var DeleteProduct = [];
+        var srcount = 0;
+        $(document).ready(function() {
+
+            //LoadCompany('ddlCompany');
+            //$("#ddlCompany").val("7");
+            ////LoadCustomerType('ddlCustomerType');
+            //LoadCustomerTypeLocal('ddlCustomerType');
+
+
+            $('#txtDocDate').datepicker({
+                endDate: new Date(),
+                autoclose: true,
+                todayHighlight: true,
+                format: 'dd-M-yyyy'
+            });
+            //$('#txtDocDueDate').datepicker({
+            //    endDate: new Date(),
+            //    autoclose: true,
+            //    todayHighlight: true,
+            //    format: 'dd-M-yyyy'
+            //});
+            //$('#txtDocDueDate').datepicker();
+             LoadDate('#txtDocDueDate');
+
+            LoadDate('#txtDocumentDate');
+            //LoadDate('#txtChequeDate');
+
+            //LoadDate('#txtRefDate');
+
+
+            //EmpAutoCom('txtSalesPerson', 'employeeSelect');
+            //GetSalesPersonPhone();
+            //LoadLocation('ddlLocation');
+           // GetProducts();
+            //LoadPaymentType('ddlPamentType');
+            ////  LoadBankName('ddlBankName');
+            //LoadBankName('ddlBankCollection');
+            //LoadPaymentType('ddlCollection');
+            //$("#ddlBankName").prop("disabled", true);
+            //$("#ddlBankBranch").prop("disabled", true);
+            //$("#txtCheque").prop("disabled", true);
+            //$("#txtChequeDate").prop("disabled", true);
+
+
+            //$("#ddlBankCollection").prop("disabled", true);
+            //$("#ddlBranchCollection").prop("disabled", true);
+            //$("#txtRefNo").prop("disabled", true);
+            //$("#txtRefDate").prop("disabled", true);
+
+            //LoadDeliveryWarehouse();
+            AddRow();
+
+
+
+
+
+            //$('#ddlCustomerType').change(function() {
+            //    var custype = $(this).val();
+            //    if (custype == 5) {
+            //        debugger;
+            //        $('#salesOrder tbody').empty();
+            //        $("#sr").removeClass('d-none');
+            //        $("#ddlSr").val(0).trigger('change');
+            //        AddRow();
+            //        $('#lbldiscount').text("Commission %");
+            //        $('#lbldiscountamt').text("Commission Amt. ");
+            //        $("#spnote").show();
+            //    } else {
+            //        $('#salesOrder tbody').empty();
+            //        $("#sr").addClass('d-none');
+            //        $("#ddlSr").val(0).trigger('change');
+            //        AddRow();
+            //        $('#lbldiscount').text("Discount %");
+            //        $('#lbldiscountamt').text("Discount Amt.");
+            //        $("#spnote").hide();
+            //    }
+
+            //});
+
+            //$('#ddlDeliveryWarehouse').change(function() {
+            //    var custype = $(ddlCustomerType).val();
+            //    if (custype == 5) {
+            //        debugger;
+            //        $('#salesOrder tbody').empty();
+            //        $("#sr").removeClass('d-none');
+            //        $("#ddlSr").val(0).trigger('change');
+            //        AddRow();
+            //        $('#lbldiscount').text("Commission %");
+            //        $('#lbldiscountamt').text("Commission Amt.");
+            //        $("#spnote").show();
+            //    } else {
+            //        $('#salesOrder tbody').empty();
+            //        $("#sr").addClass('d-none');
+            //        $("#ddlSr").val(0).trigger('change');
+            //        AddRow();
+            //        $('#lbldiscount').text("Discount %");
+            //        $('#lbldiscountamt').text("Discount Amt.");
+            //        $("#spnote").hide();
+            //    }
+
+            //});
+            $('#ddlCustomer').change(function() {
+                var custype = $('#ddlCustomerType').val();
+                if (custype == 5) {
+                    var customerId = $(this).val();
+                    LoadSr('ddlSr', customerId);
+                    debugger;
+                    srcount = parseInt($('select#ddlSr option').length);
+
+                }
+
+
+            });
+
+            //$('#ddlBankName').change(function() {
+            //    var bankid = $(this).val();
+            //    LoadBankBranch('ddlBankBranch', bankid);
+
+            //});
+
+            //$('#ddlBankCollection').change(function() {
+            //    var bankid = $(this).val();
+            //    LoadBankBranch('ddlBranchCollection', bankid);
+
+            //});
+
+            //$('#ddlPamentType').change(function() {
+            //    var payid = $(this).val();
+            //    if (payid == 1 || payid == 3) {
+            //        $("#ddlBankName").prop("disabled", false);
+            //        $("#ddlBankBranch").prop("disabled", false);
+            //        $("#txtCheque").prop("disabled", false);
+            //        $("#txtChequeDate").prop("disabled", false);
+            //    } else {
+            //        $("#ddlBankName").prop("disabled", true);
+            //        $("#ddlBankBranch").prop("disabled", true);
+            //        $("#txtCheque").prop("disabled", true);
+            //        $("#txtChequeDate").prop("disabled", true);
+
+
+            //    }
+
+
+            //});
+
+            //$('#ddlCollection').change(function() {
+            //    var payid = $(this).val();
+            //    if (payid == 1 || payid == 3) {
+            //        $("#ddlBankCollection").prop("disabled", false);
+            //        $("#ddlBranchCollection").prop("disabled", false);
+            //        $("#txtRefNo").prop("disabled", false);
+            //        $("#txtRefDate").prop("disabled", false);
+            //    } else {
+            //        $("#ddlBankCollection").prop("disabled", true);
+            //        $("#ddlBranchCollection").prop("disabled", true);
+            //        $("#txtRefNo").prop("disabled", true);
+            //        $("#txtRefDate").prop("disabled", true);
+            //        LoadBankName('ddlBankCollection');
+            //        LoadBankBranch('ddlBranchCollection', $("#ddlBankCollection").val());
+            //        $("#txtRefNo").val("");
+            //        $("#txtRefDate").val("");
+            //    }
+
+
+            //});
+        });
+
+
+        @*function GetOrderMaster(id) {
+
+            var urlpath = '@Url.Action("GetSalesOrderMaster", "SalesOrderProcess")';
+            $.ajax({
+                url: urlpath,
+                dataType: 'json',
+                type: "Get",
+                data: { id: id },
+                async: false,
+                success: function(data) {
+                    debugger;
+                    //LoadCustomerType('ddlCustomerType');
+                    LoadCustomerTypeLocal('ddlCustomerType');
+                    $("#ddlCustomerType").val(data.CustomerTypeId).trigger('change');
+                    $("#ddlCustomerType").prop("disabled", true);
+                    LoadCustomer('ddlCustomer');
+                    $("#ddlCustomer").val(data.CustomerId).trigger('change');
+                    LoadDeliveryWarehouse();
+                    $("#ddlDeliveryWarehouse").val(data.DeliveryWarehouseId).trigger('change');
+                    if (data.CustomerTypeId == 5) {
+                        $("#sr").removeClass('d-none');
+                        LoadSr("ddlSr", $("#ddlCustomer").val());
+                        $("#ddlSr").val(data.SrId).trigger('change');
+                    } else {
+                        $("#sr").addClass('d-none');
+                        LoadSr("ddlSr", $("#ddlCustomer").val());
+                        $("#ddlSr").val(0).trigger('change');
+                    }
+
+
+                    GetCustomerDetails();
+                    $("#ddlCompany").val(data.CompanyId).trigger('change');
+                    $("#txtSalesPersonNo").val(data.SalesPersonContact);
+                    if (data.IsEmployee == true) {
+                        $('#chkEmployee').prop('checked', true);
+                        $("#txtSalesPerson").val(GetEmployeeName(data.SalesPerson));
+                        GetEmpNoFromId($("#txtSalesPerson").val());
+                    } else {
+                        $('#chkEmployee').prop('checked', false);
+                        $("#txtSalesPerson").val(data.SalesPerson);
+                    }
+                    $('#txtOrderDate').val(ToJavaScriptDate(data.OrderDate));
+                    $('#txtDeliveryDate').val(ToJavaScriptDate(data.DeliveryDate));
+                    $('#txtDestination').val(data.DeliveryDestination);
+
+                    $('#txtRemarks').val(data.Remarks);
+                    LoadPaymentType('ddlPamentType');
+                    $("#ddlPamentType").val(data.PaymentType).trigger('change');
+                    LoadPaymentType('ddlCollection');
+                    $("#ddlCollection").val(data.CollectionType);
+                    $('#txtCollection').val(data.TotalPaid);
+                    $('#lblRestAmount').html((data.TotalDue - data.TotalPaid).toFixed(2));
+                   // $('#lblRestAmount').html(Math.round(data.TotalDue - data.TotalPaid));
+
+
+                    $("#ddlCollection").prop("disabled", true);
+                    $('#txtCollection').prop("disabled", true);
+
+
+                    $("#ddlBankName").val(data.BankId);
+                    LoadBankBranch('ddlBankBranch', data.BankId);
+                    $("#ddlBankBranch").val(data.BranchId);
+                    $("#txtCheque").val(data.ChequeNo);
+                    if (data.ChequeDate != null) {
+                        $("#txtChequeDate").val(ToJavaScriptDate(data.ChequeDate));
+                    }
+
+                    if (data.PaymentType == "1" || data.PaymentType == "3") {
+                        $("#ddlBankName").prop("disabled", false);
+                        $('#ddlBankBranch').prop("disabled", false);
+                        $("#txtCheque").prop("disabled", false);
+                        $('#txtChequeDate').prop("disabled", false);
+                    } else {
+                        $("#ddlBankName").prop("disabled", true);
+                        $('#ddlBankBranch').prop("disabled", true);
+                        $("#txtCheque").prop("disabled", true);
+                        $('#txtChequeDate').prop("disabled", true);
+                    }
+
+
+                    $("#ddlBankCollection").val(data.ColBankId);
+                    LoadBankBranch('ddlBranchCollection', data.ColBankId);
+                    $("#ddlBranchCollection").val(data.ColBranchId);
+                    $("#txtRefNo").val(data.ColChequeNo);
+                    var cdate = data.ColChequeDate;
+                    //alert(cdate);
+                    if (cdate != null) {
+                        $("#txtRefDate").val(ToJavaScriptDate(data.ColChequeDate));
+                    }
+
+
+                    $("#ddlCollection").prop("disabled", true);
+                    $('#txtCollection').prop("disabled", true);
+
+
+                    $("#ddlBankCollection").prop("disabled", true);
+
+                    $("#ddlBranchCollection").prop("disabled", true);
+                    $("#txtRefNo").prop("disabled", true);
+                    $('#txtRefDate').prop("disabled", true);
+
+                    $('#salesOrderNo').html(data.SalesOrderNo);
+                    GetProducts();
+                    var typeid = $("#ddlCustomerType").val();
+                    for (var i = 0; i < data.SalesDetails.length; i++) {
+
+                        var tr = $('#salesOrder tbody tr').length + 1;
+                        AddRow();
+
+                        $("#pro_" + tr).val(data.SalesDetails[i].ProductId).trigger('change');
+                        $('#saleQty_' + tr).val(data.SalesDetails[i].ProductQty.toFixed(2));
+                        $('#saleKG_' + tr).val(data.SalesDetails[i].ProductKg.toFixed(2));
+                        if (typeid == 5) {
+                            $('#disPer_' + tr).prop("disabled", true);
+                            $('#disNum_' + tr).prop("disabled", true);
+
+                            $('#disPer_' + tr).val(data.SalesDetails[i].DiscountPercent.toFixed(2));
+                            $('#disNum_' + tr).val(data.SalesDetails[i].DiscountAmount.toFixed(2));
+
+                            $('#lbldiscount').text("Commission %");
+                            $('#lbldiscountamt').text("Commission Amt.");
+                        } else {
+                            $('#disPer_' + tr).prop("disabled", false);
+                            $('#disNum_' + tr).prop("disabled", false);
+
+                            $('#disPer_' + tr).val(data.SalesDetails[i].DiscountPercent.toFixed(2));
+                          //  $('#disPer_' + tr).val((data.SalesDetails[i].DiscountPercent - $('#SpecialIncentive_' + tr).val()).toFixed(2));
+                            $('#disNum_' + tr).val(data.SalesDetails[i].DiscountAmount.toFixed(2));
+
+                            $('#lbldiscount').text("Discount %");
+                            $('#lbldiscountamt').text("Discount Amt.");
+                        }
+
+                        $('#saleRate_' + tr).val(data.SalesDetails[i].SaleRate.toFixed(2));
+                        $('#baseRate_' + tr).val(data.SalesDetails[i].BaseRate.toFixed(2));
+
+                        $('#weightLoss_' + tr).val((data.SalesDetails[i].BaseRate.toFixed(2) - data.SalesDetails[i].SaleRate.toFixed(2)).toFixed(2));
+
+                        $('#total_' + tr).val((data.SalesDetails[i].TotalPrice + data.SalesDetails[i].DiscountAmount - data.SalesDetails[i].ProductTax).toFixed(2));
+                        $('#totalG_' + tr).val(data.SalesDetails[i].TotalPrice);
+                        $('#btotal_' + tr).val(data.SalesDetails[i].BTotalPrice);
+                        $('#details_' + tr).val(data.SalesDetails[i].SalesOrderProcessDetailsId);
+                        $('#proTax_' + tr).val(data.SalesDetails[i].ProductTax.toFixed(2));
+                        $('#haschallan_' + tr).val(data.SalesDetails[i].haschallan);
+                        $('#picking_' + tr).val(data.SalesDetails[i].picking);
+                        debugger;
+                        var eflag = $('#eflag').val();
+                        if (eflag == "ed") {
+
+                            $('.aHide').hide();
+                        } else {
+                            var picking = $('#picking_' + tr).val();
+                            if (picking == '0') {
+                                $('.aHide').hide();
+                            } else {
+                                $('.aHide').show();
+                            }
+
+
+                        }
+                        // alert(data.SalesDetails[i].picking);
+                        //alert( $('#picking_' + tr).val());
+                        if (data.SalesDetails[i].haschallan == 0) {
+                            $('#btnRemove_' + tr).prop("disabled", false);
+
+                        } else {
+                            $("#tr_" + tr).css("background-color", "bisque");
+                            $("#tr_" + tr).attr('disabled', true);
+                            $('#btnRemove_' + tr).prop("disabled", true);
+                            $('#saleRate_' + tr).attr('disabled', true);
+                            $('#saleQty_' + tr).attr('disabled', true);
+                            $('#saleKG_' + tr).attr('disabled', true);
+
+                            $('#total_' + tr).attr('disabled', true);
+                            $('#disPer_' + tr).attr('disabled', true);
+                            $('#disNum_' + tr).attr('disabled', true);
+
+
+                        }
+                    }
+
+
+                    $('#totalKg').html(data.TotatalOrderAmtKg);
+                    $('#totalqty').html(data.TotalOrderQty);
+                    $('#totalIncTacVat').html((data.TotalIncTaxVat).toFixed(2));
+                    $('#totalExTaxVat').html((data.TotalExTaxVat).toFixed(2));
+                    $('#lblRestAmount').html((data.TotalDue - data.TotalPaid).toFixed(2));
+                   // $('#lblRestAmount').html(Math.round(data.TotalDue - data.TotalPaid));
+                    //CalculateAll();
+
+                }
+            });
+        }
+
+        function GetEmpNoFromId(data) {
+
+            var a = data;
+            var empId = data.substring(0, 5);
+
+            var urlpath = '@Url.Action("GetEmpNo", "Utility")';
+            $.ajax({
+                url: urlpath,
+                dataType: 'json',
+                type: "Get",
+                data: { empId: empId },
+                async: false,
+                success: function(data) {
+                    $('#employeeSelect').val(data);
+                }
+            });
+
+        }
+
+        function GetEmployeeName(empId) {
+            var EmpName = "";
+            var urlpath = '@Url.Action("GetEmployeeName", "Utility")';
+            $.ajax({
+                url: urlpath,
+                data: { empId: empId },
+                dataType: 'json',
+                type: "Get",
+
+                async: false,
+                success: function(data) {
+                    EmpName = data;
+
+                }
+            });
+            return EmpName;
+        }
+
+
+        function CalculateKg() {
+            CalculateAll();
+        }
+
+        function Checko() {
+            var checkp = $("#chkEmployee").prop("checked");
+            if (checkp == true) { //if this item is unchecked
+                EmpAutoCom('txtSalesPerson', 'employeeSelect');
+
+            }
+
+        }
+
+        function SaveOrder() {
+
+            if (SaveValidation() == true) {
+                swal({
+                    title: "Are you sure?",
+                    text: "",
+                    type: "success",
+                    showCancelButton: true,
+                    cancelButtonClass: 'btn-secondary waves-effect',
+                    confirmButtonClass: 'btn-success waves-effect waves-light',
+                    confirmButtonText: 'Yes!',
+                    closeOnConfirm: false
+
+                }, function() {
+                    $('.confirm').prop("disabled", true);
+                    $('.cancel').prop("disabled", true);
+                    SaveOdrerFinal();
+
+                });
+            }
+
+
+        }
+
+        function SaveOdrerFinal() {
+            debugger;
+            var jsonData = {};
+
+            jsonData["CompanyId"] = $('#ddlCompany').val();
+            jsonData["CustomerId"] = $('#ddlCustomer').val();
+            jsonData["SalesOrderProcessedMasterId"] = $('#salesOrderId').val();
+            jsonData["OrderType"] = 1;
+            jsonData["SalesPerson"] = $('#txtSalesPerson').val();
+            jsonData["SalesPersonContact"] = $('#txtSalesPersonNo').val();
+            jsonData["OrderDate"] = $('#txtOrderDate').val();
+            jsonData["DeliveryDate"] = $('#txtDeliveryDate').val();
+            jsonData["DeliveryDestination"] = $('#txtDestination').val();
+            //jsonData["GroupId"] = 5;
+            // jsonData["PaymentType"] = $('#ddlPamentType').val();
+            // jsonData["BankId"] = $('#ddlBankName').val();
+            // jsonData["BranchId"] = $('#ddlBankBranch').val();
+            // jsonData["ChequeNo"] = $('#txtCheque').val();
+            // jsonData["ChequeDate"] = $('#txtChequeDate').val();
+
+
+            jsonData["SrId"] = $('#ddlSr').val();
+            jsonData["CompanyId"] = $('#ddlCompany').val();
+            jsonData["TotatalOrderAmtKg"] = parseFloat($('#totalKg').html());
+            jsonData["TotalIncTaxVat"] = parseFloat($('#totalIncTacVat').html());
+            jsonData["TotalExTaxVat"] = parseFloat($('#totalExTaxVat').html());
+            jsonData["TaxVat"] = parseFloat($('#taxVat').html());
+            jsonData["Remarks"] = $('#txtRemarks').val();
+            jsonData["CollectionType"] = $('#ddlCollection').val();
+            jsonData["CollectionAmount"] = $('#txtCollection').val();
+            jsonData["IsEmployee"] = $("#chkEmployee").prop("checked");
+            jsonData["CustomerTypeId"] = $('#ddlCustomerType').val();
+
+            jsonData["ColBankId"] = $('#ddlBankCollection').val();
+            jsonData["ColBranchId"] = $('#ddlBranchCollection').val();
+
+            jsonData["RefNo"] = $('#txtRefNo').val();
+            jsonData["RefDate"] = $('#txtRefDate').val();
+            jsonData["eflag"] = $('#eflag').val();
+            jsonData["DeliveryWarehouseId"] = $('#ddlDeliveryWarehouse').val();
+
+
+            var jsonObjs = [];
+            $('#salesOrder tbody tr').each(function() {
+
+                var theObj = {};
+                var idr = $(this).attr('id');
+                var id = idr.substring(3);
+                var productId = isNaN(parseFloat($('#pro_' + id).val())) ? 0 : parseFloat($('#pro_' + id).val());
+                var saleQty = isNaN(parseFloat($('#saleQty_' + id).val())) ? 0 : parseFloat($('#saleQty_' + id).val());
+                var stockRate = isNaN(parseFloat($('#stRate_' + id).val())) ? 0 : parseFloat($('#stRate_' + id).val());
+                var saleRate = isNaN(parseFloat($('#saleRate_' + id).val())) ? 0 : parseFloat($('#saleRate_' + id).val());
+
+                var baseRate = isNaN(parseFloat($('#baseRate_' + id).val())) ? 0 : parseFloat($('#baseRate_' + id).val());
+
+                var saleKg = isNaN(parseFloat($('#saleKG_' + id).val())) ? 0 : parseFloat($('#saleKG_' + id).val());
+
+                var disPer = isNaN(parseFloat($('#disPer_' + id).val())) ? 0 : parseFloat($('#disPer_' + id).val());
+                var disAmt = isNaN(parseFloat($('#disNum_' + id).val())) ? 0 : parseFloat($('#disNum_' + id).val());
+                var total = isNaN(parseFloat($('#totalG_' + id).val())) ? 0 : parseFloat($('#totalG_' + id).val());
+                var btotal = isNaN(parseFloat($('#btotal_' + id).val())) ? 0 : parseFloat($('#btotal_' + id).val());
+                var detailsId = isNaN(parseFloat($('#details_' + id).val())) ? 0 : parseFloat($('#details_' + id).val());
+                var tax = isNaN(parseFloat($('#proTax_' + id).val())) ? 0 : parseFloat($('#proTax_' + id).val());
+                var GroupId = isNaN(parseInt($('#groupid_' + id).val())) ? 0 : parseInt($('#groupid_' + id).val());
+                var isbulk = $('#isbulk_' + id).val();
+                var haschallan = $('#haschallan_' + id).val();
+                var alreadypicked = $('#already_' + id).is(':checked');
+
+                var picking = isNaN(parseFloat($('#picking_' + id).val())) ? 0 : parseFloat($('#picking_' + id).val());
+
+                var MTRetention = isNaN(parseFloat($('#mtretention_' + id).val())) ? 0 : parseFloat($('#mtretention_' + id).val());
+
+                var offerIncentive = isNaN(parseFloat($('#SpecialIncentive_' + id).val())) ? 0 : parseFloat($('#SpecialIncentive_' + id).val());
+                //var damage = isNaN(parseFloat($('#damage_' + id).val())) ? 0 : parseFloat($('#damage_' + id).val());
+                //var srAdjust = isNaN(parseFloat($('#srAdjust_' + id).val())) ? 0 : parseFloat($('#srAdjust_' + id).val());
+
+                theObj["ProductId"] = productId;
+                theObj["SalesOrderProcessDetailsId"] = detailsId;
+                theObj["ProductQty"] = saleQty;
+                theObj["StockRate"] = stockRate;
+                theObj["SaleRate"] = saleRate;
+                theObj["BaseRate"] = baseRate;
+                theObj["ProductKg"] = saleKg;
+                theObj["DiscountAmount"] = disAmt;
+                theObj["DiscountPercent"] = (disPer + offerIncentive);
+                theObj["TotalPrice"] = total;
+                theObj["BTotalPrice"] = btotal;
+                theObj["ProductTax"] = tax;
+                theObj["GroupId"] = GroupId;
+                theObj["isbulk"] = isbulk;
+                theObj["OperationIdAdd"] = 1;
+                theObj["eflag"] = $('#eflag').val();
+                theObj["haschallan"] = haschallan;
+                theObj["alreadypicked"] = alreadypicked;
+                theObj["MTRetention"] = MTRetention;
+                theObj["Incentive"] = isNaN(parseFloat($('#incentive_' + id).val())) ? 0 : parseFloat($('#incentive_' + id).val());
+                //new
+                //theObj["DamagePercent"] = damage;
+                //theObj["SrAdjust"] = srAdjust;
+                jsonObjs.push(theObj);
+            });
+
+            if (isNaN(parseInt($('#salesOrderId').val())) ? 0 : parseInt($('#salesOrderId').val()) > 0) {
+                var deleteLength = DeleteProduct.length;
+                for (var ind = 0; ind < DeleteProduct.length; ind++) {
+                    jsonObjs.push(DeleteProduct[ind]);
+                }
+            }
+            debugger;
+
+            jsonData["SalesDetails"] = jsonObjs;
+
+            var urlpath = '@Url.Action("SaveOrderPrecessed", "SalesOrderProcess")';
+            $.ajax({
+                    contentType: "application/json",
+                    data: JSON.stringify(jsonData),
+                    dataType: 'json',
+                    url: urlpath,
+                    type: "POST"
+                })
+                .success(function(result) {
+
+                    if (result.pk > 0) {
+
+                        // var mrrNo = GetMrrNo(result.pk);
+
+                        swal({
+                            title: " Saved Successfull",
+                            text: '',
+                            type: "success",
+                            showCancelButton: false,
+                            cancelButtonClass: 'btn-secondary waves-effect',
+                            confirmButtonClass: 'btn-success waves-effect waves-light',
+                            confirmButtonText: 'Yes!',
+                            closeOnConfirm: false
+                        }, function() {
+                            var eflag = $('#eflag').val();
+                            if (eflag == "ed") {
+                                window.location.href = '@Url.Action("SalesOrderList", "SalesOrderProcess")';
+                            } else {
+                                window.location.href = '@Url.Action("SalesOrderApprovalList", "SalesOrderProcess")';
+                            }
+
+
+                        });
+
+
+                    }
+                });
+
+
+        }*@
+
+        function CheckCurrentdate() {
+
+            if ($('#txtDocDueDate').val() != '' || $('#txtDocDueDate').val() != null) {
+                var ddate = new Date($('#txtDocDueDate').val());
+                var odate = new Date($('#txtDocDate').val());
+                if (ddate < odate) {
+                    $('#txtDocDueDate').val($('#txtDocDate').val());
+                }
+            }
+
+        }
+
+        //function SaveValidation() {
+
+
+        //    var isValid = true;
+        //    var message = "Some Values Required";
+        //    if ($('#ddlCompany').val() == 0 || $('#ddlCompany').val() == '') {
+        //        ValidationColorChangeNew("ddlCompany", "divCompany", "Company Required", true);
+        //        isValid = false;
+        //    }
+        //    if ($('#ddlCustomerType').val() == 0 || $('#ddlCustomerType').val() == '') {
+        //        ValidationColorChangeNew("ddlCustomerType", "divCustomerType", "Customer Type Required", true);
+        //        isValid = false;
+        //    }
+        //    if ($('#ddlCustomer').val() == 0 || $('#ddlCustomer').val() == '') {
+        //        ValidationColorChangeNew("ddlCustomer", "divCustomer", "Customer Required", true);
+        //        isValid = false;
+        //    }
+        //    if ($('#txtOrderDate').val() == '' || $('#ddlCustomer').val() == null) {
+        //        ValidationColorChangeNew("txtOrderDate", "divOrderDate", "Order Date Required", false);
+        //        isValid = false;
+        //    }
+
+        //    if ($('#txtDeliveryDate').val() == '' || $('#txtDeliveryDate').val() == null) {
+        //        ValidationColorChangeNew("txtDeliveryDate", "divDeliveryDate", "Delivery Date Required", false);
+        //        isValid = false;
+        //    }
+        //    if ($('#txtDestination').val() == '' || $('#txtDestination').val() == null) {
+        //        ValidationColorChangeNew("txtDestination", "divDestination", "Delivery Place Required", false);
+        //        isValid = false;
+        //    }
+
+        //    if ($('#txtSalesPersonNo').val() == '' || $('#txtSalesPersonNo').val() == null) {
+        //        ValidationColorChangeNew("txtSalesPersonNo", "dovSalesPersonNo", "Contact No Required", false);
+        //        isValid = false;
+        //    }
+        //    if ($('#ddlDeliveryWarehouse').val() == 0 || $('#ddlDeliveryWarehouse').val() == '') {
+        //        ValidationColorChangeNew("ddlDeliveryWarehouse", "divDeliveryWarehouse", "Delivery Warehouse Required", true);
+        //        isValid = false;
+        //    }
+        //    debugger;
+        //    if ($('#ddlCustomerType').val() == 5) {
+        //        if (srcount > 1) {
+        //            if ($('#ddlSr').val() == 0 || $('#ddlSr').val() == '') {
+        //                ValidationColorChangeNew("ddlSr", "divSR", "SR Required", true);
+        //                isValid = false;
+        //            }
+        //        }
+        //    }
+
+
+        //    var chk = $("#chkEmployee").prop("checked");
+        //    if (chk == true) {
+        //        if ($('#txtSalesPerson').val() == '' || $('#txtSalesPerson').val() == null || $('#employeeSelect').val() == 0) {
+        //            ValidationColorChangeNew("txtSalesPerson", "divSalesPerson", "Sales Person Required", false);
+        //            isValid = false;
+        //        }
+        //    } else {
+        //        if ($('#txtSalesPerson').val() == '' || $('#txtSalesPerson').val() == null) {
+        //            ValidationColorChangeNew("txtSalesPerson", "divSalesPerson", "Sales Person Required", false);
+        //            isValid = false;
+        //        }
+        //    }
+
+
+        //    if ($('#ddlPamentType').val() == '' || $('#ddlPamentType').val() == null || $('#ddlPamentType').val() == 0) {
+        //        ValidationColorChangeNew("ddlPamentType", "divPaymentType", "Payment Type Required", true);
+        //        isValid = false;
+        //    }
+
+        //    var payid = $('#ddlPamentType').val();
+        //    if (payid == 1)
+        //    {
+        //        if ($('#ddlBankName').val() == '' || $('#ddlBankName').val() == null || $('#ddlBankName').val() == 0) {
+        //            ValidationColorChangeNew("ddlBankName", "divBankName", "Bank Required", true);
+        //            isValid = false;
+        //        }
+        //        if ($('#ddlBankBranch').val() == '' || $('#ddlBankBranch').val() == null || $('#ddlBankBranch').val() == 0) {
+        //            ValidationColorChangeNew("ddlBankBranch", "divBankBranch", "Branch Required", true);
+        //            isValid = false;
+        //        }
+        //    }
+
+        //    if (payid == 3) {
+        //        if ($('#ddlBankName').val() == '' || $('#ddlBankName').val() == null || $('#ddlBankName').val() == 0) {
+        //            ValidationColorChangeNew("ddlBankName", "divBankName", "Bank Required", true);
+        //            isValid = false;
+        //        }
+        //        if ($('#ddlBankBranch').val() == '' || $('#ddlBankBranch').val() == null || $('#ddlBankBranch').val() == 0) {
+        //            ValidationColorChangeNew("ddlBankBranch", "divBankBranch", "Branch Required", true);
+        //            isValid = false;
+        //        }
+        //        if ($('#txtCheque').val() == '' || $('#txtCheque').val() == null) {
+        //            ValidationColorChangeNew("txtCheque", "divCheque", "Cheque No Required", false);
+        //            isValid = false;
+        //        }
+        //        if ($('#txtChequeDate').val() == '' || $('#txtChequeDate').val() == null) {
+        //            ValidationColorChangeNew("txtChequeDate", "divChequeDate", "Cheque Date Required", false);
+        //            isValid = false;
+        //        }
+        //    }
+
+        //    var colection = isNaN(parseFloat($('#txtCollection').val())) ? 0 : parseFloat($('#txtCollection').val());
+        //    if (colection > 0) {
+        //        if ($('#ddlCollection').val() == '' || $('#ddlCollection').val() == null || $('#ddlCollection').val() == 0) {
+        //            ValidationColorChangeNew("ddlCollection", "divCollection", "Collection Type Required", true);
+        //            isValid = false;
+        //        }
+        //        var colid = $('#ddlCollection').val();
+        //        if (colid == 1) {
+        //            if ($('#ddlBankCollection').val() == '' || $('#ddlBankCollection').val() == null || $('#ddlBankCollection').val() == 0) {
+        //                ValidationColorChangeNew("ddlBankCollection", "divBankNo", "Bank Required", true);
+        //                isValid = false;
+        //            }
+        //            if ($('#ddlBranchCollection').val() == '' || $('#ddlBranchCollection').val() == null || $('#ddlBranchCollection').val() == 0) {
+        //                ValidationColorChangeNew("ddlBranchCollection", "divBranchNo", "Branch Required", true);
+        //                isValid = false;
+        //            }
+        //        }
+
+        //        if (colid == 3) {
+        //            if ($('#ddlBankCollection').val() == '' || $('#ddlBankCollection').val() == null || $('#ddlBankCollection').val() == 0) {
+        //                ValidationColorChangeNew("ddlBankCollection", "divBankNo", "Bank Required", true);
+        //                isValid = false;
+        //            }
+        //            if ($('#ddlBranchCollection').val() == '' || $('#ddlBranchCollection').val() == null || $('#ddlBranchCollection').val() == 0) {
+        //                ValidationColorChangeNew("ddlBranchCollection", "divBranchNo", "Branch Required", true);
+        //                isValid = false;
+        //            }
+        //            if ($('#txtRefNo').val() == '' || $('#txtRefNo').val() == null) {
+        //                ValidationColorChangeNew("txtRefNo", "divRefNo", "Cheque No Required", false);
+        //                isValid = false;
+        //            }
+        //            if ($('#txtRefDate').val() == '' || $('#txtRefDate').val() == null) {
+        //                ValidationColorChangeNew("txtRefDate", "divRefDate", "Cheque Date Required", false);
+        //                isValid = false;
+        //            }
+        //        }
+
+
+        //    }
+
+        //    if ($('#salesOrder tbody tr').length == 0 || $('#salesOrder tbody tr').length == '') {
+        //        isValid = false;
+        //        message = "Products Required";
+        //    }
+
+
+        //    $('#salesOrder tbody tr').each(function() {
+
+
+        //        var idr = $(this).attr('id');
+        //        var id = idr.substring(3);
+        //        var saleQty = isNaN(parseFloat($('#saleQty_' + id).val())) ? 0 : parseFloat($('#saleQty_' + id).val());
+        //        var salePrice = isNaN(parseFloat($('#saleRate_' + id).val())) ? 0 : parseFloat($('#saleRate_' + id).val());
+        //        var saleKg = isNaN(parseFloat($('#saleKG_' + id).val())) ? 0 : parseFloat($('#saleKG_' + id).val());
+        //        var total = isNaN(parseFloat($('#totalG_' + id).val())) ? 0 : parseFloat($('#totalG_' + id).val());
+        //        var groupid = isNaN(parseInt($('#groupid_' + id).val())) ? 0 : parseInt($('#groupid_' + id).val());
+        //        if (groupid == 5) {
+        //            if (salePrice === 0) {
+        //                isValid = false;
+        //                message = "Sale Price Cannot be 0 ";
+        //                $('#saleRate_' + id).val();
+        //                $('#saleRate_' + id).css('border-bottom', '2px solid red');
+        //                return;
+        //            }
+        //            if (saleQty === 0) {
+        //                isValid = false;
+        //                message = "Sale Qty Cannot be 0 ";
+        //                $('#saleQty_' + id).css('border-bottom', '2px solid red');
+        //                return;
+        //            }
+        //            if (saleKg === 0) {
+        //                isValid = false;
+        //                message = "Sale KG Cannot be 0 ";
+        //                $('#saleKG_' + id).css('border-bottom', '2px solid red');
+        //                return;
+        //            }
+
+        //            if (total === 0) {
+        //                isValid = false;
+        //                message = "Total Price Cannot be 0 ";
+        //                $('#totalG_' + id).css('border-bottom', '2px solid red');
+        //                return;
+        //            }
+        //        } else if (groupid == 6) {
+        //            if (salePrice === 0) {
+        //                isValid = false;
+        //                message = "Sale Price Cannot be 0 ";
+        //                $('#saleRate_' + id).css('border-bottom', '2px solid red');
+        //                return;
+        //            }
+        //            if (saleQty === 0) {
+        //                isValid = false;
+        //                message = "Sale Qty Cannot be 0 ";
+        //                $('#saleQty_' + id).css('border-bottom', '2px solid red');
+        //                return;
+        //            }
+
+        //            if (total === 0) {
+        //                isValid = false;
+        //                message = "Total Price Cannot be 0 ";
+        //                $('#totalG_' + id).css('border-bottom', '2px solid red');
+        //                return;
+        //            }
+        //        } else {
+        //            if (salePrice === 0) {
+        //                isValid = false;
+        //                message = "Sale Price Cannot be 0 ";
+        //                $('#saleRate_' + id).css('border-bottom', '2px solid red');
+        //                return;
+        //            }
+
+        //            if (saleKg === 0) {
+        //                isValid = false;
+        //                message = "Sale KG Cannot be 0 ";
+        //                $('#saleKG_' + id).css('border-bottom', '2px solid red');
+        //                return;
+        //            }
+
+        //            if (total === 0) {
+        //                isValid = false;
+        //                message = "Total Price Cannot be 0 ";
+        //                $('#totalG_' + id).css('border-bottom', '2px solid red');
+        //                return;
+        //            }
+        //        }
+
+
+        //    });
+        //    if (isValid == false) {
+        //        ShowMessage(message);
+
+        //    }
+        //    return isValid;
+
+
+        //}
+
+        @*function GetPackWeight(pid) {
+            var weight = 0;
+            var urlpath = '@Url.Action("PackWeight", "SalesOrderProcess")';
+            $.ajax({
+                url: urlpath,
+                data: { pid: pid },
+                dataType: 'json',
+                type: "Get",
+
+                async: false,
+                success: function(data) {
+                    weight = data;
+
+                }
+            });
+            return weight;
+        }
+
+        function CalculateBasePrice(id, typeid, pid) {
+
+
+            var saleRate = isNaN(parseFloat($('#saleRate_' + id).val())) ? 0 : parseFloat($('#saleRate_' + id).val());
+            var saleQty = isNaN(parseFloat($('#saleQty_' + id).val())) ? 0 : parseFloat($('#saleQty_' + id).val());
+            var saleKg = isNaN(parseFloat($('#saleKG_' + id).val())) ? 0 : parseFloat($('#saleKG_' + id).val());
+            var groupid = isNaN(parseFloat($('#groupid_' + id).val())) ? 0 : parseFloat($('#groupid_' + id).val());
+            var baseRate = isNaN(parseFloat($('#baseRate_' + id).val())) ? 0 : parseFloat($('#baseRate_' + id).val());
+            var disCounPer = 0;
+            var distountTotal = 0;
+            var total = 0
+            var btotal = 0
+            if (groupid == 5) {
+                if (typeid == 5) {
+                    saleRate = baseRate - (baseRate * .02);
+                    $('#saleRate_' + id).val(saleRate);
+                    $('#weightLoss_' + id).val((baseRate * .02).toFixed(2));
+                    saleRate = isNaN(parseFloat($('#saleRate_' + id).val())) ? 0 : parseFloat($('#saleRate_' + id).val());
+                    total = saleRate * saleKg;
+                    btotal = baseRate * saleKg;
+                    //var distountTotal = total * (disCounPer / 100);
+
+
+                    //new changes
+                   // var perKg = isNaN(parseFloat($('#perKgStdQty_' + id).val())) ? 0 : parseFloat($('#perKgStdQty_' + id).val());
+                    var perKg = isNaN(parseFloat($('#DiscountPercent_' + id).val())) ? 0 : parseFloat($('#DiscountPercent_' + id).val());
+                    distountTotal = saleKg * perKg;
+                  //  distountTotal = saleKg * parseFloat(4);
+                    var per = (distountTotal * 100) / total;
+                    $('#disPer_' + id).attr("disabled", true);
+                    $('#disNum_' + id).attr("disabled", true);
+                    //var distotal = saleKg * parseFloat(4);
+                    $('#disNum_' + id).val(distountTotal);
+                    $('#disPer_' + id).val(per.toFixed(2));
+                } else {
+                    var disCounPer = isNaN(parseFloat($('#disPer_' + id).val())) ? 0 : parseFloat($('#disPer_' + id).val());
+                    total = saleRate * saleKg;
+                    btotal = saleRate * saleKg;
+                    distountTotal = total * (disCounPer / 100);
+
+                    $('#disPer_' + id).attr("disabled", false);
+                    $('#disNum_' + id).attr("disabled", false);
+                }
+            }
+
+
+            var vatPerItem = isNaN(parseFloat($('#proTax_' + id).val())) ? 0 : parseFloat($('#proTax_' + id).val());
+            var totalPrice = total + vatPerItem - distountTotal;
+
+            $('#total_' + id).val(total.toFixed(2));
+            $('#btotal_' + id).val(btotal.toFixed(2));
+            $('#disNum_' + id).val(distountTotal.toFixed(2));
+            $('#totalG_' + id).val(totalPrice.toFixed(2));
+            CalculateAll();
+        }
+
+        function CalculateSalePrice(id, typeid, pid) {
+            debugger;
+
+            var saleRate = isNaN(parseFloat($('#saleRate_' + id).val())) ? 0 : parseFloat($('#saleRate_' + id).val());
+            var saleQty = isNaN(parseFloat($('#saleQty_' + id).val())) ? 0 : parseFloat($('#saleQty_' + id).val());
+            var saleKg = isNaN(parseFloat($('#saleKG_' + id).val())) ? 0 : parseFloat($('#saleKG_' + id).val());
+            var groupid = isNaN(parseFloat($('#groupid_' + id).val())) ? 0 : parseFloat($('#groupid_' + id).val());
+            var baseRate = isNaN(parseFloat($('#baseRate_' + id).val())) ? 0 : parseFloat($('#baseRate_' + id).val());
+            var isbulk = $('#isbulk_' + id).val();
+            //isNaN(parseFloat($('#disPer_' + id).val())) ? 0 : parseFloat($('#disPer_' + id).val());
+            var disCounPer = 0;
+            var distountTotal = 0;
+            var total = 0
+            var btotal = 0
+            if (groupid == 5) {
+                debugger;
+                if (typeid == 5) {
+                    if (pid == 388 || pid == 389 || pid == 390) {
+                        debugger;
+                        total = saleRate * saleQty;
+                        btotal = baseRate * saleQty;
+                       // var perKg = isNaN(parseFloat($('#perKgStdQty_' + id).val())) ? 0 : parseFloat($('#perKgStdQty_' + id).val());
+                        var perKg = isNaN(parseFloat($('#perKgStdQty_' + id).val())) ? 0 : parseFloat($('#perKgStdQty_' + id).val());
+                        $('#saleKG_' + id).val(saleQty * perKg);
+                    } else {
+                       debugger;
+
+                       var perKg = isNaN(parseFloat($('#DiscountPercent_' + id).val())) ? 0 : parseFloat($('#DiscountPercent_' + id).val());
+                        total = saleRate * saleKg;
+                        btotal = baseRate * saleKg;
+                        //var distountTotal = total * (disCounPer / 100);
+
+                        //changes shahadat
+                        distountTotal = saleKg * perKg; // saleKg * parseFloat(4);
+                        var per = (distountTotal * 100) / total;
+                        $('#disPer_' + id).attr("disabled", true);
+                        $('#disNum_' + id).attr("disabled", true);
+                        //var distotal = saleKg * parseFloat(4);
+                        $('#disNum_' + id).val(distountTotal);
+                        $('#disPer_' + id).val(per.toFixed(2));
+
+                        //var perKg = isNaN(parseFloat($('#perKgStdQty_' + id).val())) ? 0 : parseFloat($('#perKgStdQty_' + id).val());
+                        //$('#saleQty_' + id).val(saleKg * perKg);
+
+                    }
+                } else {
+                    if (pid == 388 || pid == 389 || pid == 390) {
+                        debugger;
+                        total = saleRate * saleQty;
+                        btotal = baseRate * saleQty;
+                        var perKg = isNaN(parseFloat($('#perKgStdQty_' + id).val())) ? 0 : parseFloat($('#perKgStdQty_' + id).val());
+                        $('#saleKG_' + id).val(saleQty * perKg);
+                    } else {
+                        debugger;
+                        var offerIncentive = isNaN(parseFloat($('#SpecialIncentive_' + id).val())) ? 0 : parseFloat($('#SpecialIncentive_' + id).val());
+                        var perKg = isNaN(parseFloat($('#DiscountPercent_' + id).val())) ? 0 : parseFloat($('#DiscountPercent_' + id).val());
+
+                        var totalDiscounti = offerIncentive + perKg;
+
+                        var disCounPer = isNaN(parseFloat($('#disPer_' + id).val())) ? 0 : parseFloat($('#disPer_' + id).val());
+                        total = saleRate * saleKg;
+                        btotal = saleRate * saleKg;
+                       // distountTotal = total * (disCounPer / 100);
+                        //changes shahadat
+                     //   distountTotal = total * (perKg / 100);
+                        distountTotal = total * (totalDiscounti / 100);
+                        var per = (distountTotal * 100) / total;
+                        $('#disPer_' + id).attr("disabled", false);
+                        $('#disNum_' + id).attr("disabled", false);
+
+
+                        $('#disNum_' + id).val(distountTotal);
+                        $('#disPer_' + id).val(perKg.toFixed(2));
+
+                        //var perKg = isNaN(parseFloat($('#perKgStdQty_' + id).val())) ? 0 : parseFloat($('#perKgStdQty_' + id).val());
+                        //$('#saleQty_' + id).val(saleKg * perKg);
+
+
+                    }
+                }
+            } else if (groupid == 6) {
+                var pweight = GetPackWeight(pid);
+                var skg = pweight * saleQty;
+                $('#saleKG_' + id).val(skg.toFixed(2));
+                if (typeid == 5) {
+                    total = saleRate * saleQty;
+                    btotal = baseRate * saleQty;
+                   debugger;
+                    if (isbulk == "false") {
+                        if (pid == 377) {
+
+                        } else {
+                          debugger;
+                            //changes shahadat
+                          var perKg = isNaN(parseFloat($('#DiscountPercent_' + id).val())) ? 0 : parseFloat($('#DiscountPercent_' + id).val());
+                            $('#disPer_' + id).val(perKg.toFixed(2));
+
+                            //$('#disPer_' + id).val(11);
+                            disCounPer = isNaN(parseFloat($('#disPer_' + id).val())) ? 0 : parseFloat($('#disPer_' + id).val());
+                            if (pid == 394) {
+                                distountTotal = (total * (disCounPer / 100)) + (saleQty * 24);
+                            } else {
+                                distountTotal = (total * (disCounPer / 100));
+                            }
+
+
+                        }
+
+                    } else {
+                        debugger;
+                    //new add
+                        var perKg = isNaN(parseFloat($('#perKgStdQty_' + id).val())) ? 0 : parseFloat($('#perKgStdQty_' + id).val());
+                        //$('#disPer_' + id).val(perKg.toFixed(2));
+
+
+                        //$('#disPer_' + id).val(0);
+                        //disCounPer = isNaN(parseFloat($('#disPer_' + id).val())) ? 0 : parseFloat($('#disPer_' + id).val());
+                        //  distountTotal = 0;
+                        //distountTotal = (total * (disCounPer / 100));
+                    }
+
+
+                    //distountTotal = btotal * (disCounPer / 100);
+
+                    $('#disPer_' + id).attr("disabled", true);
+                    $('#disNum_' + id).attr("disabled", true);
+                    //var distotal = saleKg * parseFloat(4);
+                    $('#disNum_' + id).val(distountTotal);
+
+
+                } else {
+                    debugger;
+                    //changes shahadat
+                    var offerIncentive = isNaN(parseFloat($('#SpecialIncentive_' + id).val())) ? 0 : parseFloat($('#SpecialIncentive_' + id).val());
+                    var perKg = isNaN(parseFloat($('#DiscountPercent_' + id).val())) ? 0 : parseFloat($('#DiscountPercent_' + id).val());
+                    var totalDiscounti = offerIncentive + perKg;
+                    disCounPer = isNaN(parseFloat($('#disPer_' + id).val())) ? 0 : parseFloat($('#disPer_' + id).val());
+                    total = saleRate * saleQty;
+                    btotal = baseRate * saleQty;
+                    if (pid == 394) {
+                        distountTotal = (total * (disCounPer / 100)) + (saleQty * 24);
+                    } else {
+                      //  distountTotal = (total * (disCounPer / 100));
+                       // distountTotal = (total * (perKg / 100));
+                        distountTotal = (total * (totalDiscounti / 100));
+                    }
+
+
+                    //$('#disPer_' + id).attr("disabled", false);
+                    $('#disNum_' + id).attr("disabled", false);
+                    $('#disPer_' + id).val(perKg.toFixed(2));
+                    if (pid == 394) {
+                        $('#disNum_' + id).attr("disabled", true);
+                    } else {
+                        $('#disNum_' + id).attr("disabled", false);
+                    }
+                }
+            } else {
+               debugger;
+               var perKg = isNaN(parseFloat($('#DiscountPercent_' + id).val())) ? 0 : parseFloat($('#DiscountPercent_' + id).val());
+                var offerIncentive = isNaN(parseFloat($('#SpecialIncentive_' + id).val())) ? 0 : parseFloat($('#SpecialIncentive_' + id).val());
+                var totalDiscounti = offerIncentive + perKg;
+
+                var disCounPer = isNaN(parseFloat($('#disPer_' + id).val())) ? 0 : parseFloat($('#disPer_' + id).val());
+                var total = saleRate * saleKg;
+                //changes
+                //var distountTotal = total * (disCounPer / 100);
+             //   var distountTotal = total * (perKg / 100);
+                var distountTotal = total * (totalDiscounti / 100);
+            }
+
+         //   debugger;
+
+            var vatPerItem = isNaN(parseFloat($('#proTax_' + id).val())) ? 0 : parseFloat($('#proTax_' + id).val());
+            var totalPrice = total + vatPerItem - distountTotal;
+        //    var perKg = isNaN(parseFloat($('#perKgStdQty_' + id).val())) ? 0 : parseFloat($('#perKgStdQty_' + id).val());
+           // $('#disPer_' + id).val(perKg.toFixed(2));
+            $('#total_' + id).val(total.toFixed(2));
+            $('#btotal_' + id).val(btotal.toFixed(2));
+            $('#disNum_' + id).val(distountTotal.toFixed(2));
+
+            $('#totalG_' + id).val(totalPrice.toFixed(2));
+
+            CalculateAll();
+        }
+
+        function CalculateSalePriceAmt(id) {
+
+            var productId = isNaN(parseFloat($('#pro_' + id).val())) ? 0 : parseFloat($('#pro_' + id).val());
+            var saleRate = isNaN(parseFloat($('#saleRate_' + id).val())) ? 0 : parseFloat($('#saleRate_' + id).val());
+            var saleQty = isNaN(parseFloat($('#saleQty_' + id).val())) ? 0 : parseFloat($('#saleQty_' + id).val());
+            var discountAmt = isNaN(parseFloat($('#disNum_' + id).val())) ? 0 : parseFloat($('#disNum_' + id).val());
+            var saleKg = isNaN(parseFloat($('#saleKG_' + id).val())) ? 0 : parseFloat($('#saleKG_' + id).val());
+            var groupid = isNaN(parseFloat($('#groupid_' + id).val())) ? 0 : parseFloat($('#groupid_' + id).val());
+
+            if (groupid == 5) {
+                var total = saleRate * saleKg;
+                var discountRate = (discountAmt / total) * 100;
+                var totalPrice = total - discountAmt;
+                $('#total_' + id).val(total.toFixed(2));
+                $('#disPer_' + id).val(discountRate.toFixed(2));
+                $('#totalG_' + id).val(totalPrice.toFixed(2));
+            } else if (groupid == 6) {
+                debugger;
+                var total = saleRate * saleQty;
+                var discountRate = (discountAmt / total) * 100;
+                var totalPrice = total - discountAmt;
+                $('#total_' + id).val(total.toFixed(2));
+                $('#disPer_' + id).val(discountRate.toFixed(2));
+                $('#totalG_' + id).val(totalPrice.toFixed(2));
+
+
+            } else {
+                var total = saleRate * saleKg;
+                var discountRate = (discountAmt / total) * 100;
+                var totalPrice = total - discountAmt;
+                $('#total_' + id).val(total.toFixed(2));
+                $('#disPer_' + id).val(discountRate.toFixed(2));
+                $('#totalG_' + id).val(totalPrice.toFixed(2));
+            }
+
+
+            CalculateAll();
+        }
+
+        function CalculateAll() {
+
+
+            var grandTotal = 0;
+            var totalIncTax = 0;
+            var totalExTax = 0;
+            var totalKg = 0;
+            var totalQty = 0;
+            var totalTax = 0;
+            var proCout = 0;
+            $('#salesOrder tbody tr').each(function() {
+
+
+                var idr = $(this).attr('id');
+                var id = idr.substring(3);
+
+                var productId = isNaN(parseFloat($('#pro_' + id).val())) ? 0 : parseFloat($('#pro_' + id).val());
+                var saleQty = isNaN(parseFloat($('#saleQty_' + id).val())) ? 0 : parseFloat($('#saleQty_' + id).val());
+                var stockRate = isNaN(parseFloat($('#stRate_' + id).val())) ? 0 : parseFloat($('#stRate_' + id).val());
+                var saleRate = isNaN(parseFloat($('#saleRate' + id).val())) ? 0 : parseFloat($('#saleRate' + id).val());
+
+                var saleKg = isNaN(parseFloat($('#saleKG_' + id).val())) ? 0 : parseFloat($('#saleKG_' + id).val());
+
+                var disPer = isNaN(parseFloat($('#disPer_' + id).val())) ? 0 : parseFloat($('#disPer_' + id).val());
+                var disAmt = isNaN(parseFloat($('#disNum_' + id).val())) ? 0 : parseFloat($('#disNum_' + id).val());
+                var total = isNaN(parseFloat($('#total_' + id).val())) ? 0 : parseFloat($('#total_' + id).val());
+                grandTotal += (total - disAmt);
+                totalKg += saleKg;
+                totalQty += saleQty;
+                if (productId > 0) {
+                    proCout = proCout + 1;
+                }
+
+            });
+
+            if (grandTotal > 0) {
+                $('#taxVat').html(GetTaxInfo(5, grandTotal));
+            } else {
+                $('#taxVat').html("0");
+            }
+
+
+            var tax = parseFloat($('#taxVat').html());
+            var colection = isNaN(parseFloat($('#txtCollection').val())) ? 0 : parseFloat($('#txtCollection').val());
+
+            var taxCal = grandTotal * (tax / 100);
+
+            //var proTax = (taxCal / proCout);
+            var proTax = (taxCal / proCout);
+            SetItemTax(proTax);
+            totalIncTax = grandTotal + taxCal;
+            totalExTax = grandTotal;
+            $('#totalKg').html(totalKg.toFixed(2));
+            $('#totalqty').html(totalQty.toFixed(2));
+            $('#totalIncTacVat').html((totalIncTax.toFixed(2)));
+            $('#totalExTaxVat').html((grandTotal.toFixed(2)));
+            debugger;
+            var restamount = totalIncTax - colection;
+            $('#lblRestAmount').html((restamount.toFixed(2)));
+        }
+
+        function SetItemTax(proTax) {
+            $('#salesOrder tbody tr').each(function() {
+
+
+                var idr = $(this).attr('id');
+                var id = idr.substring(3);
+                var total = isNaN(parseFloat($('#total_' + id).val())) ? 0 : parseFloat($('#total_' + id).val());
+                var disnum = isNaN(parseFloat($('#disNum_' + id).val())) ? 0 : parseFloat($('#disNum_' + id).val());
+
+
+                $('#proTax_' + id).val(proTax.toFixed(2));
+
+                $('#totalG_' + id).val((total - disnum + proTax).toFixed(2));
+
+            });
+        }
+
+
+        function GetTaxInfo(productGroupId, amount) {
+            var tax = 2;
+            var urlpath = '@Url.Action("GetTaxInfo", "SalesOrderProcess")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                dataType: 'json',
+                data: { productGroupId: productGroupId, amount: amount },
+                async: false,
+                success: function(data) {
+                    tax = data.TaxPercent;
+
+                }
+            });
+            return tax;
+        }
+
+        function GetProductDetails(prodId, orderdate, customertype, wareHouseId) {
+
+            if (customertype == 0) {
+                swal("At first select customer type");
+                //LoadProductInRow("pro_" + prodId);
+                $('#pro_' + prodId).val('0').trigger("change");
+                return;
+            }
+
+            var customerId = $('#ddlCustomer').val();
+            if (customerId == 0) {
+                swal("Select customer ");
+
+                return;
+            }
+
+            var productId = $('#pro_' + prodId).val();
+
+            var urlpath = '@Url.Action("GetProductDetails", "SalesOrderProcess")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                dataType: 'json',
+                data: { productId: productId, orderdate: orderdate, customertype: customertype, wareHouseId: wareHouseId, customerId: customerId },
+                //data: { productId: productId, orderdate: orderdate, customertype: customertype, wareHouseId: wareHouseId },
+                async: false,
+                success: function(data) {
+
+                   // debugger;
+                    $("#stQty_" + prodId).val(data.StockQty);
+                    $("#stKg_" + prodId).val(data.StockKg);
+                    $("#groupid_" + prodId).val(data.groupid);
+                    $('#saleRate_' + prodId).val(data.StockPrice.toFixed(2));
+                    $('#baseRate_' + prodId).val(data.BasePrice.toFixed(2));
+                   $('#perKgStdQty_' + prodId).val(data.PerKgStdQty);
+                    $('#incentive_' + prodId).val(data.Incentive);
+                    if (customertype == 5 && data.groupid == 5) {
+                        $('#baseRate_' + prodId).prop('disabled', false);
+                        $('#weightLoss_' + prodId).val((data.BasePrice - data.StockPrice).toFixed(2));
+
+                    } else {
+                        $('#baseRate_' + prodId).prop('disabled', true);
+                        $('#weightLoss_' + prodId).val('0');
+                    }
+
+
+                    $("#saleQty_" + prodId).val('');
+                    $("#saleKG_" + prodId).val('');
+                    $("#total_" + prodId).val('');
+                    $("#btotal_" + prodId).val('');
+                    $("#disPer_" + prodId).val('');
+                    $("#disNum_" + prodId).val('');
+                    $("#proTax_" + prodId).val('');
+                    $("#totalG_" + prodId).val('');
+                    $("#isbulk_" + prodId).val(data.IsBulk);
+                    $('#mtretention_' + prodId).val(data.MTRetention);
+                    CalculateAll();
+                    GetPolicyDetails(data.groupid, customertype, prodId, productId);
+                  //  GetSpecialOffers(customertype, prodId);
+                }
+            });
+        }
+
+        /// shahadat
+        function GetPolicyDetails(group, customertype, prodId, productId) {
+            debugger;
+            var customer = $('#ddlCustomer').val();
+            if (customer == 0) {
+                swal("Select customer ");
+
+                return;
+            }
+
+            var urlpath = '@Url.Action("GetPolicyDetails", "SalesOrderProcess")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                dataType: 'json',
+                //data: { groupId: group, customertype: customertype, customer: customer },
+                data: { groupId: group, customertype: customertype, customer: customer,ProductId: productId },
+                async: false,
+                success: function(data) {
+                    for (var i = 0; i < data.length; i++) {
+
+
+
+                    debugger;
+                    if (data[i].PolicyTitle === 'Discount') {
+                       // $('#perKgStdQty_' + prodId).val(data[i].Percentage);
+                        $('#DiscountPercent_' + prodId).val(data[i].Percentage);
+                    }
+                    //if (data[i].PolicyTitle === 'Retention') {
+
+                    //    $('#mtretention_' + prodId).val(data[i].Percentage);
+
+                    //}
+                    //if (data[i].PolicyTitle === 'Damage') {
+                    //    $('#damage_' + prodId).val(data[i].Percentage);
+                    //}
+                    //if (data[i].PolicyTitle === 'SR') {
+                    //    $('#srAdjust_' + prodId).val(data[i].Percentage);
+
+                    //}
+
+                    CalculateAll();
+                    }
+
+                    CalculateAll();
+                }
+            });
+        }
+        function GetSpecialOffers(customertype, prodId) {
+            var date = $('#txtOrderDate').val();
+            if (date == 0) {
+                swal("Select Order Date ");
+
+                return;
+            }
+
+            var urlpath = '@Url.Action("GetSpecialOffers", "SalesOrderProcess")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                dataType: 'json',
+                data: {  customertype: customertype, orderDate: date },
+                async: false,
+                success: function (data) {
+                  //  alert(data.Incentive);
+                    //    debugger;
+
+                            $('#SpecialIncentive_' + prodId).val(data.Incentive);
+
+                    CalculateAll();
+                }
+            });
+        }*@
+
+        function RemoveRow(id) {
+
+
+            var trLength = $('#salesOrder tbody tr').length;
+            if (trLength > 1) {
+
+                var detailsId = $('#details_' + id).val();
+                if (detailsId > 0) {
+                    var productId = isNaN(parseFloat($('#pro_' + id).val())) ? 0 : parseFloat($('#pro_' + id).val());
+                    var saleQty = isNaN(parseFloat($('#saleQty_' + id).val())) ? 0 : parseFloat($('#saleQty_' + id).val());
+                    var stockRate = isNaN(parseFloat($('#stRate_' + id).val())) ? 0 : parseFloat($('#stRate_' + id).val());
+                    var saleRate = isNaN(parseFloat($('#saleRate_' + id).val())) ? 0 : parseFloat($('#saleRate_' + id).val());
+
+                    var saleKg = isNaN(parseFloat($('#saleKG_' + id).val())) ? 0 : parseFloat($('#saleKG_' + id).val());
+
+                    var disPer = isNaN(parseFloat($('#disPer_' + id).val())) ? 0 : parseFloat($('#disPer_' + id).val());
+                    var disAmt = isNaN(parseFloat($('#disNum_' + id).val())) ? 0 : parseFloat($('#disNum_' + id).val());
+                    var total = isNaN(parseFloat($('#totalG_' + id).val())) ? 0 : parseFloat($('#totalG_' + id).val());
+                    var haschallan = $('#haschallan_' + id).val();
+                    var alreadypicked = $('#already_' + id).is(':checked');
+
+                    var picking = isNaN(parseFloat($('#picking_' + id).val())) ? 0 : parseFloat($('#picking_' + id).val());
+
+                    var delObj = {};
+                    delObj["ProductId"] = productId;
+                    delObj["SalesOrderProcessDetailsId"] = detailsId;
+                    delObj["ProductQty"] = saleQty;
+                    delObj["StockRate"] = stockRate;
+                    delObj["SaleRate"] = saleRate;
+                    delObj["ProductKg"] = saleKg;
+                    delObj["DiscountAmount"] = disAmt;
+                    delObj["DiscountPercent"] = disPer;
+                    delObj["TotalPrice"] = total;
+                    delObj["IsDelete"] = true;
+                    delObj["OperationIdDelete"] = 1;
+                    delObj["eflag"] = $('#eflag').val();
+                    delObj["haschallan"] = haschallan;
+                    delObj["alreadypicked"] = alreadypicked;
+
+
+                    DeleteProduct.push(delObj);
+
+                }
+                $('#tr_' + id).remove();
+                // var aProd = new object();
+                SerialTable();
+                CalculateAll();
+            } else {
+                return;
+            }
+
+        }
+
+        function AddRow() {
+/*            var customertype = $('#ddlCustomerType').val();*/
+            var tr = $('#salesOrder tbody tr').length + 1;
+            var values = $("#salesOrder tbody tr")
+                .map(function() { return parseInt($(this).attr('id').substring(3)); }).get();
+            var index = values.indexOf(tr);
+            if (index >= 0) {
+                tr = Math.max.apply(Math, values) + 1;
+            }
+            var urlpath = '@Url.Action("AddRowForOrder", "SalesOrder")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                dataType: 'html',
+                data: { tr: tr },
+                async: false,
+                success: function(data) {
+
+                    $('#salesOrder tbody').append(data);
+                    //LoadProductInRow("pro_" + tr);
+
+
+                }
+            });
+/*            $('#pro_' + tr).select2();*/
+            SerialTable();
+            //debugger;
+            //var eflag = $('#eflag').val();
+            //if (eflag == "ed") {
+
+            //    $('.aHide').hide();
+            //} else {
+
+            //    $('.aHide').show();
+
+
+            //}
+            //CalculateAll();
+        }
+
+        function SerialTable() {
+            $('#salesOrder tbody tr').each(function(index, element) {
+
+                var idr = $(this).attr('id');
+                var id = idr.substring(3);
+                $('#ts_' + id).html(index + 1);
+
+
+            });
+        }
+
+        function LoadProductInRow(elementId) {
+
+            var array = [];
+            var rowCount = $('#salesOrder tbody tr').length;
+            for (let count = 0; count < rowCount; count++) {
+                array.push(parseInt($("#pro_" + count).val()));
+            };
+            $('#' + elementId + '').append("<option value='0'>--Select Product--</option>");
+
+            for (var i = 0; i < PrlductList.length; i++) {
+                if (jQuery.inArray(PrlductList[i].ProductId, array) == -1) {
+                    $('#' + elementId + '').append($("<option></option>").val(PrlductList[i].ProductId).html(PrlductList[i].ProductName));
+                }
+
+            }
+
+            //$('#' + elementId + '').append("<option value='0'>--Select Product--</option>");
+            //for (var i = 0; i < PrlductList.length; i++) {
+
+            //    $('#' + elementId + '').append($("<option></option>").val(PrlductList[i].ProductId).html(PrlductList[i].ProductName));
+            //}
+
+
+        }
+
+
+        @*function LoadPackSize(elementId) {
+            var urlpath = '@Url.Action("GetPackSize", "Product")';
+
+            $.ajax({
+                url: urlpath,
+                dataType: 'json',
+                type: "Get",
+                data: {},
+                async: false,
+                success: function(data) {
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value='0'>--Select Pack Size--</option>");
+
+
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].PackSizeId).html(data[i].PackSizeName));
+
+                    }
+                }
+            });
+        }*@
+
+        function GetProducts() {
+
+
+            var urlpath = '@Url.Action("GetSaleableProductByGroup", "Utility")';
+            @*var urlpath = '@Url.Action("GetProductByGroup", "Utility")';*@
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { groupId: 5 },
+                async: false,
+                success: function(data) {
+
+                    PrlductList = data;
+
+                }
+            });
+        }
+
+        @*function LoadWareHouse(elementId) {
+
+            var location = $('#ddlLocation').val();
+            var urlpath = '@Url.Action("LoadWareHouse", "ItemRequisition")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { location: parseInt(location) },
+                async: false,
+                success: function(data) {
+
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value='0'>--Select Warehouse--</option>");
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].WareHouseId).html(data[i].WareHouseName));
+                    }
+
+                }
+            });
+        }
+
+        function LoadLocation(elementId) {
+            $.ajax({
+                url: "/ItemRequisition/LoadLocation",
+
+                dataType: 'json',
+                type: "Get",
+                data: {},
+                async: true,
+                success: function(data) {
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value='0'>--Select Location--</option>");
+
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].LocationId).html(data[i].LocationName));
+                    }
+                }
+            });
+        }
+
+        function GetSalesPersonPhone() {
+
+            var empNo = $('#employeeSelect').val();
+            var urlpath = '@Url.Action("GetSalesPhoneNo", "SalesOrderProcess")';
+            $.ajax({
+                url: urlpath,
+
+                dataType: 'json',
+                type: "Get",
+                data: { empNo: empNo },
+                async: false,
+                success: function(data) {
+                    $('#txtSalesPersonNo').val(data);
+
+                }
+            });
+
+
+        }
+
+        function LoadCustomer(elementId) {
+            var typeid = $('#ddlCustomerType').val();
+            if (typeid == 6) {
+                $('#custypeid').hide();
+               // $('#custypeid').show();
+
+
+            } else {
+                $('#custypeid').hide();
+            }
+
+
+            var urlpath = '@Url.Action("GetCustomer", "SalesOrderProcess")';
+            $.ajax({
+                url: urlpath,
+
+                dataType: 'json',
+                type: "Get",
+                data: { typeid: typeid },
+                async: false,
+                success: function(data) {
+
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value='0'>--Select Customer --</option>");
+
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].CustomerID).html(data[i].CustomerCode + ":" + data[i].CustomerName + ": " + data[i].CoustomerTypeName));
+                    }
+                }
+            });
+        }
+
+        function LoadDeliveryWarehouse() {
+            //var typeid = $('#ddlWarehouseType').val();
+            var warehouseTypeid = 3;
+            var urlpath = '@Url.Action("GetDeliveryWarehouse", "SalesOrderProcess")';
+            $.ajax({
+                url: urlpath,
+
+                dataType: 'json',
+                type: "Get",
+                data: { warehouseTypeid: warehouseTypeid },
+                async: false,
+                success: function(data) {
+
+                    $('#ddlDeliveryWarehouse').empty();
+                    //$('#ddlDeliveryWarehouse').append("<option value='0'>--Select Delivery Warehouse --</option>");
+
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#ddlDeliveryWarehouse').append($("<option></option>").val(data[i].WareHouseId).html(data[i].WareHouseName));
+                    }
+                }
+            });
+        }
+
+        function LoadSr(elementId, customerId) {
+            var urlpath = '@Url.Action("GetSRByCustomerId", "SalesRepresentative")';
+            $.ajax({
+                url: urlpath,
+                dataType: 'json',
+                type: "Get",
+                data: { customerid: customerId },
+                async: false,
+                success: function(data) {
+
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value='0'>--Select DSR --</option>");
+
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].SrId).html(data[i].SrName + ":" + data[i].SrMobileNumber));
+                    }
+                }
+            });
+        }
+
+        function GetCustomerDetails() {
+
+            var customerId = $('#ddlCustomer').val();
+
+            var urlpath = '@Url.Action("GetCustomerDetails", "SalesOrderProcess")';
+            $.ajax({
+                url: urlpath,
+
+                dataType: 'html',
+                type: "Get",
+                data: { id: customerId },
+                async: false,
+                success: function(data) {
+                    $('#customerDetails').empty();
+                    $('#customerDetails').html(data);
+
+                }
+            });
+
+
+            LoadDate('#txtOrderDate');
+
+            var str = $('#customerAddress').html();
+            if (str != '' || str != null) {
+                var array = str.split(':');
+
+                $('#txtDestination').val(array[1]);
+            }
+
+        }
+
+
+        function LoadCustomerTypeLocal(elementId) {
+
+
+            var urlpath = "/SalesOrderProcess/GetCustomerType";
+            $.ajax({
+                url: urlpath,
+                contentType: "application/json; charset=utf-8",
+                dataType: 'json',
+                type: "Get",
+
+                async: false,
+                success: function (data) {
+
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value='0'>--Select Customer Type --</option>");
+
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].CustomerTypeID).html(data[i].CoustomerTypeName));
+                    }
+                }
+            });
+        }*@
+
+    </script>
+}
+

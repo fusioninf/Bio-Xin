@@ -1,0 +1,202 @@
+﻿
+@{
+    ViewBag.Title = "Prescription";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .hd {
+        display: inline-block;
+
+    }
+</style>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+        <div class="col-md-3">
+            <div class="card  card-primary">
+                <div class="card-header">
+                    <p>Encounter Details</p>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <h6><b>Patient:</b> Kobir Jannat</h6>
+                        <h6><b>Email:</b> jan@gmail.com</h6>
+                        <h6><b>Date :</b> 06-18-2013</h6>
+                        <h6><b>Address :</b></h6>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <h6><b>Clinic:</b> BoiXin </h6>
+                        <h6><b>Doctors:</b> Jakir Hossin</h6>
+                        <h6><b>Des.:</b> Skin therapy</h6>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <button class="btn btn-success">Active</button>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+            <!-- left column -->
+            <div class="col-md-9">
+               
+                <!-- general form elements -->
+                <div class="card card-primary" >
+                    <div class="card-header">
+                        <p>Clinical Detail</p>
+                    </div>
+
+                    <!-- form start -->
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="card border-dark mb-3">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <h6><b>Problems</b></h6>
+                                        </div>
+                                        <hr>
+                                        <div class="row" style="height:80px">
+                                            <h6 style="text-align:left">
+                                                Many skin diseases cause itchiness, dry skin or rashes. Often,
+                                                you can manage these symptoms with medication,
+                                                proper skin care and lifestyle changes
+                                            </h6>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <input type="text" placeholder="Skin Problem" class="form-control"/>
+                                        </div>
+                                        <div class="row">
+                                            &nbsp;
+                                        </div>
+                                        <div class="row">
+                                            <button class="btn btn-primary">+Add</button>
+                                        </div>
+                                    </div>
+                                </div>
+                        
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card border-dark mb-3">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <h6><b>Observations</b></h6>
+                                        </div>
+                                        <hr>
+                                        <div class="row" style="height:80px">
+                                            <h6 style="text-align:left">Her face skin is extremely dry and flaky</h6>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <input type="text" placeholder="Enter Observations" class="form-control" />
+                                        </div>
+                                        <div class="row">
+                                            &nbsp;
+                                        </div>
+                                        <div class="row">
+                                            <button class="btn btn-primary">+Add</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card border-dark mb-3">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <h6><b>Notes</b></h6>
+                                        </div>
+                                        <hr>
+                                        <div class="row" style="height:80px">
+                                            <h6 style="text-align:left">Need to Bio Laser Treatment</h6>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <input type="text" placeholder="Enter Notes" class="form-control" />
+                                        </div>
+                                        <div class="row">
+                                            &nbsp;
+                                        </div>
+                                        <div class="row">
+                                            <button class="btn btn-primary">+Add</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card text-bg-light mb-3">
+                            <div class="card-header">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h6><b>Prescription</b></h6>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <button class="btn btn-primary float-right">+Add Prescription</button>
+                                    </div>
+                                </div>
+                              
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <b>NAME</b>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <b>FREQUENCY</b>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <b>DURATION</b>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <b>ACTION</b>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    &nbsp;
+                                </div>
+                                <div class="row">
+                                    <div class="row" style="height:30px">
+                                        @*<h6 style="text-align:center;color:red">No Prescription Found</h6>*@
+                                        <div class="col-md-3">
+                                            <span>Aciclovir cream</span>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <span>3 Time</span>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <span>2 Day</span>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <button class="btn btn-xs btn-success " id="btnAdd_" onclick="AddRow()"><b>+</b></button>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        @*<h6 style="text-align:center;color:red">No Prescription Found</h6>*@
+                                        <div class="col-md-3">
+                                            <span>Azelaic acid</span>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <span>2 Time</span>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <span>5 Day</span>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <button class="btn btn-xs btn-success " id="btnAdd_" onclick="AddRow()"><b>+</b></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+</section>
+

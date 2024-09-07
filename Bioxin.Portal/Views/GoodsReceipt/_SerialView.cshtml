@@ -1,0 +1,62 @@
+﻿<style>
+    .custom-header {
+        background-color: darkgray !important;
+        color: black;
+    }
+</style>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-primary">
+                    <div class="card-header custom-header">
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label for="lblRestAmount" class="col-md-6 control-label"><b>Serial</b> Quantity :</label>
+                                <div class="col-md-6">
+                                    <span class="rowSerialQty"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row table-responsive">
+                            <table class="table table-bordered table-striped table-hover" id="serialItem">
+                                <thead>
+                                    <tr style="background-color: aliceblue">
+                                        <th style="text-align:center">#</th>
+                                        @*<th style="text-align:center"><input type="checkbox" class="icheck-primary d-inline ml-2 form-control-input chackall" id="chk_All" onchange="SelectAllCheckboxFunc()" />Check All</th>*@
+                                        @*<th style="text-align:center">Check</th>*@
+                                        <th style="text-align:center">Internal Serial</th>
+                                        @*<th style="text-align:center">System</th>*@
+                                    <th style="text-align:center">Supplier Serial</th>
+                                        <th style="text-align:center">Stock</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbodyid">
+                                    @{ int count = 1;}
+                                    @foreach (var item in Model)
+                                    {
+                                    <tr id="@count">
+                                        <td>@count</td>
+                                        @*<td><input type="checkbox" class="icheck-primary d-inline ml-2 form-control-input checkid" id="chk_@item.RowId@count" value="@item.RowId@count" onclick="Checkp(@item.RowId@count)" /></td>*@
+                                        <td><input type="text" class="form-control" id="intrSerialNo_@item.RowId@count" /></td>
+                                        @*<td><input type="number" class="form-control" id="sysSerialNo_@item.RowId@count" /></td>*@
+                                        <td><input type="text" class="form-control" id="suppSerialNo_@item.RowId@count" /></td>
+                                        <td>1</td>
+                                        <td style="display:none">
+                                            <input type="number" id="serialStock_@item.RowId@count" value="1" style="display:none" />
+                                            <input type="number" id="serialRow_@item.RowId@count" value="@item.RowId" style="display:none" />
+                                        </td>
+                                    </tr>
+                                        count++;
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,783 @@
+﻿
+@{
+    ViewBag.Title = "Add Activity";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .custom-header {
+        background-color: darkgray !important; /* Blue color #007bff  #808080*/
+        color: black; /* Text color for contrast */
+    }
+</style>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-primary">
+                    <div class="card-header custom-header">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <a href="@Url.Action("AddActivity", "Activity", new {aId = 0})">
+                                    <h3 class="card-title">
+                                        @if (ViewBag.ActivityId == 0)
+                                        {
+                                            <span class="" style="color:black"><b>Activity</b></span>
+                                        }
+                                        else
+                                        {
+                                            <span class="" style="color:black"> Edit Activity</span>
+                                        }
+                                    </h3>
+                                </a>
+                            </div>
+                            <div class="col-md-6 text-right">
+                                <a class="btn btn-outline-warning" href="@Url.Action("Index", "Activity")">
+                                    <span class="fa fa-list"></span> Activity Home
+
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group row" id="divActivityType">
+                                    <label for="ddlActivityType" class="col-md-4 control-label">Activity Type</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%;" id="ddlActivityType" onchange="LoadActivity()"></select>
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divActivity">
+                                    <label for="ddlActivity" class="col-md-4 control-label">Activity</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%; text-align: center" id="ddlActivity"></select>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4">
+                                <div class="form-group row" id="divActivityDate">
+                                    <label for="txtActivityDate" class="col-md-4 control-label">Activity Date</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtActivityDate" class="form-control datepicker" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divBranch">
+                                    <label for="ddlBranch" class="col-md-4 control-label">Branch</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%; text-align: center" id="ddlBranch" disabled="disabled"></select>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            &nbsp;
+                        </div>
+                        <div class="row table-responsive">
+                            <table class="table table-bordered table-striped table-hover" id="salesOrder">
+                                <thead>
+                                    <tr style="background-color: lightgrey">
+                                        <th>#</th>
+                                        <th>Task</th>
+                                        <th>Assined To</th>
+                                        <th>From Time</th>
+                                        <th>To Time</th>
+                                        <th class="therapist">Customer</th>
+                                        <th class="therapist">Sale Order</th>
+                                        <th class="therapist">Sale Item</th>
+                                        <th>Task Status</th>
+                                        <th>Status</th>
+                                        <th>Session</th>
+                                        <th>Comments</th>
+                                        <th class="action">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-warning" onclick="SaveActivity()">Add & New</button>
+                        <button class="btn btn-warning  float-right" onclick="location.reload()">Clear</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <input id="activityId" type="number" style="display: none;" value="@ViewBag.ActivityId">
+        <input id="branch" type="number" style="display: none;" value="@ViewBag.Branch">
+        <input id="userId" type="text" style="display: none;" value="@ViewBag.UserId">
+        <input id="eflag" type="text" style="display: none;" value="@ViewBag.eflag">
+    </div>
+</section>
+@section Scripts
+{
+    <script>
+        var customerList = {};
+        var assinedToList = {};
+        var statusList = {};
+        var operationStatusList = {};
+        var sessionList = {};
+        $(document).ready(function () {
+            LoadDate_C('#txtActivityDate');
+            LoadActivityType('ddlActivityType');
+            LoadBranch('ddlBranch');
+            var branch = $('#branch').val();
+            $("#ddlBranch").val(branch).trigger('change');
+            LoadCustomer();
+            GetAssinedTo();
+            GetActivityStatusMaster();
+            GetDailyOpertaionStatus();
+            GetActivitySession();
+            $(".therapist").hide();
+            AddRow();
+        });
+        function LoadActivityType(elementId) {
+
+            var urlpath = '@Url.Action("GetActivityTypeMaster", "Activity")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { },
+            /*    data: {  },*/
+                async: false,
+                success: function(data) {
+
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value=''>--Select Activity Type--</option>");
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].ActivityTypeCode).html(data[i].ActivityTypeName));
+                    }
+
+                }
+            });
+        }
+        function LoadActivity() {
+            debugger;
+            var ActivityType = parseInt($('#ddlActivityType').val());
+            if (ActivityType === 3) {
+                $(".therapist").show();
+                $('#salesOrder tbody tr').each(function () {
+                    var idr = $(this).attr('id');
+                    var id = idr.substring(3);
+                    $("#therapistCustomer_" + id).show();
+                    $("#therapistSalesOrder_" + id).show();
+                    $("#therapistSalesItem_" + id).show();
+                });
+            } else {
+                $(".therapist").hide();
+                $('#salesOrder tbody tr').each(function () {
+                    var idr = $(this).attr('id');
+                    var id = idr.substring(3);
+                    $("#therapistCustomer_" + id).hide();
+                    $("#therapistSalesOrder_" + id).hide();
+                    $("#therapistSalesItem_" + id).hide();
+                });
+            }
+
+
+
+            var urlpath = '@Url.Action("GetActivityMaster", "Activity")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { ActivityType: ActivityType },
+                async: false,
+                success: function(data) {
+
+                    $('#ddlActivity').empty();
+                    $('#ddlActivity').append("<option value=''>--Select Activity--</option>");
+                    for (var i = 0; i < data.length; i++) {
+                        $('#ddlActivity').append($("<option></option>").val(data[i].ActivityCode).html(data[i].ActivityName));
+                    }
+
+                }
+            });
+        }
+        function LoadBranch(elementId) {
+            var urlpath = '@Url.Action("GetBranch", "InventoryTransferRequest")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { },
+                async: false,
+                success: function(data) {
+
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value=''>--Select Branch--</option>");
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].PrcCode).html(data[i].PrcName ));
+                    }
+
+                }
+            });
+        }
+        function LoadCustomer() {
+            var CardType = "C";
+            var urlpath = '@Url.Action("GetBusinessPartner", "InventoryTransferRequest")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { CardType: CardType },
+                async: false,
+                success: function(data) {
+
+                    customerList = data;
+                }
+            });
+        }
+        function GetAssinedTo() {
+            var urlpath = '@Url.Action("GetAssinedTo", "Activity")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {  },
+                async: false,
+                success: function(data) {
+                    assinedToList = data;
+                }
+            });
+        }
+        function GetActivityStatusMaster() {
+            var urlpath = '@Url.Action("GetActivityStatusMaster", "Activity")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {  },
+                async: false,
+                success: function(data) {
+                    statusList = data;
+                }
+            });
+        }
+        function GetDailyOpertaionStatus() {
+            var urlpath = '@Url.Action("GetDailyOpertaionStatus", "Activity")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {  },
+                async: false,
+                success: function(data) {
+                    operationStatusList = data;
+                }
+            });
+        }
+        function GetActivitySession() {
+            var urlpath = '@Url.Action("GetActivitySession", "Activity")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {  },
+                async: false,
+                success: function(data) {
+                    sessionList = data;
+                }
+            });
+        }
+        function SaveActivity() {
+            if (SaveValidation() == true) {
+                swal({
+                    title: "Are you sure?",
+                    text: "",
+                    type: "success",
+                    showCancelButton: true,
+                    cancelButtonClass: 'btn-secondary waves-effect',
+                    confirmButtonClass: 'btn-success waves-effect waves-light',
+                    confirmButtonText: 'Yes!',
+                    closeOnConfirm: false
+
+                }, function() {
+                    $('.confirm').prop("disabled", true);
+                    $('.cancel').prop("disabled", true);
+                    SaveActivityFinal();
+                });
+            }
+        }
+        function pad2(number) {
+            return (number < 10 ? '0' : '') + number;
+        }
+        function DateConversionToYYYYMMDD(inputDate) {
+            // Split the input date into day, month, and year parts
+            var parts = inputDate.split('-');
+            var day = parts[0];
+            var month = parts[1];
+            var year = parts[2];
+            var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            var monthIndex = monthNames.indexOf(month);
+            monthIndex++; // Adjust for 0-based indexing
+            // Create a Date object with the parsed values
+            var dateObject = new Date(year, monthIndex - 1, day);
+            // Format the date as "YYYYMMDD"
+            var formattedDate = dateObject.getFullYear() + pad2(dateObject.getMonth() + 1) + pad2(dateObject.getDate());
+            return formattedDate
+        }
+        //function DateConversionToYYYYMMDD(inputDate) {
+
+        //    // Split the input date into day, month, and year parts
+        //    var parts = inputDate.split('-');
+        //    var day = parts[0];
+        //    var month = parts[1];
+        //    var year = parts[2];
+
+        //    // Create a Date object with the extracted parts
+        //    var date = new Date(year, month - 1, day);
+
+        //    // Format the date as "yyyyMMdd"
+        //    var formattedDate = date.getFullYear() + ('0' + (date.getMonth() + 1)).slice(-2) + ('0' + date.getDate()).slice(-2);
+        //    return formattedDate
+        //}
+        function SaveActivityFinal() {
+            debugger;
+            var jsonData = {};
+            var activityDate = $('#txtActivityDate').val();
+    /*        var newdate = DateConversionToYYYYMMDD(activityDate);*/
+
+            jsonData["ActivityDate"] = DateConversionToYYYYMMDD(activityDate);  //"20230814"
+            var activityType = $('#ddlActivityType').val();
+            var activity = $('#ddlActivity').val();
+
+            var jsonObjs = [];
+            $('#salesOrder tbody tr').each(function() {
+                var theObj = {};
+                var idr = $(this).attr('id');
+                var id = idr.substring(3);
+
+                var task = $('#task_' + id).val();
+                var assinedTo = $('#assinedTo_' + id).val();
+                var txtFromTime = $('#txtFromTime_' + id).val();
+                var txtToTime = $('#txtToTime_' + id).val();
+                var status = $('#status_' + id).val();
+                var operationStatus = $('#operationStatus_' + id).val();
+                var session = $('#session_' + id).val();
+                var comments = $('#comments_' + id).val();
+                var customer = $('#customer_' + id).val();
+                var salesOrder = $('#salesOrder_' + id).val();
+                var salesItem = $('#salesItem_' + id).val();
+
+
+                theObj["TaskDetails"] = task;
+                theObj["AssignedEmployeeId"] = assinedTo;
+                theObj["ActivityType"] = activityType;
+                theObj["Activity"] = activity;
+                theObj["FromTime"] = txtFromTime;
+                theObj["ToTime"] = txtToTime;
+                theObj["Status"] = status;
+                theObj["DailyOperationStatus"] = operationStatus;
+                theObj["Session"] = session;
+                theObj["Comments"] = comments;
+                theObj["CardCode"] = customer;
+                theObj["SoEntry"] = salesOrder;
+                theObj["LineId"] = salesItem;
+                jsonObjs.push(theObj);
+            });
+
+            jsonData["Activity"] = jsonObjs;
+
+            var urlpath2 = '@Url.Action("SaveActivity", "Activity")';
+            $.ajax({
+                contentType: "application/json",
+                data: JSON.stringify(jsonData),
+                dataType: 'json',
+                url: urlpath2,
+                type: "POST",
+                success: function (result) {
+                    debugger;
+                    if (result.UnAutorized == 1) {
+                        window.location.href = '@Url.Action("Login", "Home")';
+                    } else {
+                        var message = result.dataList.ReturnMsg;
+                        if (result.dataList.ReturnCode == "0000") {
+                        swal({
+                            title: " Saved Successfull",
+                            text: '',
+                            type: "success",
+                            showCancelButton: false,
+                            cancelButtonClass: 'btn-secondary waves-effect',
+                            confirmButtonClass: 'btn-success waves-effect waves-light',
+                            confirmButtonText: 'Yes!',
+                            closeOnConfirm: false
+                        }, function () {
+                            window.location.href =  '@Url.Action("Index", "Activity")';
+                        });
+
+
+                      } else {
+                        ShowMessage(message);
+                      }
+                    }
+
+                }
+            })
+        }
+        function SaveValidation() {
+            var isValid = true;
+            var message = "Some Values Required";
+            if ($('#ddlActivityType').val() == 0 || $('#ddlActivityType').val() == '') {
+                ValidationColorChangeNew("ddlActivityType", "divActivityType", "Activity Type Required", true);
+                isValid = false;
+            }
+            if ($('#ddlActivity').val() == 0 || $('#ddlActivity').val() == '') {
+                ValidationColorChangeNew("ddlActivity", "divActivity", "Activity Required", true);
+                isValid = false;
+            }
+            if ($('#txtActivityDate').val() == '' || $('#txtActivityDate').val() == null) {
+                ValidationColorChangeNew("txtActivityDate", "divActivityDate", "Activity Date Required", false);
+                isValid = false;
+            }
+            //Tasks Required
+            if ($('#salesOrder tbody tr').length == 0 || $('#salesOrder tbody tr').length == '') {
+                isValid = false;
+                message = "Tasks Required";
+            }
+
+
+            $('#salesOrder tbody tr').each(function() {
+
+
+                var idr = $(this).attr('id');
+                var id = idr.substring(3);
+
+                var task = $('#task_' + id).val()
+                var assinedTo = $('#assinedTo_' + id).val();
+                var txtFromTime = $('#txtFromTime_' + id).val();
+                var txtToTime = $('#txtToTime_' + id).val();
+                var status = $('#status_' + id).val();
+                var operationStatus = $('#operationStatus_' + id).val();
+                //var session = $('#session_' + id).val();
+                //var comments = $('#comments_' + id).val();
+                var customer = $('#customer_' + id).val();
+                var salesOrder = $('#salesOrder_' + id).val();
+                var salesItem = $('#salesItem_' + id).val();
+
+                if (task === '' || task === null) {
+                    isValid = false;
+                    message = "Please Select Task";
+                    $('#task_' + id).css('border-bottom', '2px solid red');
+                    return;
+                }
+                if (assinedTo === '' || assinedTo === null) {
+                    isValid = false;
+                    message = "Please Select Assined To";
+                    $('#assinedTo_' + id).css('border-bottom', '2px solid red');
+                    return;
+                }
+                if (txtFromTime === '' || txtFromTime === null) {
+                    isValid = false;
+                    message = "Please Select From Time";
+                    $('#txtFromTime_' + id).css('border-bottom', '2px solid red');
+                    return;
+                }
+                if (txtToTime === '' || txtToTime === null) {
+                    isValid = false;
+                    message = "Please Select To Time";
+                    $('#txtToTime_' + id).css('border-bottom', '2px solid red');
+                    return;
+                }
+                if (status === '' || status === null) {
+                    isValid = false;
+                    message = "Please Select Task Status";
+                    $('#status_' + id).css('border-bottom', '2px solid red');
+                    return;
+                }
+                if (operationStatus === '' || operationStatus === null) {
+                    isValid = false;
+                    message = "Please Select Status";
+                    $('#operationStatus_' + id).css('border-bottom', '2px solid red');
+                    return;
+                }
+
+                var activityType = parseInt($('#ddlActivityType').val());
+                if (activityType === 3) {
+                    if (customer === '' || customer === null) {
+                        isValid = false;
+                        message = "Please Select Customer";
+                        $('#customer_' + id).css('border-bottom', '2px solid red');
+                        return;
+                    }
+                    if (salesOrder === '' || salesOrder === null) {
+                        isValid = false;
+                        message = "Please Select Sales Order";
+                        $('#salesOrder_' + id).css('border-bottom', '2px solid red');
+                        return;
+                    }
+                    if (salesItem === '' || salesItem === null) {
+                        isValid = false;
+                        message = "Please Select Sales Item";
+                        $('#salesItem_' + id).css('border-bottom', '2px solid red');
+                        return;
+                    }
+                }
+                //if (qty === 0) {
+                //    isValid = false;
+                //    message = "Qty Cannot be 0 ";
+                //    $('#quantity_' + id).css('border-bottom', '2px solid red');
+                //    return;
+                //}
+                //if (price === 0) {
+                //    isValid = false;
+                //    message = "Price Cannot be 0 ";
+                //    $('#price_' + id).css('border-bottom', '2px solid red');
+                //    return;
+                //}
+                //if (lTotal === 0) {
+                //    isValid = false;
+                //    message = "Line Total Cannot be 0 ";
+                //    $('#total_' + id).css('border-bottom', '2px solid red');
+                //    return;
+                //}
+
+            });
+            if (isValid == false) {
+                ShowMessage(message);
+
+            }
+            return isValid;
+
+
+        }
+        function RemoveRow(id) {
+            debugger;
+            var trLength = $('#salesOrder tbody tr').length;
+            if (trLength > 1) {
+
+                //var detailsId = isNaN(parseFloat($('#details_' + id).val())) ? 0 : parseFloat($('#details_' + id).val());
+                //if (detailsId > 0) {
+                //    debugger;
+                //    var itemCode = $('#Item_' + id).val();
+                //    var description = $('#description_' + id).val();
+                //    var qty = isNaN(parseFloat($('#quantity_' + id).val())) ? 0 : parseFloat($('#quantity_' + id).val());
+                //    var price = isNaN(parseFloat($('#price_' + id).val())) ? 0 : parseFloat($('#price_' + id).val());
+                //    var discount = isNaN(parseFloat($('#discount_' + id).val())) ? 0 : parseFloat($('#discount_' + id).val());
+                //    var whsCode = $('#taxWshCode_' + id).val();
+                //    var lTotal = isNaN(parseFloat($('#total_' + id).val())) ? 0 : parseFloat($('#total_' + id).val());
+                //    var lineNum = isNaN(parseFloat($('#lineNum_' + id).val())) ? 0 : parseFloat($('#lineNum_' + id).val());
+
+                //    var delObj = {};
+                //    delObj["DocEntry"] = detailsId;
+                //    delObj["LineNum"] = lineNum;
+                //    delObj["ItemCode"] = itemCode;
+                //    delObj["ItemDescription"] = description;
+                //    delObj["Quantity"] = qty;
+                //    delObj["UnitPrice"] = price;
+                //    delObj["DiscountPercent"] = discount;
+                //    delObj["WarehouseCode"] = whsCode;
+                //    delObj["LineTotal"] = lTotal;
+                //    delObj["IsDelete"] = true;
+                //    DeleteItem.push(delObj);
+
+                //}
+                $('#tr_' + id).remove();
+                SerialTable();
+                //CalculateAll();
+            } else {
+                return;
+            }
+
+        }
+        function AddRow() {
+            var tr = $('#salesOrder tbody tr').length + 1;
+            var values = $("#salesOrder tbody tr")
+                .map(function() { return parseInt($(this).attr('id').substring(3)); }).get();
+            var index = values.indexOf(tr);
+            if (index >= 0) {
+                tr = Math.max.apply(Math, values) + 1;
+            }
+            var urlpath = '@Url.Action("AddRowForOrder", "Activity")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                dataType: 'html',
+                data: { tr: tr },
+                async: false,
+                success: function(data) {
+                    $('#salesOrder tbody').append(data);
+                    LoadCustomerInRow("customer_" + tr);
+                    debugger;
+                    LoadAssinedToInRow("assinedTo_" + tr);
+                    LoadStatusInRow("status_" + tr);
+                    LoadDailyOperationStatusInRow("operationStatus_" + tr);
+                    LoadSessionInRow("session_" + tr);
+                }
+            });
+            $('#customer_' + tr).select2();
+            $('#assinedTo_' + tr).select2();
+            $('#status_' + tr).select2();
+            $('#operationStatus_' + tr).select2();
+            $('#session_' + tr).select2();
+
+            $('#txtFromTime_' + tr).timepicker({
+                timeFormat: 'HH:mm',
+                interval: 15,
+                minTime: '8',
+                maxTime: '7:00pm',
+                defaultTime: '9',
+                startTime: '8:00',
+                dynamic: false,
+                dropdown: true,
+                scrollbar: true
+            });
+            $('#txtToTime_' + tr).timepicker({
+                timeFormat: 'HH:mm',
+                interval: 15,
+                minTime: '8',
+                maxTime: '7:00pm',
+                defaultTime: '9',
+                startTime: '8:00',
+                dynamic: false,
+                dropdown: true,
+                scrollbar: true
+            });
+
+
+            $("#therapistCustomer_" + tr).hide();
+            $("#therapistSalesOrder_" + tr).hide();
+            $("#therapistSalesItem_" + tr).hide();
+
+            var ActivityType = parseInt($('#ddlActivityType').val());
+            if (ActivityType === 3) {
+                $(".therapist").show();
+                $("#therapistCustomer_" + tr).show();
+                $("#therapistSalesOrder_" + tr).show();
+                $("#therapistSalesItem_" + tr).show();
+            } else {
+                $(".therapist").hide();
+                $("#therapistCustomer_" + tr).hide();
+                $("#therapistSalesOrder_" + tr).hide();
+                $("#therapistSalesItem_" + tr).hide();
+            }
+            SerialTable();
+        }
+        function GetSalesOrderByCardCode(rowId) {
+            var CardCode = $('#customer_' + rowId).val();
+            if (CardCode == 0) {
+                swal("At first select customer ");
+                 $('#customer_' + rowId).val('0').trigger("change");
+                return;
+            }
+            var urlpath = '@Url.Action("GetSalesOrder", "Activity")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                dataType: 'json',
+                data: { CardCode: CardCode },
+                async: false,
+                success: function(data) {
+                    $("#salesOrder_" + rowId).empty();
+                    $("#salesItem_" + rowId).empty();
+                    $("#salesOrder_" + rowId).append("<option value=''>--Select Sale Order--</option>");
+                    for (var i = 0; i < data.length; i++) {
+                        $("#salesOrder_" + rowId).append($("<option></option>").val(data[i].DocEntry).html(data[i].SAPDocNum));
+                    }
+                }
+            });
+        }
+        function GetSalesItemBySaleOrder(rowId) {
+            var SaleOrder = $('#salesOrder_' + rowId).val();
+            if (SaleOrder == 0) {
+                swal("At first select Sales Order ");
+                $('#salesOrder_' + rowId).val('0').trigger("change");
+                return;
+            }
+            var urlpath = '@Url.Action("GetItemBySalesOrder", "Activity")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                dataType: 'json',
+                data: { SaleOrder: SaleOrder },
+                async: false,
+                success: function(data) {
+                    $("#salesItem_" + rowId).empty();
+                    $("#salesItem_" + rowId).append("<option value=''>--Select Sale Item--</option>");
+                    for (var i = 0; i < data.length; i++) {
+                        $("#salesItem_" + rowId).append($("<option></option>").val(data[i].LineNum).html(data[i].ItemName));
+                    }
+                }
+            });
+        }
+        function SerialTable() {
+            $('#salesOrder tbody tr').each(function(index, element) {
+
+                var idr = $(this).attr('id');
+                var id = idr.substring(3);
+                $('#ts_' + id).html(index + 1);
+
+
+            });
+        }
+        function LoadCustomerInRow(elementId) {
+            var array = [];
+            var rowCount = $('#salesOrder tbody tr').length;
+            for (let count = 0; count < rowCount; count++) {
+                array.push(parseInt($("#customer_" + count).val()));
+            };
+            $('#' + elementId + '').append("<option value=''>--Select Customer--</option>");
+            for (var i = 0; i < customerList.length; i++) {
+                if (jQuery.inArray(customerList[i].CardCode, array) == -1) {
+                    $('#' + elementId + '').append($("<option></option>").val(customerList[i].CardCode).html(customerList[i].CardName));
+                }
+
+            }
+        }
+        function LoadAssinedToInRow(elementId) {
+            var array = [];
+            var rowCount = $('#salesOrder tbody tr').length;
+            for (let count = 0; count < rowCount; count++) {
+                array.push(parseInt($("#assinedTo_" + count).val()));
+            };
+            $('#' + elementId + '').append("<option value=''>--Select Assined To--</option>");
+            debugger;
+            for (var i = 0; i < assinedToList.length; i++) {
+                if (jQuery.inArray(assinedToList[i].firstName, array) == -1) {
+                    debugger;
+                    $('#' + elementId + '').append($("<option></option>").val(assinedToList[i].empID).html(assinedToList[i].firstName + " " + assinedToList[i].middleName + " " + assinedToList[i].lastName));
+                }
+
+            }
+        }
+        function LoadStatusInRow(elementId) {
+            var array = [];
+            var rowCount = $('#salesOrder tbody tr').length;
+            for (let count = 0; count < rowCount; count++) {
+                array.push(parseInt($("#status_" + count).val()));
+            };
+            $('#' + elementId + '').append("<option value=''>--Select Task Status--</option>");
+            for (var i = 0; i < statusList.length; i++) {
+                if (jQuery.inArray(statusList[i].StatusName, array) == -1) {
+                    $('#' + elementId + '').append($("<option></option>").val(statusList[i].StatusId).html(statusList[i].StatusName));
+                }
+            }
+        }
+        function LoadDailyOperationStatusInRow(elementId) {
+            var array = [];
+            var rowCount = $('#salesOrder tbody tr').length;
+            for (let count = 0; count < rowCount; count++) {
+                array.push(parseInt($("#operationStatus_" + count).val()));
+            };
+            $('#' + elementId + '').append("<option value=''>--Select Status--</option>");
+            for (var i = 0; i < operationStatusList.length; i++) {
+                if (jQuery.inArray(operationStatusList[i].Value, array) == -1) {
+                    $('#' + elementId + '').append($("<option></option>").val(operationStatusList[i].Value).html(operationStatusList[i].Description));
+                }
+            }
+        }
+        function LoadSessionInRow(elementId) {
+            var array = [];
+            var rowCount = $('#salesOrder tbody tr').length;
+            for (let count = 0; count < rowCount; count++) {
+                array.push(parseInt($("#session_" + count).val()));
+            };
+            $('#' + elementId + '').append("<option value=''>--Select Session--</option>");
+            for (var i = 0; i < sessionList.length; i++) {
+                if (jQuery.inArray(sessionList[i].Value, array) == -1) {
+                    $('#' + elementId + '').append($("<option></option>").val(sessionList[i].Value).html(sessionList[i].Description));
+                }
+            }
+        }
+    </script>
+}
+

@@ -1,0 +1,85 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "F:\\Projects\\SAP\\DTS_PORTAL_API\\DTS_PORTAL_API\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{CDF59C14-3EEA-4D81-A686-EA8F2E1A9393}|DTS_PORTAL_API\\DTS_PORTAL_API.vbproj|f:\\projects\\sap\\dts_portal_api\\dts_portal_api\\dts_portal_api\\app_data\\connectioninfo.xml||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{CDF59C14-3EEA-4D81-A686-EA8F2E1A9393}|DTS_PORTAL_API\\DTS_PORTAL_API.vbproj|solutionrelative:dts_portal_api\\app_data\\connectioninfo.xml||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CDF59C14-3EEA-4D81-A686-EA8F2E1A9393}|DTS_PORTAL_API\\DTS_PORTAL_API.vbproj|F:\\Projects\\SAP\\DTS_PORTAL_API\\DTS_PORTAL_API\\dts_portal_api\\app_start\\connection.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{CDF59C14-3EEA-4D81-A686-EA8F2E1A9393}|DTS_PORTAL_API\\DTS_PORTAL_API.vbproj|solutionrelative:dts_portal_api\\app_start\\connection.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CDF59C14-3EEA-4D81-A686-EA8F2E1A9393}|DTS_PORTAL_API\\DTS_PORTAL_API.vbproj|F:\\Projects\\SAP\\DTS_PORTAL_API\\DTS_PORTAL_API\\dts_portal_api\\controllers\\dts_getcontroller.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{CDF59C14-3EEA-4D81-A686-EA8F2E1A9393}|DTS_PORTAL_API\\DTS_PORTAL_API.vbproj|solutionrelative:dts_portal_api\\controllers\\dts_getcontroller.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CDF59C14-3EEA-4D81-A686-EA8F2E1A9393}|DTS_PORTAL_API\\DTS_PORTAL_API.vbproj|F:\\Projects\\SAP\\DTS_PORTAL_API\\DTS_PORTAL_API\\dts_portal_api\\controllers\\dts_postcontroller.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{CDF59C14-3EEA-4D81-A686-EA8F2E1A9393}|DTS_PORTAL_API\\DTS_PORTAL_API.vbproj|solutionrelative:dts_portal_api\\controllers\\dts_postcontroller.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "DTS_PostController.vb",
+              "DocumentMoniker": "F:\\Projects\\SAP\\DTS_PORTAL_API\\DTS_PORTAL_API\\DTS_PORTAL_API\\Controllers\\DTS_PostController.vb",
+              "RelativeDocumentMoniker": "DTS_PORTAL_API\\Controllers\\DTS_PostController.vb",
+              "ToolTip": "F:\\Projects\\SAP\\DTS_PORTAL_API\\DTS_PORTAL_API\\DTS_PORTAL_API\\Controllers\\DTS_PostController.vb",
+              "RelativeToolTip": "DTS_PORTAL_API\\Controllers\\DTS_PostController.vb",
+              "ViewState": "AQIAAFIMAAAAAAAAAAAAAFsMAABVAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-04-01T04:31:00.645Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "DTS_GetController.vb",
+              "DocumentMoniker": "F:\\Projects\\SAP\\DTS_PORTAL_API\\DTS_PORTAL_API\\DTS_PORTAL_API\\Controllers\\DTS_GetController.vb",
+              "RelativeDocumentMoniker": "DTS_PORTAL_API\\Controllers\\DTS_GetController.vb",
+              "ToolTip": "F:\\Projects\\SAP\\DTS_PORTAL_API\\DTS_PORTAL_API\\DTS_PORTAL_API\\Controllers\\DTS_GetController.vb",
+              "RelativeToolTip": "DTS_PORTAL_API\\Controllers\\DTS_GetController.vb",
+              "ViewState": "AQIAABYCAAAAAAAAAADwvyoCAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-03-30T03:51:12.534Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ConnectionInfo.xml",
+              "DocumentMoniker": "F:\\Projects\\SAP\\DTS_PORTAL_API\\DTS_PORTAL_API\\DTS_PORTAL_API\\App_Data\\ConnectionInfo.xml",
+              "RelativeDocumentMoniker": "DTS_PORTAL_API\\App_Data\\ConnectionInfo.xml",
+              "ToolTip": "F:\\Projects\\SAP\\DTS_PORTAL_API\\DTS_PORTAL_API\\DTS_PORTAL_API\\App_Data\\ConnectionInfo.xml",
+              "RelativeToolTip": "DTS_PORTAL_API\\App_Data\\ConnectionInfo.xml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAAfAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003576|",
+              "WhenOpened": "2024-03-30T06:08:45.803Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Connection.vb",
+              "DocumentMoniker": "F:\\Projects\\SAP\\DTS_PORTAL_API\\DTS_PORTAL_API\\DTS_PORTAL_API\\App_Start\\Connection.vb",
+              "RelativeDocumentMoniker": "DTS_PORTAL_API\\App_Start\\Connection.vb",
+              "ToolTip": "F:\\Projects\\SAP\\DTS_PORTAL_API\\DTS_PORTAL_API\\DTS_PORTAL_API\\App_Start\\Connection.vb",
+              "RelativeToolTip": "DTS_PORTAL_API\\App_Start\\Connection.vb",
+              "ViewState": "AQIAAEYAAAAAAAAAAAAwwFQAAABCAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-03-30T06:08:43.395Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

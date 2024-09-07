@@ -1,0 +1,810 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .spinnermodal {
+        background-color: #FFFFFF;
+        height: 100%;
+        left: 0;
+        opacity: 0.5;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 100000;
+    }
+</style>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-12">
+                <!-- general form elements -->
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h3>Member Registration Home</h3>
+                            </div>
+                            <div class="col-md-6 text-right ">
+                                <a class="btn btn-outline-warning" href="@Url.Action("AddMemberRegistration", "MemberRegistration", new {memId = ""})">
+                                    <span class="fa fa-plus"></span>Member Registration
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <div class="form-group" id="divFromDate">
+                                        <label for="txtFromDate">Date</label>
+                                        <input type="text" id="txtFromDate" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group" id="divGroupCode">
+                                        <label for="txtToDate">Group Code</label>
+                                        <select class="form-control select2" style="width: 100%;" id="ddlGroupCode"></select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group" id="divPhone">
+                                        <label for="txtToDate">Phone</label>
+                                        <input type="text" id="txtPhone" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <button style="margin-right: 18px;margin-top:14px" class="btn btn-primary" onclick="ShowReport()">Search</button>
+                                </div>
+                                @*<div class="col-md-6">
+            <button class='btn btn-success btn-sm float-right' type='button' style="display: none" id="Export" onclick="XLExport('myTable')">Export To excel</button>
+        </div>*@
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <div class="row">
+                        <div class="card-body">
+                            <div id="customerTable">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- /.row -->
+    </div><!-- /.container-fluid -->
+    <div class="spinnermodal" id="testSpan" style="display: none; z-index: 10001">
+        <div style="position: fixed; z-index: 10001; top: 50%; left: 50%; height:50px">
+            <img src="~/AssetStatic/img/loading_spinner.gif" />
+        </div>
+    </div>
+</section>
+
+<div class="modal fade" tabindex="-1" id="viewModal" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" style="max-width: 100% !important">
+        <div class="modal-content">
+            <div class="modal-header">
+
+            </div>
+            <div class="modal-body" id="containerDetails">
+
+            </div>
+            <div class="modal-footer">
+                <input type="text" style="display:none;" id="eid" />
+                <button class="btn btn-primary" data-bs-target="#viewModal" data-bs-toggle="modal" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts
+{
+    <script type="text/javascript">
+        var itemList = {};
+        var warehouseList = {};
+        var warehouseToList = {};
+        $(document).ready(function () {
+            $('#myTable').DataTable();
+            LoadDate_P('#txtFromDate');
+            LoadDate_C('#txtToDate');
+            $('#Export').hide();
+            LoadCurrentDayData();
+        });
+        function LoadCurrentDayData() {
+           var fromdate = $('#txtFromDate').val();
+           var todate = $('#txtToDate').val();
+            var urlpath = '@Url.Action("GetCurrentDayData", "InventoryTransfer")';
+            $.ajax({
+                url: urlpath,
+                contentType: "application/json; charset=utf-8",
+                dataType: 'html',
+                data: { fromdate: fromdate, todate: todate},
+                type: "Get",
+                async: false,
+                success: function (data) {
+
+                    $('#customerTable').empty();
+                    $('#customerTable').html(data);
+
+                },
+                complete: function () {
+                    $('#myTable').dataTable();
+                    $('#Export').hide();
+                }
+            });
+        }
+        function ShowReport() {
+            var fromdate = $('#txtFromDate').val();
+            var todate = $('#txtToDate').val();
+            var urlpath = '@Url.Action("GetCurrentDayData", "InventoryTransfer")';
+            $.ajax({
+                url: urlpath,
+                contentType: "application/json; charset=utf-8",
+                dataType: 'html',
+                data: { fromdate: fromdate, todate: todate },
+                type: "Get",
+                /* async: false,*/
+                beforeSend: function () {
+                    $('#testSpan').show();
+                },
+                success: function (data) {
+                    $('#testSpan').hide();
+                    $('#customerTable').empty();
+                    $('#customerTable').html(data);
+
+                },
+                complete: function () {
+                    $('#myTable').dataTable();
+                    $('#Export').hide();
+                }
+            });
+        }
+        function XLExport(tableId) {
+            var tab_text = "<table border='2px'><tr bgcolor='#87AFC6'>";
+            var textRange;
+            var j = 0;
+            tab = document.getElementById(tableId);
+            if ($.fn.DataTable.isDataTable("#myTable")) {
+                $("#myTable").DataTable().destroy();
+            }
+
+            for (j = 0; j < tab.rows.length; j++) {
+                tab_text = tab_text + tab.rows[j].innerHTML + "</tr>";
+                tab_text = tab_text.replace('View', "");
+                //tab_text = tab_text.replace('Delete', "");
+                //tab_text = tab_text.replace('Action', "");
+            }
+            tab_text = tab_text + "</table>";
+            tab_text = tab_text.replace(/<a[^>]*>|<\/a>/g, "");//remove if u want links in your table
+            tab_text = tab_text.replace(/<button[^>]*>|<\/button>/g, "");//remove if u want links in your table
+
+            tab_text = tab_text.replace(/<img[^>]*>/gi, ""); // remove if u want images in your table
+            tab_text = tab_text.replace(/<input[^>]*>|<\/input>/gi, ""); // remove input params
+            sa = window.open('data:application/vnd.ms-excel,' + encodeURIComponent(tab_text));
+            $('#myTable').DataTable();
+
+            return (sa);
+
+
+        }
+        @*function ShowReport() {
+            debugger;
+            var fromdate;
+            var todate;
+            var branchid = '';
+            var empId = '0';
+            if ($('#txtFromDate').val() == "") {
+                swal("Please input from date");
+                return;
+            }
+            else {
+                fromdate = $('#txtFromDate').val();
+            }
+            if ($('#txtToDate').val() == "") {
+                swal("Please input to date");
+                return;
+            }
+            else {
+                todate = $('#txtToDate').val();
+            }
+            //if ($('#ddlManager').val() == "0" || $('#ddlManager').val() == "") {
+            //    empId = '0';
+            //}
+            //else {
+            //    empId = $('#ddlManager').val();
+            //}
+
+            //if ($('#ddlBranch').val() == "") {
+            //    branchid = '';
+            //}
+            //else {
+            //    branchid = $('#ddlBranch').val();
+            //}
+
+            var urlpath = '@Url.Action("InventoryTransferList_Search", "InventoryTransfer")';
+            $.ajax({
+                url: urlpath,
+                dataType: 'html',
+                type: "Get",
+                data: { fromdate: fromdate, todate: todate},
+                async: false,
+                success: function (data) {
+
+                    data = JSON.parse(data);
+                    if (data.length > 0) {
+                        var row = "";
+                        var count = 1;
+                        $("#manuallist").html("");
+
+                        var count=1;
+                        $.each(data, function (index, item) {
+
+                            row += "<tr>";
+                            row += "<td style='text-align:center'>" + count + "</td>";
+                            row += "<td style='text-align:center'>" + item.SAPDocNum + "</td>";
+                            /* row += "<td style='text-align:center'>" + ToJavaScriptDate(item.DocDate) +  "</td>";*/
+                            row += "<td style='text-align:center'>" + item.DocDate + "</td>";
+                            row += "<td style='text-align:center'>" + item.FromWhsName + "</td>";
+                            row += "<td style='text-align:center'>" + item.ToWhsName + "</td>";
+                            row += "<td style='text-align:center'>" + item.DocStatusDesc + "</td>";
+                            row += "<td style='text-align:center'>" + item.Remarks + "</td>";
+
+                            row += "<td style='text-align:center'><button class='btn btn-sm btn-primary showBtn' data-bs-toggle='modal' data-bs-target='#viewModal' onclick='ShowData(" + item.DocEntry + ")'>View</button></td>";
+                            row += "</tr>";
+                            count = count + 1;
+
+                        });
+                        $("#manuallist").html(row);
+                    }
+                }
+            });
+        }*@
+        function ShowData(id) {
+            //$('#viewModal').modal();
+            ViewOrder(id);
+            //$("#eid").val(id);
+            GetItem();
+            debugger;
+            GetInventoryTransfer(id);
+            createPrintButton(id);
+        }
+        function ViewOrder(id) {
+            var urlpath = '@Url.Action("ViewInventoryTransfer", "InventoryTransfer")';
+            $.ajax({
+                url: urlpath,
+                dataType: 'html',
+                data: {id:id},
+                type: "Get",
+                async: false,
+                success: function (data) {
+                    $('#containerDetails').html(data);
+                }
+            });
+        }
+        function GetInventoryTransfer(DocEntry) {
+            //var jsonData = {};
+            //jsonData["DocEntry"] = DocEntry;
+            var docEntry = DocEntry.toString();
+
+            var urlpath = '@Url.Action("InventoryTransferViewData", "InventoryTransfer")';
+            $.ajax({
+                /*contentType: "application/json",*/
+                /*  data: JSON.stringify(jsonData),*/
+                data: { DocEntry: docEntry },
+                url: urlpath,
+                dataType: 'json',
+                type: "Get",
+               /* data: { DocEntry: id },*/
+                async: false,
+                success: function(data) {
+                    debugger;
+                    //LoadBusinessPartner('ddlCustomer');
+                    //$("#ddlCustomer").val(data.CardCode).trigger('change');
+                    //$('#txtCustomerCode').val(data.CardName);
+
+                    //LoadContactPerson('ddlContactPerson');
+                    //$("#ddlContactPerson").val(data.ContactPersonCode).trigger('change');
+
+                    $('#txtDocumentNo').val(data.SAPDocNum);
+                    $('#salesOrderNo').html(data.SAPDocNum);
+
+                    $('#txtStatus').val(data.DocStatusDesc);
+                    $('#txtDocDate').val(data.DocDate);
+                    $('#txtDocDueDate').val(data.DocDueDate);
+                    $("#ddlFromWarehouse").val(data.FromWhsName)
+                    $("#ddlToWarehouse").val(data.ToWhsName)
+
+                    //GetWarehouses('ddlFromWarehouse');
+                    //$("#ddlFromWarehouse").val(data.FromWhsCode).trigger('change');
+
+                    //GetToWarehouses('ddlToWarehouse');
+                    //$("#ddlToWarehouse").val(data.ToWhsCode).trigger('change');
+
+                    //LoadCopyFrom('ddlCopyFrom');
+                    //$("#ddlCopyFrom").val(data.FromWhsCode).trigger('change');
+
+                    LoadSalesEmployee('ddlSalesEmployee');
+                    $("#ddlSalesEmployee").val(data.SalesEmployeeCode).trigger('change');
+
+
+                    $('#ddlCreateBy').val(data.CreatedBy);
+                    $('#txtRrmarks').val(data.Remarks);
+
+
+                    //$('#txtDocDate').val(ToJavaScriptDate(data.DocDate));
+                    //$("#txtDocDate").prop("disabled", true);
+                    //$('#txtDocDueDate').val(ToJavaScriptDate(data.DocDueDate));
+                    //$("#txtDocDueDate").prop("disabled", true);
+
+
+                    GetItem();
+                    //GetLineWarehouses();
+                    //GetLineToWarehouses();
+                    debugger;
+                    for (var i = 0; i < data.itemsViewModels.length; i++) {
+
+                        var tr = $('#salesOrder tbody tr').length + 1;
+                        AddRow();
+                        $("#itemCode_" + tr).val(data.itemsViewModels[i].ItemCode).trigger('change');
+                        $('#itemName_' + tr).val(data.itemsViewModels[i].ItemCode);
+                        $('#uom_' + tr).val(data.itemsViewModels[i].unitMsr);
+                        //$('#fromWH_' + tr).val(data.itemsViewModels[i].FromWhsCode).trigger('change');
+                        //$('#toWH_' + tr).val(data.itemsViewModels[i].ToBranchCode).trigger('change');
+
+                        $('#quantity_' + tr).val(data.itemsViewModels[i].Quantity);
+                        //$('#price_' + tr).val(data.itemsViewModels[i].Price);
+                        //var total = data.itemsViewModels[i].Quantity * data.itemsViewModels[i].Price
+                        //$("#value_" + tr).val(total);
+                        $('#stock_' + tr).val(data.itemsViewModels[i].OpenQty);
+                        $('#remarks_' + tr).val(data.itemsViewModels[i].Remarks);
+
+                        debugger;
+                        var eflag = $('#eflag').val();
+                    }
+
+                }
+            });
+        }
+        function LoadBusinessPartner(elementId) {
+
+            var CardType = "C";
+            var urlpath = '@Url.Action("GetBusinessPartner", "InventoryTransferRequest")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { CardType: CardType },
+            /*    data: {  },*/
+                async: false,
+                success: function(data) {
+
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value='0'>--Select Business Partner--</option>");
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].CardCode).html(data[i].CardCode + " | "+data[i].CardName));
+                    }
+
+                }
+            });
+        }
+        function GetBusinessPartnerInfo(CardCode) {
+
+            var urlpath = '@Url.Action("GetBusinessPartnerByCardCode", "InventoryTransferRequest")';
+            $.ajax({
+                url: urlpath,
+                dataType: 'json',
+                type: "Get",
+                data: { CardCode: CardCode },
+                async: false,
+                success: function(data) {
+                    debugger;
+                    $('#txtCustomerCode').val(data.CardCode);
+                    LoadContactPerson('ddlContactPerson');
+                    $("#ddlContactPerson").val(data.ContactPerson).trigger('change');
+
+                    //$("#ddlBPCurrency").val(data.Currency).trigger('change');
+                    //$('#txtPlaceOfSupply').val(data.PlaceOfSupply);
+
+
+                    //LoadShipTo('ddlShipTo');
+                    //$("#ddlShipTo").val(data.ShipToDefault).trigger('change');
+                    //$('#shipToAddress').val(data.ShipToAddress);
+
+                    //LoadBillTo('ddlBillTo');
+                    //$("#ddlBillTo").val(data.BilltoDefault).trigger('change');
+                    //$('#billToAddress').val(data.billToAddress);
+
+                    //$("#ddlSalesEmployee").val(data.SalesPersonCode).trigger('change');
+                }
+            });
+        }
+        function LoadSalesEmployee(elementId) {
+
+            var urlpath = '@Url.Action("GetSalesEmployee", "InventoryTransferRequest")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {},
+                async: false,
+                success: function(data) {
+
+                    $('#' + elementId + '').empty();
+          /*          $('#' + elementId + '').append("<option value='0'>--Select Customer--</option>");*/
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].SlpCode).html(data[i].SlpName));
+                    }
+
+                }
+            });
+        }
+        function LoadCopyFrom(elementId) {
+            var urlpath = '@Url.Action("GetStockTransferRequestHeader", "InventoryTransfer")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { },
+                async: false,
+                success: function(data) {
+
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value=''>--Select Transfer Request--</option>");
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].DocEntry).html(data[i].SAPDocNum));
+                    }
+
+                }
+            });
+        }
+        function LoadContactPerson(elementId) {
+
+        var CardCode = $('#ddlCustomer').val();
+            var urlpath = '@Url.Action("GetBPContactPerson", "InventoryTransferRequest")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { CardCode: CardCode },
+                async: false,
+                success: function(data) {
+
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value=''>--Select CntPerson--</option>");
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].CntctCode).html(data[i].Name));
+                    }
+
+                }
+            });
+        }
+        function LoadBranch(elementId) {
+
+            var CardType = "C";
+            var urlpath = '@Url.Action("GetBranch", "InventoryTransferRequest")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { },
+                async: false,
+                success: function(data) {
+
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value='0'>--Select Branch--</option>");
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].PrcCode).html(data[i].PrcName ));
+                    }
+
+                }
+            });
+        }
+        function GetWarehouses(elementId) {
+            var WhsType = "N";
+            var urlpath = '@Url.Action("GetMainWarehouseAllBranch", "InventoryTransferRequest")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { WhsType: WhsType  },
+                async: false,
+                success: function(data) {
+
+                    $('#' + elementId + '').empty();
+               /*     $('#' + elementId + '').append("<option value='0'>--Select Warehouse--</option>");*/
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].WhsCode).html(data[i].WhsName));
+                    }
+
+                }
+            });
+        }
+        function GetToWarehouses(elementId) {
+            var WhsType = "I";
+            var urlpath = '@Url.Action("GetMainWarehouseAllBranch", "InventoryTransferRequest")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { WhsType: WhsType },
+                async: false,
+                success: function(data) {
+
+                    $('#' + elementId + '').empty();
+              /*      $('#' + elementId + '').append("<option value='0'>--Select Warehouse--</option>");*/
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].WhsCode).html(data[i].WhsName));
+                    }
+
+                }
+            });
+        }
+        function GetLineWarehouses(){
+            var WhsType = "N";
+            var urlpath = '@Url.Action("GetMainWarehouseAllBranch", "InventoryTransferRequest")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { WhsType: WhsType },
+                async: false,
+                success: function(data) {
+                    warehouseList = data;
+                }
+            });
+        }
+        function GetLineToWarehouses(){
+            var WhsType = "I";
+            var urlpath = '@Url.Action("GetMainWarehouseAllBranch", "InventoryTransferRequest")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { WhsType: WhsType  },
+                async: false,
+                success: function(data) {
+                    warehouseToList = data;
+                }
+            });
+        }
+        function GetMainWarehouses(elementId) {
+            var WhsType = "M";
+            var urlpath = '@Url.Action("GetMainWarehouse", "InventoryTransferRequest")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { WhsType: WhsType },
+                async: false,
+                success: function(data) {
+
+                    $('#' + elementId + '').empty();
+/*                    $('#' + elementId + '').append("<option value='0'>--Select Warehouse--</option>");*/
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].WhsCode).html(data[i].WhsName));
+                    }
+
+                }
+            });
+        }
+        function GetItem() {
+            var urlpath = '@Url.Action("GetItem", "InventoryTransferRequest")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {  },
+                async: false,
+                success: function(data) {
+
+                    itemList = data;
+
+                }
+            });
+        }
+        function GetItemDetails(rowId) {
+            var customerId = $('#ddlCustomer').val();
+            // if (customerId == 0) {
+            //    swal("At first select customer ");
+            //     $('#itemCode_' + rowId).val('0').trigger("change");
+            //    return;
+            //}
+            var ItemCode = $('#itemCode_' + rowId).val();
+
+            var urlpath = '@Url.Action("GetItemByItemCode", "InventoryTransferRequest")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                dataType: 'json',
+                data: { ItemCode: ItemCode },
+                async: false,
+                success: function(data) {
+
+                   // debugger;
+                    $("#itemName_" + rowId).val(data.ItemCode);
+                    $("#uom_" + rowId).val(data.InventoryUOM);
+                 /*   $("#inStock_" + rowId).val(data.InStock);*/
+
+                    $("#quantity_" + rowId).val('');
+                    $("#price_" + rowId).val('');
+/*                    $("#discount_" + rowId).val('');*/
+                    $("#value_" + rowId).val('');
+
+                  /*  CalculateAll();*/
+                }
+            });
+
+            ///Stock Quantity
+            @*var mainWarehouse = $('#ddlMainWarehouse').val();
+         var urlpath2 = '@Url.Action("GetItemeWareHouseWiseStock", "InventoryTransferRequest")';
+            $.ajax({
+                url: urlpath2,
+                type: "Get",
+                dataType: 'json',
+                data: { ItemCode: ItemCode, WhsCode: mainWarehouse },
+                async: false,
+                success: function(data) {
+
+                    $("#stock_" + rowId).val(data.ItemName);
+
+                    $("#quantity_" + rowId).val('');
+                    $("#price_" + rowId).val('');
+                    $("#value_" + rowId).val('');
+
+                }
+            });*@
+
+
+        }
+        function RemoveRow(id) {
+            debugger;
+            var trLength = $('#salesOrder tbody tr').length;
+            if (trLength > 1) {
+
+                //var detailsId = isNaN(parseFloat($('#details_' + id).val())) ? 0 : parseFloat($('#details_' + id).val());
+                //if (detailsId > 0) {
+                //    debugger;
+                //    var itemCode = $('#Item_' + id).val();
+                //    var description = $('#description_' + id).val();
+                //    var qty = isNaN(parseFloat($('#quantity_' + id).val())) ? 0 : parseFloat($('#quantity_' + id).val());
+                //    var price = isNaN(parseFloat($('#price_' + id).val())) ? 0 : parseFloat($('#price_' + id).val());
+                //    var discount = isNaN(parseFloat($('#discount_' + id).val())) ? 0 : parseFloat($('#discount_' + id).val());
+                //    var whsCode = $('#taxWshCode_' + id).val();
+                //    var lTotal = isNaN(parseFloat($('#total_' + id).val())) ? 0 : parseFloat($('#total_' + id).val());
+                //    var lineNum = isNaN(parseFloat($('#lineNum_' + id).val())) ? 0 : parseFloat($('#lineNum_' + id).val());
+
+                //    var delObj = {};
+                //    delObj["DocEntry"] = detailsId;
+                //    delObj["LineNum"] = lineNum;
+                //    delObj["ItemCode"] = itemCode;
+                //    delObj["ItemDescription"] = description;
+                //    delObj["Quantity"] = qty;
+                //    delObj["UnitPrice"] = price;
+                //    delObj["DiscountPercent"] = discount;
+                //    delObj["WarehouseCode"] = whsCode;
+                //    delObj["LineTotal"] = lTotal;
+                //    delObj["IsDelete"] = true;
+                //    DeleteItem.push(delObj);
+
+                //}
+                $('#tr_' + id).remove();
+                SerialTable();
+                //CalculateAll();
+            } else {
+                return;
+            }
+
+        }
+        function AddRow() {
+            var tr = $('#salesOrder tbody tr').length + 1;
+            var values = $("#salesOrder tbody tr")
+                .map(function() { return parseInt($(this).attr('id').substring(3)); }).get();
+            var index = values.indexOf(tr);
+            if (index >= 0) {
+                tr = Math.max.apply(Math, values) + 1;
+            }
+            var urlpath = '@Url.Action("AddRowForOrderView", "InventoryTransfer")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                dataType: 'html',
+                data: { tr: tr },
+                async: false,
+                success: function(data) {
+
+                    $('#salesOrder tbody').append(data);
+                    LoadItemInRow("itemCode_" + tr);
+                    LoadFromWarehouseInRow("fromWH_" + tr);
+                    LoadToWarehouseInRow("toWH_" + tr);
+
+
+                }
+            });
+            $('#itemCode_' + tr).select2();
+            $('#fromWH_' + tr).select2();
+            $('#toWH_' + tr).select2();
+            SerialTable();
+            //CalculateAll();
+        }
+        function SerialTable() {
+            $('#salesOrder tbody tr').each(function(index, element) {
+
+                var idr = $(this).attr('id');
+                var id = idr.substring(3);
+                $('#ts_' + id).html(index + 1);
+
+
+            });
+        }
+        function LoadItemInRow(elementId) {
+
+            var array = [];
+            var rowCount = $('#salesOrder tbody tr').length;
+            for (let count = 0; count < rowCount; count++) {
+                array.push(parseInt($("#itemCode_" + count).val()));
+            };
+            $('#' + elementId + '').append("<option value='0'>--Select Item--</option>");
+
+            for (var i = 0; i < itemList.length; i++) {
+                if (jQuery.inArray(itemList[i].ItemCode, array) == -1) {
+                    $('#' + elementId + '').append($("<option></option>").val(itemList[i].ItemCode).html(itemList[i].ItemName));
+                }
+
+            }
+        }
+        function LoadFromWarehouseInRow(elementId) {
+            var array = [];
+            var rowCount = $('#salesOrder tbody tr').length;
+            for (let count = 0; count < rowCount; count++) {
+                array.push(parseInt($("#fromWH_" + count).val()));
+            };
+          /*  $('#' + elementId + '').append("<option value=''>--From Warehouse--</option>");*/
+
+            for (var i = 0; i < warehouseList.length; i++) {
+                if (jQuery.inArray(warehouseList[i].WhsCode, array) == -1) {
+                    $('#' + elementId + '').append($("<option></option>").val(warehouseList[i].WhsCode).html(warehouseList[i].WhsName));
+                }
+            }
+        }
+        function LoadToWarehouseInRow(elementId) {
+            var array = [];
+            var rowCount = $('#salesOrder tbody tr').length;
+            for (let count = 0; count < rowCount; count++) {
+                array.push(parseInt($("#toWH_" + count).val()));
+            };
+         /*   $('#' + elementId + '').append("<option value=''>--To Warehouse--</option>");*/
+
+            for (var i = 0; i < warehouseToList.length; i++) {
+                if (jQuery.inArray(warehouseToList[i].WhsCode, array) == -1) {
+                    $('#' + elementId + '').append($("<option></option>").val(warehouseToList[i].WhsCode).html(warehouseToList[i].WhsName));
+                }
+            }
+        }
+        function createPrintButton(DocEntry) {
+            var printButton = document.createElement("input");
+            printButton.type = "button";
+            printButton.value = "Print";
+            printButton.className = "btn btn-primary";
+            printButton.onclick = function () {
+                printPage(DocEntry);
+            };
+
+            var printButtonContainer = document.getElementById("viewModal").getElementsByClassName("modal-footer")[0];
+            var existingPrintButton = printButtonContainer.querySelector("input[type=button][value='Print']");
+            if (existingPrintButton) {
+                printButtonContainer.removeChild(existingPrintButton);
+            }
+            printButtonContainer.appendChild(printButton);
+        }
+        function printPage(DocEntry) {
+            var dynamicURL = 'http://172.16.1.41:8001/web/webform1.aspx?id1=4&id2=DOCENTRYID|BIOXIN&id3=2'.replace('DOCENTRYID', DocEntry);
+            window.open(dynamicURL, '_blank');
+        }
+    </script>
+}
+

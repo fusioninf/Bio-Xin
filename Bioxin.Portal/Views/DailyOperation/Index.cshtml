@@ -1,0 +1,734 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-12">
+                <!-- general form elements -->
+                <div class="card card-primary">
+
+                    <div class="card-header">
+
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                <h3>Daily Operation List Page</h3>
+                            </div>
+                            <div class="col-md-6 text-right ">
+                                <a class="btn btn-outline-warning" href="@Url.Action("AddDailyOperation", "DailyOperation", new {dailyOperationId = 0})">
+
+                                    <span class="fa fa-plus"></span> Go To New Daily Operation
+
+                                </a>
+                            </div>
+
+
+                        </div>
+
+
+
+                    </div>
+                    <div class="row">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group" id="divManager">
+                                        <label for="ddlManager">Manager</label>
+                                        <select class="form-control select2" style="width: 100%;" id="ddlManager"></select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group" id="divBranch">
+                                        <label for="ddlBranch">Branch</label>
+                                        <select class="form-control select2" style="width: 100%;" id="ddlBranch"></select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group" id="divFromDate">
+                                        <label for="txtFromDate">From Date</label>
+                                        <input type="text" id="txtFromDate" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group" id="divToDate">
+                                        <label for="txtToDate">To Date</label>
+                                        <input type="text" id="txtToDate" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3"></div>
+                        <div class="col-md-3"></div>
+                        <div class="col-md-3"></div>
+                        <div class="col-md-3">
+                            <button style="margin-right: 27px;" class="btn btn-primary" onclick="ShowReport()">Search Daily Operation</button>
+                        </div>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card-body">
+                                <table class="table table-bordered table-striped table-hover">
+                                    <thead>
+                                        <tr style="background-color: aliceblue">
+                                            <th style="text-align:center">#</th>
+                                            <th style="text-align:center">Code</th>
+                                            <th style="text-align:center">Posting Date</th>
+                                            <th style="text-align:center">Manager</th>
+                                            <th style="text-align:center">Branch</th>
+                                            <th style="text-align:center">Session</th>
+                                            <th style="text-align:center">Action</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody id="manuallist">
+                                        @{ int count = 1;}
+                                        @foreach (var item in Model)
+                                        {
+                                        <tr>
+                                            <td>@count</td>
+                                            <td>@item.Code</td>
+                                            <td>@Convert.ToDateTime(item.U_Date).ToString("dd-MMM-yyyy")</td>
+                                            <td>@item.EmpName</td>
+                                            <td>@item.BranchName</td>
+                                            <td>@item.U_Session</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary showBtn" data-bs-toggle="modal" data-bs-target="#viewModal" onclick="ShowData(@item.DocEntry)">View</button>
+                                                @Html.ActionLink("Edit", "AddDailyOperation", "DailyOperation", new { dailyOperationId = item.DocEntry }, new { @class = "btn btn-sm btn-warning" })
+                                            </td>
+
+                                            @*@if (item.DocStatus == "O")
+        {
+            <td>
+                <button class="btn btn-sm btn-primary showBtn" data-bs-toggle="modal" data-bs-target="#viewModal" onclick="ShowData(@item.DocEntry)">View</button>
+                @Html.ActionLink("Edit", "SalesOrderEntry", "SalesOrder", new { soId = item.DocEntry }, new { @class = "btn btn-sm btn-warning" })
+            </td>
+        }
+        else
+        {
+            <td>
+                <button class="btn btn-sm btn-primary showBtn" data-bs-toggle="modal" data-bs-target="#viewModal" onclick="ShowData(@item.DocEntry)">View</button>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        Launch demo modal
+                    </button>
+                @Html.ActionLink("Edit", "Index", "SalesOrderProcess", new { soId = item.DocEntry }, new { @class = "btn btn-sm btn-warning" })
+            </td>
+        }*@
+
+
+                                        </tr>
+                                            count++;
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+        <!-- /.row -->
+    </div><!-- /.container-fluid -->
+
+</section>
+
+<div class="modal fade" tabindex="-1" id="viewModal" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" style="max-width: 100% !important">
+        <div class="modal-content">
+            <div class="modal-header">
+
+            </div>
+            <div class="modal-body" id="containerDetails">
+
+            </div>
+            <div class="modal-footer">
+                <input type="text" style="display:none;" id="eid" />
+                @*<button type="button" class="btn btn-danger" id="clsButton" data-dismiss="modal">Close</button>*@
+                <button class="btn btn-primary" data-bs-target="#viewModal" data-bs-toggle="modal" data-bs-dismiss="modal">Close</button>
+                @*<button type="button" class="btn btn-primary" id="clsEdit" onclick="GoToDo($('#eid').val())">Edit</button>*@
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts
+{
+    <script type="text/javascript">
+
+
+        $(document).ready(function () {
+            LoadDate_P('#txtFromDate');
+            LoadDate_C('#txtToDate');
+
+            LoadEmployee('ddlManager');
+            LoadBranch('ddlBranch');
+        });
+
+        function ShowReport() {
+            debugger;
+            var fromdate;
+            var todate;
+            var branchid = '';
+            var empId = '0';
+            if ($('#txtFromDate').val() == "") {
+                swal("Please input from date");
+                return;
+            }
+            else {
+                fromdate = $('#txtFromDate').val();
+            }
+            if ($('#txtToDate').val() == "") {
+                swal("Please input to date");
+                return;
+            }
+            else {
+                todate = $('#txtToDate').val();
+            }
+            if ($('#ddlManager').val() == "0" || $('#ddlManager').val() == "") {
+                empId = '0';
+            }
+            else {
+                empId = $('#ddlManager').val();
+            }
+
+            if ($('#ddlBranch').val() == "") {
+                branchid = '';
+            }
+            else {
+                branchid = $('#ddlBranch').val();
+            }
+
+            var urlpath = '@Url.Action("DailyOperationList_Search", "DailyOperation")';
+            $.ajax({
+                url: urlpath,
+                dataType: 'html',
+                type: "Get",
+                data: { fromdate: fromdate, todate: todate, branch: branchid, empId: empId},
+                async: false,
+                success: function (data) {
+
+                    data = JSON.parse(data);
+                   /* if (data.length > 0) {*/
+                        var row = "";
+                        var count = 1;
+                        $("#manuallist").html("");
+
+                        var count=1;
+                        $.each(data, function (index, item) {
+
+                            row += "<tr>";
+                            row += "<td style='text-align:center'>" + count + "</td>";
+                            row += "<td style='text-align:center'>" + item.Code + "</td>";
+                            row += "<td style='text-align:center'>" + ToJavaScriptDate(item.U_Date) +  "</td>";
+                            row += "<td style='text-align:center'>" + item.EmpName +  "</td>";
+                            row += "<td style='text-align:center'>" + item.BranchName + "</td>";
+                            row += "<td style='text-align:center'>" + item.U_Session + "</td>";
+
+                            row += "<td style='text-align:center'><button class='btn btn-sm btn-primary showBtn' data-bs-toggle='modal' data-bs-target='#viewModal' onclick='ShowData(" + item.DocEntry + ")'>View</button><a class='btn btn-sm btn-warning' type='button' onclick='GoToDo(" + item.DocEntry + ")'>Edit</a></td>";
+
+                            //if (item.DocStatus == "O")
+                            //{
+                            //    row += "<td style='text-align:center'><button class='btn btn-sm btn-primary showBtn' data-bs-toggle='modal' data-bs-target='#viewModal' onclick='ShowData(" + item.DocEntry + ")'>View</button><a class='btn btn-sm btn-warning' type='button' onclick='GoToDo(" + item.DocEntry + ")'>Edit</a></td>";
+                            //    <a class='btn btn-sm btn-danger' type='button' onclick='SoDelete(" + item.DocEntry + ")'>Delete</a>
+                            //}
+                            //else
+                            //{
+                            //    row += "<td style='text-align:center'><button class='btn btn-sm btn-primary showBtn' data-bs-toggle='modal' data-bs-target='#viewModal' onclick='ShowData(" + item.DocEntry + ")'>View</button><a class='btn btn-sm btn-warning' type='button' onclick='GoToDo(" + item.DocEntry + ")'>Edit</a></td>";
+
+                            // }
+                            row += "</tr>";
+                            count = count + 1;
+
+                        });
+                        $("#manuallist").html(row);
+                    //}
+                }
+            });
+                        }
+
+
+        function GoToDo(dailyOperationId) {
+            window.location = "@Url.Action("AddDailyOperation", "DailyOperation")" + "?dailyOperationId=" + dailyOperationId ;
+                        }
+
+        function SoDelete(soId) {
+
+            swal({
+                title: "Are you sure?",
+                text: "",
+                type: "success",
+                showCancelButton: true,
+                cancelButtonClass: 'btn-secondary waves-effect',
+                confirmButtonClass: 'btn-success waves-effect waves-light',
+                confirmButtonText: 'Yes!',
+                closeOnConfirm: false
+
+            }, function () {
+                $('.confirm').prop("disabled", true);
+                $('.cancel').prop("disabled", true);
+
+                var urlpath = '@Url.Action("SODelete", "SalesOrderProcess")';
+                $.ajax({
+                    url: urlpath,
+                    data: { soId: soId },
+                    dataType: 'json',
+                    type: "Get",
+
+                    async: false,
+                    success: function (data) {
+
+                        if (data.isSuccess) {
+                            window.location.href = '@Url.Action("SalesOrderList", "SalesOrderProcess")';
+                        }
+                    }
+                });
+
+            });
+
+        }
+
+        function ShowData(id) {
+            //$('#viewModal').modal();
+            ViewOrder(id);
+            $("#eid").val(id);
+
+            LoadBusinessPartner('ddlCustomer');
+            LoadSalesEmployee('ddlSalesEmployee');
+            LoadCurrency('ddlBPCurrency');
+            LoadShippingType('ddlShippingType');
+            LoadPaymentTerms('ddlPaymentTerms');
+            $('#txtDocDate').datepicker({
+                endDate: new Date(),
+                autoclose: true,
+                todayHighlight: true,
+                format: 'dd-M-yyyy'
+            });
+            LoadDate('#txtDocDueDate');
+            GetProducts();
+            GetWarehouses();
+            GetSalesOrder(id);
+        }
+        function ViewOrder(id) {
+            var urlpath = '@Url.Action("ViewOrder", "SalesOrder")';
+            $.ajax({
+                url: urlpath,
+
+                dataType: 'html',
+                data: {id:id},
+                type: "Get",
+
+                async: false,
+                success: function (data) {
+
+                    $('#containerDetails').html(data);
+
+                }
+            });
+        }
+
+    </script>
+
+
+
+    <script>
+        var itemList = {};
+        var whsCodeList = {};
+        function ApproveOrder(status) {
+
+            swal({
+                title: "Are you sure?",
+                text: "",
+                type: "success",
+                showCancelButton: true,
+                cancelButtonClass: 'btn-secondary waves-effect',
+                confirmButtonClass: 'btn-success waves-effect waves-light',
+                confirmButtonText: 'Yes!',
+                closeOnConfirm: false
+
+            }, function () {
+                $('.confirm').prop("disabled", true);
+                $('.cancel').prop("disabled", true);
+                var id = $('#mSalesOrderId').val();
+                var urlpath = '@Url.Action("ApproveSalesProcesed", "SalesOrderProcess")';
+                $.ajax({
+                    url: urlpath,
+                    data: { id: id, status: status },
+                    dataType: 'json',
+                    type: "Get",
+
+                    async: false,
+                    success: function (data) {
+                        if (data.isSuccess) {
+                            window.location.href = '@Url.Action("SalesOrderList", "SalesOrderProcess")';
+                        }
+                    }
+                });
+
+            });
+
+        }
+     function GetSalesOrder(DocEntry) {
+            var jsonData = {};
+            jsonData["DocEntry"] = DocEntry;
+
+            var urlpath = '@Url.Action("GetSalesOrderById", "SalesOrder")';
+            $.ajax({
+                contentType: "application/json",
+                data: JSON.stringify(jsonData),
+                url: urlpath,
+                dataType: 'json',
+                type: "POST",
+               /* data: { id: id },*/
+                async: false,
+                success: function(data) {
+
+                    LoadBusinessPartner('ddlCustomer');
+                    $("#ddlCustomer").val(data.CardCode).trigger('change');
+
+                    $('#txtCustomerName').val(data.CardName);
+                    LoadContactPerson('ddlContactPerson');
+                    $("#ddlContactPerson").val(data.ContactPersonCode).trigger('change');
+
+                    LoadCurrency('ddlBPCurrency');
+                    $("#ddlBPCurrency").val(data.DocCurrency).trigger('change');
+                    $('#txtPlaceOfSupply').val(data.ShipPlace);
+
+
+                    LoadShipTo('ddlShipTo');
+                    $("#ddlShipTo").val(data.ShipToCode).trigger('change');
+                    $('#shipToAddress').val(data.Address2);
+
+                    LoadBillTo('ddlBillTo');
+                    $("#ddlBillTo").val(data.PayToCode).trigger('change');
+                    $('#billToAddress').val(data.Address);
+
+                    LoadSalesEmployee('ddlSalesEmployee');
+                    $("#ddlSalesEmployee").val(data.SalesPersonCode).trigger('change');
+                    $('#txtCustomerRefNo').val(data.NumAtCard);
+
+
+                    $('#txtDocDate').val(ToJavaScriptDate(data.DocDate));
+                    $("#txtDocDate").prop("disabled", true);
+                    $('#txtDocDueDate').val(ToJavaScriptDate(data.DocDueDate));
+                    $("#txtDocDueDate").prop("disabled", true);
+
+
+                    LoadShippingType('ddlShippingType');
+                    $("#ddlShippingType").val(data.TransportationCode).trigger('change');
+                    LoadPaymentTerms('ddlPaymentTerms');
+                    $("#ddlPaymentTerms").val(data.PaymentGroupCode).trigger('change');
+
+                    $('#txtRrmarks').val(data.Comments);
+
+                    $('#txtNetAmount').val(data.DocTotal - data.TotalDiscount);
+                    $("#txtNetAmount").prop("disabled", true);
+                    $('#txtRoundTotal').val(data.DocTotal);
+                    $("#txtRoundTotal").prop("disabled", true);
+                    $('#txtDiscount').val(data.DiscountPercent);
+                    $('#salesOrderNo').html(data.DocNum);
+                    GetProducts();
+                    GetWarehouses();
+                    debugger;
+                    for (var i = 0; i < data.SalesOrderLines.length; i++) {
+
+                        var tr = $('#salesOrder tbody tr').length + 1;
+                        AddRow();
+                        $("#Item_" + tr).val(data.SalesOrderLines[i].ItemCode).trigger('change');
+                        $('#description_' + tr).val(data.SalesOrderLines[i].ItemDescription);
+                        $('#quantity_' + tr).val(data.SalesOrderLines[i].Quantity);
+                        $('#price_' + tr).val(data.SalesOrderLines[i].UnitPrice);
+                        $('#discount_' + tr).val(data.SalesOrderLines[i].DiscountPercent);
+                        $("#taxWshCode_" + tr).val(data.SalesOrderLines[i].WarehouseCode).trigger('change');
+                        $('#total_' + tr).val(data.SalesOrderLines[i].LineTotal);
+                        var lineStatus = data.SalesOrderLines[i].LineStatus;
+                        if (lineStatus == 'bost_Close') {
+                            $('#Item_' + tr).prop("disabled", true);
+                            $('#description_' + tr).prop("disabled", true);
+                            $('#quantity_' + tr).prop("disabled", true);
+                            $('#price_' + tr).prop("disabled", true);
+                            $('#discount_' + tr).prop("disabled", true);
+                            $('#taxWshCode_' + tr).prop("disabled", true);
+                            $('#total_' + tr).prop("disabled", true);
+                            $('#btnRemove_' + tr).prop("disabled", true);
+                        } else {
+                            $('#Item_' + tr).prop("disabled", false);
+                            $('#description_' + tr).prop("disabled", false);
+                            $('#quantity_' + tr).prop("disabled", false);
+                            $('#price_' + tr).prop("disabled", false);
+                            $('#discount_' + tr).prop("disabled", false);
+                            $('#taxWshCode_' + tr).prop("disabled", false);
+                            $('#total_' + tr).prop("disabled", false);
+                            $('#btnRemove_' + tr).prop("disabled", false);
+                        }
+
+
+
+
+                        debugger;
+                        var eflag = $('#eflag').val();
+                        //if (eflag == "ed") {
+
+                        //    $('.aHide').hide();
+                        //} else {
+                        //    var picking = $('#picking_' + tr).val();
+                        //    if (picking == '0') {
+                        //        $('.aHide').hide();
+                        //    } else {
+                        //        $('.aHide').show();
+                        //    }
+                        //}
+                    }
+
+
+                    //$('#totalKg').html(data.TotatalOrderAmtKg);
+                    //$('#totalqty').html(data.TotalOrderQty);
+                    //$('#totalIncTacVat').html((data.TotalIncTaxVat).toFixed(2));
+                    //$('#totalExTaxVat').html((data.TotalExTaxVat).toFixed(2));
+                    //$('#lblRestAmount').html((data.TotalDue - data.TotalPaid).toFixed(2));
+                   // $('#lblRestAmount').html(Math.round(data.TotalDue - data.TotalPaid));
+                    //CalculateAll();
+
+                }
+            });
+        }
+
+     function GetItemDetails(rowId) {
+            var customerId = $('#ddlCustomer').val();
+             if (customerId == 0) {
+                swal("At first select customer ");
+                 $('#Item_' + rowId).val('0').trigger("change");
+                return;
+            }
+             var itemCode = $('#Item_' + rowId).val();
+
+            var urlpath = '@Url.Action("GetItemByItemCode", "SalesOrder")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                dataType: 'json',
+                data: { itemCode: itemCode },
+                async: false,
+                success: function(data) {
+
+                   // debugger;
+                    $("#description_" + rowId).val(data.ItemName);
+                    $("#uom_" + rowId).val(data.UomName);
+                    $("#inStock_" + rowId).val(data.InStock);
+
+                    $("#quantity_" + rowId).val('');
+                    $("#price_" + rowId).val('');
+                    $("#discount_" + rowId).val('');
+                    $("#total_" + rowId).val('');
+
+                    CalculateAll();
+                }
+            });
+        }
+
+     function LoadContactPerson(elementId) {
+
+        var CardCode = $('#ddlCustomer').val();
+            var urlpath = '@Url.Action("GetContactPersonByCardCode", "PrimaryData")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { CardCode: CardCode },
+                async: false,
+                success: function(data) {
+
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value='0'>--Select CntPerson--</option>");
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].CntctCode).html(data[i].Name));
+                    }
+
+                }
+            });
+        }
+     function LoadShipTo(elementId) {
+
+         var CardCode = $('#ddlCustomer').val();
+         var AdresType = "S";
+            var urlpath = '@Url.Action("GetShipToAndBillToByAdresType", "PrimaryData")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { CardCode: CardCode, AdresType: AdresType },
+                async: false,
+                success: function(data) {
+
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value='0'>--Select ShipTo--</option>");
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].Address).html(data[i].Address));
+                    }
+
+                }
+            });
+        }
+     function LoadBillTo(elementId) {
+
+         var CardCode = $('#ddlCustomer').val();
+         var AdresType = "B";
+            var urlpath = '@Url.Action("GetShipToAndBillToByAdresType", "PrimaryData")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { CardCode: CardCode, AdresType: AdresType },
+                async: false,
+                success: function(data) {
+
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value='0'>--Select BillTo--</option>");
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].Address).html(data[i].Address));
+                    }
+
+                }
+            });
+        }
+
+     function AddRow() {
+            var tr = $('#salesOrder tbody tr').length + 1;
+            var values = $("#salesOrder tbody tr")
+                .map(function() { return parseInt($(this).attr('id').substring(3)); }).get();
+            var index = values.indexOf(tr);
+            if (index >= 0) {
+                tr = Math.max.apply(Math, values) + 1;
+            }
+            var urlpath = '@Url.Action("AddRowForOrderSap", "SalesOrder")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                dataType: 'html',
+                data: { tr: tr },
+                async: false,
+                success: function(data) {
+
+                    $('#salesOrder tbody').append(data);
+                    LoadItemInRow("Item_" + tr);
+                    LoadWarehouseInRow("taxWshCode_" + tr);
+
+
+                }
+            });
+            $('#Item_' + tr).select2();
+            $('#taxWshCode_' + tr).select2();
+            SerialTable();
+            //CalculateAll();
+        }
+     function SerialTable() {
+            $('#salesOrder tbody tr').each(function(index, element) {
+
+                var idr = $(this).attr('id');
+                var id = idr.substring(3);
+                $('#ts_' + id).html(index + 1);
+
+
+            });
+        }
+     function LoadItemInRow(elementId) {
+
+            var array = [];
+            var rowCount = $('#salesOrder tbody tr').length;
+            for (let count = 0; count < rowCount; count++) {
+                array.push(parseInt($("#Item_" + count).val()));
+            };
+            $('#' + elementId + '').append("<option value='0'>--Select Item--</option>");
+
+            for (var i = 0; i < itemList.length; i++) {
+                if (jQuery.inArray(itemList[i].ItemCode, array) == -1) {
+                    $('#' + elementId + '').append($("<option></option>").val(itemList[i].ItemCode).html(itemList[i].ItemCode + " | "+ itemList[i].ItemName));
+                }
+
+            }
+
+            //$('#' + elementId + '').append("<option value='0'>--Select Product--</option>");
+            //for (var i = 0; i < PrlductList.length; i++) {
+
+            //    $('#' + elementId + '').append($("<option></option>").val(PrlductList[i].ProductId).html(PrlductList[i].ProductName));
+            //}
+
+
+        }
+     function LoadWarehouseInRow(elementId) {
+
+            var array = [];
+            var rowCount = $('#salesOrder tbody tr').length;
+            for (let count = 0; count < rowCount; count++) {
+                array.push(parseInt($("#taxWshCode_" + count).val()));
+            };
+        /*    $('#' + elementId + '').append("<option value='0'>--Select Warehouse--</option>");*/
+
+            for (var i = 0; i < whsCodeList.length; i++) {
+                if (jQuery.inArray(whsCodeList[i].WhsCode, array) == -1) {
+                    $('#' + elementId + '').append($("<option></option>").val(whsCodeList[i].WhsCode).html(whsCodeList[i].WhsName));
+                }
+
+            }
+        }
+
+      function LoadBranch(elementId) {
+
+            var CardType = "C";
+            var urlpath = '@Url.Action("GetBranch", "DailyOperation")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { },
+                async: false,
+                success: function(data) {
+
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value=''>--Select Branch--</option>");
+                    for (var i = 0; i < data.length; i++) {
+
+                      $('#' + elementId + '').append($("<option></option>").val(data[i].DocEntry).html(data[i].U_Name ));
+                    }
+
+                }
+            });
+        }
+      function LoadEmployee(elementId) {
+
+            var urlpath = '@Url.Action("GetEmployee", "DailyOperation")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {},
+                async: false,
+                success: function(data) {
+
+                    $('#' + elementId + '').empty();
+          /*          $('#' + elementId + '').append("<option value='0'>--Select Employee--</option>");*/
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].empID).html(data[i].EmpName));
+                    }
+
+                }
+            });
+        }
+    </script>
+}
+

@@ -1,0 +1,419 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .spinnermodal {
+        background-color: #FFFFFF;
+        height: 100%;
+        left: 0;
+        opacity: 0.5;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 100000;
+    }
+</style>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-12">
+                <!-- general form elements -->
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h3>Service Gain</h3>
+                            </div>
+                            <div class="col-md-6 text-right ">
+                                <a class="btn btn-outline-warning" href="@Url.Action("AddServiceGain", "ServiceGain", new {sgId = 0})">
+                                    <span class="fa fa-plus"></span>New Service Gain
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <div class="form-group" id="divFromDate">
+                                        <label for="txtFromDate">From Date</label>
+                                        <input type="text" id="txtFromDate" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group" id="divToDate">
+                                        <label for="txtToDate">To Date</label>
+                                        <input type="text" id="txtToDate" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group" id="divActivityType">
+                                        <label for="ddlActivityType">Activity Type</label>
+                                        <select class="form-control select2" style="width: 100%; text-align: center" id="ddlActivityType" disabled="disabled"></select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group" id="divActivity">
+                                        <label for="ddlActivity">Activity</label>
+                                        <select class="form-control select2" style="width: 100%; text-align: center" id="ddlActivity" disabled="disabled"></select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group" id="divTherapist">
+                                        <label for="ddlTherapist">Therapist</label>
+                                        <select class="form-control select2" style="width: 100%; text-align: center" id="ddlTherapist"></select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group" id="divDoctor">
+                                        <label for="ddlDoctor">Doctor</label>
+                                        <select class="form-control select2" style="width: 100%; text-align: center" id="ddlDoctor"></select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group" id="divServiceName">
+                                        <label for="txtServiceName">Service Name</label>
+                                        <input type="text" id="txtServiceName" class="form-control" />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <button style="margin-right: 27px;margin-top:12px" class="btn btn-primary" onclick="ShowReport()">Search</button>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card-body">
+                                <table class="table table-bordered table-striped table-hover">
+                                    <thead>
+                                        <tr style="background-color: aliceblue">
+                                            <th style="text-align:center">#</th>
+                                            <th style="text-align:center">Invoice No</th>
+                                            <th style="text-align:center">Order No</th>
+                                            <th style="text-align:center">Card Name</th>
+                                            <th style="text-align:center">Service Name</th>
+                                            <th style="text-align:center">Session</th>
+                                            <th style="text-align:center">Therapist</th>
+                                            <th style="text-align:center">Doctor</th>
+                                            <th style="text-align:center">Shift</th>
+                                            <th style="text-align:center">Remarks</th>
+                                            @*<th style="text-align:center">Action</th>*@
+
+                                        </tr>
+                                    </thead>
+                                    <tbody id="manuallist">
+                                        @{ int count = 1;}
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td>@count</td>
+                                                <td>@item.InvoiceNo</td>
+                                                <td>@item.SalesOrder</td>
+                                                <td>@item.CardName</td>
+                                                <td>@item.SalesItem</td>
+                                                <td>@item.SessionNo</td>
+                                                <td>@item.TherapistName</td>
+                                                <td>@item.DoctorName</td>
+                                                <td>@item.SessionDesc</td>
+                                                <td>@item.Comments</td>
+                                                @*<td>
+                                                        <button class="btn btn-sm btn-primary showBtn" data-bs-toggle="modal" data-bs-target="#viewModal" onclick="ShowData(@item.TypeMasterCode, @item.EmployeeId)">View</button>
+                                                    </td>*@
+                                            </tr>
+                                            count++;
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+        <!-- /.row -->
+    </div><!-- /.container-fluid -->
+    <div class="spinnermodal" id="testSpan" style="display: none; z-index: 10001">
+        <div style="position: fixed; z-index: 10001; top: 50%; left: 50%; height:50px">
+            <img src="~/AssetStatic/img/loading_spinner.gif" />
+        </div>
+    </div>
+</section>
+
+<div class="modal fade" tabindex="-1" id="viewModal" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" style="max-width: 100% !important">
+        <div class="modal-content">
+            <div class="modal-header">
+
+            </div>
+            <div class="modal-body" id="containerDetails">
+
+            </div>
+            <div class="modal-footer">
+                <input type="text" style="display:none;" id="eid" />
+                @*<button type="button" class="btn btn-danger" id="clsButton" data-dismiss="modal">Close</button>*@
+                <button class="btn btn-primary" data-bs-target="#viewModal" data-bs-toggle="modal" data-bs-dismiss="modal">Close</button>
+                @*<button type="button" class="btn btn-primary" id="clsEdit" onclick="GoToDo($('#eid').val())">Edit</button>*@
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            LoadDate_P('#txtFromDate');
+            LoadDate_C('#txtToDate');
+
+            LoadActivityType('ddlActivityType');
+            LoadActivity('ddlActivity');
+            LoadTherapist('ddlTherapist');
+            LoadDoctor('ddlDoctor');
+        });
+        function LoadActivityType(elementId) {
+            var urlpath = '@Url.Action("GetActivityTypeforMemu", "ServiceGain")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { ActivityType: "S" },
+                async: false,
+                success: function(data) {
+                    $('#' + elementId + '').empty();
+                    //$('#' + elementId + '').append("<option value=''>--Select Activity Type--</option>");
+                    for (var i = 0; i < data.length; i++) {
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].Code).html(data[i].Description));
+                    }
+                }
+            });
+        }
+        function LoadActivity(elementId) {
+            var activityType = $('#ddlActivityType').val();
+            var urlpath = '@Url.Action("GetActivityMaster", "ServiceGain")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { ActivityType: activityType },
+                async: false,
+                success: function(data) {
+                    //activityList = data;
+                    $('#' + elementId + '').empty();
+                    //$('#' + elementId + '').append("<option value=''>--Select Activity--</option>");
+                    for (var i = 0; i < data.length; i++) {
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].ActivityCode).html(data[i].ActivityName));
+                    }
+                }
+            });
+        }
+        function LoadTherapist(elementId) {
+            var urlpath = '@Url.Action("GetAssinedTo", "ServiceGain")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { },
+                async: false,
+                success: function(data) {
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value=''>--Select Therapist--</option>");
+                    for (var i = 0; i < data.length; i++) {
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].empID).html(data[i].firstName + " " + data[i].middleName + " " + data[i].lastName));
+                    }
+                }
+            });
+        }
+        function LoadDoctor(elementId) {
+            var urlpath = '@Url.Action("GetDoctor", "ServiceGain")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { },
+                async: false,
+                success: function(data) {
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value=''>--Select Doctor--</option>");
+                    for (var i = 0; i < data.length; i++) {
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].empID).html(data[i].firstName + " " + data[i].middleName + " " + data[i].lastName));
+                    }
+                }
+            });
+        }
+        function ShowReport() {
+            var fromdate;
+            var todate;
+            fromdate = $('#txtFromDate').val();
+            todate = $('#txtToDate').val();
+            activitytype = $('#ddlActivityType').val();
+            activity = $('#ddlActivity').val();
+            therapist = $('#ddlTherapist').val();
+            doctor = $('#ddlDoctor').val();
+            servicename = $('#txtServiceName').val();
+
+            var urlpath = '@Url.Action("ServiceGain_Search", "ServiceGain")';
+            $.ajax({
+                url: urlpath,
+                dataType: 'html',
+                type: "Get",
+                data: { fromdate: fromdate, todate: todate, activitytype: activitytype, activity: activity, therapist: therapist, doctor: doctor, servicename: servicename },
+                /* async: false,*/
+                beforeSend: function () {
+                    debugger;
+                    $('#testSpan').show();
+                },
+                success: function (data) {
+                    $('#testSpan').hide();
+                    data = JSON.parse(data);
+                    if (data.UnAutorized == 0 && data.dataList.length == 1 ) {
+                        if (data.dataList[0].ReturnCode == "-99999") {
+                            window.location.href = '@Url.Action("Logout", "Home")';
+                        }
+                    }
+                    if (data.UnAutorized == 1) {
+                          window.location.href =  '@Url.Action("Logout", "Home")';
+                    } else {
+
+                            debugger;
+                            var row = "";
+                            var count = 1;
+                            $("#manuallist").html("");
+
+                            var count = 1;
+                            $.each(data.dataList, function (index, item) {
+                                row += "<tr>";
+                                row += "<td style='text-align:center'>" + count + "</td>";
+                                row += "<td style='text-align:center'>" + item.InvoiceNo + "</td>";
+                                row += "<td style='text-align:center'>" + item.SalesOrder + "</td>";
+                                row += "<td style='text-align:center'>" + item.CardName + "</td>";
+                                row += "<td style='text-align:center'>" + item.SalesItem + "</td>";
+                                row += "<td style='text-align:center'>" + item.SessionNo + "</td>";
+                                row += "<td style='text-align:center'>" + item.TherapistName + "</td>";
+                                row += "<td style='text-align:center'>" + item.DoctorName + "</td>";
+                                row += "<td style='text-align:center'>" + item.SessionDesc + "</td>";
+                                row += "<td style='text-align:center'>" + item.Comments + "</td>";
+                                row += "</tr>";
+                                count = count + 1;
+                            });
+                            $("#manuallist").html(row);
+
+
+                    }
+
+                }
+            });
+        }
+        function ShowData(TypeMasterCode, id) {
+            ViewOrder(id);
+            GetTherapistChecklist(TypeMasterCode, id);
+        }
+        function ViewOrder(id) {
+            var urlpath = '@Url.Action("ViewTherapistChecklist", "TherapistChecklist")';
+            $.ajax({
+                url: urlpath,
+                dataType: 'html',
+                data: {id:id},
+                type: "Get",
+                async: false,
+                success: function (data) {
+
+                    $('#containerDetails').html(data);
+
+                }
+            });
+        }
+        function GetTherapistChecklist(TypeMasterCode, EmployeeId) {
+            var activityType = TypeMasterCode.toString();   //3; //ActivityType.toString();
+            var employeeId = EmployeeId.toString();
+            fromdate = $('#txtFromDate').val();
+            todate = $('#txtToDate').val();
+
+            var urlpath = '@Url.Action("TherapistChecklistViewData", "TherapistChecklist")';
+            $.ajax({
+                data: { ActivityType: activityType, EmployeeId: employeeId, fromdate: fromdate, todate: todate },
+                url: urlpath,
+                dataType: 'json',
+                type: "Get",
+                async: false,
+                success: function (data) {
+                    //console.log(data);
+
+                    if (data.UnAutorized == 1) {
+                        window.location.href = '@Url.Action("Login", "Home")';
+                    } else {
+                        $('#ddlActivityTypeDisplay').val(data.dataList[0].TypeMasterName);
+                        $('#txtActivityDate').val(data.dataList[0].ActivityDate);
+                        $('#ddlBranch').val(data.dataList[0].BranchName);
+                        $('#txtAssignedTo').val(data.dataList[0].EmployeeName);
+
+                        /*for (var i = 0; i < data.dataList.length; i++) {
+                            var tr = $('#salesOrder tbody tr').length + 1;
+                            $("#activity_" + tr).val(data.dataList[i].TypeName)
+                            $('#operationStatus_' + tr).val(data.itemsViewModels[i].OperationStatusDesc);
+                        }*/
+
+                        for (var i = 0; i < data.dataList.length; i++) {
+                            var tr = i + 1; //$('#salesOrder tbody tr').length + 1;
+
+                            var newRow = $('<tr id="tr_' + tr + '">');
+
+                            var td1 = $('<td>');
+                            var textbox = tr;
+                            td1.append(tr);
+                            newRow.append(td1);
+
+                            var td2 = $('<td>');
+                            var textbox2 = $('<input class="form-control select2" style="width: 300px" disabled="disabled">')
+                                .attr('type', 'text')
+                                .attr('id', 'activity_' + tr)
+                                .val(data.dataList[i].TypeName);
+                            td2.append(textbox2);
+                            newRow.append(td2);
+
+                            var td3 = $('<td>');
+                            var textbox3 = $('<input class="form-control select2" style="width: 250px" disabled="disabled">')
+                                .attr('type', 'text')
+                                .attr('id', 'operationStatus_' + tr)
+                                .val(data.dataList[i].OperationStatusDesc);
+                            td3.append(textbox3);
+                            newRow.append(td3);
+
+                            $('#salesOrder tbody').append(newRow);
+                        }
+                    }
+                }
+            });
+        }
+        function LoadBranch(elementId) {
+            var urlpath = '@Url.Action("GetBranch", "InventoryTransferRequest")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { },
+                async: false,
+                success: function(data) {
+
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value=''>--Select Branch--</option>");
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].PrcCode).html(data[i].PrcName ));
+                    }
+
+                }
+            });
+        }
+    </script>
+}
+

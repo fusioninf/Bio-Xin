@@ -1,0 +1,650 @@
+﻿
+@{
+    ViewBag.Title = "Daily Operation CheckList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .custom-header {
+        background-color: grey !important; /* Blue color #007bff  #808080*/
+        color: black !important; /* Text color for contrast */
+    }
+</style>
+
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-primary">
+                    <div class="card-header custom-header">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <a href="@Url.Action("AddDailyOperation", "DailyOperation", new {dailyOperationId = 0})">
+                                    <h3 class="card-title">
+                                        @if (ViewBag.DailyOperationId == 0)
+                                        {
+                                            <span class=""> New Daily Operation</span>
+                                        }
+                                        else
+                                        {
+                                            <span class=""> Edit Daily Operation</span>
+                                        }
+                                    </h3>
+                                </a>
+                            </div>
+                            <div class="col-md-6 text-right">
+                                <a class="btn btn-outline-warning" href="@Url.Action("Index", "DailyOperation")">
+                                    <span class="fa fa-list"></span> Go To Daily Operation List
+
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group" id="divEmployee">
+                                    <label for="ddlEmployee">Manager</label>
+                                    <select class="form-control select2" style="width: 100%;text-align:center" id="ddlEmployee"></select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group" id="divDocDate">
+                                    <label for="txtDocDate">Date</label>
+                                    <input type="text" id="txtDocDate" class="form-control datepicker" value="@DateTime.Now.ToString("dd-MMM-yyyy")" />
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group" id="divBranch">
+                                    <label for="ddlBranch">Branch</label>
+                                    <select class="form-control select2" style="width: 100%;text-align:center" id="ddlBranch"></select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group" id="divSession">
+                                    <label for="ddlSession">Session</label>
+                                    @*<select class="form-control select2" style="width: 100%;text-align:center" id="ddlSession"></select>*@
+                                    <select class="form-control" style="width: 100%;text-align:left" id="ddlSession">
+                                        @*<option value="">Select Gender </option>*@
+                                        <option value="Start Session">Start Session</option>
+                                        <option value="Mid Session">Mid Session</option>
+                                        <option value="End Session">End Session</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="row">
+                            @*<div class="col-md-3">
+                                    <div class="form-group" id="divBranch">
+                                        <label for="ddlBranch">In Time</label>
+                                        <input type="text" id="txtDocTime" class="form-control"/>
+                                    </div>
+                                </div>*@
+                            &nbsp;
+                        </div>
+                        <div class="row">
+                            <table class="table table-bordered table-striped table-hover" id="salesOrder">
+                                <thead>
+                                    <tr style="background-color: aliceblue">
+                                        <th>#</th>
+                                        <th>Work Activities</th>
+                                        <th>Work Status</th>
+                                        <th>Signature</th>
+                                        <th>Comments</th>
+                                        <th class="action">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="col-md-3"></div>
+                        <div class="col-md-3"></div>
+                        <div class="col-md-3 float-right">
+                            <div class="row">
+                                <div class="col-md-3"></div>
+                                <div class="col-md-4">
+                                    <button class="btn btn-warning " onclick="SaveDailyOperation()" style="background-color: #ffbf00">Add & New</button>
+                                </div>
+                                <div class="col-md-3">
+                                    <button class="btn btn-warning float-right">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <input id="dailyOperationId" type="number" style="display: none;" value="@ViewBag.DailyOperationId">
+        <input id="codeId" type="number" style="display: none;">
+        <input id="eflag" type="text" style="display: none;" value="@ViewBag.eflag">
+    </div>
+</section>
+@section Scripts
+{
+    <script>
+        var workActivitiesList = {};
+        var workStatusList = {};
+        var signatureList = {};
+        var DeleteItem = [];
+        var srcount = 0;
+        $(document).ready(function () {
+
+            //$('#txtDocTime').timepicker({
+            //    timeFormat: 'HH:MM p',
+            //    interval: 15,
+            //    minTime: '8',
+            //    maxTime: '7:00pm',
+            //    defaultTime: '9',
+            //    startTime: '8:00',
+            //    dynamic: false,
+            //    dropdown: true,
+            //    scrollbar: true
+            //});
+            //https://timepicker.co/
+
+            LoadEmployee('ddlEmployee');
+            LoadBranch('ddlBranch');
+
+            LoadDate('#txtDocDueDate');
+            GetWorkActivities();
+            GetWorkStatus();
+            GetSignature();
+
+            var dailyOperationId = $('#dailyOperationId').val();
+
+            if (dailyOperationId > 0) {
+                GetDailyOperation(dailyOperationId);
+
+            } else {
+
+                AddRow();
+            }
+        });
+
+
+      function LoadBranch(elementId) {
+
+            var CardType = "C";
+            var urlpath = '@Url.Action("GetBranch", "DailyOperation")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { },
+                async: false,
+                success: function(data) {
+
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value='0'>--Select Branch--</option>");
+                    for (var i = 0; i < data.length; i++) {
+
+                      $('#' + elementId + '').append($("<option></option>").val(data[i].DocEntry).html(data[i].U_Name ));
+                    }
+
+                }
+            });
+        }
+      function LoadEmployee(elementId) {
+
+            var urlpath = '@Url.Action("GetEmployee", "DailyOperation")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {},
+                async: false,
+                success: function(data) {
+
+                    $('#' + elementId + '').empty();
+          /*          $('#' + elementId + '').append("<option value='0'>--Select Employee--</option>");*/
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].empID).html(data[i].EmpName));
+                    }
+
+                }
+            });
+        }
+      function GetWorkActivities() {
+            var urlpath = '@Url.Action("GetWorkActivities", "DailyOperation")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {  },
+                async: false,
+                success: function(data) {
+
+                    workActivitiesList = data;
+
+                }
+            });
+        }
+      function GetWorkStatus() {
+            var urlpath = '@Url.Action("GetWorkStatus", "DailyOperation")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {  },
+                async: false,
+                success: function(data) {
+
+                    workStatusList = data;
+
+                }
+            });
+        }
+        function GetSignature() {
+            var urlpath = '@Url.Action("GetEmployee", "DailyOperation")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {  },
+                async: false,
+                success: function(data) {
+
+                    signatureList = data;
+
+                }
+            });
+        }
+
+        function GetDailyOperation(DocEntry) {
+            var jsonData = {};
+            jsonData["Code"] = DocEntry.toString();
+
+            var urlpath = '@Url.Action("GetDailyOperationByCode", "DailyOperation")';
+            $.ajax({
+                contentType: "application/json",
+                data: JSON.stringify(jsonData),
+                url: urlpath,
+                dataType: 'json',
+                type: "POST",
+               /* data: { id: id },*/
+                async: false,
+                success: function(data) {
+
+                    LoadEmployee('ddlEmployee');
+                    $("#ddlEmployee").val(data.U_EmpCode).trigger('change');
+                    LoadBranch('ddlBranch');
+                    $("#ddlBranch").val(data.U_BranchCode).trigger('change');
+                    $("#ddlSession").val(data.U_Session).trigger('change');
+                    $('#txtDocDate').val(ToJavaScriptDate(data.U_Date));
+                    $("#txtDocDate").prop("disabled", true);
+                    $('#codeId').val(data.Code);
+
+
+                    GetWorkActivities();
+                    GetWorkStatus();
+                    GetSignature();
+                    debugger;
+                    for (var i = 0; i < data.DailyOperationDetailses.length; i++) {
+
+                        var tr = $('#salesOrder tbody tr').length + 1;
+                        AddRow();
+                        $("#WActivities_" + tr).val(data.DailyOperationDetailses[i].U_WActivitesCode).trigger('change');
+                        $("#WStatus_" + tr).val(data.DailyOperationDetailses[i].U_WorkStatus).trigger('change');
+                        $("#Signature_" + tr).val(data.DailyOperationDetailses[i].U_SignatureCode).trigger('change');
+                        $('#Comments_' + tr).val(data.DailyOperationDetailses[i].U_Comments);
+                        $('#lineNum_' + tr).val(data.DailyOperationDetailses[i].LineId);
+
+                        var eflag = $('#eflag').val();
+                        $('#btnAdd_' + tr).hide();
+
+                    }
+                }
+            });
+        }
+
+        function SaveDailyOperation() {
+
+            if (SaveValidation() == true) {
+                swal({
+                    title: "Are you sure?",
+                    text: "",
+                    type: "success",
+                    showCancelButton: true,
+                    cancelButtonClass: 'btn-secondary waves-effect',
+                    confirmButtonClass: 'btn-success waves-effect waves-light',
+                    confirmButtonText: 'Yes!',
+                    closeOnConfirm: false
+
+                }, function() {
+                    $('.confirm').prop("disabled", true);
+                    $('.cancel').prop("disabled", true);
+                    SaveOdrerFinal();
+
+                });
+            }
+        }
+
+        function SaveOdrerFinal() {
+            debugger;
+            var jsonData = {};
+
+            jsonData["DocEntry"] = $('#dailyOperationId').val();
+            jsonData["Code"] = $('#codeId').val();
+            jsonData["U_EmpCode"] = $('#ddlEmployee').val();
+            jsonData["U_Date"] = $('#txtDocDate').val();
+         /*   jsonData["U_BranchCode"] = $('#ddlBranch').val().trim();*/
+            jsonData["U_Session"] = $('#ddlSession').val();
+
+
+            var jsonObjs = [];
+            $('#salesOrder tbody tr').each(function() {
+
+                var theObj = {};
+                var idr = $(this).attr('id');
+                var id = idr.substring(3);
+
+                var wActivities = $('#WActivities_' + id).val();
+                var wStatus = $('#WStatus_' + id).val();
+                var signature = $('#Signature_' + id).val();
+                var comments = $('#Comments_' + id).val();
+
+
+                //var detailsId = isNaN(parseFloat($('#details_' + id).val())) ? 0 : parseFloat($('#details_' + id).val());
+                var lineNum = isNaN(parseFloat($('#lineNum_' + id).val())) ? 0 : parseFloat($('#lineNum_' + id).val());
+
+                //theObj["DocEntry"] = detailsId;
+
+                theObj["U_WActivitesCode"] = wActivities;
+                theObj["U_WorkStatus"] = wStatus;
+                theObj["U_SignatureCode"] = signature;
+                theObj["U_Comments"] = comments;
+                theObj["LineId"] = lineNum;
+                //theObj["IsDelete"] = false;
+                jsonObjs.push(theObj);
+            });
+            debugger;
+            //if (isNaN(parseInt($('#salesOrderId').val())) ? 0 : parseInt($('#salesOrderId').val()) > 0) {
+            //    for (var ind = 0; ind < DeleteItem.length; ind++) {
+            //        jsonObjs.push(DeleteItem[ind]);
+            //    }
+            //}
+            //debugger;
+
+            jsonData["DailyOperationDetailses"] = jsonObjs;
+
+            var urlpath = '@Url.Action("SaveDailyOperation", "DailyOperation")';
+            $.ajax({
+                    contentType: "application/json",
+                    data: JSON.stringify(jsonData),
+                    dataType: 'json',
+                    url: urlpath,
+                    type: "POST",
+                success: function (result) {
+                    debugger;
+                    if (result.pk > 0) {
+                        swal({
+                            title: " Saved Successfull",
+                            text: '',
+                            type: "success",
+                            showCancelButton: false,
+                            cancelButtonClass: 'btn-secondary waves-effect',
+                            confirmButtonClass: 'btn-success waves-effect waves-light',
+                            confirmButtonText: 'Yes!',
+                            closeOnConfirm: false
+                        }, function () {
+                            window.location.href =  '@Url.Action("Index", "DailyOperation")';
+                            @*var eflag = $('#eflag').val();
+                            if (eflag == "ed") {
+                                window.location.href = '@Url.Action("SalesOrderList", "SalesOrderProcess")';
+                            } else {
+                                window.location.href = '@Url.Action("SalesOrderApprovalList", "SalesOrderProcess")';
+                            }*@
+
+
+                        });
+
+
+                    }
+                }
+                })
+                @*.success(function (result) {
+                    debugger;
+                    if (result.pk > 0) {
+                        swal({
+                            title: " Saved Successfull",
+                            text: '',
+                            type: "success",
+                            showCancelButton: false,
+                            cancelButtonClass: 'btn-secondary waves-effect',
+                            confirmButtonClass: 'btn-success waves-effect waves-light',
+                            confirmButtonText: 'Yes!',
+                            closeOnConfirm: false
+                        }, function () {
+                            window.location.href = window.location.reload();
+                            var eflag = $('#eflag').val();
+                            if (eflag == "ed") {
+                                window.location.href = '@Url.Action("SalesOrderList", "SalesOrderProcess")';
+                            } else {
+                                window.location.href = '@Url.Action("SalesOrderApprovalList", "SalesOrderProcess")';
+                            }
+
+
+                        });
+
+
+                    }
+                });*@
+
+
+        }
+
+
+        function SaveValidation() {
+
+
+            var isValid = true;
+            var message = "Some Values Required";
+            if ($('#ddlEmployee').val() == 0 || $('#ddlEmployee').val() == '') {
+                ValidationColorChangeNew("ddlEmployee", "divEmployee", "Employee Required", true);
+                isValid = false;
+            }
+            if ($('#txtDocDate').val() == '' || $('#txtDocDate').val() == null) {
+                ValidationColorChangeNew("txtDocDate", "divDocDate", "Posting Date Required", false);
+                isValid = false;
+            }
+            if ($('#ddlBranch').val() == 0 || $('#ddlBranch').val() == '') {
+                ValidationColorChangeNew("ddlBranch", "divBranch", "Branch Required", true);
+                isValid = false;
+            }
+            if ($('#ddlSession').val() == 0 || $('#ddlSession').val() == '') {
+                ValidationColorChangeNew("ddlSession", "divSession", "Session Required", true);
+                isValid = false;
+            }
+            //Items Required
+            if ($('#salesOrder tbody tr').length == 0 || $('#salesOrder tbody tr').length == '') {
+                isValid = false;
+                message = "Work Activities Required";
+            }
+
+
+            $('#salesOrder tbody tr').each(function() {
+
+
+                var idr = $(this).attr('id');
+                var id = idr.substring(3);
+
+                var wActivities = $('#WActivities_' + id).val()
+                var wStatus = $('#WStatus_' + id).val()
+                var signature = $('#Signature_' + id).val()
+
+                if (wActivities === '' || wActivities === null) {
+                    isValid = false;
+                    message = "Please Select Work Status";
+                    $('#WActivities_' + id).css('border-bottom', '2px solid red');
+                    return;
+                }
+                if (wStatus === '' || wStatus === null) {
+                    isValid = false;
+                    message = "Please Select Work Status";
+                    $('#WStatus_' + id).css('border-bottom', '2px solid red');
+                    return;
+                }
+                if (signature === '' || signature === null) {
+                    isValid = false;
+                    message = "Please Select Signature";
+                    $('#Signature_' + id).css('border-bottom', '2px solid red');
+                    return;
+                }
+
+            });
+            if (isValid == false) {
+                ShowMessage(message);
+
+            }
+            return isValid;
+
+
+        }
+
+        function RemoveRow(id) {
+            debugger;
+            var trLength = $('#salesOrder tbody tr').length;
+            if (trLength > 1) {
+
+                //var detailsId = isNaN(parseFloat($('#details_' + id).val())) ? 0 : parseFloat($('#details_' + id).val());
+                //if (detailsId > 0) {
+                //    debugger;
+                //    var itemCode = $('#Item_' + id).val();
+                //    var description = $('#description_' + id).val();
+                //    var qty = isNaN(parseFloat($('#quantity_' + id).val())) ? 0 : parseFloat($('#quantity_' + id).val());
+                //    var price = isNaN(parseFloat($('#price_' + id).val())) ? 0 : parseFloat($('#price_' + id).val());
+                //    var discount = isNaN(parseFloat($('#discount_' + id).val())) ? 0 : parseFloat($('#discount_' + id).val());
+                //    var whsCode = $('#taxWshCode_' + id).val();
+                //    var lTotal = isNaN(parseFloat($('#total_' + id).val())) ? 0 : parseFloat($('#total_' + id).val());
+                //    var lineNum = isNaN(parseFloat($('#lineNum_' + id).val())) ? 0 : parseFloat($('#lineNum_' + id).val());
+
+                //    var delObj = {};
+                //    delObj["DocEntry"] = detailsId;
+                //    delObj["LineNum"] = lineNum;
+                //    delObj["ItemCode"] = itemCode;
+                //    delObj["ItemDescription"] = description;
+                //    delObj["Quantity"] = qty;
+                //    delObj["UnitPrice"] = price;
+                //    delObj["DiscountPercent"] = discount;
+                //    delObj["WarehouseCode"] = whsCode;
+                //    delObj["LineTotal"] = lTotal;
+                //    delObj["IsDelete"] = true;
+                //    DeleteItem.push(delObj);
+
+                //}
+                $('#tr_' + id).remove();
+                SerialTable();
+                //CalculateAll();
+            } else {
+                return;
+            }
+
+        }
+
+        function AddRow() {
+            var tr = $('#salesOrder tbody tr').length + 1;
+            var values = $("#salesOrder tbody tr")
+                .map(function() { return parseInt($(this).attr('id').substring(3)); }).get();
+            var index = values.indexOf(tr);
+            if (index >= 0) {
+                tr = Math.max.apply(Math, values) + 1;
+            }
+            var urlpath = '@Url.Action("AddRowForOrder", "DailyOperation")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                dataType: 'html',
+                data: { tr: tr },
+                async: false,
+                success: function(data) {
+
+                    $('#salesOrder tbody').append(data);
+                    LoadItemInRow("WActivities_" + tr);
+                    LoadWarehouseInRow("WStatus_" + tr);
+                    LoadsignatureInRow("Signature_" + tr);
+
+
+                }
+            });
+            $('#WActivities_' + tr).select2();
+            $('#WStatus_' + tr).select2();
+            $('#Signature_' + tr).select2();
+            SerialTable();
+            //CalculateAll();
+        }
+
+        function SerialTable() {
+            $('#salesOrder tbody tr').each(function(index, element) {
+
+                var idr = $(this).attr('id');
+                var id = idr.substring(3);
+                $('#ts_' + id).html(index + 1);
+
+
+            });
+        }
+
+        function LoadItemInRow(elementId) {
+
+            var array = [];
+            var rowCount = $('#salesOrder tbody tr').length;
+            for (let count = 0; count < rowCount; count++) {
+                array.push(parseInt($("#WActivities_" + count).val()));
+            };
+            $('#' + elementId + '').append("<option value='0'>--Select Work Activites--</option>");
+
+            for (var i = 0; i < workActivitiesList.length; i++) {
+                if (jQuery.inArray(workActivitiesList[i].Code, array) == -1) {
+                    $('#' + elementId + '').append($("<option></option>").val(workActivitiesList[i].Code).html(workActivitiesList[i].Name));
+                }
+
+            }
+
+            //$('#' + elementId + '').append("<option value='0'>--Select Product--</option>");
+            //for (var i = 0; i < PrlductList.length; i++) {
+
+            //    $('#' + elementId + '').append($("<option></option>").val(PrlductList[i].ProductId).html(PrlductList[i].ProductName));
+            //}
+
+
+        }
+
+        function LoadWarehouseInRow(elementId) {
+
+            var array = [];
+            var rowCount = $('#salesOrder tbody tr').length;
+            for (let count = 0; count < rowCount; count++) {
+                array.push(parseInt($("#WStatus_" + count).val()));
+            };
+            $('#' + elementId + '').append("<option value='0'>--Select Work Status--</option>");
+
+            for (var i = 0; i < workStatusList.length; i++) {
+                if (jQuery.inArray(workStatusList[i].Code, array) == -1) {
+                    $('#' + elementId + '').append($("<option></option>").val(workStatusList[i].Code).html(workStatusList[i].Name));
+                }
+
+            }
+        }
+        function LoadsignatureInRow(elementId) {
+
+            var array = [];
+            var rowCount = $('#salesOrder tbody tr').length;
+            for (let count = 0; count < rowCount; count++) {
+                array.push(parseInt($("#Signature_" + count).val()));
+            };
+            $('#' + elementId + '').append("<option value='0'>--Select Signature--</option>");
+
+            for (var i = 0; i < signatureList.length; i++) {
+                if (jQuery.inArray(signatureList[i].Code, array) == -1) {
+                    $('#' + elementId + '').append($("<option></option>").val(signatureList[i].empID).html(signatureList[i].EmpName));
+                }
+
+            }
+        }
+
+    </script>
+}
+

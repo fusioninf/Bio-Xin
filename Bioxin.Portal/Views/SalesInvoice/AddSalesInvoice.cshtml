@@ -1,0 +1,3181 @@
+﻿
+@{
+    ViewBag.Title = "Sales Invoice";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .custom-header {
+        background-color: darkgray !important; /* Blue color #007bff  #808080*/
+        color: black; /* Text color for contrast */
+    }
+
+    .blue-checkbox {
+        color: blue !important;
+    }
+    .spinnermodal {
+        background-color: #FFFFFF;
+        height: 100%;
+        left: 0;
+        opacity: 0.5;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 100000;
+    }
+</style>
+
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-primary">
+                    <div class="card-header custom-header">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <a href="@Url.Action("AddSalesInvoice", "SalesInvoice", new {siId = 0})">
+                                    <h3 class="card-title">
+                                        @if (ViewBag.SalesInvoiceId == 0)
+                                        {
+                                            <span class="" style="color:black"><b>Sales Invoice</b></span>
+                                        }
+                                        else
+                                        {
+                                            <span class="" style="color:black"><b>Sales Invoice</b></span>
+                                        }
+                                    </h3>
+                                </a>
+                            </div>
+                            <div class="col-md-6 text-right">
+                                <a class="btn btn-outline-warning" href="@Url.Action("Index", "SalesInvoice")">
+                                    <span class="fa fa-list"></span> Sales Invoice Home
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group row" id="divCustomer">
+                                    <label for="ddlCustomer" class="col-md-4 control-label">Code</label>
+                                    <div class="col-md-6">
+                                        <input type="text" placeholder="Search Customer Code" id="txtCustomerCodeSearch" name="UserName" class="form-control" autocomplete="off" />
+                                        <input type="hidden" id="txtCustomerCode" name="txtCustomerCode" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divCustomerName">
+                                    <label for="txtCustomerName" class="col-md-4 control-label">Customer Name</label>
+                                    <div class="col-md-6">
+                                        <input type="text" placeholder="Search Customer Name" id="txtCustomerNameSearch" name="UserName" class="form-control" autocomplete="off" />
+                                        <input type="hidden" id="txtCustomerName" name="txtCustomerName" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divMobileNo">
+                                    <label for="txtMobileNo" class="col-md-4 control-label">Mobile No</label>
+                                    <div class="col-md-6">
+                                        <input type="text" placeholder="Search Mobile No" id="txtNameSearch" name="UserName" class="form-control" autocomplete="off" />
+                                        <input type="hidden" id="ddlCustomer" name="ddlCustomer" />
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button class="btn btn-sm btn-primary showBtn" data-bs-toggle="modal" data-bs-target="#viewModal2" onclick="AddNewCustomer()" id="btnAddCustomer"><b>+</b></button>
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divCustomerRef">
+                                    <label for="txtCustomerRef" class="col-md-4 control-label">Customer Ref.</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" id="txtCustomerRef" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divCopyFromDP">
+                                    <label for="ddlCopyFromDP" class="col-md-4 control-label">Doctor's Prescr.</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%; text-align: center" id="ddlCopyFromDP"></select>
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divCopyFrom">
+                                    <label for="ddlCopyFrom" class="col-md-4 control-label">Copy From</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%; text-align: center" id="ddlCopyFrom"></select>
+                                        <input type="hidden" id="series" value="0"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group row mt-1" id="divType">
+                                    <label for="ddlType" class="col-md-4 control-label">Type</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width:100%;" id="ddlType">
+                                            <option value="0">--Select Type--</option>
+                                            <option value="I" selected>Item</option>
+                                            <option value="S">Service</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divBarcode">
+                                    <label for="txtBarcode" class="col-md-4 control-label">Barcode</label>
+                                    <div class="col-md-6">
+                                        <input type="text" placeholder="Barcode" id="txtBarcode" class="form-control" autocomplete="off" disabled="disabled"/>
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divSearchItemCode">
+                                    <label for="txtCustomerName" class="col-md-4 control-label">Item Code</label>
+                                    <div class="col-md-6">
+                                        <input type="text" placeholder="Search Item Code" id="txtSearchItemCode" class="form-control" autocomplete="off" disabled="disabled" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divSearchItemName">
+                                    <label for="txtCustomerName" class="col-md-4 control-label">Item Name</label>
+                                    <div class="col-md-6">
+                                        <input type="text" placeholder="Search Item Name" id="txtSearchItemName" class="form-control" autocomplete="off" disabled="disabled" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divToBranch">
+                                    <label for="ddlBranch" class="col-md-4 control-label">Service Branch</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%; text-align: center" id="ddlToBranch" disabled="disabled"></select>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group row" id="divDocumentNo" style="display:none">
+                                    <label for="txtDocumentNo" class="col-md-4 control-label">Document No</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtDocumentNo" class="form-control" disabled="disabled" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divStatus" style="display:none">
+                                    <label for="txtStatus" class="col-md-4 control-label">Status</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtStatus" class="form-control" disabled="disabled" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divDocDate">
+                                    <label for="txtDocDate" class="col-md-4 control-label">Posting Date</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtDocDate" class="form-control datepicker" value="@DateTime.Now.ToString("dd-MMM-yyyy")" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divDocDueDate">
+                                    <label for="txtDocDueDate" class="col-md-4 control-label">Delivery Date</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtDocDueDate" class="form-control" value="@DateTime.Now.ToString("dd-MMM-yyyy")" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divSalesDiscount">
+                                    <label for="ddlSalesDiscount" class="col-md-4 control-label">Sales Discount</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%; text-align: center" id="ddlSalesDiscount"></select>
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divHappyHours">
+                                    <label for="chkHappyHours" class="col-md-4 control-label">Happy Hours?</label>
+                                    <div class="col-md-6">
+                                        <input type="checkbox" id="chkHappyHours" class="icheck-primary d-inline ml-2 form-control-input checkid" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divDiscountButton">
+                                    <label for="ddlDiscountButton" class="col-md-4 control-label"></label>
+                                    <div class="col-md-6">
+                                        <button class="btn btn-info" id="btnSalesDiscount" onclick="ShowSalesDiscount()">Add Discount</button>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            &nbsp;
+                        </div>
+                        <div class="row table-responsive">
+                            <table class="table table-bordered table-striped table-hover" id="salesOrder">
+                                <thead>
+                                    <tr style="background-color: lightgrey">
+                                        <th>#</th>
+                                        <th>Code</th>
+                                        <th>Name</th>
+                                        <th>Qty</th>
+                                        <th>UOM</th>
+                                        <th>Stock</th>
+                                        <th>Price</th>
+                                        <th>Batch</th>
+                                        <th>Disc%</th>
+                                        <th>Discount</th>
+                                        <th>Vat</th>
+                                        <th>Total</th>
+                                        <th class="voucherSales">Voucher No</th>
+                                        <th class="voucherSales">Valid Date</th>
+                                        <th class="action">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-9">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group row mt-3" id="divSalesEmployee">
+                                            <label for="lblRestAmount" class="col-md-5 control-label">Sales Employee</label>
+                                            <div class="col-md-7">
+                                                <select class="form-control select2" style="width: 100%;" id="ddlSalesEmployee"></select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group row mt-3" id="divRrmarks">
+                                            <label for="taxVat" class="col-md-5 control-label">Remarks</label>
+                                            <div class="col-md-6">
+                                                <textarea id="txtRrmarks" name="w3review" rows="5" cols="23" style="border: 1px solid #ced4da; border-radius: 4px "></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="row table-responsive mt-3">
+                                            <table class="table table-bordered table-striped table-hover" id="paymentMode">
+                                                <thead>
+                                                    <tr style="background-color: lightgrey">
+                                                        <th>Mode</th>
+                                                        <th>Account</th>
+                                                        <th>Voucher</th>
+                                                        <th>V. Amount</th>
+                                                        <th>Amount</th>
+                                                        <th>TransID</th>
+                                                        <th>CardNo</th>
+                                                        <th class="action">Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group row mt-3" id="divTotalBeforeTax">
+                                    <label for="txtTotalBeforeTax" class="col-md-5 control-label">Total Before Disc</label>
+                                    <div class="col-md-6">
+                                        <input type="number" class="form-control" id="txtTotalBeforeTax" disabled="disabled" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divDiscount">
+                                    <label for="txtDiscount" class="col-md-5 control-label">Discount</label>
+                                    <div class="col-md-6">
+                                        <input type="number" class="form-control" id="txtDiscount" disabled="disabled" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divTax">
+                                    <label for="txtTax" class="col-md-5 control-label">Vat</label>
+                                    <div class="col-md-6">
+                                        <input type="number" class="form-control" id="txtTax" disabled="disabled" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group row mt-1" id="divAdvance">
+                                    <label for="txtAdvance" class="col-md-5 control-label">Advance</label>
+                                    <div class="col-md-6">
+                                        <input type="number" class="form-control" id="txtAdvance" disabled="disabled" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divTotalBalance">
+                                    <label for="txtTotalBalance" class="col-md-5 control-label">Total Balance</label>
+                                    <div class="col-md-6">
+                                        <input type="number" class="form-control" id="txtTotalBalance" disabled="disabled" />
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group row mt-1" id="divTotalPaid">
+                                    <label for="txtTotalPaid" class="col-md-5 control-label">Total Paid</label>
+                                    <div class="col-md-6">
+                                        <input type="number" class="form-control" id="txtTotalPaid" disabled="disabled" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divTotalDue">
+                                    <label for="txtTotalBeforeTax" class="col-md-5 control-label">Total Due</label>
+                                    <div class="col-md-6">
+                                        <input type="number" class="form-control" id="txtTotalDue" disabled="disabled" />
+                                    </div>
+                                </div>
+                                <div style="display:none">
+                                    <select class="form-control select2" style="width: 100%; text-align: center" id="ddlFromWarehouseItem"></select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-footer">
+                        <button class="btn btn-primary" id="btnSalesInvoice" onclick="SaveSalesInvoice()">Add & New</button>
+                        <button class="btn btn-danger  float-right" onclick="location.reload()">Clear</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div id="main" style="display:none"></div>
+        </div>
+        <input id="salesInvoiceId" type="number" style="display: none;" value="@ViewBag.SalesInvoiceId">
+        <input id="codeId" type="number" style="display: none;">
+        <input id="branch" type="number" style="display: none;" value="@ViewBag.Branch">
+        <input id="userId" type="text" style="display: none;" value="@ViewBag.UserId">
+        <input id="eflag" type="text" style="display: none;" value="@ViewBag.eflag">
+        <input id="chkCopyFromRowExist" type="hidden" value="0" />
+    </div>
+    <div class="spinnermodal" id="testSpan" style="display: none; z-index: 10001">
+        <div style="position: fixed; z-index: 10001; top: 50%; left: 50%; height:50px">
+            <img src="~/AssetStatic/img/loading_spinner.gif" />
+        </div>
+    </div>
+</section>
+
+<div class="modal fade" tabindex="-1" id="batchModal" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm" style="max-width: 50% !important">
+        <div class="modal-content">
+            <div class="modal-header">
+
+            </div>
+            <div class="modal-body" id="containerDetails">
+                <section class="content">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card card-primary">
+                                    <div class="card-header custom-header">
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label for="lblRestAmount" class="col-md-5 control-label"><b>Batches</b> Quantity :</label>
+                                                <div class="col-md-2">
+                                                    <span class="rowBatchesQty"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row table-responsive">
+                                            <table class="table table-bordered table-striped table-hover" id="batchesItem">
+                                                <thead>
+                                                    <tr style="background-color: aliceblue">
+                                                        <th style="text-align:center">#</th>
+                                                        <th style="text-align:center">Item</th>
+                                                        <th style="text-align:center">Bacthes Name</th>
+                                                        <th style="text-align:center">Ex Date</th>
+                                                        <th style="text-align:center">In Date</th>
+                                                        <th style="text-align:center">Stock</th>
+                                                        <th style="text-align:center">Batch Qty</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="batchRows">
+                                                  
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div class="modal-footer">
+                <input type="text" style="display:none;" id="eid" />
+                <button class="btn btn-danger" data-bs-target="#viewModal" data-bs-toggle="modal" data-bs-dismiss="modal" onclick="CloseBatches()">Close</button>
+                @*<button type="button" id="batchesClose" data-dismiss="modal" style="display: none">Close</button>*@
+                <button class="btn btn-primary" data-bs-target="#viewModal" data-bs-toggle="modal" data-bs-dismiss="modal" id="batchesSave" onclick="AddBatches()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" tabindex="-1" id="viewModal2" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm" style="max-width: 100% !important">
+        <div class="modal-content">
+            <div class="modal-header">
+
+            </div>
+            <div class="modal-body" id="memberDetails">
+
+            </div>
+            <div class="modal-footer">
+                @*<input type="text" style="display:none;" id="eid" />*@
+                <button class="btn btn-primary" data-bs-target="#viewModal2" data-bs-toggle="modal" data-bs-dismiss="modal">Close</button>
+                @*<button type="button" id="batchesClose" data-dismiss="modal" style="display: none">Close</button>*@
+                @*<button class="btn btn-primary" data-bs-target="#viewModal2" data-bs-toggle="modal" id="memberRegistrationSave" onclick="SaveMemberRegistration()">Add & New</button>*@
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        var itemList = {};
+        var itemUPIList = {};
+        var workActivitiesList = {};
+        var workStatusList = {};
+        var signatureList = {};
+        var modeList = {};
+        var DeleteItem = [];
+        var selectedHearAboutUs = [];
+        var selectedReasonBranchVisit = [];
+        var srcount = 0;
+
+        let ItemBatches = [];
+        let itemBatchSelected = [];
+        let warehouseCode = '';
+
+        $(document).ready(function () {
+            $('#txtDocDate').datepicker({
+             /*   startDate: '-7d',*/
+                endDate: '+0d',
+                todayHighlight: true,
+                format: 'dd-M-yyyy',
+                minDate: 0,
+                autoclose: true
+            });
+
+            LoadDate_C('#txtDocDueDate');
+            LoadSalesEmployee('ddlSalesEmployee');
+            LoadBranch('ddlBranch');
+            LoadBranch('ddlToBranch');
+            GetWarehouses('#ddlFromWarehouseItem');
+
+            var branch = $('#branch').val();
+            $("#ddlBranch").val(branch).trigger('change');
+            $("#ddlToBranch").val(branch).trigger('change');
+            $('#ddlCopyFrom').change(function () {
+                var DocEntry = $('#ddlCopyFrom').val();
+                if (DocEntry != '' && DocEntry > 0) {
+                    $('#divPaymentInputName').hide();
+                    $('#divPaymentInputDetails').hide();
+                    GetSalesOrderHeader(DocEntry);
+                    GetSalesOrderDetails(DocEntry);
+                    $('#btnSalesDiscount').prop('disabled', true);
+                } else {
+                    $('#divPaymentInputName').show();
+                    $('#divPaymentInputDetails').show();
+                    $('#btnSalesDiscount').prop('disabled', false);
+
+                    //txtDocDate
+                    $("#txtCustomerRef").val('');
+                    let cDate = "@DateTime.Now.ToString("dd-MMM-yyyy")";
+                    $("#txtDocDueDate").val(cDate)
+                    $("#ddlToBranch").val(0).trigger('change');
+
+                    $("#salesOrder tbody").empty();
+
+                    $('#txtTotalBeforeTax').val('');
+                    $('#txtTax').val('');
+                    $('#txtDiscount').val('');
+                    $('#txtTotalBalance').val('');
+                }
+            });
+
+            $('#ddlType').change(function () {
+                var Type = $('#ddlType').val();
+                $('#txtSearchItemCode').val('');
+                $('#chkCopyFromRowExist').val(0);
+                $('#txtTotalBeforeTax').val('');
+                $('#txtTax').val('');
+                $('#txtDiscount').val('');
+                $('#txtTotalBalance').val('');
+                /**/
+                if (Type == 'I' || Type == 'S') {
+                    $('#txtSearchItemCode').prop('disabled', false);
+                    $('#txtSearchItemName').prop('disabled', false);
+                    $('#txtBarcode').prop('disabled', false);
+                } else {
+                    $('#txtSearchItemCode').prop('disabled', true);
+                    $('#txtSearchItemName').prop('disabled', true);
+                    $('#txtBarcode').prop('disabled', true);
+                }
+
+            });
+
+            GetPaymentMode();
+            AddPaymentModeRow();
+
+            $("#txtNameSearch").autocomplete({
+            source: function (request, response) {
+
+                var _url = '@Url.Action("AutoCompleteBusinessPartner", "SalesOrderNew")';
+                    var mobile = '';
+                    var cardCode = '';
+                $.ajax({
+                    url: _url,
+                    data: "{ 'prefix': '" + request.term + "'}",
+                    dataType: "json",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        if (data.UnAutorized == 1) {
+                            window.location.href = '@Url.Action("Logout", "Home")';
+                        } else {
+
+                            response($.map(data.dataList, function (item) {
+                                return item.Mobile + " | " + item.CardCode + " | " + item.CardName;
+                            }));
+                        }
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+            },
+            select: function (event, ui) {
+
+                var str = ui.item.value;
+                var ret2 = str.replace(" | ", '|');
+                var ret = ret2.split('|');
+                 mobile = ret[0];
+                cardCode = ret[1];
+                cardCode = $.trim(cardCode);
+                var cardName = ret[2];
+
+                $("#ddlCustomer").val(cardCode);
+                $("#txtCustomerCodeSearch").val(cardCode);
+                $("#txtCustomerCode").val(cardCode);
+                $("#txtCustomerNameSearch").val(cardName);
+                $("#txtCustomerName").val(cardName);
+
+                if (cardCode != '') {
+                    LoadCopyFrom('ddlCopyFrom', cardCode);
+                    LoadCopyFromDoctorsPrescription('ddlCopyFromDP', cardCode);
+                    LoadDiscountFrom('ddlSalesDiscount', cardCode);
+                }
+
+            },
+                minLength: 3
+                , close: function (event, ui) {
+
+                    $("#txtNameSearch").val(mobile);
+                    CheckBPMandatoryField(cardCode);
+                    $('#txtSearchItemCode').prop('disabled', false);
+                    $('#txtSearchItemName').prop('disabled', false);
+                    $('#txtBarcode').prop('disabled', false);
+                }
+            });
+            $("#txtCustomerNameSearch").autocomplete({
+            source: function (request, response) {
+
+                var _url = '@Url.Action("AutoCompleteCustomerName", "SalesOrderNew")';
+                    var cardName = '';
+                    var cardCode = '';
+                $.ajax({
+                    url: _url,
+                    data: "{ 'prefix': '" + request.term + "'}",
+                    dataType: "json",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        if (data.UnAutorized == 1) {
+                            window.location.href = '@Url.Action("Logout", "Home")';
+                        } else {
+                            response($.map(data.dataList, function (item) {
+                                return item.Mobile + " | " + item.CardCode + " | " + item.CardName;
+                            }));
+                        }
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+            },
+            select: function (event, ui) {
+
+                var str = ui.item.value;
+                var ret2 = str.replace(" | ", '|');
+                var ret = ret2.split('|');
+                var mobile = ret[0];
+                cardCode = ret[1];
+                cardCode = $.trim(cardCode);
+                cardName = ret[2];
+
+
+                $("#txtNameSearch").val(mobile);
+                $("#ddlCustomer").val(cardCode);
+
+                $("#txtCustomerCode").val(cardCode);
+                $("#txtCustomerCodeSearch").val(cardCode);
+
+
+                $("#txtCustomerName").val(cardName);
+
+                if (cardCode != '') {
+                    LoadCopyFrom('ddlCopyFrom', cardCode);
+                    LoadCopyFromDoctorsPrescription('ddlCopyFromDP', cardCode);
+                    LoadDiscountFrom('ddlSalesDiscount', cardCode);
+                }
+            },
+                minLength: 3
+                , close: function (event, ui) {
+
+                    $("#txtCustomerNameSearch").val(cardName);
+                    CheckBPMandatoryField(cardCode);
+                    $('#txtSearchItemCode').prop('disabled', false);
+                    $('#txtSearchItemName').prop('disabled', false);
+                    $('#txtBarcode').prop('disabled', false);
+                }
+            });
+            $("#txtCustomerCodeSearch").autocomplete({
+            source: function (request, response) {
+
+                var _url = '@Url.Action("AutoCompleteCustomerCode", "SalesOrderNew")';
+                    var cardCode = '';
+                $.ajax({
+                    url: _url,
+                    data: "{ 'prefix': '" + request.term + "'}",
+                    dataType: "json",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        if (data.UnAutorized == 1) {
+                            window.location.href = '@Url.Action("Logout", "Home")';
+                        } else {
+                            response($.map(data.dataList, function (item) {
+                                return item.Mobile + " | " + item.CardCode + " | " + item.CardName;
+                            }));
+                        }
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+            },
+            select: function (event, ui) {
+
+                var str = ui.item.value;
+                var ret2 = str.replace(" | ", '|');
+                var ret = ret2.split('|');
+                var mobile = ret[0];
+                cardCode = ret[1];
+                cardCode = $.trim(cardCode);
+                var cardName = ret[2];
+
+
+                $("#txtNameSearch").val(mobile);
+                $("#ddlCustomer").val(cardCode);
+
+                $("#txtCustomerCode").val(cardCode);
+
+                $("#txtCustomerName").val(cardName);
+                $("#txtCustomerNameSearch").val(cardName);
+
+
+                if (cardCode != '') {
+                    LoadCopyFrom('ddlCopyFrom', cardCode);
+                    LoadCopyFromDoctorsPrescription('ddlCopyFromDP', cardCode);
+                    LoadDiscountFrom('ddlSalesDiscount', cardCode);
+                }
+            },
+                minLength: 3
+                , close: function (event, ui) {
+
+                    $("#txtCustomerCodeSearch").val(cardCode);
+                    CheckBPMandatoryField(cardCode);
+                    $('#txtSearchItemCode').prop('disabled', false);
+                    $('#txtSearchItemName').prop('disabled', false);
+                    $('#txtBarcode').prop('disabled', false);
+                }
+            });
+            $("#txtSearchItemCode").autocomplete({
+                source: function (request, response) {
+                    var _url = '';
+                    var type = $("#ddlType").val();
+                    if (type == "I") {
+                        _url = '@Url.Action("AutoCompleteItem", "SalesOrderNew")';
+                    }
+                    if (type == "S") {
+                        _url = '@Url.Action("AutoCompleteService", "SalesInvoice")';
+                    }
+
+                $.ajax({
+                    url: _url,
+                    data: "{ 'prefix': '" + request.term + "'}",
+                    dataType: "json",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                           if (data.UnAutorized == 1) {
+                            window.location.href = '@Url.Action("Logout", "Home")';
+                           } else {
+                               response($.map(data.dataList, function (item) {
+                                   return item.ItemCode + " | " + item.ItemName;
+                               }));
+                          }
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+                },
+
+                select:function (event, ui) {
+
+                var str = ui.item.value;
+                var ret2 = str.replace(" | ", '|');
+                var ret = ret2.split('|');
+                var itemCode = ret[0];
+                var itemName = ret[1];
+                AddItemRow(itemCode);
+                }
+               , minLength: 3
+                , close: function (event, ui) {
+
+                    $("#txtSearchItemCode").val("");
+                }
+            });
+            $("#txtBarcode").change(function () {
+                var type = $("#ddlType").val();
+                var itemCode = $("#txtBarcode").val();
+                let letter = itemCode.charAt(0);
+                if (type == "I" && letter == "1") {
+                    AddItemRow(itemCode);
+                } else if (type == "S" && letter == "2") {
+                    AddItemRow(itemCode);
+                } else {
+                    ShowMessage("Please change the item type");
+                }
+
+                $("#txtBarcode").val("");
+            });
+
+            $("#txtSearchItemName").autocomplete({
+                source: function (request, response) {
+
+                    var _url = '';
+                    var type = $("#ddlType").val();
+                    if (type == "I") {
+                        _url = '@Url.Action("AutoCompleteItemName", "SalesOrderNew")';
+                    }
+                    if (type == "S") {
+                        _url = '@Url.Action("AutoCompleteServiceName", "SalesInvoice")';
+                    }
+
+                $.ajax({
+                    url: _url,
+                    data: "{ 'prefix': '" + request.term + "'}",
+                    dataType: "json",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                           if (data.UnAutorized == 1) {
+                            window.location.href = '@Url.Action("Logout", "Home")';
+                           } else {
+
+                               response($.map(data.dataList, function (item) {
+                                   return item.ItemCode + " | " + item.ItemName;
+                               }));
+                          }
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+            },
+            select: function (event, ui) {
+
+                var str = ui.item.value;
+                var ret2 = str.replace(" | ", '|');
+                var ret = ret2.split('|');
+                var itemCode = ret[0];
+                var itemName = ret[1];
+                AddItemRow(itemCode);
+                },
+                minLength: 3
+                , close: function (event, ui) {
+
+                    $("#txtSearchItemName").val("");
+                }
+            });
+
+            //Ecourier Page to invoice
+            var salesInvoiceId = $("#salesInvoiceId").val();
+            if (salesInvoiceId > 0) {
+                  
+                GetSalesOrderHeaderInfo(salesInvoiceId);
+                var cardCode = $("#ddlCustomer").val();
+                LoadCopyFrom('ddlCopyFrom', cardCode);
+                var DocEntry = parseInt(salesInvoiceId);
+                $("#ddlCopyFrom").val(DocEntry).trigger('change');
+
+                LoadCopyFromDoctorsPrescription('ddlCopyFromDP', cardCode);
+                LoadDiscountFrom('ddlSalesDiscount', cardCode);
+                GetSalesOrderDetails(salesInvoiceId);
+            }
+            //First Time Customer Mandatory Field
+            var eflag = $("#eflag").val();
+            if (salesInvoiceId == 0 && eflag != "") {
+                GetBusinessPartnerInfo(eflag);
+                LoadCopyFrom('ddlCopyFrom', eflag);
+                LoadCopyFromDoctorsPrescription('ddlCopyFromDP', eflag);
+                LoadDiscountFrom('ddlSalesDiscount', cardCode);
+                $('#txtSearchItemCode').prop('disabled', false);
+                $('#txtSearchItemName').prop('disabled', false);
+                $('#txtBarcode').prop('disabled', false);
+            }
+
+        });
+
+        function Checkp() {
+            var checkp = $("#chkHappyHours").prop("checked");
+            if (checkp == false) {
+                $("#salesOrder tbody").empty();
+            } else {
+                $("#salesOrder tbody").empty();
+            }
+
+        }
+        function AutoPriceEnable(rowId) {
+            var voucherSalesNo = $("#voucherSalesNo_" + rowId).val();
+            if (voucherSalesNo != null && voucherSalesNo != "") {
+                $('#price_' + rowId).prop('disabled', false);
+            } else {
+                $('#price_' + rowId).prop('disabled', true);
+            }
+        }
+        function CheckBPMandatoryField(CardCode) {
+            var urlpath = '@Url.Action("GetBusinessPartnerByCardCode", "SalesOrderNew")';
+            $.ajax({
+                url: urlpath,
+                dataType: 'json',
+                type: "Get",
+                data: { CardCode: CardCode },
+                async: false,
+                success: function (data) {
+
+
+                    if (data.CardName == "" || data.BirthDate == "" || data.BirthDate == null || data.Age == "" || data.Gender == "" || data.Mobile == "" || data.GroupCode == "" || data.Occupation == "" || data.BillToStateCode == "" || data.BillToCity == "" || data.BillToAddressId == "" || data.ShiptoStateCode == "" || data.ShiptoCity == "" || data.ShiptoAddressId == "" || data.RSBRVS == "" || data.CardName == data.Mobile) {
+                        swal({
+                            title: "Please Update Customers Mandatory Data",
+                            text: '',
+                            type: "warning",
+                            showCancelButton: false,
+                            cancelButtonClass: 'btn-secondary waves-effect',
+                            confirmButtonClass: 'btn-success waves-effect waves-light',
+                            confirmButtonText: 'Yes!',
+                            closeOnConfirm: false
+                        }, function () {
+                            window.location.href = "@Url.Action("AddMemberRegistrationNew", "MemberRegistration")" + "?memId=" + data.CardCode + "&eflag=SalesInvoice";
+                        });
+                    }
+                    //else {
+                    //    ShowMessage(message);
+                    //}
+                }
+            });
+        }
+        function PaymentAmountCal(rowId) {
+            var totalBalance = isNaN(parseFloat($('#txtTotalBalance').val())) ? 0 : parseFloat($('#txtTotalBalance').val());
+            var rowTotalAmount = 0;
+            $('#paymentMode tbody tr').each(function () {
+                var idr = $(this).attr('id');
+                var id = idr.substring(3);
+                var rowAmount = isNaN(parseFloat($('#amount_' + id).val())) ? 0 : parseFloat($('#amount_' + id).val());
+                rowTotalAmount += rowAmount;
+            });
+      /*      var cashAmount = isNaN(parseFloat($('#txtCashAmount').val())) ? 0 : parseFloat($('#txtCashAmount').val());*/
+            var lastAmount = totalBalance - rowTotalAmount; //(cashAmount + rowTotalAmount);
+            if (lastAmount > 0) {
+                $('#amount_' + rowId).val(lastAmount);
+            }
+
+
+
+            //After Click event paid amount calculation
+
+            var rowPaidAmount = 0;
+            $('#paymentMode tbody tr').each(function () {
+                var idr = $(this).attr('id');
+                var id = idr.substring(3);
+                var rowAmount = isNaN(parseFloat($('#amount_' + id).val())) ? 0 : parseFloat($('#amount_' + id).val());
+                rowPaidAmount += rowAmount;
+            });
+
+            $('#txtTotalPaid').val(rowPaidAmount);
+            var totalDue = totalBalance - rowPaidAmount;
+            $('#txtTotalDue').val(totalDue);
+
+        }
+        function CalculateTotalPaid() {
+            var totalBalance = isNaN(parseFloat($('#txtTotalBalance').val())) ? 0 : parseFloat($('#txtTotalBalance').val());
+      /*      var cashAmount = isNaN(parseFloat($('#txtCashAmount').val())) ? 0 : parseFloat($('#txtCashAmount').val());*/
+            var rowTotalAmount = 0;
+            $('#paymentMode tbody tr').each(function () {
+                var idr = $(this).attr('id');
+                var id = idr.substring(3);
+                var rowAmount = isNaN(parseFloat($('#amount_' + id).val())) ? 0 : parseFloat($('#amount_' + id).val());
+                rowTotalAmount += rowAmount;
+            });
+           // var paidAmount = cashAmount + rowTotalAmount;
+            $('#txtTotalPaid').val(rowTotalAmount);
+            var totalDue = totalBalance - rowTotalAmount;
+            $('#txtTotalDue').val(totalDue);
+        }
+        function LoadBusinessPartner(elementId) {
+            var CardType = "C";
+            var urlpath = '@Url.Action("GetBusinessPartner", "SalesOrderNew")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { CardType: CardType },
+                /*    data: {  },*/
+                async: false,
+                success: function(data) {
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value=''>--Select Business Partner--</option>");
+                    for (var i = 0; i < data.length; i++) {
+
+                        //$('#' + elementId + '').append($("<option></option>").val(data[i].CardCode).html(data[i].CardCode + " | " + data[i].CardName + " | " + data[i].Mobile));
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].CardCode).html(data[i].CardName + " | " + data[i].Mobile));
+
+                    }
+                }
+            });
+        }
+        function LoadBranch(elementId) {
+            var CardType = "C";
+            var urlpath = '@Url.Action("GetBranch", "SalesOrderNew")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { },
+                async: false,
+                success: function (data) {
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value='0'>--Select Branch--</option>");
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].PrcCode).html(data[i].PrcName));
+                    }
+
+                }
+            });
+        }
+        function GetBusinessPartnerInfo(CardCode) {
+            var urlpath = '@Url.Action("GetBusinessPartnerByCardCode", "SalesOrderNew")';
+            $.ajax({
+                url: urlpath,
+                dataType: 'json',
+                type: "Get",
+                data: { CardCode: CardCode },
+                async: false,
+                success: function (data) {
+                    //
+                    $("#txtCustomerCodeSearch").val(data.CardCode);
+                    $("#txtCustomerCode").val(data.CardCode);
+                    $('#txtCustomerNameSearch').val(data.CardName);
+                    $('#txtCustomerName').val(data.CardName);
+                    $('#txtNameSearch').val(data.Mobile);
+                    $('#ddlCustomer').val(data.CardCode);
+                    $('#txtCustomerRef').val(data.ContactPerson);
+                }
+            });
+        }
+        function LoadCopyFrom(elementId, CardCode) {
+            var urlpath = '@Url.Action("GetSalesOrderHeaderByCardCode", "SalesInvoice")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { CardCode: CardCode },
+                /*    data: {  },*/
+                async: false,
+                success: function (data) {
+                    //console.log(data)
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value=''>--Select Sales Order--</option>");
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].DocEntry).html(data[i].SAPDocNum));
+                    }
+                }
+            });
+        }
+        function LoadCopyFromDoctorsPrescription(elementId, CardCode) {
+            var urlpath = '@Url.Action("GetDoctorsPrescriptionHeaderByCardCode", "SalesInvoice")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { CardCode: CardCode },
+                /*    data: {  },*/
+                async: false,
+                success: function (data) {
+                    //console.log(data)
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value=''>--Select Doctor Prescription--</option>");
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].DocEntry).html(data[i].SAPDocNum));
+                    }
+                }
+            });
+        }
+        function LoadDiscountFrom(elementId, CardCode) {
+            var inputDate = $('#txtDocDate').val();
+            var PostingDate = DateConversionToYYYYMMDD(inputDate);
+
+            var urlpath = '@Url.Action("GetDiscBasedOnCustomer", "SalesOrderNew")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { CardCode: CardCode, PostingDate: PostingDate },
+                /*    data: {  },*/
+                async: false,
+                success: function (data) {
+                    //console.log(data)
+                    $('#' + elementId + '').empty();
+/*                    $('#' + elementId + '').append("<option value=''>--Discount Policy--</option>");*/
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].DiscCode).html(data[i].DiscName));
+                    }
+                }
+            });
+        }
+        function ShowSalesDiscount() {
+            var jsonData = {};
+            var inputDate = $('#txtDocDate').val();
+            var postingDate = DateConversionToYYYYMMDD(inputDate);
+            var checkp = $("#chkHappyHours").prop("checked");
+            var HappyHrs = '';
+            if (checkp == true) {
+                HappyHrs = 'Y';
+            } else {
+                HappyHrs = 'N';
+            }
+
+
+
+            var aDate = new Date();
+        /*    var time = d.format("HH:MM");*/
+            var cHour = aDate.getHours();
+            var cMin = aDate.getMinutes();
+            var time = cHour + ":" + cMin;
+
+            jsonData["CardCode"] = $('#ddlCustomer').val();
+            jsonData["PostingDate"] = postingDate;
+            jsonData["PostingTime"] = time;
+            jsonData["BusinesUnit"] = $('#ddlBranch').val();
+            jsonData["DiscCode"] = $('#ddlSalesDiscount').val();
+            jsonData["HappyHrs"] = HappyHrs;
+
+            var jsonObjs = [];
+            var lineNum = 1;
+            $('#salesOrder tbody tr').each(function() {
+                var theObj = {};
+                var idr = $(this).attr('id');
+                var id = idr.substring(3);
+
+                var itemCode = $('#itemCode_' + id).val();
+                var qty = isNaN(parseFloat($('#quantity_' + id).val())) ? 0 : parseFloat($('#quantity_' + id).val());
+
+                theObj["LineNum"] = lineNum;
+                theObj["Item_Code"] = itemCode;
+                theObj["Quantity"] = qty;
+                jsonObjs.push(theObj);
+                lineNum = lineNum+1;
+            });
+            jsonData["Item"] = jsonObjs;
+
+
+
+            var urlpath2 = '@Url.Action("GetDiscBasedOnItem", "SalesOrderNew")';
+            $.ajax({
+                contentType: "application/json",
+                data: JSON.stringify(jsonData),
+                dataType: 'json',
+                url: urlpath2,
+                type: "POST",
+                /* async: false,*/
+                beforeSend: function () {
+
+                    $('#testSpan').show();
+                },
+                success: function (result) {
+                    $('#testSpan').hide();
+
+                    @*if (result.UnAutorized == 0 && result.dataList.length == 1 ) {
+                        if (result.dataList[0].ReturnCode == "-99999") {
+                            window.location.href = '@Url.Action("Logout", "Home")';
+                        }
+                    }*@
+
+                    if (result.UnAutorized == 1) {
+                        //Web Project Session Out
+                        window.location.href = '@Url.Action("Logout", "Home")';
+                    } else {
+
+                        //
+                        //    var message = result.dataList[0].ReturnMsg;
+                        if (result.dataList.length > 0) {
+
+                                for (var i = 0; i < result.dataList.length; i++) {
+
+                                    $('#salesOrder tbody tr').each(function () {
+                                        var theObj = {};
+                                        var idr = $(this).attr('id');
+                                        var id = idr.substring(3);
+                                        var itemCode = $('#itemCode_' + id).val();
+
+                                        if (result.dataList[i].LineNum == id && result.dataList[i].Item_Code == itemCode ) {
+                                            $("#discount_" + id).val(result.dataList[i].DISCOUNT);
+                                            LineCalculation(id);
+                                        }
+
+                                    });
+
+                                }
+
+
+                        } else {
+                            var message = "No Discount Policy";
+                             ShowMessage(message);
+                           }
+
+
+                    }
+
+                }
+                })
+        }
+        function GetSalesOrderHeaderInfo(DocEntry) {
+            var docEntry = DocEntry.toString();
+            var urlpath = '@Url.Action("GetSalesOrderHeader", "SalesInvoice")';
+            $.ajax({
+                data: { DocEntry: docEntry },
+                url: urlpath,
+                dataType: 'json',
+                type: "Get",
+                async: false,
+                success: function (data) {
+                    $("#txtCustomerRef").val(data.RefNo);
+                    let updatedDocDueDate = DateConversionToDateMonthYear(data.DocDueDate);
+                    $("#txtDocDueDate").val(updatedDocDueDate);
+                    $("#ddlToBranch").val(data.ToBranchCode).trigger('change');
+
+                    var salesInvoiceId = $("#salesInvoiceId").val();
+                    if (salesInvoiceId > 0) {
+                        $("#ddlType").val(data.ItemTypeCode).trigger('change');
+                        $("#txtNameSearch").val(data.Mobile);
+                        $("#ddlCustomer").val(data.CardCode);
+                        $("#txtCustomerCode").val(data.CardCode);
+                        $("#txtCustomerCodeSearch").val(data.CardCode);
+                        $("#txtCustomerName").val(data.CardName);
+                        $("#txtCustomerNameSearch").val(data.CardName);
+                    }
+
+                }
+            });
+        }
+        function GetItem() {
+            var urlpath = '@Url.Action("GetItem", "SalesOrderNew")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {  },
+                async: false,
+                success: function (data) {
+                    itemList = data;
+                }
+            });
+        }
+        function AddItemRow(itemCode) {
+            var tr = $('#salesOrder tbody tr').length + 1;
+            var values = $("#salesOrder tbody tr")
+                .map(function() { return parseInt($(this).attr('id').substring(3)); }).get();
+            var index = values.indexOf(tr);
+            if (index >= 0) {
+                tr = Math.max.apply(Math, values) + 1;
+            }
+            var urlpath = '@Url.Action("AddRowForInvoice", "SalesInvoice")';
+
+            //Fetch table row data 
+            common.ajaxCallGetRequest(`${urlpath}?tr=${tr}`, (data) => {
+                $('#salesOrder tbody').append(data);
+                GetItemDetails(itemCode, tr);
+            }, false, 'html')
+
+            SerialTable();
+        }
+        function GetItemDetails(itemCode,rowId) {
+            var CardCode = $('#ddlCustomer').val().trim();
+            var checkp = $("#chkHappyHours").prop("checked");
+            var HappyHrs = '';
+            if (checkp == true) {
+                HappyHrs = 'Y';
+            } else {
+                HappyHrs = 'N';
+            }
+            var urlpath = `@Url.Action("GetItemByItemCodeCardCode", "SalesInvoice")?ItemCode=${itemCode}&CardCode=${CardCode}&HappyHrs=${HappyHrs}`;
+            common.ajaxCallGetRequest(urlpath, ({ ItemDetails, Batches, Warehouses }) => {
+                 
+                //save item batches
+                ItemBatches[itemCode] = Batches;
+
+                $("#itemCode_" + rowId).val(ItemDetails.ItemCode);
+                $("#itemName_" + rowId).val(ItemDetails.ItemName);
+                $("#uom_" + rowId).val(ItemDetails.InventoryUOM);
+                $("#price_" + rowId).val(ItemDetails.Price);
+                $("#discount_" + rowId).val(ItemDetails.Discount);
+                $("#taxcode_" + rowId).val(ItemDetails.TaxCode);
+                $("#taxrate_" + rowId).val(ItemDetails.TaxRate);
+                $("#taxamount_" + rowId).val('');
+                $("#discountamount_" + rowId).val('');
+                $("#total_" + rowId).val('');
+                $("#stock_" + rowId).val(ItemDetails.Stock);
+                $("#batchNumberEnable_" + rowId).val(ItemDetails.BatchNumberEnable);
+                $("#serialNumberEnable_" + rowId).val(ItemDetails.SerialNumberEnable);
+                if (ItemDetails.BatchNumberEnable == "Y") {
+                    $("#showBatchBtn_" + rowId).css("display", "block");
+                    $("#showSerialBtn_" + rowId).css("display", "none");
+                }
+                if (ItemDetails.SerialNumberEnable == "Y") {
+                    $("#showBatchBtn_" + rowId).css("display", "none");
+                    $("#showSerialBtn_" + rowId).css("display", "block");
+                }
+                if (ItemDetails.VoucherItem == "Y") {
+                    $(".voucherSales").show();
+                    $("#voucherSalesNoLine_" + rowId).show();
+                    $("#voucherValidDateLine_" + rowId).show();
+                    $('#voucherSalesNo_' + rowId).prop("disabled", false);
+                    $('#voucherValidDate_' + rowId).prop("disabled", false);
+                    $('#quantity_' + rowId).prop("disabled", true);
+                    $('#voucherItemLine_' + rowId).val(ItemDetails.VoucherItem)
+                } else {
+                    $(".voucherSales").show();
+                    $("#voucherSalesNoLine_" + rowId).show();
+                    $("#voucherValidDateLine_" + rowId).show();
+                    $('#voucherSalesNo_' + rowId).prop("disabled", true);
+                    $('#voucherValidDate_' + rowId).prop("disabled", true);
+                    $('#quantity_' + rowId).prop("disabled", false);
+                }
+                LineCalculation(rowId);
+
+                LoadDate_C('#deliverydate_' + rowId);
+                LoadDate_C('#voucherValidDate_' + rowId);
+                bindWarehouseDropdown('#warehouse_' + rowId, Warehouses);
+                $("#warehouseNoLine_" + rowId).hide();
+
+            }, false)
+          
+        }
+        function CalculateLineTotal(rowId) {
+            //
+            var quantity = isNaN(parseFloat($('#quantity_' + rowId).val())) ? 0 : parseFloat($('#quantity_' + rowId).val());
+            var price = isNaN(parseFloat($('#price_' + rowId).val())) ? 0 : parseFloat($('#price_' + rowId).val());
+            var total = quantity * price;
+        }
+        function LineCalculation(rowId) {
+            //
+            var quantity = isNaN(parseFloat($('#quantity_' + rowId).val())) ? 0 : parseFloat($('#quantity_' + rowId).val());
+            var price = isNaN(parseFloat($('#price_' + rowId).val())) ? 0 : parseFloat($('#price_' + rowId).val());
+            var discount = isNaN(parseFloat($('#discount_' + rowId).val())) ? 0 : parseFloat($('#discount_' + rowId).val());
+            var taxrate = isNaN(parseFloat($('#taxrate_' + rowId).val())) ? 0 : parseFloat($('#taxrate_' + rowId).val());
+
+            var totalBeforeTax = (quantity * price);
+            $('#totalbeforetax_' + rowId).val(totalBeforeTax.toFixed(2));
+
+            var discountAmount = (quantity * price) * (discount / 100);
+            $('#discountamount_' + rowId).val(discountAmount.toFixed(2));
+
+            var taxAmount = ((quantity * price) - discountAmount) * (taxrate / 100);
+            $('#taxamount_' + rowId).val(taxAmount.toFixed(2));
+
+            var total = (quantity * price) + taxAmount - discountAmount;
+            $('#total_' + rowId).val(total.toFixed(2));
+
+            TotalLineCalculation();
+
+            var Advance = isNaN(parseFloat($('#txtAdvance').val())) ? 0 : parseFloat($('#txtAdvance').val());
+            var TotalBalance = isNaN(parseFloat($('#txtTotalBalance').val())) ? 0 : parseFloat($('#txtTotalBalance').val());
+            var TotalBalanceAdvance = TotalBalance - Advance;
+            $('#txtTotalBalance').val(TotalBalanceAdvance.toFixed(2));
+        }
+        function TotalLineCalculation() {
+            var TotalBeforeTax = 0;
+            var TotalTax = 0;
+            var TotalDiscount = 0;
+            var TotalBalance = 0;
+
+            $('#salesOrder tbody tr').each(function () {
+                var idr = $(this).attr('id');
+                var id = idr.substring(3);
+
+                var totalBeforeTax_ = isNaN(parseFloat($('#totalbeforetax_' + id).val())) ? 0 : parseFloat($('#totalbeforetax_' + id).val());
+                var totalTaxAmount_ = isNaN(parseFloat($('#taxamount_' + id).val())) ? 0 : parseFloat($('#taxamount_' + id).val());
+                var totalDiscountAmount_ = isNaN(parseFloat($('#discountamount_' + id).val())) ? 0 : parseFloat($('#discountamount_' + id).val());
+                var totalAmount_ = isNaN(parseFloat($('#total_' + id).val())) ? 0 : parseFloat($('#total_' + id).val());
+
+
+                TotalBeforeTax = TotalBeforeTax + totalBeforeTax_;
+                TotalTax = TotalTax + totalTaxAmount_;
+                TotalDiscount = TotalDiscount + totalDiscountAmount_;
+                TotalBalance = TotalBalance + totalAmount_;
+
+                $('#txtTotalBeforeTax').val(TotalBeforeTax.toFixed(2));
+                $('#txtTax').val(TotalTax.toFixed(2));
+                $('#txtDiscount').val(TotalDiscount.toFixed(2));
+                $('#txtTotalBalance').val(TotalBalance.toFixed(2));
+            });
+        }
+        function AddLineCalculation(rowId) {
+            var rowChkClicked = $("#chk_" + rowId).prop("checked");
+            if (rowChkClicked) {
+                var quantity = isNaN(parseFloat($('#quantity_' + rowId).val())) ? 0 : parseFloat($('#quantity_' + rowId).val());
+                var price = isNaN(parseFloat($('#price_' + rowId).val())) ? 0 : parseFloat($('#price_' + rowId).val());
+                var discount = isNaN(parseFloat($('#discount_' + rowId).val())) ? 0 : parseFloat($('#discount_' + rowId).val());
+                var taxrate = isNaN(parseFloat($('#taxrate_' + rowId).val())) ? 0 : parseFloat($('#taxrate_' + rowId).val());
+                //var totalbeforetax = isNaN(parseFloat($('#totalbeforetax_' + rowId).val())) ? 0 : parseFloat($('#totalbeforetax_' + rowId).val());
+
+                var totalBeforeTax = (quantity * price);
+                $('#totalbeforetax_' + rowId).val(totalBeforeTax.toFixed(2));
+
+                var discountAmount = (quantity * price) * (discount / 100);
+                $('#discountamount_' + rowId).val(discountAmount.toFixed(2));
+
+                var taxAmount = ((quantity * price) - discountAmount) * (taxrate / 100);
+                $('#taxamount_' + rowId).val(taxAmount.toFixed(2));
+
+                var total = (quantity * price) + taxAmount - discountAmount;
+                $('#total_' + rowId).val(total.toFixed(2));
+
+                TotalLineCalculationWithCheckbox();
+
+            } else {
+                TotalLineCalculationWithCheckbox();
+            }
+        }
+        function TotalLineCalculationWithCheckbox() {
+            var TotalBeforeTax = 0;
+            var TotalTax = 0;
+            var TotalDiscount = 0;
+            var TotalBalance = 0;
+
+            $('#txtTotalBeforeTax').val('');
+            $('#txtTax').val('');
+            $('#txtDiscount').val('');
+            $('#txtTotalBalance').val('');
+
+            $('#salesOrder tbody tr').each(function () {
+                var idr = $(this).attr('id');
+                var id = idr.substring(3);
+                var rowChkExist = $("#chk_" + id).prop("checked");
+                //alert(rowChkExist);
+
+                if (rowChkExist) {
+                    var totalBeforeTax_ = isNaN(parseFloat($('#totalbeforetax_' + id).val())) ? 0 : parseFloat($('#totalbeforetax_' + id).val());
+                    var totalTaxAmount_ = isNaN(parseFloat($('#taxamount_' + id).val())) ? 0 : parseFloat($('#taxamount_' + id).val());
+                    var totalDiscountAmount_ = isNaN(parseFloat($('#discountamount_' + id).val())) ? 0 : parseFloat($('#discountamount_' + id).val());
+                    var totalAmount_ = isNaN(parseFloat($('#total_' + id).val())) ? 0 : parseFloat($('#total_' + id).val());
+
+                    TotalBeforeTax = TotalBeforeTax + totalBeforeTax_;
+                    TotalTax = TotalTax + totalTaxAmount_;
+                    TotalDiscount = TotalDiscount + totalDiscountAmount_;
+                    TotalBalance = TotalBalance + totalAmount_;
+                }
+            });
+
+            $('#txtTotalBeforeTax').val(TotalBeforeTax.toFixed(2));
+            $('#txtTax').val(TotalTax.toFixed(2));
+            $('#txtDiscount').val(TotalDiscount.toFixed(2));
+            $('#txtTotalBalance').val(TotalBalance.toFixed(2));
+
+            var Advancell = isNaN(parseFloat($('#txtAdvance').val())) ? 0 : parseFloat($('#txtAdvance').val());
+
+            var TotalBalancell = isNaN(parseFloat($('#txtTotalBalance').val())) ? 0 : parseFloat($('#txtTotalBalance').val());
+            var TotalBeforeTaxll = isNaN(parseFloat($('#txtTotalBeforeTax').val())) ? 0 : parseFloat($('#txtTotalBeforeTax').val());
+            var TotalTaxll = isNaN(parseFloat($('#txtTax').val())) ? 0 : parseFloat($('#txtTax').val());
+            var TotalDiscountll = isNaN(parseFloat($('#txtDiscount').val())) ? 0 : parseFloat($('#txtDiscount').val());
+            var TotalBalanceAdvancell = (((TotalBeforeTaxll + TotalTaxll) - TotalDiscountll) - Advancell);
+            $('#txtTotalBalance').val(TotalBalanceAdvancell.toFixed(2));
+
+        }
+        function LoadSalesEmployee(elementId) {
+            var urlpath = '@Url.Action("GetSalesEmployee", "SalesOrderNew")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {},
+                async: false,
+                success: function(data) {
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value='0'>--Select Customer--</option>");
+                    for (var i = 0; i < data.length; i++) {
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].SlpCode).html(data[i].SlpName));
+                    }
+                }
+            });
+        }
+        function LoadSalesEmployeeMR(elementId) {
+            var urlpath = '@Url.Action("GetSalesEmployee", "SalesOrderNew")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {},
+                async: false,
+                success: function(data) {
+                    $('#' + elementId + '').empty();
+/*                    $('#' + elementId + '').append("<option value='0'>--Select Customer--</option>");*/
+                    for (var i = 0; i < data.length; i++) {
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].SlpCode).html(data[i].SlpName));
+                    }
+                }
+            });
+        }
+        function GetUPI() {
+            var urlpath = '@Url.Action("GetUPI", "SalesOrderNew")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {  },
+                async: false,
+                success: function (data) {
+                    itemUPIList = data;
+                }
+            });
+        }
+        function LoadUPI(elementId) {
+            var urlpath = '@Url.Action("GetUPI", "SalesOrderNew")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { },
+                async: false,
+                success: function (data) {
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value='0'>--Select Branch--</option>");
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].Value).html(data[i].Description));
+                    }
+
+                }
+            });
+        }
+        function GetSalesOrderHeader(DocEntry) {
+            var docEntry = DocEntry.toString();
+            var urlpath = '@Url.Action("GetSalesOrderHeader", "SalesInvoice")';
+            $.ajax({
+                data: { DocEntry: docEntry },
+                url: urlpath,
+                dataType: 'json',
+                type: "Get",
+                async: false,
+                success: function (data) {
+                    $("#txtCustomerRef").val(data.RefNo);
+                    let updatedDocDueDate = DateConversionToDateMonthYear(data.DocDueDate);
+                    $("#txtDocDueDate").val(updatedDocDueDate);
+                    $("#ddlToBranch").val(data.ToBranchCode).trigger('change');
+                    $("#ddlType").val(data.ItemTypeCode).trigger('change');
+                    $("#ddlSalesEmployee").val(data.SlpCode).trigger('change');
+                    var salesInvoiceId = $("#salesInvoiceId").val();
+                    if (salesInvoiceId > 0) {
+
+                        $("#txtNameSearch").val(data.Mobile);
+                        $("#ddlCustomer").val(data.CardCode);
+                        $("#txtCustomerCode").val(data.CardCode);
+                        $("#txtCustomerCodeSearch").val(data.CardCode);
+                        $("#txtCustomerName").val(data.CardName);
+                        $("#txtCustomerNameSearch").val(data.CardName);
+                    }
+                    if (data.Series != '' && data.Series != null) {
+                        $("#series").val(data.Series);
+                    }
+
+
+                }
+            });
+        }
+        function GetSalesOrderDetails(DocEntry) {
+            var docEntry = DocEntry.toString();
+            var urlpath = '@Url.Action("GetAllSalesOrderDetailsUpdate", "SalesInvoice")';
+            $.ajax({
+                data: { DocEntry: docEntry },
+                url: urlpath,
+                dataType: 'json',
+                type: "Get",
+                beforeSend: function () {
+                    $('#testSpan').show();
+                },
+                success: function ({ warehouse, items }) {
+                     
+                    const data = items;
+                    $("#salesOrder tbody").empty();
+                    let chkCopyFromRowExistVal = (data.length > 0) ? 1 : 0;
+                    $('#chkCopyFromRowExist').val(chkCopyFromRowExistVal);
+                    var paidAmount = 0;
+                    for (var i = 0; i < data.length; i++) {
+
+                        if (data[i].LineStatus == "O") {
+                            var tr = $('#salesOrder tbody tr').length + 1;
+                            AddRowWithCheckbox();
+                            bindWarehouseDropdown('#warehouse_' + tr, warehouse);
+                            ItemBatches[data[i].ItemCode] = data[i].BatchDetails;
+
+                            $("#itemCode_" + tr).val(data[i].ItemCode);
+                            $('#itemName_' + tr).val(data[i].ItemName);
+                            $('#uom_' + tr).val(data[i].unitMsr);
+                            $('#quantity_' + tr).val(data[i].Quantity);
+                            $('#price_' + tr).val(data[i].Price);
+                            $('#docEntry_' + tr).val(data[i].DocEntry);
+                            $('#visOrder_' + tr).val(data[i].VisOrder);
+                            $('#lineNum_' + tr).val(data[i].LineNum);
+                            $('#objType_' + tr).val(data[i].ObjType);
+                            $('#lineStatus_' + tr).val(data[i].LineStatus);
+
+                            $('#batchNumberEnable_' + tr).val(data[i].BatchNumberEnable);
+                            $('#serialNumberEnable_' + tr).val(data[i].SerialNumberEnable);
+
+                            if (data[i].BatchNumberEnable == "Y") {
+                                $("#showBatchBtn_" + tr).css("display", "block");
+                                $("#showSerialBtn_" + tr).css("display", "none");
+                            }
+                            if (data[i].SerialNumberEnable == "Y") {
+                                $("#showBatchBtn_" + tr).css("display", "none");
+                                $("#showSerialBtn_" + tr).css("display", "block");
+                            }
+                            $(".voucherSales").hide();
+                            $("#voucherSalesNoLine_" + tr).hide();
+                            $("#voucherValidDateLine_" + tr).hide();
+                            $("#warehouseNoLine_" + tr).hide();
+
+
+                            $("#discount_" + tr).val(data[i].DiscountPercentage);
+                            $("#taxcode_" + tr).val(data[i].TaxCode);
+                            $("#taxrate_" + tr).val(data[i].TaxRate);
+                            let DiscountAmountUpdated = Math.abs(data[i].DiscountAmount);
+                            DiscountAmountUpdated = isNaN(parseFloat(DiscountAmountUpdated)) ? 0 : parseFloat(DiscountAmountUpdated);
+                            $("#discountamount_" + tr).val(DiscountAmountUpdated);
+                            $("#total_" + tr).val();
+                            $("#stock_" + tr).val(data[i].Stock);
+                            let updatedDocDueDate = DateConversionToDateMonthYear(data[i].DeliveryDate);
+                            $("#deliverydate_" + tr).val(updatedDocDueDate);
+                            $("#warehouse_" + tr).val(data[i].WhsCode).trigger('change');
+                            $("#totalbeforetax_" + tr).val();
+                            paidAmount = data[i].PaidAmount;
+
+                            if (data[i].ItemCode == "FREIGHT") {
+                                $("#chk_" + tr).prop("checked", true);
+                                $("#chk_" + tr).prop("disabled", true);
+                                AddLineCalculation(tr);
+                            }
+                        }
+                    }
+                    $("#txtAdvance").val(paidAmount);
+                    $('#testSpan').hide();
+                }
+            });
+        }
+        function GetWarehouses(elementId) {
+            var urlpath = '@Url.Action("GetWarehouseRow", "SalesInvoice")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {  },
+                async: false,
+                success: function (data) {
+                    bindWarehouseDropdown(elementId, data);  
+                }
+            });
+        }
+
+        function bindWarehouseDropdown(elementId, warehouses) {
+            $(elementId).empty();
+            for (var i = 0; i < warehouses.length; i++) {
+                warehouseCode = warehouses[i].WhsCode;
+                $(elementId).append($("<option selected></option>").val(warehouses[i].WhsCode).html(warehouses[i].WhsName));
+            }
+        }
+
+        //Batch processing start there
+        let seletedItemId = '';
+        let selectedQty = 0;
+        let itemQty = 0;
+        let selectedRowId = '';
+
+        function ShowBatchData(id) {
+            ViewBatch(id);
+        }
+        function ViewBatch(id) {
+            var itemCode = $('#itemCode_' + id).val();
+            var fromWH = $('#warehouse_' + id).val();
+            if (fromWH != null && fromWH != "") {
+                fromWH = fromWH.trim();
+            }
+
+            if (fromWH == null || fromWH == "")
+            {
+                var message = "The warehouse can not be null please login again.";
+                ShowMessage(message);
+                window.location.href = '@Url.Action("Logout", "Home")';
+            }
+            seletedItemId = itemCode;
+            selectedQty = 0;
+            selectedRowId = id;
+            const data = ItemBatches[itemCode];
+
+            $('#batchModal').modal("hide");
+            let rows = '';
+            itemQty = isNaN(parseFloat($('#quantity_' + id).val())) ? 0 : parseFloat($('#quantity_' + id).val());
+            $(".rowBatchesQty").html(itemQty);
+
+            if (data) {
+                if (data.length == 0) {
+                    ShowMessage("Insufficient Stock. Please add stock then add Batch");
+                    return;
+                }
+                if (data.length == 1) {
+                    if (data[0].Stock < itemQty) {
+                        ShowMessage("Insufficient Stock. Please add stock then add Batch");
+                        return;
+                    }
+                    setBatch(id, seletedItemId, [
+                        {
+                            BatchNo: data[0].BatchNum,
+                            BatchQuantity: itemQty
+                        }
+                    ]);
+                } else {
+                    data.forEach((item, index) => {
+                        rows += bindBatchRow(item, index);
+                    });
+                    $('#batchRows').html(rows);
+                    $('#batchModal').modal("show");
+                }
+            }
+        }
+
+        function bindBatchRow(item, index) {
+            return `<tr id="${index}">
+                                     <td>${index + 1}</td>
+                                     <td>${item.ItemName}</td>
+                                     <td>${item.BatchNum}</td>
+                                     <td>${item.ExpDate}</td>
+                                     <td>${item.InDate}</td>
+                                     <td>${item.Stock}</td>
+                                     <td>
+                                         <input type="number" id="batchQuantity" class="form-control batchQuantity" oninput="ValidationBatchesTotal(this, ${item.Stock})" />
+                                         <input type="number" id="batchStock" value="${item.Stock}" style="display:none" />
+                                         <input type="text" style="display: none" class="batchNo" value="${item.BatchNum}" />
+                                     </td>
+                                 </tr>`
+        }
+        function ValidationBatchesTotal(input, stock) {
+            if ($(input).val() == '') return;
+
+            let value = Number($(input).val());
+            if (value <= 0) {
+                ShowMessage("Qty must be greater than 0.");
+                $(input).val('');
+                return;
+            }
+
+            if (value > stock) {
+                ShowMessage("Selected qty can not greater than stock.");
+                $(input).val('');
+                return;
+            }
+
+            let totalValue = getTotalSelectedQty();
+            if (totalValue > itemQty) {
+                ShowMessage("Select batch qty can't be greater than item qty.");
+                $(input).val('');
+                return;
+            } 
+
+            selectedQty = totalValue;
+        }
+
+     
+        function AddBatches() {
+            var rowId = selectedRowId;
+
+            var batchNumberEnable = $("#batchNumberEnable_" + rowId).val();
+            var serialNumberEnable = $("#serialNumberEnable_" + rowId).val();
+
+            if (batchNumberEnable == "Y" && serialNumberEnable == "N") {
+                if (itemQty !== getTotalSelectedQty()) {
+                    ShowMessage("Select batch qty and item qty must be equal.");
+                    return;
+                }
+
+                let batches = [];
+                $('.batchQuantity').each(function () {
+                    const parent = $(this).parent();
+                    const qty = parseFloat($(this).val());
+                    if (qty > 0) {
+                        const batchNumber = $(parent).find('.batchNo').val();
+                        batches.push({
+                            BatchNo: batchNumber,
+                            BatchQuantity: qty
+                        })
+                    }
+                });
+            
+                setBatch(rowId, seletedItemId, batches);
+            }
+            
+            if (batchNumberEnable == "N" && serialNumberEnable == "Y") {
+                if (ValidationSerial()) {
+                    const table = document.getElementById("serialItem");
+                    table.setAttribute("id", "serialItem" + rowId);
+
+                    $("#main").append("<div id='dynamic" + rowId + "'></div>");
+                    $('#dynamic' + rowId).append($('#containerDetailsRow' + rowId));
+                    $("#price_" + rowId).prop("disabled", true);
+                } else {
+                    if ($('#containerDetailsRow' + rowId).length) {
+                        $('#containerDetailsRow' + rowId).remove();
+                    }
+                }
+            }
+
+        }
+
+
+        function setBatch(rowId, seletedItemId, batches) {
+            itemBatchSelected[seletedItemId] = batches;
+            $("#showBatchBtn_" + rowId).removeClass("btn-primary").addClass("btn-success");
+            $('#quantity_' + rowId).prop('readonly', true);
+        }
+
+        function getTotalSelectedQty() {
+            let totalValue = 0;
+            $('.batchQuantity').each(function () {
+                const qty = parseFloat($(this).val());
+                if (!isNaN(qty)) {
+                    totalValue += qty;
+                }
+            });
+
+            return totalValue;
+        }
+
+
+        function GetAllBatchesItem() {
+
+        }
+        function ShowSerialData(id) {
+            ViewSerial(id);
+            $("#eid").val(id);
+        }
+        function ViewSerial(id) {
+            var itemCode = $('#itemCode_' + id).val();
+            var fromWH = $('#warehouse_' + id).val() ?? "";
+            var urlpath = '@Url.Action("ViewSerial", "SalesInvoice")';
+            $.ajax({
+                url: urlpath,
+                dataType: 'html',
+                data: { ItemCode: itemCode, WareHouse: fromWH, id: id},
+                type: "Get",
+                async: false,
+                success: function (data) {
+                    $("#containerDetails").append("<div id='containerDetailsRow" + id + "'></div>");
+                    $('#containerDetailsRow' + id).html(data);
+                }
+            });
+        }
+        function CloseBatches() {
+            var rowId = parseFloat($("#eid").val());
+            if ($('#containerDetailsRow' + rowId).length) {
+                $('#containerDetailsRow' + rowId).remove();
+            }
+
+        }
+       
+        function ValidationBatches() {
+
+            var isValid = true;
+            var message = "Some Values Required";
+            var rowId = parseFloat($("#eid").val());
+            var itemQty = isNaN(parseFloat($('#quantity_' + rowId).val())) ? 0 : parseFloat($('#quantity_' + rowId).val());
+            var batchesTotal = 0;
+            $('#batchesItem tbody tr').each(function () {
+                var idr = $(this).attr('id');
+                var batchQty = isNaN(parseFloat($('#batchQuantity_' + rowId + idr).val())) ? 0 : parseFloat($('#batchQuantity_' + rowId + idr).val());
+                batchesTotal += batchQty;
+            });
+
+            if (itemQty != batchesTotal) {
+                isValid = false;
+                message = "Batches Total Quantity must be equal to Item Quantity";
+            }
+            if (batchesTotal == 0) {
+                isValid = false;
+                message = "Batches Total Quantity can't be Zero";
+            }
+
+            if (isValid == false) {
+                ShowMessage(message);
+            }
+            return isValid;
+        }
+        function ValidationSerial() {
+            //
+            var isValid = true;
+            var message = "Some Values Required";
+            var rowId = parseFloat($("#eid").val());
+            var itemQty = isNaN(parseFloat($('#quantity_' + rowId).val())) ? 0 : parseFloat($('#quantity_' + rowId).val());
+
+            var checked = $('#tbodyid input:checked').length > 0;
+            if (!checked) {
+                isValid = false;
+                message = "Check at least one checkbox";
+            }
+
+            var batchesTotal = 0;
+            $('#serialItem tbody tr').each(function (key, value) {
+                soId = $(this).prop("id");
+                if ($('#chk_' + rowId + soId).is(":checked")) {
+
+                    var batchQty = isNaN(parseFloat($('#serialStock_' + rowId + soId).val())) ? 0 : parseFloat($('#serialStock_' + rowId + soId).val());
+                    batchesTotal += batchQty;
+                }
+            });
+
+            if (itemQty < batchesTotal) {
+                isValid = false;
+                message = "Serial Total Quantity can't be greater than Item Quantity";
+            }
+            if (itemQty > batchesTotal) {
+                isValid = false;
+                message = "Item Quantity  can't be greater than Serial Total Quantity";
+            }
+
+            if (isValid == false) {
+                ShowMessage(message);
+            }
+            return isValid;
+        }
+       
+        function AddRowWithCheckbox() {
+            var tr = $('#salesOrder tbody tr').length + 1;
+            var values = $("#salesOrder tbody tr")
+                .map(function() { return parseInt($(this).attr('id').substring(3)); }).get();
+            var index = values.indexOf(tr);
+            if (index >= 0) {
+                tr = Math.max.apply(Math, values) + 1;
+            }
+            var urlpath = '@Url.Action("AddRowForInvoice", "SalesInvoice")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                dataType: 'html',
+                data: { tr: tr },
+                async: false,
+                success: function (data) {
+                    $('#salesOrder tbody').append(data);
+                    LoadDate_C('#deliverydate_' + tr);
+                    //GetWarehouses('#warehouse_' + tr);
+                    $("#warehouseNoLine_" + tr).hide();
+                    $('#chk_' + tr).show();
+                    $('#btnRemove_' + tr).hide();
+                }
+            });
+            SerialTable();
+        }
+        function RemoveRow(id) {
+
+            var trLength = $('#salesOrder tbody tr').length;
+            if (trLength >= 1) {
+                $('#tr_' + id).remove();
+                TotalLineCalculation();
+                SerialTable();
+            } else {
+                return;
+            }
+        }
+        function SerialTable() {
+            $('#salesOrder tbody tr').each(function (index, element) {
+                var idr = $(this).attr('id');
+                var id = idr.substring(3);
+                $('#ts_' + id).html(index + 1);
+            });
+        }
+        function LoadItemInRow(elementId) {
+            var array = [];
+            var rowCount = $('#salesOrder tbody tr').length;
+            for (let count = 0; count < rowCount; count++) {
+                array.push(parseInt($("#itemCode_" + count).val()));
+            };
+            $('#' + elementId + '').append("<option value=''>--Select Item--</option>");
+            for (var i = 0; i < itemList.length; i++) {
+                if (jQuery.inArray(itemList[i].ItemCode, array) == -1) {
+                    $('#' + elementId + '').append($("<option></option>").val(itemList[i].ItemCode).html(itemList[i].ItemCode));
+                }
+            }
+        }
+        function dateCheck(from, to, check) {
+
+            var fDate, lDate, cDate;
+            fDate = Date.parse(from);
+            lDate = Date.parse(to);
+            cDate = Date.parse(check);
+
+            if ((cDate <= lDate && cDate >= fDate)) {
+                return true;
+            }
+            return false;
+        }
+
+        function SaveValidation() {
+            var isValid = true;
+            var message = "Some Values Required";
+
+            if ($('#txtDocDate').val() == '' || $('#txtDocDate').val() == null) {
+                ValidationColorChangeNew("txtDocDate", "divDocDate", "Posting Date Required", false);
+                isValid = false;
+            }
+            if ($('#ddlBranch').val() == 0 || $('#ddlBranch').val() == '') {
+                ValidationColorChangeNew("ddlBranch", "divBranch", "Branch Required", true);
+                isValid = false;
+            }
+
+            if ($('#ddlToBranch').val() == 0 || $('#ddlToBranch').val() == '') {
+                ValidationColorChangeNew("ddlToBranch", "divToBranch", "To Branch Required", true);
+                isValid = false;
+            }
+            if ($('#ddlSalesEmployee').val() == 0 || $('#ddlSalesEmployee').val() == '') {
+                ValidationColorChangeNew("ddlSalesEmployee", "divSalesEmployee", "Sales Employee Required", true);
+                isValid = false;
+            }
+
+            var DocEntry = $('#ddlCopyFrom').val();
+            if (DocEntry == '' || DocEntry == 0 || DocEntry == null) {
+                var totalBalance = isNaN(parseFloat($('#txtTotalBalance').val())) ? 0 : parseFloat($('#txtTotalBalance').val());
+                var rowTotalAmount = 0;
+                $('#paymentMode tbody tr').each(function () {
+                    var idr = $(this).attr('id');
+                    var id = idr.substring(3);
+                    var rowAmount = isNaN(parseFloat($('#amount_' + id).val())) ? 0 : parseFloat($('#amount_' + id).val());
+                    rowTotalAmount += rowAmount;
+                });
+
+                if (totalBalance != rowTotalAmount) {
+                    ValidationColorChangeNew("txtTotalBalance", "divTotalBalance", "Total Balance amount must be equal to Total Paid", true);
+                    isValid = false;
+                }
+            }
+            if (DocEntry > 0 && $('#ddlType').val() == 'I') {
+
+                var totalBalance = isNaN(parseFloat($('#txtTotalBalance').val())) ? 0 : parseFloat($('#txtTotalBalance').val());
+                var rowTotalAmount = 0;
+                $('#paymentMode tbody tr').each(function () {
+                    var idr = $(this).attr('id');
+                    var id = idr.substring(3);
+                    var rowAmount = isNaN(parseFloat($('#amount_' + id).val())) ? 0 : parseFloat($('#amount_' + id).val());
+                    rowTotalAmount += rowAmount;
+                });
+                if (totalBalance < 0 && rowTotalAmount == 0) {
+                    totalBalance = 0;
+                }
+
+                if (totalBalance != rowTotalAmount) {
+                    ValidationColorChangeNew("txtTotalBalance", "divTotalBalance", "Total Balance amount must be equal to Total Paid", true);
+                    isValid = false;
+                }
+            }
+
+
+            //Items Required
+            if ($('#salesOrder tbody tr').length == 0 || $('#salesOrder tbody tr').length == '') {
+                isValid = false;
+                message = "Product/Treatment Required";
+            }
+            var chkCopyFromRowExist = $("#chkCopyFromRowExist").val();
+            $('#salesOrder tbody tr').each(function () {
+                var idr = $(this).attr('id');
+                var id = idr.substring(3);
+                var qty = isNaN(parseFloat($('#quantity_' + id).val())) ? 0 : parseFloat($('#quantity_' + id).val());
+                var itemCode = $('#itemCode_' + id).val()
+                var batchNumberEnable = $("#batchNumberEnable_" + id).val();
+                var serialNumberEnable = $("#serialNumberEnable_" + id).val();
+                var rowChkExist = $("#chk_" + id).prop("checked");
+
+                if (batchNumberEnable == "Y" && serialNumberEnable == "N") {
+                    let batches = itemBatchSelected[itemCode];
+                    if (batches === undefined || batches.length === 0) {
+                        isValid = false;
+                        message = "Please select batch for " + itemCode;
+                        return;
+                    }
+
+                    let totalBatchQty = 0;
+                    batches.forEach((batch) => {
+                        totalBatchQty += batch.BatchQuantity;
+                    });
+
+                    if (qty !== totalBatchQty) {
+                        isValid = false;
+                        message = "Selected batch qty mismatch. Please re-select batch for " + itemCode;
+                        return;
+                    }
+                }
+
+                if (batchNumberEnable == "N" && serialNumberEnable == "Y") {
+                    if ($('#dynamic' + id).length) {
+
+                    } else {
+                        isValid = false;
+                        message = "Please add serial" + itemCode;
+                        return;
+                    }
+                    var serialTotal = 0;
+                    $("#serialItem" + id + " tbody tr").each(function (key, value) {
+                        soId = $(this).prop("id");
+                        if ($('#chk_' + id + soId).is(":checked")) {
+                            var serialQty = isNaN(parseFloat($('#serialStock_' + id + soId).val())) ? 0 : parseFloat($('#serialStock_' + id + soId).val());
+                            serialTotal += serialQty;
+                        }
+                    });
+
+                    if (qty < serialTotal) {
+                        isValid = false;
+                        message = "Serial Total Quantity can't be greater than Item Quantity";
+                        return;
+                    }
+                    if (qty > serialTotal) {
+                        isValid = false;
+                        message = "Item Quantity  can't be greater than Serial Total Quantity";
+                        return;
+                    }
+                }
+
+                if (itemCode === '' || itemCode === null) {
+                    isValid = false;
+                    message = "Please Select BarCode";
+                    $('#barcode_' + id).css('border-bottom', '2px solid red');
+                    return;
+                }
+                if (qty === 0) {
+                    isValid = false;
+                    message = "Qty Cannot be 0 ";
+                    $('#quantity_' + id).css('border-bottom', '2px solid red');
+                    return;
+                }
+
+                var voucherItemLine = $('#voucherItemLine_' + id).val();
+                if (voucherItemLine == "Y") {
+                    var voucherSalesNo = $('#voucherSalesNo_' + id).val();
+                    if (voucherSalesNo === '' || voucherSalesNo === null) {
+                        isValid = false;
+                        message = "Voucher No Cannot be Empty ";
+                        $('#voucherSalesNo_' + id).css('border-bottom', '2px solid red');
+                        return;
+                    }
+                    var voucherValidDate = $('#voucherValidDate_' + id).val()
+                    if (voucherValidDate === '' || voucherValidDate === null) {
+                        isValid = false;
+                        message = "Please Select Valid Date ";
+                        $('#voucherValidDate_' + id).css('border-bottom', '2px solid red');
+                        return;
+                    }
+                }
+            });
+
+
+
+            $('#paymentMode tbody tr').each(function () {
+                var idr = $(this).attr('id');
+                var id = idr.substring(3);
+                var voucherAmount = isNaN(parseFloat($('#voucheramount_' + id).val())) ? 0 : parseFloat($('#voucheramount_' + id).val());
+                var Amount = isNaN(parseFloat($('#amount_' + id).val())) ? 0 : parseFloat($('#amount_' + id).val());
+
+                var mode = $('#mode_' + id).val()
+                if (mode == 2) {
+                    if (Amount > voucherAmount) {
+                        isValid = false;
+                        message = "Amount can't gather then Voucher Amount";
+                        $('#amount_' + id).css('border-bottom', '2px solid red');
+                        return;
+                    }
+                }
+
+                var series = isNaN(parseFloat($('#series').val())) ? 0 : parseFloat($('#series').val());
+                if (series == 130 || series == 248) {
+                    if (mode != 7) {
+                        isValid = false;
+                        message = "For advanced sales order please select open order as payment mode";
+                        $('#modes_' + id).css('border-bottom', '2px solid red');
+                        return;
+                    }
+                } else {
+                    if (mode == 7) {
+                        isValid = false;
+                        message = "For Reguler please can't select open order as payment mode";
+                        $('#modes_' + id).css('border-bottom', '2px solid red');
+                        return;
+                    }
+                }
+
+            });
+
+
+
+
+            if (isValid == false) {
+                ShowMessage(message);
+
+            }
+            return isValid;
+        }
+        function SaveSalesInvoice() {
+            if (SaveValidation() == true) {
+                swal({
+                    title: "Are you sure?",
+                    text: "",
+                    type: "success",
+                    showCancelButton: true,
+                    cancelButtonClass: 'btn-secondary waves-effect',
+                    confirmButtonClass: 'btn-success waves-effect waves-light',
+                    confirmButtonText: 'Yes!',
+                    closeOnConfirm: false
+
+                }, function () {
+                    $('.confirm').prop("disabled", true);
+                    $('.cancel').prop("disabled", true);
+                    SaveSIinal();
+                });
+            }
+        }
+        function pad2(number) {
+            return (number < 10 ? '0' : '') + number;
+        }
+        function DateConversionToYYYYMMDD(inputDate) {
+            // Split the input date into day, month, and year parts
+            var parts = inputDate.split('-');
+            var day = parts[0];
+            var month = parts[1];
+            var year = parts[2];
+            var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            var monthIndex = monthNames.indexOf(month);
+            monthIndex++; // Adjust for 0-based indexing
+            // Create a Date object with the parsed values
+            var dateObject = new Date(year, monthIndex - 1, day);
+            // Format the date as "YYYYMMDD"
+            var formattedDate = dateObject.getFullYear() + pad2(dateObject.getMonth() + 1) + pad2(dateObject.getDate());
+            return formattedDate
+        }
+        function DateConversionToDateMonthYear(inputDate) {
+            var parts = inputDate.split('/');
+            var day = parts[0];
+            var month = parts[1];
+            var year = parts[2];
+            var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            var monthName = monthNames[parseInt(month) - 1];
+            var formattedDate = day + '-' + monthName + '-' + year;
+            return formattedDate
+        }
+        function SaveSIinal() {
+             
+            swal.close();
+            var jsonData = {};
+            var date = $('#txtDocDueDate').val();
+            var newdate = DateConversionToYYYYMMDD(date);
+            var inputDate = $('#txtDocDate').val();
+            var formattedDate = DateConversionToYYYYMMDD(inputDate);
+            var ItemTypeVal = '';
+            if ($('#ddlType').val() == 'I') {
+                ItemTypeVal = 'I';
+            }
+            if ($('#ddlType').val() == 'S') {
+                ItemTypeVal = 'S';
+            }
+
+            jsonData["CardCode"] = $('#ddlCustomer').val();
+            jsonData["Branch"] = $('#ddlBranch').val();
+            jsonData["PostingDate"] = formattedDate;  //"20230814"
+            jsonData["DocDueDate"] = newdate; //$('#txtDocDueDate').val();
+            jsonData["RefNo"] = $('#txtCustomerRef').val();
+            jsonData["RefDate"] = formattedDate;// $('#txtDocDate').val();
+            jsonData["Remarks"] = $('#txtRrmarks').val();
+            jsonData["SalesEmployee"] = $('#ddlSalesEmployee').val();
+            jsonData["PaymentAccountCode"] = "";
+            jsonData["ToBranch"] = $('#ddlToBranch').val();
+            jsonData["ItemType"] = ItemTypeVal;
+            jsonData["BaseEntry"] = $('#ddlCopyFromDP').val();
+
+            var jsonObjs = [];
+            var count = 0;
+            var chkCopyFromRowExist = $("#chkCopyFromRowExist").val();
+            //alert(chkCopyFromRowExist);
+            $('#salesOrder tbody tr').each(function () {
+                debugger;
+                var theObj = {};
+                var idr = $(this).attr('id');
+                var id = idr.substring(3);
+                var rowChkExist = $("#chk_" + id).prop("checked");
+                var itemCode = $('#itemCode_' + id).val();
+                var qty = isNaN(parseFloat($('#quantity_' + id).val())) ? 0 : parseFloat($('#quantity_' + id).val());
+                var uom = ($('#uom_' + id).val() !== "") ? $('#uom_' + id).val() : "";
+                var price = isNaN(parseFloat($('#price_' + id).val())) ? 0 : parseFloat($('#price_' + id).val());
+                var discount = isNaN(parseFloat($('#discount_' + id).val())) ? 0 : parseFloat($('#discount_' + id).val());
+                var total = isNaN(parseFloat($('#total_' + id).val())) ? 0 : parseFloat($('#total_' + id).val());
+                var stock = isNaN(parseFloat($('#stock_' + id).val())) ? 0 : parseFloat($('#stock_' + id).val());
+                var taxcode = ($('#taxcode_' + id).val() !== "") ? $('#taxcode_' + id).val() : "";
+                var totalbeforetax = isNaN(parseFloat($('#totalbeforetax_' + id).val())) ? 0 : parseFloat($('#totalbeforetax_' + id).val());
+                var discountamount = isNaN(parseFloat($('#discountamount_' + id).val())) ? 0 : parseFloat($('#discountamount_' + id).val());
+                //var wareHouse = $('#warehouse_' + id).val();
+                var deliverydate = $('#deliverydate_' + id).val();
+                var deliveryDate = DateConversionToYYYYMMDD(deliverydate);
+
+                var docEntry = $('#docEntry_' + id).val();
+                var objType = ($('#objType_' + id).val() != '') ? $('#objType_' + id).val() : '-1';
+                var lineNum = $('#lineNum_' + id).val();
+                var visOrder = $('#visOrder_' + id).val();
+
+                var batchNumberEnable = $('#batchNumberEnable_' + id).val();
+                var serialNumberEnable = $('#serialNumberEnable_' + id).val();
+
+                var jsonObjsBatches = [];
+                var jsonObjsSerial = [];
+
+                if (batchNumberEnable == "Y" && serialNumberEnable == "N") {
+                    const batches = itemBatchSelected[itemCode];
+                    batches.forEach((selectedBatch, i) => {
+                        jsonObjsBatches.push({
+                            ...selectedBatch,
+                            VisOrder: parseInt(visOrder)
+                        })
+                    });
+                }
+                if (batchNumberEnable == "N" && serialNumberEnable == "Y") {
+                    $("#serialItem" + id + " tbody tr").each(function (key, value) {
+                        var SerialItemObj = {};
+                        var soId = $(this).prop("id");
+                        if ($('#chk_' + id + soId).is(":checked")) {
+                            SerialItemObj.VisOrder = parseInt(visOrder); //count;
+                            SerialItemObj.InternalSerialNumber = $('#intrSerialNo_' + id + soId).val() ?? "";
+                            SerialItemObj.SystemSerialNumber = $('#sysSerialNo_' + id + soId).val() ?? "";
+                            SerialItemObj.ManufacturerSerialNumber = $('#suppSerialNo_' + id + soId).val() ?? "";
+                            jsonObjsSerial.push(SerialItemObj);
+                        }
+                    });
+                }
+                var voucherItemLine = $('#voucherItemLine_' + id).val();
+                var voucherSalesNo = '';
+                var voucherValidDate = '';
+                var voucherValidDateFinal = '';
+                if (voucherItemLine == "Y") {
+                     voucherSalesNo = $('#voucherSalesNo_' + id).val();
+                     voucherValidDate = $('#voucherValidDate_' + id).val();
+                     voucherValidDateFinal = DateConversionToYYYYMMDD(voucherValidDate);
+                }
+
+
+                theObj["VisOrder"] = parseInt(visOrder);
+                theObj["BaseType"] = objType;
+                theObj["BaseEntry"] = parseInt(docEntry);
+                theObj["BaseLine"] = parseInt(lineNum);
+                theObj["ItemCode"] = itemCode;
+                theObj["Quantity"] = qty;
+                theObj["DocDueDate"] = deliveryDate;
+                theObj["UOM"] = uom;
+                theObj["PriceBeforeDiscount"] = price;
+                theObj["Discountamount"] = discountamount;
+                theObj["TaxCode"] = taxcode;
+                theObj["DiscountPercentage"] = discount;
+                theObj["WhsCode"] = warehouseCode;
+
+                theObj["Batches"] = jsonObjsBatches;
+                theObj["Serial"] = jsonObjsSerial;
+
+
+                theObj["VoucherNo"] = voucherSalesNo;
+                theObj["ValidTill"] = voucherValidDateFinal;
+
+                if (chkCopyFromRowExist == 1) {
+                    if (rowChkExist) {
+                        jsonObjs.push(theObj);
+                    }
+                } else {
+                    jsonObjs.push(theObj);
+                }
+            });
+            jsonData["Items"] = jsonObjs;
+
+
+            var jsonObjs2 = [];
+
+            $("#paymentMode tbody tr").each(function (key, value) {
+                var modeObj = {};
+                var idr = $(this).attr('id');
+                var id = idr.substring(3);
+                modeObj.PaymentType = $('#mode_' + id).val() ?? "";
+                modeObj.Bank = $('#account_' + id).val() ?? "";
+                modeObj.Amount = $('#amount_' + id).val() ?? "";
+                modeObj.CardNo = $('#cardNumber_' + id).val() ?? "";
+                var mode = $('#mode_' + id).val()
+                if (mode == 2 || mode == 8 ) {
+                    modeObj.CardNo = $('#voucher_' + id).val() ?? "";
+                }
+                modeObj.Tranid = $('#transactionID_' + id).val() ?? "";
+
+                jsonObjs2.push(modeObj);
+            });
+
+
+            jsonData["PaymentDetails"] = jsonObjs2;
+
+
+            var urlpath2 = '@Url.Action("SaveSalesInvoice", "SalesInvoice")';
+            $.ajax({
+                contentType: "application/json",
+                data: JSON.stringify(jsonData),
+                dataType: 'json',
+                url: urlpath2,
+                type: "POST",
+                beforeSend: function () {
+                    $('#testSpan').show();
+                    $('#btnSalesInvoice').prop('disabled', true);
+                },
+                success: function (result) {
+
+                    $('#testSpan').hide();
+                    if (result.UnAutorized == 1) {
+                        //Web Project Session Out
+                        window.location.href = '@Url.Action("Logout", "Home")';
+                    } else {
+                        if (result.dataList.ReturnCode == "-99999") {
+                            //API Project Session Out
+                            window.location.href = '@Url.Action("Logout", "Home")';
+                        } else {
+                            var message = result.dataList.ReturnMsg;
+                            if (result.dataList.ReturnCode == "0000") {
+                        swal({
+                            title: " Saved Successfully",
+                            text: '',
+                            type: "success",
+                            showCancelButton: false,
+                            cancelButtonClass: 'btn-secondary waves-effect',
+                            confirmButtonClass: 'btn-success waves-effect waves-light',
+                            confirmButtonText: 'Yes!',
+                            closeOnConfirm: false
+                        }, function () {
+                            const totalTax = $('#txtTax').val();
+                            GetprintPage(result.dataList.ReturnDocEntry, totalTax > 0 ? 'I' : 'S');
+                            window.location.href =  '@Url.Action("Index", "SalesInvoice")';
+                        });
+                    } else {
+                        ShowMessage(message);
+                        $('#btnSalesInvoice').prop('disabled', false);
+                    }
+                        }
+                    }
+                }
+                })
+        }
+        function printPage(DocEntry) {
+
+            var dynamicURL = 'http://172.16.1.41:8001/web/webform1.aspx?id1=2&id2=DOCENTRYID|BIOXIN&id3=2'.replace('DOCENTRYID', DocEntry);
+            window.open(dynamicURL, '_blank');
+        }
+        function GetprintPage(DocEntry, itemType = 'S') {
+            var urlpath = '@Url.Action("GetprintPage", "SalesOrderNew")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {  },
+                async: false,
+                success: function (data) {
+                    let reportId = 2;
+                    if (itemType === "I") {
+                        reportId = 18
+                    }
+                    var dynamicURL = data.RPTPort + 'web/webform1.aspx?id1=' + reportId + '&id2=DOCENTRYID|BIOXIN&id3=2&uid=USERID'.replace('DOCENTRYID', DocEntry).replace('BIOXIN', data.Database).replace('USERID', data.UserId);
+                    window.open(dynamicURL, '_blank');
+                }
+            });
+        }
+        function AddPaymentModeRow() {
+              var tr = $('#paymentMode tbody tr').length + 100;
+              var values = $("#paymentMode tbody tr")
+                .map(function() { return parseInt($(this).attr('id').substring(3)); }).get();
+            var index = values.indexOf(tr);
+            if (index >= 0) {
+                tr = Math.max.apply(Math, values) + 1;
+            }
+            var urlpath = '@Url.Action("AddRowForPaymentMode", "SalesInvoice")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                dataType: 'html',
+                data: { tr: tr },
+                async: false,
+                success: function(data) {
+                    $('#paymentMode tbody').append(data);
+                    LoadModeInRow("mode_" + tr);
+                }
+            });
+            $('#mode_' + tr).select2();
+        }
+        function RemovePaymentModeRow(id) {
+
+            var trLength = $('#paymentMode tbody tr').length;
+            if (trLength > 1) {
+                $('#tr_' + id).remove();
+                CalculateTotalPaid();
+            } else {
+                return;
+            }
+        }
+        function SerialPaymentModeTable() {
+            $('#paymentMode tbody tr').each(function (index, element) {
+                var idr = $(this).attr('id');
+                var id = idr.substring(3);
+                $('#ts_' + id).html(index + 1);
+            });
+        }
+        function GetPaymentMode() {
+            var urlpath = '@Url.Action("GetPaymentMethod", "SalesInvoice")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {  },
+                async: false,
+                success: function (data) {
+                    modeList = data;
+                }
+            });
+        }
+        function LoadModeInRow(elementId) {
+            var array = [];
+            var rowCount = $('#paymentMode tbody tr').length;
+            for (let count = 0; count < rowCount; count++) {
+                array.push(parseInt($("#mode_" + count).val()));
+            };
+            $('#' + elementId + '').append("<option value=''>--Mode--</option>");
+            for (var i = 0; i < modeList.length; i++) {
+                if (jQuery.inArray(modeList[i].Value, array) == -1) {
+                    $('#' + elementId + '').append($("<option></option>").val(modeList[i].Value).html(modeList[i].Description));
+                }
+            }
+        }
+        function GetPaymentBankByMode(rowId) {
+            var mode = $('#mode_' + rowId).val();
+            if (mode == 0) {
+                swal("At first select Mode ");
+                return;
+            }
+            var urlpath = '@Url.Action("GetPaymentBankCodes", "SalesInvoice")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                dataType: 'json',
+                data: { PaymentMethod: mode },
+                async: false,
+                success: function(data) {
+                    $("#account_" + rowId).empty();
+                    $("#account_" + rowId).append("<option value=''>--Select Accounts--</option>");
+                    for (var i = 0; i < data.length; i++) {
+                        $("#account_" + rowId).append($("<option></option>").val(data[i].BankCode).html(data[i].BankCode));
+                    }
+                }
+            });
+
+            var paymentCount = 0;
+            $("#paymentMode tbody tr").each(function (key, value) {
+                var modeObj = {};
+                var idr = $(this).attr('id');
+                var id = idr.substring(3);
+                var mode2 = $('#mode_' + id).val()
+                if (mode2 == 2 || mode2 == 8) {
+                    paymentCount = 1;
+                }
+            });
+
+
+            var voucherType = $("#ddlType").val();
+            if (mode == 2 && voucherType == "S") {
+                var cardCode = $('#ddlCustomer').val();
+                var urlpath = '@Url.Action("GetCustomerVoucher", "SalesOrderNew")';
+                $.ajax({
+                    url: urlpath,
+                    type: "Get",
+                    dataType: 'json',
+                    data: { VoucherType: voucherType, CardCode: cardCode },
+                    async: false,
+                    success: function (data) {
+                        $("#voucher_" + rowId).empty();
+                        $("#voucher_" + rowId).append("<option value=''>--Select Voucher--</option>");
+                        for (var i = 0; i < data.length; i++) {
+                            $("#voucher_" + rowId).append($("<option></option>").val(data[i].CardId).html(data[i].CardNo));
+                        }
+                    }
+                });
+
+                $('#salesOrder tbody tr').each(function () {
+                    var theObj = {};
+                    var idr = $(this).attr('id');
+                    var id = idr.substring(3);
+                    var discount = isNaN(parseFloat($('#discount_' + id).val())) ? 0 : parseFloat($('#discount_' + id).val());
+                    if (discount > 0) {
+                        $("#discount_" + id).val(0);
+                        $('#discountMode_' + id).val(discount);
+                        LineCalculation(id);
+                    }
+
+                });
+
+            } else if (mode == 8 && voucherType == "I") {
+                var cardCode = $('#ddlCustomer').val();
+                var urlpath = '@Url.Action("GetCustomerVoucher", "SalesOrderNew")';
+                $.ajax({
+                    url: urlpath,
+                    type: "Get",
+                    dataType: 'json',
+                    data: { VoucherType: voucherType, CardCode: cardCode },
+                    async: false,
+                    success: function (data) {
+                        $("#voucher_" + rowId).empty();
+                        $("#voucher_" + rowId).append("<option value=''>--Select Voucher--</option>");
+                        for (var i = 0; i < data.length; i++) {
+                            $("#voucher_" + rowId).append($("<option></option>").val(data[i].CardId).html(data[i].CardNo));
+                        }
+                    }
+                });
+
+                $('#salesOrder tbody tr').each(function () {
+                    var theObj = {};
+                    var idr = $(this).attr('id');
+                    var id = idr.substring(3);
+                    var discount = isNaN(parseFloat($('#discount_' + id).val())) ? 0 : parseFloat($('#discount_' + id).val());
+                    if (discount > 0) {
+                        $("#discount_" + id).val(0);
+                        $('#discountMode_' + id).val(discount);
+                        LineCalculation(id);
+                    }
+
+                });
+
+            } else {
+
+                $('#salesOrder tbody tr').each(function () {
+                    var theObj = {};
+                    var idr = $(this).attr('id');
+                    var id = idr.substring(3);
+                    if (paymentCount == 0) {
+                        var discountMode = isNaN(parseFloat($('#discountMode_' + id).val())) ? 0 : parseFloat($('#discountMode_' + id).val());
+                        if (discountMode > 0) {
+                            $("#discountMode_" + id).val(0);
+                            $('#discount_' + id).val(discountMode);
+                            LineCalculation(id);
+                        }
+                    }
+
+                });
+
+                $("#voucher_" + rowId).empty();
+            }
+        }
+        function GetVAmountByVoucher(rowId) {
+            var voucherType = $("#ddlType").val();
+            var cardCode = $('#ddlCustomer').val();
+            var CardId = isNaN(parseFloat($('#voucher_' + rowId).val())) ? 0 : parseFloat($('#voucher_' + rowId).val());
+            if (CardId == 0) {
+                swal("At first select Voucher ");
+                $('#voucher' + rowId).val('0').trigger("change");
+                return;
+            }
+
+              var urlpath = '@Url.Action("GetCustomerVoucherBalance", "SalesOrderNew")';
+                $.ajax({
+                    url: urlpath,
+                    type: "Get",
+                    dataType: 'json',
+                    data: { VoucherType: voucherType, CardCode: cardCode, CardId: CardId},
+                    async: false,
+                    success: function (data) {
+                        $('#voucheramount_' + rowId).val(data.Balance);
+                    }
+                });
+
+        }
+        function AddNewCustomer() {
+            var urlpath = '@Url.Action("ViewMemberRegistration", "SalesInvoice")';
+            $.ajax({
+                url: urlpath,
+                dataType: 'html',
+                data: { },
+                type: "Get",
+         /*       async: false,*/
+                beforeSend: function () {
+                    $('#testSpan').show();
+                },
+                success: function (data) {
+                    //// Please check later
+                    $('#memberDetails').html(data);
+                    $('#testSpan').hide();
+                },
+                complete: function (data) {
+                    LoadDate('#txtDOB');
+                    LoadGroupCode('ddlGroup');
+
+                    LoadOccupation('ddlOccupation');
+                    LoadRelationShip('ddlRelationship');
+                    LoadPaymentTerms('ddlPaymentTerms');
+                    LoadBankDetails('ddlBankName');
+
+                    LoadCountry('ddlBillCountry');
+                    LoadCountry('ddlShipCountry');
+                    LoadCountry('ddlBankCountry');
+                    $("#ddlBillCountry").val('BD').trigger('change');
+                    $("#ddlShipCountry").val('BD').trigger('change');
+                    $("#ddlBankCountry").val('BD').trigger('change');
+                    LoadBranch('ddlBranchMr');
+                    LoadSalesEmployeeMR('ddlSalesEmployeeMr');
+                    var branch = $('#branch').val();
+                    $("#ddlBranchMr").val(branch).trigger('change');
+
+                    $('#ddlHearAboutUs').select2();
+                    $('#ddlReasonBranchVisit').select2();
+
+                    $('#txtDOB').on('change', function () {
+                        calculateAgeFromDOB();
+                    });
+                    $('#txtAge').on('change', function () {
+                        calculateDOBFromAge();
+                    });
+
+                    $('#ddlBankName').on('change', function () {
+                        var selectedOption = $(this).find('option:selected');
+                        var swiftCode = selectedOption.data("swiftcode");
+                        $("#txtSwiftCode").val(swiftCode);
+                    });
+                }
+            });
+        }
+        function LoadGroupCode(elementId) {
+            var urlpath = '@Url.Action("GetGroup", "MemberRegistration")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { },
+                async: false,
+                success: function (data) {
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value='0'>--Select Group Code--</option>");
+                    for (var i = 0; i < data.length; i++) {
+                        if (data[i].GroupCode == 100) {
+                            $('#' + elementId + '').append($("<option selected></option>").val(data[i].GroupCode).html(data[i].GroupName));
+                        } else {
+                            $('#' + elementId + '').append($("<option></option>").val(data[i].GroupCode).html(data[i].GroupName));
+                        }
+
+                    }
+
+                }
+            });
+        }
+        function LoadOccupation(elementId) {
+            var urlpath = '@Url.Action("GetOccupation", "MemberRegistration")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { },
+                async: false,
+                success: function (data) {
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value='0'>--Select Occupation--</option>");
+                    for (var i = 0; i < data.length; i++) {
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].Value).html(data[i].Description));
+                    }
+                }
+            });
+        }
+        function LoadRelationShip(elementId) {
+            var urlpath = '@Url.Action("GetRelationShip", "MemberRegistration")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { },
+                async: false,
+                success: function (data) {
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value=''>--Select RelationShip--</option>");
+                    for (var i = 0; i < data.length; i++) {
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].Value).html(data[i].Description));
+                    }
+                }
+            });
+        }
+        function LoadPaymentTerms(elementId) {
+            var urlpath = '@Url.Action("GetPaymentTerms", "MemberRegistration")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { },
+                async: false,
+                success: function (data) {
+                    $('#' + elementId + '').empty();
+                    for (var i = 0; i < data.length; i++) {
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].PaymentTermsGrpCode).html(data[i].PaymentTermsGrpName));
+                    }
+                }
+            });
+        }
+        function LoadBankDetails(elementId) {
+            var urlpath = '@Url.Action("GetBankDetails", "MemberRegistration")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { },
+                async: false,
+                success: function (data) {
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value=''>--Select Bank--</option>");
+                    for (var i = 0; i < data.length; i++) {
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].BankCode).html(data[i].BankName).attr("data-swiftcode", data[i].SwiftCode));
+                    }
+                }
+            });
+        }
+        function LoadCountry(elementId) {
+            var urlpath = '@Url.Action("GetCountry", "MemberRegistration")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { },
+                async: false,
+                success: function (data) {
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value='0'>--Select Country--</option>");
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].CountryCode).html(data[i].CountryName));
+                    }
+
+                }
+            });
+        }
+        function GetBillState() {
+            var countryCode = $('#ddlBillCountry').val();
+            var elementId = 'ddlBillState';
+
+            GetState(countryCode, elementId);
+        }
+        function GetBillThana() {
+            var districtCode = $('#ddlBillState').val();
+            var elementId = 'txtBillCity';
+
+            GetThana(districtCode, elementId);
+        }
+        function GetShipState() {
+            var countryCode = $('#ddlShipCountry').val();
+            var elementId = 'ddlShipState';
+
+            GetState(countryCode, elementId);
+        }
+        function GetShipThana() {
+            var districtCode = $('#ddlShipState').val();
+            var elementId = 'txtShipCity';
+
+            GetThana(districtCode, elementId);
+        }
+        function GetState(countryCode, elementId) {
+            var urlpath = '@Url.Action("GetState", "MemberRegistration")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { CountryCode: countryCode },
+                async: false,
+                success: function (data) {
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value=''>--Select State--</option>");
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].StateCode).html(data[i].StateName));
+                    }
+
+                }
+            });
+        }
+        function GetThana(districtCode, elementId) {
+            var urlpath = '@Url.Action("GetThana", "MemberRegistration")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { DistrictCode: districtCode },
+                async: false,
+                success: function (data) {
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value=''>--Select Thana--</option>");
+                    for (var i = 0; i < data.length; i++) {
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].ThaneCode).html(data[i].ThanaName));
+                    }
+                }
+            });
+        }
+        function GetGroupDetails() {
+            var groupCode = $('#ddlGroup').val();
+            if (groupCode == 0) {
+                swal("At first select group ");
+                return;
+            }
+
+            var urlpath = '@Url.Action("GetGroupDetails", "MemberRegistration")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                dataType: 'json',
+                data: { GroupCode: groupCode },
+                async: false,
+                success: function (data) {
+                    $("#txtType").val(data[0].GroupTypeDesc);
+                }
+            });
+        }
+        function CopyBillToShip() {
+            if ($('#chkBillToShip').prop('checked')) {
+                GetThana($('#ddlBillState').val(), 'txtShipCity');
+
+                $('#ddlShipCountry').val($('#ddlBillCountry').val()).trigger('change');
+                $('#ddlShipState').val($('#ddlBillState').val());
+                $('#txtShipCity').val($('#txtBillCity').val());
+                $('#txtShipStreet').val($('#txtBillStreet').val());
+                $('#txtShipZip').val($('#txtBillZip').val());
+            } else {
+                $('#ddlShipCountry').val(0).trigger('change');
+                $('#ddlShipState').val(0).trigger('change');
+                $('#txtShipCity').val('');
+                $('#txtShipStreet').val('');
+                $('#txtShipZip').val('');
+            }
+        }
+        function calculateAgeFromDOB() {
+            var dob = $('#txtDOB').val();
+            if (dob) {
+                var parts = dob.split('-');
+                var day = parseInt(parts[0]);
+                var month = parts[1];
+                var year = parseInt(parts[2]);
+                var monthMap = {
+                    'Jan': 0, 'Feb': 1, 'Mar': 2, 'Apr': 3, 'May': 4, 'Jun': 5,
+                    'Jul': 6, 'Aug': 7, 'Sep': 8, 'Oct': 9, 'Nov': 10, 'Dec': 11
+                };
+                var monthIndex = monthMap[month];
+                var dobDate = new Date(year, monthIndex, day);
+                var currentDate = new Date();
+                var age = currentDate.getFullYear() - dobDate.getFullYear();
+                if (currentDate.getMonth() < monthIndex || (currentDate.getMonth() === monthIndex && currentDate.getDate() < day)) {
+                    age--;
+                }
+                $('#txtAge').val(age);
+            } else {
+                $('#txtAge').val('');
+            }
+        }
+        function calculateDOBFromAge() {
+            var age = parseInt($('#txtAge').val());
+            if (!isNaN(age) && age >= 0) {
+                var currentDate = new Date();
+                var birthYear = currentDate.getFullYear() - age;
+                var dob = new Date(birthYear, currentDate.getMonth(), currentDate.getDate());
+                var day = dob.getDate();
+                var month = dob.getMonth() + 1
+                var year = dob.getFullYear();
+                var dobDayStr = day < 10 ? '0' + day : day.toString();
+                var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                var monthName = monthNames[parseInt(month) - 1];
+                var formattedDate = dobDayStr + '-' + monthName + '-' + year;
+                $('#txtDOB').val(formattedDate);
+            } else {
+                $('#txtDOB').val('');
+            }
+        }
+        function updateSelectedFruits() {
+            $('input[name="chkHearAboutUs"]:checked').each(function () {
+                selectedHearAboutUs.push($(this).val());
+            });
+        }
+        function updateChkReasonBranchVisit() {
+            $('input[name="chkReasonBranchVisit"]:checked').each(function () {
+                selectedReasonBranchVisit.push($(this).val());
+            });
+        }
+        function MemberRegistrationValidation() {
+            var isValid = true;
+            var message = "Some Values Required";
+            if ($('#txtName').val() == 0 || $('#txtName').val() == '') {
+                ValidationColorChangeNew("txtName", "divName", "Name Required", true);
+                isValid = false;
+            }
+            if ($('#txtDOB').val() == '' || $('#txtDOB').val() == null) {
+                ValidationColorChangeNew("txtDOB", "divDOB", "DOB Required", false);
+                isValid = false;
+            }
+            if ($('#txtDOB').val() == 0 || $('#txtDOB').val() == '' || $('#txtAge').val() == 0 || $('#txtAge').val() == '') {
+                ValidationColorChangeNew("txtAge", "divAge", "DOB / Age Required", true);
+                isValid = false;
+            }
+            if ($('#txtAge').val() == 0 || $('#txtAge').val() == '') {
+                ValidationColorChangeNew("txtAge", "divAge", "Age Required", true);
+                isValid = false;
+            }
+            if ($('#ddlGender').val() == 0 || $('#ddlGender').val() == '') {
+                ValidationColorChangeNew("ddlGender", "divGender", "Gender Required", true);
+                isValid = false;
+            }
+            if ($('#txtMobile').val() == 0 || $('#txtMobile').val() == '') {
+                ValidationColorChangeNew("txtMobile", "divMobile", "Mobile Required", true);
+                isValid = false;
+            }
+            if ($('#txtMobile').val() !== '') {
+                var regex = /^[0-9]{11}$/;
+                var mobileValue = $('#txtMobile').val();
+                if (regex.test(mobileValue)) {
+                } else {
+                    ValidationColorChangeNew("txtMobile", "divMobile", "Valid 11-digit mobile number using English numerals (0-9) Required", true);
+                    isValid = false;
+                }
+            }
+            if ($('#ddlGroup').val() == 0 || $('#ddlGroup').val() == '') {
+                ValidationColorChangeNew("ddlGroup", "divGroup", "Membership Group Required", true);
+                isValid = false;
+            }
+            if ($('#ddlOccupation').val() == 0 || $('#ddlOccupation').val() == '') {
+                ValidationColorChangeNew("ddlOccupation", "divOccupation", "Occupation Required", true);
+                isValid = false;
+            }
+            if ($('#ddlBillState').val() == 0 || $('#ddlBillState').val() == '') {
+                ValidationColorChangeNew("ddlBillState", "divBillState", "Bill District Required", true);
+                isValid = false;
+            }
+            if ($('#txtBillCity').val() == 0 || $('#txtBillCity').val() == '' || $('#txtBillCity').val() == null) {
+                ValidationColorChangeNew("txtBillCity", "divBillCity", "Bill Thana Required", true);
+                isValid = false;
+            }
+            if ($('#txtBillStreet').val() == 0 || $('#txtBillStreet').val() == '') {
+                ValidationColorChangeNew("txtBillStreet", "divBillStreet", "Bill Address Required", true);
+                isValid = false;
+            }
+            if ($('#ddlShipState').val() == 0 || $('#ddlShipState').val() == '') {
+                ValidationColorChangeNew("ddlShipState", "divShipState", "Ship District Required", true);
+                isValid = false;
+            }
+            if ($('#txtShipCity').val() == 0 || $('#txtShipCity').val() == '' || $('#txtShipCity').val() == null) {
+                ValidationColorChangeNew("txtShipCity", "divShipCity", "Ship Thana Required", true);
+                isValid = false;
+            }
+            if ($('#txtShipStreet').val() == 0 || $('#txtShipStreet').val() == '') {
+                ValidationColorChangeNew("txtShipStreet", "divShipStreet", "Ship Address Required", true);
+                isValid = false;
+            }
+
+            if ($('#ddlBranchMr').val() == 0 || $('#ddlBranchMr').val() == '') {
+                ValidationColorChangeNew("ddlBranchMr", "divBranchMr", "Branch Required", true);
+                isValid = false;
+            }
+            if ($('#ddlReasonBranchVisit').val() == 0 || $('#ddlReasonBranchVisit').val() == '') {
+                ValidationColorChangeNew("ddlReasonBranchVisit", "divReasonBranchVisit", "Reason for Branch Visit Required", true);
+                isValid = false;
+            }
+
+
+            if (isValid == false) {
+                ShowMessage(message);
+
+            }
+            return isValid;
+        }
+        function SaveMemberRegistration() {
+            if (MemberRegistrationValidation() == true) {
+                swal({
+                    title: "Are you sure?",
+                    text: "",
+                    type: "success",
+                    showCancelButton: true,
+                    cancelButtonClass: 'btn-secondary waves-effect',
+                    confirmButtonClass: 'btn-success waves-effect waves-light',
+                    confirmButtonText: 'Yes!',
+                    closeOnConfirm: false
+
+                }, function () {
+                    $('.confirm').prop("disabled", true);
+                    $('.cancel').prop("disabled", true);
+                    SaveMRinal();
+                });
+            }
+        }
+        function SaveMRinal() {
+            //
+            swal.close();
+            var jsonData = {};
+            var dobUpdate = $('#txtDOB').val();
+            var formattedDOBUpdate = DateConversionToYYYYMMDD(dobUpdate);
+            var selectedHearAboutUsValues = $('#ddlHearAboutUs').val();
+            var selectedReasonBranchVisit = $('#ddlReasonBranchVisit').val();
+
+            if (selectedHearAboutUsValues.length > 0) {
+                var selectedHearAboutUsValuesString = "";
+                for (var i = 0; i < selectedHearAboutUsValues.length; i++) {
+                    selectedHearAboutUsValuesString += selectedHearAboutUsValues[i];
+                    if (i < selectedHearAboutUsValues.length - 1) {
+                        selectedHearAboutUsValuesString += ",";
+                    }
+                }
+            }
+            if (selectedReasonBranchVisit.length > 0) {
+                var selectedReasonBranchVisitString = "";
+                for (var i = 0; i < selectedReasonBranchVisit.length; i++) {
+                    selectedReasonBranchVisitString += selectedReasonBranchVisit[i];
+                    if (i < selectedReasonBranchVisit.length - 1) {
+                        selectedReasonBranchVisitString += ",";
+                    }
+                }
+            }
+
+
+            jsonData["BPType"] = $('#BPType').val();
+            jsonData["BPCode"] = "";
+            jsonData["Branch"] = $('#ddlBranchMr').val();
+            jsonData["BPName"] = $('#txtName').val();
+            jsonData["BPGroupCode"] = $('#ddlGroup').val();
+            jsonData["MobileNo"] = $('#txtMobile').val();
+            jsonData["Emergency"] = $('#txtMobileEmergency').val();
+            jsonData["Email"] = $('#txtEMail').val();
+            jsonData["WebSite"] = $('#txtWebsite').val();
+            jsonData["PaymentTerms"] = $('#ddlPaymentTerms').val();
+            jsonData["Occupation"] = $('#ddlOccupation').val();
+            jsonData["RelationShip"] = $('#ddlRelationship').val();
+            jsonData["CreditLimit"] = $('#txtCreditLimited').val();
+            jsonData["Connected"] = $('#txtConnected').val();
+            jsonData["SalesEmployee"] = $('#ddlSalesEmployeeMr').val();
+            jsonData["Remarks"] = $('#txtRrmarks').val();
+            jsonData["BankCode"] = $('#ddlBankName').val();
+            jsonData["AccountHolderName"] = $('#txtAccountHolderName').val();
+            jsonData["BankAccountNo"] = $('#txtAccountNo').val();
+            jsonData["BankSwiftCode"] = $('#txtSwiftCode').val();
+            jsonData["BirthDate"] = formattedDOBUpdate;
+            jsonData["HowDoYouHear"] = selectedHearAboutUsValuesString;
+            jsonData["ReasonBranchVisit"] = selectedReasonBranchVisitString;
+            jsonData["Gender"] = $('#ddlGender').val();
+            jsonData["Contact"] = $('#txtContactPerson').val();
+
+
+
+            var jsonObjs1 = [];
+            var theObj1 = {};
+            theObj1["LineId"] = 1;
+            theObj1["AddressType"] = "B";
+            theObj1["AddressLine1"] = $('#txtBillStreet').val();
+            theObj1["AddressLine2"] = "";
+            theObj1["AddressLine3"] = "";
+            theObj1["State"] = $('#ddlBillState').val();
+            theObj1["City"] = $('#txtBillCity').val();
+            theObj1["PinCode"] = $('#txtBillZip').val();
+            theObj1["Defalult"] = "";
+            jsonObjs1.push(theObj1);
+            //jsonData["Addresses"] = jsonObjs1;
+
+            //var jsonObjs2 = [];
+            var theObj2 = {};
+            theObj2["LineId"] = 1;
+            theObj2["AddressType"] = "S";
+            theObj2["AddressLine1"] = $('#txtShipStreet').val();
+            theObj2["AddressLine2"] = "";
+            theObj2["AddressLine3"] = "";
+            theObj2["State"] = $('#ddlShipState').val();
+            theObj2["City"] = $('#txtShipCity').val();
+            theObj2["PinCode"] = $('#txtShipZip').val();
+            theObj2["Defalult"] = "";
+            jsonObjs1.push(theObj2);
+            //jsonObjs2.push(theObj2);
+            //jsonData["Addresses"] = jsonObjs2;
+
+            jsonData["Addresses"] = jsonObjs1;
+
+
+            var jsonObjs3 = [];
+            var theObj3 = {};
+            theObj3["ContactId"] = "";
+            theObj3["LineID"] = 1;
+            theObj3["Name"] = $('#txtContactPerson').val(); //$('#txtName').val();
+            theObj3["Title"] = "";
+            theObj3["FirstName"] = ""; //$('#txtContactPerson').val();
+            theObj3["LastName"] = "";
+            theObj3["Position"] = "";
+            theObj3["EmailId"] = ""; //$('#txtEMail').val();
+            theObj3["MobileNo"] = ""; //$('#txtMobile').val();
+            theObj3["AlternateMobileNo"] = "";
+            theObj3["Defalult"] = "";
+            jsonObjs3.push(theObj3);
+            jsonData["Contacts"] = jsonObjs3;
+
+
+
+            var urlpath2 = '@Url.Action("SaveMemberRegistration", "MemberRegistration")';
+            $.ajax({
+                contentType: "application/json",
+                data: JSON.stringify(jsonData),
+                dataType: 'json',
+                url: urlpath2,
+                type: "POST",
+                /* async: false,*/
+                beforeSend: function () {
+                    $('#testSpan').show();
+                    $('#btnmrin').prop('disabled', true);
+                },
+                success: function (result) {
+                    $('#testSpan').hide();
+                    if (result.UnAutorized == 1) {
+                        //Web Project Session Out
+                        window.location.href = '@Url.Action("Logout", "Home")';
+                    } else {
+                        if (result.dataList.ReturnCode == "-99999") {
+                            //API Project Session Out
+                            window.location.href = '@Url.Action("Logout", "Home")';
+                        } else {
+                            var message = result.dataList.ReturnMsg;
+                            if (result.dataList.ReturnCode == "0000") {
+                                swal({
+                                    title: " Saved Successfull",
+                                    text: '',
+                                    type: "success",
+                                    showCancelButton: false,
+                                    cancelButtonClass: 'btn-secondary waves-effect',
+                                    confirmButtonClass: 'btn-success waves-effect waves-light',
+                                    confirmButtonText: 'Yes!',
+                                    closeOnConfirm: false
+                                }, function () {
+
+                                    if (result.dataList.ReturnDocEntry != '') {
+                                        GetBusinessPartnerInfo(result.dataList.ReturnDocEntry);
+                                        LoadCopyFrom('ddlCopyFrom', result.dataList.ReturnDocEntry);
+                                        LoadCopyFromDoctorsPrescription('ddlCopyFromDP', result.dataList.ReturnDocEntry);
+                                        LoadDiscountFrom('ddlSalesDiscount', result.dataList.ReturnDocEntry);
+                                        $('#txtSearchItemCode').prop('disabled', false);
+                                        $('#txtSearchItemName').prop('disabled', false);
+                                        $('#txtBarcode').prop('disabled', false);
+                                    }
+                                    swal.close();
+                                });
+                            } else {
+                                ShowMessage(message);
+                                $('#btnmrin').prop('disabled', false);
+                            }
+                        }
+                    }
+
+
+                }
+                })
+        }
+    </script>
+}

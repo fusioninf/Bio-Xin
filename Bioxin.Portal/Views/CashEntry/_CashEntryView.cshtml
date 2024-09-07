@@ -1,0 +1,103 @@
+﻿<style>
+    .custom-header {
+        background-color: darkgray !important; /* Blue color #007bff  #808080*/
+        color: black; /* Text color for contrast */
+    }
+</style>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-primary">
+                    <div class="card-header custom-header">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <h3 id="salesOrderNo"></h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group row" id="divExpenseAccount">
+                                    <label for="txtExpenseAccount" class="col-md-4 control-label">Expense Account</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" id="txtExpenseAccount" disabled="disabled" />
+                                        <input type="text" class="form-control" id="txtExpenseAccountCode" hidden="hidden" />
+                                    </div>
+                                </div>
+                                @*<div class="form-group row mt-1" id="divAccountBalance">
+                                    <label for="txtAccountBalance" class="col-md-4 control-label">Balance</label>
+                                    <div class="col-md-6">
+                                        <input type="number" class="form-control" id="txtAccountBalance" disabled="disabled" />
+                                    </div>
+                                </div>*@
+
+                            </div>
+                            <div class="col-md-4">
+
+                            </div>
+                            <div class="col-md-4">
+                                @*<div class="form-group row mt-1" id="divBranch">
+                                    <label for="ddlBranch" class="col-md-4 control-label">Branch</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" id="ddlBranch" disabled="disabled" />
+                                    </div>
+                                </div>*@
+
+                                <div class="form-group row mt-1" id="divDocDate">
+                                    <label for="txtDocDate" class="col-md-4 control-label">Posting Date</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtDocDate" class="form-control datepicker" value="@DateTime.Now.ToString("dd-MM-yyyy")" disabled="disabled" />
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            &nbsp;
+                        </div>
+                        <div class="row table-responsive">
+                            <table class="table table-bordered table-striped table-hover" id="salesOrder">
+                                <thead>
+                                    <tr style="background-color: lightgrey">
+                                        <th>#</th>
+                                        <th>Account</th>
+                                        <th>Employee</th>
+                                        <th>Amount</th>
+                                        <th>Remarks</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group row mt-1" id="divRrmarks">
+                                    <label for="txtRrmarks" class="col-md-4 control-label">Remarks</label>
+                                    <div class="col-md-6">
+                                        <textarea id="txtRrmarks" name="w3review" rows="5" cols="28" style="border: 1px solid #ced4da; border-radius: 4px " disabled="disabled"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4">
+                                <div class="form-group row mt-1" id="divTotalAmount">
+                                    <label for="txtTotalAmount" class="col-md-4 control-label">Total Amount</label>
+                                    <div class="col-md-6">
+                                        <input type="number" class="form-control" id="txtTotalAmount" disabled="disabled" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <input id="cashEntryId" type="number" style="display: none;" value="@ViewBag.CashEntryId">
+        <input id="branch" type="number" style="display: none;" value="@ViewBag.Branch">
+        <input id="userId" type="text" style="display: none;" value="@ViewBag.UserId">
+    </div>
+</section>

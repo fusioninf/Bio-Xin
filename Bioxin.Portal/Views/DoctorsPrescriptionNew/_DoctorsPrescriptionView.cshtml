@@ -1,0 +1,183 @@
+﻿<style>
+    .custom-header {
+        background-color: darkgray !important; /* Blue color #007bff  #808080*/
+        color: black; /* Text color for contrast */
+    }
+</style>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-primary">
+                    <div class="card-header custom-header">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <h3 id="salesOrderNo"></h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group row" id="divCustomerCode">
+                                    <label for="txtCustomerCode" class="col-md-4 control-label">Patient Code</label>
+                                    <div class="col-md-6">
+                                        <input class="form-control" id="txtCustomerCode" disabled="disabled" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divCustomer">
+                                    <label for="ddlCustomer" class="col-md-4 control-label">Patient Name</label>
+                                    <div class="col-md-6">
+                                        <input type="hidden" class="form-control" id="ddlCustomer" disabled="disabled" />
+                                        <input class="form-control" id="ddlCustomerName" disabled="disabled" />
+                                        @*<select class="form-control select2" style="width: 100%;" id="ddlCustomer" disabled="disabled"></select>*@
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divPatientAge">
+                                    <label for="txtPatientAge" class="col-md-4 control-label">Patient Age</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" id="txtPatientAge" disabled="disabled" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divAddress">
+                                    <label for="txtAddress" class="col-md-4 control-label">Address</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" id="txtAddress" disabled="disabled" />
+                                        <input type="hidden" id="txtBillToAddressCode" />
+                                        <input type="hidden" id="txtShiptoAddressCode" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group row mt-1" id="divBranch">
+                                    <label for="ddlBranch" class="col-md-4 control-label">Branch</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%; text-align: center" id="ddlBranch" disabled="disabled"></select>
+                                    </div>
+                                </div>
+                                <div class="row table-responsive mt-1">
+                                    <table class="table table-bordered table-striped table-hover" id="testOrder">
+                                        <thead>
+                                            <tr style="background-color: lightgrey">
+                                                <th>#</th>
+                                                <th>Test Name</th>
+                                                <th>Value</th>
+                                                @*<th class="action">Action</th>*@
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group row" id="divDocumentNo">
+                                    <label for="txtDocumentNo" class="col-md-4 control-label">Document No</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtDocumentNo" class="form-control" disabled="disabled" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divStatus">
+                                    <label for="txtStatus" class="col-md-4 control-label">Status</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtStatus" class="form-control" disabled="disabled" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divDocDate">
+                                    <label for="txtDocDate" class="col-md-4 control-label">Posting Date</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtDocDate" class="form-control" disabled="disabled" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divDocDueDate">
+                                    <label for="txtDocDueDate" class="col-md-4 control-label">Delivery Date</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtDocDueDate" class="form-control" disabled="disabled" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divDoctor">
+                                    <label for="txtDoctorsName" class="col-md-4 control-label">Doctors Name</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtDoctors" class="form-control" disabled="disabled" />
+                                        <input type="hidden" id="txtDoctorsCode" />
+                                        @*<select class="form-control select2" style="width: 100%;" id="ddlDoctor" disabled="disabled"></select>*@
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                            @*<div class="row">
+                                &nbsp;
+                            </div>*@
+                        
+
+
+                            <div class="row">
+                                &nbsp;
+                            </div>
+                            <div class="row table-responsive">
+                                <table class="table table-bordered table-striped table-hover" id="salesOrder">
+                                    <thead>
+                                        <tr style="background-color: lightgrey">
+                                            <th>#</th>
+                                            <th>Product/Treatment</th>
+                                            <!--<th>Item Name</th>
+    <th>UOM</th>-->
+                                            <th>Quantity</th>
+                                            <!--<th>Price</th>
+    <th>Value</th>
+    <th>Stock</th>
+    <th>Remarks</th>-->
+                                            @*<th>Times per day</th>
+                                            <th>Days</th>*@
+                                            <th>Details</th>
+                                            @*<th>Breakfast</th>
+        <th>Lunch</th>
+        <th>Dinner</th>*@
+                                            @*<th class="action">Action</th>*@
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group row mt-1" id="divPatientConcern">
+                                        <label for="txtPatientConcern" class="col-md-4 control-label">Chief Complaint</label>
+                                        <div class="col-md-6">
+                                            @*<input type="text" class="form-control" id="txtPatientConcern" disabled="disabled" />*@
+                                            <textarea id="txtPatientConcern" name="w3review" rows="5" cols="23" style="border: 1px solid #ced4da; border-radius: 4px " disabled="disabled"></textarea>
+                                        </div>
+                                    </div>
+ 
+
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group row mt-1" id="divDoctorsComment">
+                                        <label for="txtDoctorsComment" class="col-md-4 control-label">Investigation</label>
+                                        <div class="col-md-6">
+                                            @*<input type="text" id="txtDoctorsComment" class="form-control" disabled="disabled" />*@
+                                            <textarea id="txtDoctorsComment" name="w3review" rows="5" cols="23" style="border: 1px solid #ced4da; border-radius: 4px " disabled="disabled"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group row mt-1" id="divDoctorsSuggestion">
+                                        <label for="taxDoctorsSuggestion" class="col-md-4 control-label">Advice</label>
+                                        <div class="col-md-6">
+                                            <textarea id="txtDoctorsSuggestion" name="w3review" rows="5" cols="23" disabled="disabled"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+</section>
+
+

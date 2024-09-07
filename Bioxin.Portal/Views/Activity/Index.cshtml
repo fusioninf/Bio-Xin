@@ -1,0 +1,402 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-12">
+                <!-- general form elements -->
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h3>Activity Home</h3>
+                            </div>
+                            <div class="col-md-6 text-right ">
+                                <a class="btn btn-outline-warning" href="@Url.Action("AddActivity", "Activity", new {aId = 0})">
+                                    <span class="fa fa-plus"></span>New Activity
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <div class="form-group" id="divFromDate">
+                                        <label for="txtFromDate">From Date</label>
+                                        <input type="text" id="txtFromDate" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group" id="divToDate">
+                                        <label for="txtToDate">To Date</label>
+                                        <input type="text" id="txtToDate" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <button style="margin-right: 27px;margin-top:12px" class="btn btn-primary" onclick="ShowReport()">Search</button>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card-body">
+                                <table class="table table-bordered table-striped table-hover">
+                                    <thead>
+                                        <tr style="background-color: aliceblue">
+                                            <th style="text-align:center">#</th>
+                                            <th style="text-align:center">Activity Type</th>
+                                            <th style="text-align:center">Activity</th>
+                                            <th style="text-align:center">Date</th>
+                                            <th style="text-align:center">Assined To</th>
+                                            <th style="text-align:center">From Time</th>
+                                            <th style="text-align:center">To Time</th>
+                                            <th style="text-align:center">Status</th>
+                                            <th style="text-align:center">Action</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody id="manuallist">
+                                        @{ int count = 1;}
+                                        @foreach (var item in Model)
+                                        {
+                                        <tr>
+                                            <td>@count</td>
+                                            <td>@item.TypeName</td>
+                                            <td>@item.TypeMasterName</td>
+                                            <td>@item.ActivityDate</td>
+                                            <td>@item.EmployeeName</td>
+                                            <td>@item.StartTime</td>
+                                            <td>@item.StartTime1</td>
+                                            <td>@item.StatusName</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary showBtn" data-bs-toggle="modal" data-bs-target="#viewModal" onclick="ShowData(@item.ActivityId)">View</button>
+                                            </td>
+                                        </tr>
+                                            count++;
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+        <!-- /.row -->
+    </div><!-- /.container-fluid -->
+
+</section>
+
+<div class="modal fade" tabindex="-1" id="viewModal" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" style="max-width: 100% !important">
+        <div class="modal-content">
+            <div class="modal-header">
+
+            </div>
+            <div class="modal-body" id="containerDetails">
+
+            </div>
+            <div class="modal-footer">
+                <input type="text" style="display:none;" id="eid" />
+                @*<button type="button" class="btn btn-danger" id="clsButton" data-dismiss="modal">Close</button>*@
+                <button class="btn btn-primary" data-bs-target="#viewModal" data-bs-toggle="modal" data-bs-dismiss="modal">Close</button>
+                @*<button type="button" class="btn btn-primary" id="clsEdit" onclick="GoToDo($('#eid').val())">Edit</button>*@
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            LoadDate_P('#txtFromDate');
+            LoadDate_C('#txtToDate');
+
+            //LoadEmployee('ddlManager');
+            //LoadBranch('ddlBranch');
+
+        });
+        function ShowReport() {
+            debugger;
+            var fromdate;
+            var todate;
+            var branchid = '';
+            var empId = '0';
+            if ($('#txtFromDate').val() == "") {
+                swal("Please input from date");
+                return;
+            }
+            else {
+                fromdate = $('#txtFromDate').val();
+            }
+            if ($('#txtToDate').val() == "") {
+                swal("Please input to date");
+                return;
+            }
+            else {
+                todate = $('#txtToDate').val();
+            }
+            //if ($('#ddlManager').val() == "0" || $('#ddlManager').val() == "") {
+            //    empId = '0';
+            //}
+            //else {
+            //    empId = $('#ddlManager').val();
+            //}
+
+            //if ($('#ddlBranch').val() == "") {
+            //    branchid = '';
+            //}
+            //else {
+            //    branchid = $('#ddlBranch').val();
+            //}
+
+            var urlpath = '@Url.Action("ActivityList_Search", "Activity")';
+            $.ajax({
+                url: urlpath,
+                dataType: 'html',
+                type: "Get",
+                data: { fromdate: fromdate, todate: todate},
+                async: false,
+                success: function (data) {
+                    debugger;
+                    data = JSON.parse(data);
+                    if (data.UnAutorized == 1) {
+                          window.location.href =  '@Url.Action("Login", "Home")';
+                    } else {
+                        var row = "";
+                        var count = 1;
+                        $("#manuallist").html("");
+
+                        var count = 1;
+                        $.each(data.dataList, function (index, item) {
+
+                            row += "<tr>";
+                            row += "<td style='text-align:center'>" + count + "</td>";
+                            row += "<td style='text-align:center'>" + item.TypeName + "</td>";
+                            row += "<td style='text-align:center'>" + item.TypeMasterName + "</td>";
+                            row += "<td style='text-align:center'>" + item.ActivityDate + "</td>";
+                            row += "<td style='text-align:center'>" + item.EmployeeName + "</td>";
+                            row += "<td style='text-align:center'>" + item.StartTime + "</td>";
+                            row += "<td style='text-align:center'>" + item.StartTime1 + "</td>";
+                            row += "<td style='text-align:center'>" + item.StatusName + "</td>";
+                            row += "<td style='text-align:center'><button class='btn btn-sm btn-primary showBtn' data-bs-toggle='modal' data-bs-target='#viewModal' onclick='ShowData(" + item.ActivityId + ")'>View</button></td>";
+                            row += "</tr>";
+                            count = count + 1;
+                        });
+                        $("#manuallist").html(row);
+                    }
+                   /* if (data.length > 0) {*/
+
+                    //}
+                }
+            });
+        }
+        function ShowData(id) {
+            //$('#viewModal').modal();
+            ViewOrder(id);
+            //$("#eid").val(id);
+            GetActivity(id);
+
+            //LoadBranch('ddlBranch');
+            //var branch = $('#branch').val();
+            //$("#ddlBranch").val(branch).trigger('change');
+        }
+        function ViewOrder(id) {
+            var urlpath = '@Url.Action("ViewActivity", "Activity")';
+            $.ajax({
+                url: urlpath,
+
+                dataType: 'html',
+                data: {id:id},
+                type: "Get",
+
+                async: false,
+                success: function (data) {
+
+                    $('#containerDetails').html(data);
+
+                }
+            });
+        }
+        function LoadBranch(elementId) {
+            var urlpath = '@Url.Action("GetBranch", "InventoryTransferRequest")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { },
+                async: false,
+                success: function(data) {
+
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value=''>--Select Branch--</option>");
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].PrcCode).html(data[i].PrcName ));
+                    }
+
+                }
+            });
+        }
+        function GetActivity(ActivityCode) {
+            var activityCode = ActivityCode.toString();
+            var urlpath = '@Url.Action("ActivityViewData", "Activity")';
+            $.ajax({
+                data: { ActivityCode: activityCode },
+                url: urlpath,
+                dataType: 'json',
+                type: "Get",
+                async: false,
+                success: function (data) {
+                    if (data.UnAutorized == 1) {
+                        window.location.href = '@Url.Action("Login", "Home")';
+                    } else {
+                        $('#ddlActivityType').val(data.dataList.TypeName);
+                        $('#ddlActivity').val(data.dataList.TypeMasterName);
+                        $('#txtActivityDate').val(data.dataList.ActivityDate);
+                        $('#txtTaskDetails').val(data.dataList.TaskDetails);
+                        $('#txtFromTime').val(data.dataList.StartTime);
+                        $('#txtToTime').val(data.dataList.StartTime1);
+                        $('#txtAssinedTo').val(data.dataList.EmployeeName);
+                        $('#txtTaskStatus').val(data.dataList.StatusName);
+                        $('#txtStatus').val(data.dataList.OperationStatusDesc);
+                        $('#txtSession').val(data.dataList.SessionDesc);
+                        $('#txtCustomer').val(data.dataList.CardCode);
+                        $('#txtSalesOrder').val(data.dataList.SalesOrder);
+                        $('#txtSalesItem').val(data.dataList.SalesItem);
+                        $('#txtComments').val(data.dataList.Comments);
+                        $('#ddlBranch').val(data.dataList.BranchName);
+                    }
+
+                }
+            });
+        }
+        function LoadActivityType(elementId) {
+            var urlpath = '@Url.Action("GetActivityTypeMaster", "Activity")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { },
+            /*    data: {  },*/
+                async: false,
+                success: function(data) {
+
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value=''>--Select Activity Type--</option>");
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].ActivityTypeCode).html(data[i].ActivityTypeName));
+                    }
+
+                }
+            });
+        }
+        function LoadActivity() {
+            var ActivityType = $('#ddlActivityType').val();
+            var urlpath = '@Url.Action("GetActivityMaster", "Activity")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { ActivityType: ActivityType },
+                async: false,
+                success: function(data) {
+
+                    $('#ddlActivity').empty();
+                    $('#ddlActivity').append("<option value=''>--Select Activity--</option>");
+                    for (var i = 0; i < data.length; i++) {
+                        $('#ddlActivity').append($("<option></option>").val(data[i].ActivityCode).html(data[i].ActivityName));
+                    }
+
+                }
+            });
+        }
+        function LoadBranch(elementId) {
+
+            var CardType = "C";
+            var urlpath = '@Url.Action("GetBranch", "InventoryTransferRequest")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { },
+                async: false,
+                success: function(data) {
+
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value='0'>--Select Branch--</option>");
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].PrcCode).html(data[i].PrcName ));
+                    }
+
+                }
+            });
+        }
+        function GetAssinedTo() {
+            var urlpath = '@Url.Action("GetAssinedTo", "Activity")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {  },
+                async: false,
+                success: function(data) {
+                    assinedToList = data;
+                }
+            });
+        }
+        function GetActivityStatusMaster() {
+            var urlpath = '@Url.Action("GetActivityStatusMaster", "Activity")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {  },
+                async: false,
+                success: function(data) {
+                    statusList = data;
+                }
+            });
+        }
+        function GetDailyOpertaionStatus() {
+            var urlpath = '@Url.Action("GetDailyOpertaionStatus", "Activity")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {  },
+                async: false,
+                success: function(data) {
+                    operationStatusList = data;
+                }
+            });
+        }
+        function GetActivitySession() {
+            var urlpath = '@Url.Action("GetActivitySession", "Activity")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {  },
+                async: false,
+                success: function(data) {
+                    sessionList = data;
+                }
+            });
+        }
+    </script>
+}
+

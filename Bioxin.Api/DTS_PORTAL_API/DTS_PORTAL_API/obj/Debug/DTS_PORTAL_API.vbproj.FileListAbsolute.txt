@@ -1,0 +1,521 @@
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\DTS_PORTAL_API.dll.config
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\DTS_PORTAL_API.dll
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\DTS_PORTAL_API.pdb
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\DTS_PORTAL_API.xml
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\csc.exe
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\csc.exe.config
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\csc.rsp
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\csi.exe
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\csi.rsp
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.CodeAnalysis.dll
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.CSharp.Core.targets
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.VisualBasic.Core.targets
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\System.AppContext.dll
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\System.Collections.Immutable.dll
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\System.Diagnostics.StackTrace.dll
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\System.IO.FileSystem.dll
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\System.IO.FileSystem.Primitives.dll
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\System.Reflection.Metadata.dll
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\vbc.exe
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\vbc.exe.config
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\vbc.rsp
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\VBCSCompiler.exe
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\VBCSCompiler.exe.config
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\Antlr3.Runtime.dll
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\Microsoft.Web.Infrastructure.dll
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\Newtonsoft.Json.dll
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\SIL_Encryption.dll
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Net.Http.Formatting.dll
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Cors.dll
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Helpers.dll
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Http.Cors.dll
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Http.dll
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Http.WebHost.dll
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Mvc.dll
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Optimization.dll
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Razor.dll
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.WebPages.Deployment.dll
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.WebPages.dll
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.WebPages.Razor.dll
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\WebGrease.dll
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Net.Http.Formatting.xml
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Http.xml
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Http.Cors.xml
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\Newtonsoft.Json.xml
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Helpers.xml
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Http.WebHost.xml
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Mvc.xml
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Optimization.xml
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Razor.xml
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.WebPages.xml
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.WebPages.Deployment.xml
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.WebPages.Razor.xml
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\Antlr3.Runtime.pdb
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\DTS_PORTAL_API.vbprojAssemblyReference.cache
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\Interop.SAPbobsCOM.dll
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\DTS_PORTAL_API.vbproj.ResolveComReference.cache
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\DTS_PORTAL_API.Resources.resources
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\DTS_PORTAL_API.vbproj.GenerateResource.cache
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\DTS_PORTAL_API.vbproj.CoreCompileInputs.cache
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\DTS_PORTAL_API.vbproj.CopyComplete
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\DTS_PORTAL_API.dll
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\DTS_PORTAL_API.xml
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\DTS_PORTAL_API.pdb
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\Sap.Data.Hana.v4.5.dll
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\Sap.Data.Hana.v4.5.xml
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\Sap.Data.Hana.v4.5.dll.config
+D:\SSAAL\Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\Interop.SAPbobsCOM.dll
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\DTS_PORTAL_API.dll.config
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\DTS_PORTAL_API.dll
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\DTS_PORTAL_API.pdb
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\DTS_PORTAL_API.xml
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\csc.exe
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\csc.exe.config
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\csc.rsp
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\csi.exe
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\csi.rsp
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.CodeAnalysis.dll
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.CSharp.Core.targets
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.VisualBasic.Core.targets
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\System.AppContext.dll
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\System.Collections.Immutable.dll
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\System.Diagnostics.StackTrace.dll
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\System.IO.FileSystem.dll
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\System.IO.FileSystem.Primitives.dll
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\System.Reflection.Metadata.dll
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\vbc.exe
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\vbc.exe.config
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\vbc.rsp
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\VBCSCompiler.exe
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\VBCSCompiler.exe.config
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\Antlr3.Runtime.dll
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\Microsoft.Web.Infrastructure.dll
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\Newtonsoft.Json.dll
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\Sap.Data.Hana.v4.5.dll
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Net.Http.Formatting.dll
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Cors.dll
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Helpers.dll
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Http.Cors.dll
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Http.dll
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Http.WebHost.dll
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Mvc.dll
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Optimization.dll
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Razor.dll
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.WebPages.Deployment.dll
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.WebPages.dll
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.WebPages.Razor.dll
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\WebGrease.dll
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\Sap.Data.Hana.v4.5.xml
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\Sap.Data.Hana.v4.5.dll.config
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Net.Http.Formatting.xml
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Http.xml
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Http.Cors.xml
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\Newtonsoft.Json.xml
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Helpers.xml
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Http.WebHost.xml
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Mvc.xml
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Optimization.xml
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Razor.xml
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.WebPages.xml
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.WebPages.Deployment.xml
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.WebPages.Razor.xml
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\Antlr3.Runtime.pdb
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\DTS_PORTAL_API.vbproj.AssemblyReference.cache
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\DTS_PORTAL_API.vbproj.ResolveComReference.cache
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\DTS_PORTAL_API.Resources.resources
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\DTS_PORTAL_API.vbproj.GenerateResource.cache
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\DTS_PORTAL_API.vbproj.CoreCompileInputs.cache
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\DTS_PORTAL_API.vbproj.CopyComplete
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\DTS_PORTAL_API.dll
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\DTS_PORTAL_API.xml
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\DTS_PORTAL_API.pdb
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\DTS_PORTAL_API.dll.config
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\DTS_PORTAL_API.dll
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\DTS_PORTAL_API.pdb
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\DTS_PORTAL_API.xml
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\csc.exe
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\csc.exe.config
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\csc.rsp
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\csi.exe
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\csi.rsp
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.CodeAnalysis.dll
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.CSharp.Core.targets
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.VisualBasic.Core.targets
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\System.AppContext.dll
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\System.Collections.Immutable.dll
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\System.Diagnostics.StackTrace.dll
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\System.IO.FileSystem.dll
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\System.IO.FileSystem.Primitives.dll
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\System.Reflection.Metadata.dll
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\vbc.exe
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\vbc.exe.config
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\vbc.rsp
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\VBCSCompiler.exe
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\VBCSCompiler.exe.config
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\Antlr3.Runtime.dll
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\Microsoft.Web.Infrastructure.dll
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\Newtonsoft.Json.dll
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\Sap.Data.Hana.v4.5.dll
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Net.Http.Formatting.dll
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Cors.dll
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Helpers.dll
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Http.Cors.dll
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Http.dll
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Http.WebHost.dll
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Mvc.dll
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Optimization.dll
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Razor.dll
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.WebPages.Deployment.dll
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.WebPages.dll
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.WebPages.Razor.dll
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\WebGrease.dll
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\Sap.Data.Hana.v4.5.xml
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\Sap.Data.Hana.v4.5.dll.config
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Net.Http.Formatting.xml
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Http.xml
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Http.Cors.xml
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\Newtonsoft.Json.xml
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Helpers.xml
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Http.WebHost.xml
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Mvc.xml
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Optimization.xml
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Razor.xml
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.WebPages.xml
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.WebPages.Deployment.xml
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.WebPages.Razor.xml
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\Antlr3.Runtime.pdb
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\bin\Interop.SAPbobsCOM.dll
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\DTS_PORTAL_API.vbproj.AssemblyReference.cache
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\Interop.SAPbobsCOM.dll
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\DTS_PORTAL_API.vbproj.ResolveComReference.cache
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\DTS_PORTAL_API.Resources.resources
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\DTS_PORTAL_API.vbproj.GenerateResource.cache
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\DTS_PORTAL_API.vbproj.CoreCompileInputs.cache
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\DTS_PORTAL_API.vbproj.CopyComplete
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\DTS_PORTAL_API.dll
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\DTS_PORTAL_API.xml
+D:\Client\BioXin\Subhadip_Bioxin\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\DTS_PORTAL_API.pdb
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\DTS_PORTAL_API.vbprojAssemblyReference.cache
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\Interop.SAPbobsCOM.dll
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\DTS_PORTAL_API.vbproj.ResolveComReference.cache
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\DTS_PORTAL_API.Resources.resources
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\DTS_PORTAL_API.vbproj.GenerateResource.cache
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\DTS_PORTAL_API.vbproj.CoreCompileInputs.cache
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\DTS_PORTAL_API.dll
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\DTS_PORTAL_API.xml
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\DTS_PORTAL_API.pdb
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\bin\DTS_PORTAL_API.dll.config
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\bin\DTS_PORTAL_API.dll
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\bin\DTS_PORTAL_API.pdb
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\bin\DTS_PORTAL_API.xml
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\csc.exe
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\csc.exe.config
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\csc.rsp
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\csi.exe
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\csi.rsp
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.CodeAnalysis.dll
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.CSharp.Core.targets
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.VisualBasic.Core.targets
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\System.AppContext.dll
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\System.Collections.Immutable.dll
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\System.Diagnostics.StackTrace.dll
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\System.IO.FileSystem.dll
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\System.IO.FileSystem.Primitives.dll
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\System.Reflection.Metadata.dll
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\vbc.exe
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\vbc.exe.config
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\vbc.rsp
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\VBCSCompiler.exe
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\VBCSCompiler.exe.config
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\bin\Antlr3.Runtime.dll
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\bin\Microsoft.Web.Infrastructure.dll
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\bin\Newtonsoft.Json.dll
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\bin\Sap.Data.Hana.v4.5.dll
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Net.Http.Formatting.dll
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Cors.dll
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Helpers.dll
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Http.Cors.dll
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Http.dll
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Http.WebHost.dll
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Mvc.dll
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Optimization.dll
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Razor.dll
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.WebPages.Deployment.dll
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.WebPages.dll
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.WebPages.Razor.dll
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\bin\WebGrease.dll
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\bin\Sap.Data.Hana.v4.5.xml
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\bin\Sap.Data.Hana.v4.5.dll.config
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Net.Http.Formatting.xml
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Http.xml
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Http.Cors.xml
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\bin\Newtonsoft.Json.xml
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Helpers.xml
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Http.WebHost.xml
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Mvc.xml
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Optimization.xml
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Razor.xml
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.WebPages.xml
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.WebPages.Deployment.xml
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.WebPages.Razor.xml
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\bin\Antlr3.Runtime.pdb
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+D:\SSAAL\Bioxin\BIOXIN\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\DTS_PORTAL_API.vbproj.CopyComplete
+D:\Client\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\Interop.SAPbobsCOM.dll
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\DTS_PORTAL_API.dll.config
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\DTS_PORTAL_API.dll
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\DTS_PORTAL_API.pdb
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\DTS_PORTAL_API.xml
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\csc.exe
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\csc.exe.config
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\csc.rsp
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\csi.exe
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\csi.rsp
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.CodeAnalysis.dll
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.CSharp.Core.targets
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.VisualBasic.Core.targets
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\System.AppContext.dll
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\System.Collections.Immutable.dll
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\System.Diagnostics.StackTrace.dll
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\System.IO.FileSystem.dll
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\System.IO.FileSystem.Primitives.dll
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\System.Reflection.Metadata.dll
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\vbc.exe
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\vbc.exe.config
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\vbc.rsp
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\VBCSCompiler.exe
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\VBCSCompiler.exe.config
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\Antlr3.Runtime.dll
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\Microsoft.Web.Infrastructure.dll
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\Newtonsoft.Json.dll
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\Sap.Data.Hana.v4.5.dll
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Net.Http.Formatting.dll
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Cors.dll
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Helpers.dll
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Http.Cors.dll
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Http.dll
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Http.WebHost.dll
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Mvc.dll
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Optimization.dll
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Razor.dll
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.WebPages.Deployment.dll
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.WebPages.dll
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.WebPages.Razor.dll
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\WebGrease.dll
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\Sap.Data.Hana.v4.5.xml
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\Sap.Data.Hana.v4.5.dll.config
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Net.Http.Formatting.xml
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Http.xml
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Http.Cors.xml
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\Newtonsoft.Json.xml
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Helpers.xml
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Http.WebHost.xml
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Mvc.xml
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Optimization.xml
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Razor.xml
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.WebPages.xml
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.WebPages.Deployment.xml
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.WebPages.Razor.xml
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\Antlr3.Runtime.pdb
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\DTS_PORTAL_API.vbproj.AssemblyReference.cache
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\Interop.SAPbobsCOM.dll
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\DTS_PORTAL_API.vbproj.ResolveComReference.cache
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\DTS_PORTAL_API.Resources.resources
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\DTS_PORTAL_API.vbproj.GenerateResource.cache
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\DTS_PORTAL_API.vbproj.CoreCompileInputs.cache
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\DTS_PORTAL_API.vbproj.CopyComplete
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\DTS_PORTAL_API.dll
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\DTS_PORTAL_API.xml
+D:\Client Doc\BioXin\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\DTS_PORTAL_API.pdb
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\DTS_PORTAL_API.dll.config
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\DTS_PORTAL_API.dll
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\DTS_PORTAL_API.pdb
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\DTS_PORTAL_API.xml
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\csc.exe
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\csc.exe.config
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\csc.rsp
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\csi.exe
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\csi.rsp
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.CodeAnalysis.dll
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.CSharp.Core.targets
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.VisualBasic.Core.targets
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\System.AppContext.dll
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\System.Collections.Immutable.dll
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\System.Diagnostics.StackTrace.dll
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\System.IO.FileSystem.dll
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\System.IO.FileSystem.Primitives.dll
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\System.Reflection.Metadata.dll
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\vbc.exe
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\vbc.exe.config
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\vbc.rsp
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\VBCSCompiler.exe
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\VBCSCompiler.exe.config
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\Antlr3.Runtime.dll
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\Microsoft.Web.Infrastructure.dll
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\Newtonsoft.Json.dll
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\Sap.Data.Hana.v4.5.dll
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Net.Http.Formatting.dll
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Cors.dll
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Helpers.dll
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Http.Cors.dll
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Http.dll
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Http.WebHost.dll
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Mvc.dll
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Optimization.dll
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Razor.dll
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.WebPages.Deployment.dll
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.WebPages.dll
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.WebPages.Razor.dll
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\WebGrease.dll
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\Sap.Data.Hana.v4.5.xml
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\Sap.Data.Hana.v4.5.dll.config
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Net.Http.Formatting.xml
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Http.xml
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Http.Cors.xml
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\Newtonsoft.Json.xml
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Helpers.xml
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Http.WebHost.xml
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Mvc.xml
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Optimization.xml
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Razor.xml
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.WebPages.xml
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.WebPages.Deployment.xml
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.WebPages.Razor.xml
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\Antlr3.Runtime.pdb
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\DTS_PORTAL_API.vbproj.AssemblyReference.cache
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\Interop.SAPbobsCOM.dll
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\DTS_PORTAL_API.vbproj.ResolveComReference.cache
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\DTS_PORTAL_API.Resources.resources
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\DTS_PORTAL_API.vbproj.GenerateResource.cache
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\DTS_PORTAL_API.vbproj.CoreCompileInputs.cache
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\DTS_PORTAL_API.vbproj.CopyComplete
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\DTS_PORTAL_API.dll
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\DTS_PORTAL_API.xml
+D:\Users\Fusion\Desktop\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\DTS_PORTAL_API.pdb
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\DTS_PORTAL_API.dll.config
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\DTS_PORTAL_API.dll
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\DTS_PORTAL_API.pdb
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\DTS_PORTAL_API.xml
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\csc.exe
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\csc.exe.config
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\csc.rsp
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\csi.exe
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\csi.rsp
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.CodeAnalysis.dll
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.CSharp.Core.targets
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\Microsoft.VisualBasic.Core.targets
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\System.AppContext.dll
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\System.Collections.Immutable.dll
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\System.Diagnostics.StackTrace.dll
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\System.IO.FileSystem.dll
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\System.IO.FileSystem.Primitives.dll
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\System.Reflection.Metadata.dll
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\vbc.exe
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\vbc.exe.config
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\vbc.rsp
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\VBCSCompiler.exe
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\roslyn\VBCSCompiler.exe.config
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\Antlr3.Runtime.dll
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\Microsoft.Web.Infrastructure.dll
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\Newtonsoft.Json.dll
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\Sap.Data.Hana.v4.5.dll
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Net.Http.Formatting.dll
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Cors.dll
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Helpers.dll
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Http.Cors.dll
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Http.dll
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Http.WebHost.dll
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Mvc.dll
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Optimization.dll
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Razor.dll
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.WebPages.Deployment.dll
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.WebPages.dll
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.WebPages.Razor.dll
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\WebGrease.dll
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\Sap.Data.Hana.v4.5.xml
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\Sap.Data.Hana.v4.5.dll.config
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Net.Http.Formatting.xml
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Http.xml
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Http.Cors.xml
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\Newtonsoft.Json.xml
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Helpers.xml
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Http.WebHost.xml
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Mvc.xml
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Optimization.xml
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.Razor.xml
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.WebPages.xml
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.WebPages.Deployment.xml
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\System.Web.WebPages.Razor.xml
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\Antlr3.Runtime.pdb
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\DTS_PORTAL_API.vbproj.AssemblyReference.cache
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\Interop.SAPbobsCOM.dll
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\DTS_PORTAL_API.vbproj.ResolveComReference.cache
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\DTS_PORTAL_API.Resources.resources
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\DTS_PORTAL_API.vbproj.GenerateResource.cache
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\DTS_PORTAL_API.vbproj.CoreCompileInputs.cache
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\DTS_PORT.1B7C106A.Up2Date
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\DTS_PORTAL_API.dll
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\DTS_PORTAL_API.xml
+F:\Projects\SAP\DTS_PORTAL_API\DTS_PORTAL_API\DTS_PORTAL_API\obj\Debug\DTS_PORTAL_API.pdb

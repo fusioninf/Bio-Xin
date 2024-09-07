@@ -1,0 +1,649 @@
+﻿@{
+    ViewBag.Title = "Ecommerce Courier Information";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .spinnermodal {
+        background-color: #FFFFFF;
+        height: 100%;
+        left: 0;
+        opacity: 0.5;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 100000;
+    }
+</style>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-12">
+                <!-- general form elements -->
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h3>Ecommerce Courier Information</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <div class="form-group" id="divFromDate">
+                                        <label for="txtFromDate">From Date</label>
+                                        <input type="text" id="txtFromDate" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group" id="divToDate">
+                                        <label for="txtToDate">To Date</label>
+                                        <input type="text" id="txtToDate" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group" id="divDocNum">
+                                        <label for="txtDocNum">Doc Num</label>
+                                        <input type="text" placeholder="Search Doc Num" id="txtDocNumSearch" name="UserName" class="form-control" autocomplete="off" onkeyup="RemoveDocNum()" />
+                                        <input type="hidden" id="txtDocNum" name="txtDocNum" />
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group" id="divCustomerName">
+                                        <label for="txtCustomerName">Customer Name</label>
+                                        <input type="text" placeholder="Search Customer Name" id="txtCustomerNameSearch" name="UserName" class="form-control" autocomplete="off" onkeyup="RemoveCardCode()" />
+                                        <input type="hidden" id="txtCustomerName" name="txtCustomerName" />
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group" id="divMobileSearch">
+                                        <label for="txtMobileSearch">Customer Mobile</label>
+                                        <input type="text" placeholder="Search Customer Mobile" id="txtCustomerMobileSearch" name="UserName" class="form-control" autocomplete="off" />
+                                        @*<input type="hidden" id="txtCustomerMobile" name="txtCustomerMobile" />*@
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group" id="divDeliveryChannel">
+                                        <label for="ddlDeliveryChannel">Delivery Channel</label>
+                                        <select class="form-control select2" style="width: 100%; text-align: center" id="ddlDeliveryChannel"></select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group" id="divDeliveryAgent">
+                                        <label for="ddlDeliveryAgent">Delivery Agent</label>
+                                        <select class="form-control select2" style="width: 100%; text-align: center" id="ddlDeliveryAgent"></select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group" id="divDeliveryStatus">
+                                        <label for="ddlDeliveryStatus">Delivery Status</label>
+                                        <select class="form-control select2" style="width: 100%; text-align: center" id="ddlDeliveryStatus"></select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group" id="divThana">
+                                        <label for="ddlThana">Area</label>
+                                        <select class="form-control select2" style="width: 100%; text-align: center" id="ddlThana"></select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <button style="margin-right: 27px;margin-top:12px" class="btn btn-primary" onclick="ShowEcommerceCourierInfo()">Search</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    @*<div class="row">*@
+                    <div class="card-body">
+                        <div class="row table-responsive">
+                            <table class="table table-bordered table-striped table-hover" id="iEcoCourierInfo">
+                                <thead>
+                                    <tr style="background-color: aliceblue">
+                                        <th style="text-align:center">Action</th>
+                                        <th style="text-align:center">#</th>
+                                        <th style="text-align:center"><input type="checkbox" class="icheck-primary d-inline ml-2 form-control-input chackall" id="chk_All" onchange="SelectAllCheckboxFunc()" />Check All</th>
+                                        <th style="text-align:center">Customer</th>
+                                        <th style="text-align:center">Mobile</th>
+                                        <th style="text-align:center">Order No</th>
+                                        <th style="text-align:center">Order Date</th>
+                                        <th style="text-align:center">Order Value</th>
+                                        <th style="text-align:center">Delivery Channel</th>
+                                        <th style="text-align:center">Delivery Agent</th>
+                                        <th style="text-align:center">Area</th>
+                                        <th style="text-align:center">Tracking No</th>
+                                        <th style="text-align:center">Confirm Date</th>
+                                        <th style="text-align:center">Delivery Status</th>
+                                        <th style="text-align:center">Remarks</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbodyid">
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="15" class="text-end">
+                                            <div id="pagination-container"></div>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-warning" id="btnEcommerceCourier" onclick="SaveEcommerceCourierInformation()">Add & New</button>
+                        <button class="btn btn-warning  float-right" onclick="location.reload()">Clear</button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <!-- /.row -->
+    </div><!-- /.container-fluid -->
+    <div class="spinnermodal" id="testSpan" style="display: none; z-index: 10001">
+        <div style="position: fixed; z-index: 10001; top: 50%; left: 50%; height:50px">
+            <img src="~/AssetStatic/img/loading_spinner.gif" />
+        </div>
+    </div>
+</section>
+
+@section Scripts{
+    <script type="text/javascript">
+        var channelList = {};
+        var agentList = {};
+        var thanaList = {};
+        var statusList = {};
+
+        function ShowEcommerceCourierInfo() {
+            $('#pagination-container').pagination({
+                dataSource: getUrl(),
+                pageSize: 100,
+                locator: 'dataList',
+                totalNumberLocator: function (response) {
+                    return response.totalRows;
+                },
+                ajax: {
+                    beforeSend: function () {
+                        $('#testSpan').show();
+                    }
+                },
+                callback: function (data, pagination) {
+                    var html = template(data, pagination.pageNumber);
+                    $('#tbodyid').html(html);
+                    LoadDate('.confirmDate');
+                    $('.select2').select2();
+                    $('#testSpan').hide();
+                }
+            });
+        }
+
+        function getUrl() {
+              const fromdate = $('#txtFromDate').val();
+              const todate = $('#txtToDate').val();
+            const SalesNo = $("#txtDocNumSearch").val();
+            const CardCode = $("#txtCustomerNameSearch").val();
+              const MobileNo = $("#txtCustomerMobileSearch").val();
+              const DeliveryChannel = $('#ddlDeliveryChannel').val();
+              const DeliveryAgent = $('#ddlDeliveryAgent').val();
+              const Thana = $('#ddlThana').val();
+              const DeliveryStatus = $('#ddlDeliveryStatus').val();
+
+            const urlpath = '@Url.Action("EcommerceCourierInfoList_Search", "InventoryTransfer")' + `?fromdate=${fromdate}&todate=${todate}&SalesNo=${SalesNo}&CardCode=${CardCode}&MobileNo=${MobileNo}&DeliveryChannel=${DeliveryChannel}&DeliveryAgent=${DeliveryAgent}&Thana=${Thana}&DeliveryStatus=${DeliveryStatus}`;
+
+            return urlpath
+        }
+        function template(data, pageNumber) {
+            let tableRows = "";
+            var count = 1;
+
+            var sl = count + ((pageNumber - 1) * 100);
+            var $thanas = "<option value=''>--Area--</option>";
+            $thanas += thanaList.map(function (option) {
+                return '<option value="' + option.ThaneCode + '" data-value="' + option.ThaneCode + '">' + option.ThanaName + '</option>';
+            }).join('');
+
+            var deliveryChallan = "<option value=''>--Delivery Channel--</option>";
+            deliveryChallan += channelList.map((option) => {
+                return '<option value="' + option.Value + '" data-value="' + option.Value + '">' + option.Description + '</option>';
+            }).join('');
+
+            var agents = "<option value=''>--Delivery Agent--</option>";
+            agents += agentList.map((option) => {
+                return '<option value="' + option.empID + '" data-value="' + option.empID + '">' + option.firstName + " " + option.middleName + " " + option.lastName + '</option>';
+            }).join('');
+
+            var statuses = "<option value=''>--Status--</option>";
+            statuses += statusList.map((option) => {
+                return '<option value="' + option.Value + '" data-value="' + option.Value + '">' + option.Description + '</option>';
+            }).join('');
+
+            $.each(data, function (index, item) {
+                const className = item.DocStatus === "C" ? 'btn-success' : 'btn-warning';
+                const action = item.StatusCode == 'D' ? `<a class='btn btn-sm ${className}' id='actionlink_${count}' target='_blank' href='@Url.Action("AddSalesInvoice", "SalesInvoice")?siId=${item.SODocEntry}'>Invoice</a>` : "";
+
+                tableRows += `<tr id='${count}'>`;
+                tableRows += `<td style='text-align:center' id='action_${count}' >${action}</td>`;
+                tableRows += `<td style='text-align:center'>${sl++}</td>`;
+                tableRows += `<td style='text-align:center'><input type='checkbox' class='icheck-primary d-inline ml-2 form-control-input checkid' id='chk_${count}' value='${count}' onclick='Checkp(${count})'/></td>`;
+                tableRows += `<td style='text-align:center'>${item.SOCardName}</td>`;
+                tableRows += `<td style='text-align:center'>${item.Mobile}</td>`;
+                tableRows += `<td style='text-align:center'><b>${item.SODocNum}</b></td>`;
+                tableRows += `<td style='text-align:center'>${item.SODocDate}</td>`;
+                tableRows += `<td style='text-align:center'>${item.TotalValue}</td>`;
+                tableRows += `<td style='text-align:center'><select class='form-control select2 deliveryChannel' value='${item.DelChannelCode}' id='deliveryChannel_${count}' style='width: 180px'>${deliveryChallan.replace(`data-value="${item.DelChannelCode}"`, 'selected')}</select></td>`;
+                tableRows += `<td style='text-align:center'><select class='form-control select2 deliveryAgent' id='deliveryAgent_${count}' value='${item.DelAgentCode}' style='width: 180px'>${agents.replace(`data-value="${item.DelAgentCode}"`, 'selected')}</select></td>`;
+                tableRows += `<td style='text-align:center'><select class='form-control deliveryThana select2' id='deliveryThana_${count}' value='${item.AreaCode}' style='width: 120px'>${$thanas.replace(`data-value="${item.AreaCode}"`, 'selected')}</select></td>`;
+                tableRows += `<td style='text-align:center' id='tdtrackingID_${count}'><input type='text' id='trackingID_${count}' value='${item.TrackingID}' /></td>`;
+
+                let updatedDocDueDate = '';
+                if (item.CnfDate != '' && item.CnfDate != null) {
+                    updatedDocDueDate = DateConversionToDateMonthYear(item.CnfDate);
+                }
+
+                tableRows += `<td style='text-align:center'><input type='text' class='confirmDate' id='confirmDate_${count}' value='${updatedDocDueDate}' /></td>`;
+                tableRows += `<td style='text-align:center' id='tdStatus_${count}'><select class='form-control select2 deliveryStatus' value='${item.StatusCode}' id='deliveryStatus_${count}' style='width: 180px'>${statuses.replace(`data-value="${item.StatusCode}"`, 'selected')}</select></td>`;
+                tableRows += `<td style='text-align:center'><input type='text' id='remarks1_${count}' value='${item.Remarks1}' /></td>`;
+
+                tableRows += "<td style='text-align:center;display: none'><input type='text' style='display: none' id='docEntry_" + count + "' value='" + item.DocEntry + "' /></td>";
+                tableRows += "</tr>";
+                count++;
+            });
+
+    return tableRows;
+}
+
+
+        $(document).ready(function () {
+          /*  $("#action").hide();*/
+            LoadDate_C('#txtFromDate');
+            LoadDate_C('#txtToDate');
+            $("#txtCustomerMobileSearch").autocomplete({
+            source: function (request, response) {
+
+                var _url = '@Url.Action("AutoCompleteBusinessPartner", "SalesOrderNew")';
+                var mobile = '';
+                $.ajax({
+                    url: _url,
+                    data: "{ 'prefix': '" + request.term + "'}",
+                    dataType: "json",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        if (data.UnAutorized == 1) {
+                            window.location.href = '@Url.Action("Logout", "Home")';
+                        } else {
+                            if (data.dataList[0].ReturnCode == "-99999") {
+                                window.location.href = '@Url.Action("Logout", "Home")';
+                            } else {
+                                response($.map(data.dataList, function (item) {
+                                    return item.Mobile + " | " + item.CardCode + " | " + item.CardName;
+                                }));
+                            }
+                        }
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+            },
+            select: function (event, ui) {
+                debugger;
+                var str = ui.item.value;
+                var ret2 = str.replace(" | ", '|');
+                var ret = ret2.split('|');
+                 mobile = ret[0];
+                var cardCode = ret[1];
+                var cardName = ret[2];
+
+             /*   $("#txtCustomerMobile").val(mobile);*/
+
+
+            },
+                minLength: 3
+                , close: function (event, ui) {
+                    debugger;
+                    $("#txtCustomerMobileSearch").val(mobile);
+                }
+            });
+            $("#txtCustomerNameSearch").autocomplete({
+            source: function (request, response) {
+
+                var _url = '@Url.Action("AutoCompleteCustomerName", "SalesOrderNew")';
+                var cardName = '';
+                $.ajax({
+                    url: _url,
+                    data: "{ 'prefix': '" + request.term + "'}",
+                    dataType: "json",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        if (data.UnAutorized == 1) {
+                            window.location.href = '@Url.Action("Logout", "Home")';
+                        } else {
+                            if (data.dataList[0].ReturnCode == "-99999") {
+                                window.location.href = '@Url.Action("Logout", "Home")';
+                            } else {
+                                response($.map(data.dataList, function (item) {
+                                    return item.Mobile + " | " + item.CardCode + " | " + item.CardName;
+                                }));
+                            }
+                        }
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+            },
+            select: function (event, ui) {
+                debugger;
+                var str = ui.item.value;
+                var ret2 = str.replace(" | ", '|');
+                var ret = ret2.split('|');
+                var mobile = ret[0];
+                var cardCode = ret[1];
+                cardName = ret[2];
+
+                $("#txtCustomerName").val(cardCode);
+            },
+                minLength: 3
+                , close: function (event, ui) {
+                    debugger;
+                    $("#txtCustomerNameSearch").val(cardName);
+                }
+            });
+            $("#txtDocNumSearch").autocomplete({
+                source: function (request, response) {
+
+                var _url = '@Url.Action("AutoCompleteSalesOrder", "SalesOrderNew")';
+                    var sAPDocNum = '';
+                $.ajax({
+                    url: _url,
+                    data: "{ 'prefix': '" + request.term + "'}",
+                    dataType: "json",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        if (data.UnAutorized == 1) {
+                            window.location.href = '@Url.Action("Logout", "Home")';
+                        } else {
+                            if (data.dataList[0].ReturnCode == "-99999") {
+                                window.location.href = '@Url.Action("Logout", "Home")';
+                            } else {
+                                response($.map(data.dataList, function (item) {
+                                    return item.SAPDocNum + " | " + item.DocNum;
+                                }));
+                            }
+                        }
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+            },
+            select: function (event, ui) {
+                debugger;
+                var str = ui.item.value;
+                var ret2 = str.replace(" | ", '|');
+                var ret = ret2.split('|');
+                sAPDocNum = ret[0];
+                var docNum = ret[1];
+
+                $("#txtDocNum").val(docNum);
+            },
+                minLength: 2
+                , close: function (event, ui) {
+                    $("#txtDocNumSearch").val(sAPDocNum);
+                }
+            });
+            LoadDeliveryChannel('ddlDeliveryChannel');
+            LoadDeliveryAgent('ddlDeliveryAgent');
+            LoadDeliveryThana('ddlThana');
+            LoadDeliveryStatus('ddlDeliveryStatus');
+        });//End of the Document Ready
+        function RemoveDocNum() {
+            var DocNumSearch = $("#txtDocNumSearch").val();
+            if (DocNumSearch == '' || DocNumSearch == null) {
+                $("#txtDocNum").val('');
+            }
+        }
+        function RemoveCardCode() {
+            var CardCodeSearch = $("#txtCustomerNameSearch").val();
+            if (CardCodeSearch == '' || CardCodeSearch == null) {
+                $("#txtCustomerName").val('');
+            }
+        }
+
+        function LoadDeliveryChannel(elementId) {
+            var urlpath = '@Url.Action("GetDeliveryChannel", "InventoryTransfer")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {},
+                asynce: false,
+                success: function (data) {
+                    channelList = data;
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value=''>--Delivery Channel--</option>");
+                    for (var i = 0; i < data.length; i++) {
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].Value).html(data[i].Description));
+                    }
+                }
+            });
+        }
+        function LoadDeliveryAgent(elementId) {
+            var urlpath = '@Url.Action("GetDeliveryAgent", "InventoryTransfer")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {},
+                asynce: false,
+                success: function (data) {
+                    agentList = data;
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value=''>--Select Delivery Agent--</option>");
+                    for (var i = 0; i < data.length; i++) {
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].empID).html(data[i].firstName + " " + data[i].middleName + " " + data[i].lastName));
+                    }
+                }
+            });
+        }
+        function LoadDeliveryThana(elementId) {
+            var urlpath = '@Url.Action("GetThana", "InventoryTransfer")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {},
+                asynce: false,
+                success: function (data) {
+                    thanaList = data;
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value=''>--Area--</option>");
+                    for (var i = 0; i < data.length; i++) {
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].ThaneCode).html(data[i].ThanaName));
+                    }
+                }
+            });
+        }
+        function LoadDeliveryStatus(elementId) {
+            var urlpath = '@Url.Action("GetDeliveryConfirmStatus", "InventoryTransfer")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {},
+                asynce: false,
+                success: function (data) {
+                    statusList = data;
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value=''>--Delivery Status--</option>");
+                    for (var i = 0; i < data.length; i++) {
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].Value).html(data[i].Description));
+                    }
+                }
+            });
+        }
+
+        function SaveEcommerceCourierInformation() {
+            if (Validation()) {
+            var jsonObjs = [];
+                $('#iEcoCourierInfo tbody tr').each(function(key, value) {
+                soId = $(this).prop("id");
+                    var theObjs = {};
+                if ($('#chk_' + soId).is(":checked")) {
+                    theObjs["DocEntry"] = $('#docEntry_' + soId).val();
+                    theObjs["TrackingID"] = $('#trackingID_' + soId).val();
+                    theObjs["StatusCode"] = $('#deliveryStatus_' + soId).val();
+                    theObjs["DelChannel"] = $('#deliveryChannel_' + soId).val();
+                    theObjs["DelAgent"] = $('#deliveryAgent_' + soId).val();
+                    theObjs["Area"] = $('#deliveryThana_' + soId).val();
+                    var confirmDate = $('#confirmDate_' + soId).val()??"";
+                    theObjs["ConfDate"] = DateConversionToYYYYMMDD(confirmDate);
+                    theObjs["Remarks"] = $('#remarks1_' + soId).val();
+                    jsonObjs.push(theObjs);
+                }
+                });
+
+               var things = JSON.stringify({ 'things': jsonObjs });
+
+            var urlpath = '@Url.Action("SaveEcommerceCourierInfo", "InventoryTransfer")';
+            $.ajax({
+                contentType: "application/json; charset=utf-8",
+                data: things,
+                dataType: 'json',
+                url: urlpath,
+                type: "POST",
+                beforeSend: function () {
+                    $('#testSpan').show();
+                    $('#btnEcommerceCourier').prop('disabled', true);
+                },
+                success: function (result) {
+                    $('#testSpan').hide();
+                    if (result.UnAutorized == 1) {
+                        window.location.href = '@Url.Action("Logout", "Home")';
+                    } else {
+                        if (result.dataList.ReturnCode == "-99999") {
+                            window.location.href = '@Url.Action("Logout", "Home")';
+                        } else {
+                            var message = result.dataList.ReturnMsg;
+                            if (result.dataList.ReturnCode == "0000") {
+                        swal({
+                            title: " Saved Successfull",
+                            text: '',
+                            type: "success",
+                            showCancelButton: false,
+                            cancelButtonClass: 'btn-secondary waves-effect',
+                            confirmButtonClass: 'btn-success waves-effect waves-light',
+                            confirmButtonText: 'Yes!',
+                            closeOnConfirm: false
+                        }, function () {
+                             window.location.href =  '@Url.Action("EcommerceCourierInfoUpdate", "InventoryTransfer")';
+                        });
+                    } else {
+                        ShowMessage(message);
+                        $('#btnEcommerceCourier').prop('disabled', false);
+                    }
+                        }
+                    }
+
+                },
+                error: function() {
+                    swal("Network error occured.Please reload the page and try again");
+                    $('#btnEcommerceCourier').prop('disabled', false);
+                }
+            });
+
+            }
+        }
+        function pad2(number) {
+            return (number < 10 ? '0' : '') + number;
+        }
+        function DateConversionToYYYYMMDD(inputDate) {
+            // Split the input date into day, month, and year parts
+            var parts = inputDate.split('-');
+            var day = parts[0];
+            var month = parts[1];
+            var year = parts[2];
+            var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            var monthIndex = monthNames.indexOf(month);
+            monthIndex++; // Adjust for 0-based indexing
+            // Create a Date object with the parsed values
+            var dateObject = new Date(year, monthIndex - 1, day);
+            // Format the date as "YYYYMMDD"
+            var formattedDate = dateObject.getFullYear() + pad2(dateObject.getMonth() + 1) + pad2(dateObject.getDate());
+            return formattedDate
+        }
+        function DateConversionToDateMonthYear(inputDate) {
+            var parts = inputDate.split('/');
+            var day = parts[0];
+            var month = parts[1];
+            var year = parts[2];
+            var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            var monthName = monthNames[parseInt(month) - 1];
+            var formattedDate = day + '-' + monthName + '-' + year;
+            return formattedDate
+        }
+        function Validation() {
+            var isValid = true;
+            var message = "Some Values Required";
+            var checked = $('#tbodyid input:checked').length > 0;
+            if (!checked) {
+                isValid = false;
+                message = "Check at least one checkbox";
+            }
+            $('#iEcoCourierInfo tbody tr').each(function (key, value) {
+                soId = $(this).prop("id");
+                if ($('#chk_' + soId).is(":checked")) {
+                    var deliveryStatus = $('#deliveryStatus_' + soId).val();
+                    if (deliveryStatus === '' || deliveryStatus === null) {
+                        message = "Delivery Status Required";
+                        ValidationColorChangeNew('deliveryStatus_' + soId, 'tdStatus_' + soId, "Delivery Status Required", false);
+                        isValid = false;
+                    }
+
+                    var trackingID = $('#trackingID_' + soId).val();
+                    if (trackingID === '' || trackingID === null) {
+                        message = "Tracking No Required";
+                        ValidationColorChangeNew('trackingID' + soId, 'tdtrackingID_' + soId, "Tracking No Required", false);
+                        isValid = false;
+                    }
+                }
+            });
+            if (isValid == false) {
+                ShowMessage(message);
+
+            }
+            return isValid;
+        }
+        function SelectAllCheckboxFunc() {
+            if ($("#chk_All").is(":checked")) {
+                $(".checkid").prop("checked", true);
+            } else {
+                $(".checkid").prop("checked", false);
+            }
+        }
+        function Checkp(SLNO) {
+            //uncheck "select all", if one of the listed checkbox item is unchecked
+            var checkp = $("#chk_" + SLNO).prop("checked");
+            if (checkp == false) { //if this item is unchecked
+                $("#chk_All").prop('checked', false); //change "select all" checked status to false
+            }
+            //check "select all" if all checkbox items are checked
+            if ($('.checkid:checked').length == $('.checkid').length) {
+                $("#chk_All").prop('checked', true);
+            }
+        }
+
+    </script>
+}

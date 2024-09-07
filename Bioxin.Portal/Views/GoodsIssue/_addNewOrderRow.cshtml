@@ -1,0 +1,49 @@
+﻿@{
+    int sl = Convert.ToInt32(TempData["trSl"]);
+}
+<tr id="tr_@sl">
+    <td class="actionHide">
+        <div class="form-group">
+            @*<button class="btn btn-xs btn-success " id="btnAdd_@sl" onclick="AddRow()"><b>+</b></button>*@
+            <button class="btn btn-xs btn-danger" id="btnRemove_@sl" onclick="RemoveRow(@sl)"><b></b>x</button>
+            <input type="text" style="display: none" id="batchNumberEnable_@sl" />
+            <input type="text" style="display: none" id="serialNumberEnable_@sl" />
+        </div>
+    </td>
+    <td id="ts_@sl">@sl</td>
+    <td>
+        <input type="text" class="form-control" id="itemCode_@sl" style="width: 80px" />
+        @*<select class="form-control select2" id="itemCodeName_@sl" style="width: 120px" onchange="GetItemCodeDetails(@sl)"></select>*@
+    </td>
+    <td>
+        <input type="text" class="form-control" id="itemName_@sl" style="width: 230px" />
+        @*<select class="form-control select2" id="itemCode_@sl" style="width: 250px" onchange="GetItemDetails(@sl)"></select>*@
+
+    </td>
+    <td>
+        <input type="text" class="form-control" id="uom_@sl" style="width: 40px" disabled="disabled" />
+    </td>
+    <td>
+        <input type="number" class="form-control" id="stock_@sl" style="width: 50px" disabled="disabled" />
+    </td>
+    <td>
+        <input type="number" class="form-control" id="quantity_@sl" oninput="CalculateLineTotal(@sl)" style="width: 60px"/>
+    </td>
+    <td>
+        <button class="btn btn-sm btn-primary showBtn" data-bs-toggle="modal" data-bs-target="#viewModal" onclick="ShowData(@sl)" id="showBtn_@sl" style="display:none">Batches</button>
+        <button class="btn btn-sm btn-primary showBtn" data-bs-toggle="modal" data-bs-target="#viewModal" onclick="ShowSerialData(@sl)" id="showSerialBtn_@sl" style="display:none">Serial</button>
+    </td>
+    <td>
+        <select class="form-control select2" id="deptCost_@sl" style="width: 120px"></select>
+
+    </td>
+    <td>
+        <select class="form-control select2" id="empCost_@sl" style="width: 120px"></select>
+    </td>
+    <td>
+        <input type="hidden" class="form-control" id="value_@sl" disabled="disabled" />
+        <input type="hidden" class="form-control" id="price_@sl" oninput="CalculateLineTotal(@sl)" />
+        <input type="text" class="form-control" id="remarks_@sl" />
+    </td>
+
+</tr>

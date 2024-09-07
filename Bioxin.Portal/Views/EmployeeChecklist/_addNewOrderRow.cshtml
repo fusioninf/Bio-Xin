@@ -1,0 +1,16 @@
+﻿@{
+    int sl = Convert.ToInt32(TempData["trSl"]);
+}
+<tr id="tr_@sl">
+
+    <td id="ts_@sl">@sl</td>
+    <td>
+        <select class="form-control select2" id="activity_@sl" style="width: 300px" disabled="disabled"></select>
+    </td>
+    <!--<td>
+        <select class="form-control select2" id="status_@sl" style="width: 120px"></select>
+    </td>-->
+    <td>
+        <select class="form-control select2" id="operationStatus_@sl" style="width: 250px"></select>
+    </td>
+</tr>

@@ -1,0 +1,228 @@
+﻿
+@{
+    ViewBag.Title = "Employee Activity";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .Traylist tr td .tdleft {
+        text-align: left !important;
+    }
+</style>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <p>Employee Activity</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="ddlCustomer">Manager</label>
+                                    @*<select class="form-control select2" style="width: 100%;" id="ddlCustomer"></select>*@
+                                    <select name="gender" class="form-control">
+                                        @*<option value="">Select Gender </option>*@
+                                        <option value="female">Md Rokunuzzam</option>
+                                        @*<option value="male">Male</option>*@
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group" id="divDocDate">
+                                    <label for="txtDocDate">Date</label>
+                                    <input type="text" id="txtDocDate" class="form-control datepicker" value="@DateTime.Now.ToString("dd-MMM-yyyy")" />
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="gender">Branch:</label>
+                                    <select name="gender" class="form-control">
+                                        <option value="Shantinagar">Shantinagar</option>
+                                    </select>
+                                </div>
+                            </div>
+                            @*<div class="col-md-3">
+                                <div class="form-group" id="divDocDate">
+                                    <label for="txtDocDate">From Time</label>
+                                    <input type="text" id="txtDocDate" class="form-control" placeholder="15:18" />
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group" id="divDocDate">
+                                    <label for="txtDocDate">To Time</label>
+                                    <input type="text" id="txtDocDate" class="form-control" placeholder="15:45" />
+                                </div>
+                            </div>*@
+                            @*<div class="col-md-3">
+            <div class="form-group">
+                <label for="gender">Branch:</label>
+                <select name="gender" class="form-control">
+                    <option value="Shantinagar">Shantinagar</option>
+                </select>
+            </div>
+        </div>*@
+                            @*<div class="col-md-3">
+            <div class="form-group">
+                <label for="gender">Check By:</label>
+                <select name="gender" class="form-control">
+                    <option value="Labonno">Labonno</option>
+                </select>
+            </div>
+        </div>*@
+
+                        </div>
+                        <div class="row">
+                            &nbsp;
+                        </div>
+                        <div class="row">
+                            <table id="SalesReportTable" border="1" class="table table-bordered table-striped table-hover">
+                                <thead>
+                                    <tr style="background-color: aliceblue">
+                                        <th style="text-align: center">SL</th>
+                                        <th style="text-align: left">Task</th>
+                                        <th style="text-align: left">Assigned To</th>
+                                        <th style="text-align: left">From Time</th>
+                                        <th style="text-align: left">To Time</th>
+                                        <th style="text-align: left">Status</th>
+                                        <th style="text-align: left">Comments</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="Traylist">
+                                    <tr>
+                                        <td style="text-align: center">1</td>
+                                        <td style="text-align: left !important">Product info collection</td>
+                                        <td style="text-align: center">
+                                            <select name="gender" class="form-control">
+                                                <option value="female">Ahmed</option>
+                                            </select>
+                                        </td>
+                                        <td style="text-align: left; width: 120px "><input type="text" class="form-control" value="11:00 AM"></td>
+                                        <td style="text-align: left; width: 120px "><input type="text" class="form-control" value="12:00 PM"></td>
+                                        <td style="text-align: center">
+                                            <select name="gender" class="form-control">
+                                                <option value="female">Done</option>
+                                                <option value="male">In Progress</option>
+                                            </select>
+                                        </td>
+                                        <td style="text-align: left"><input type="text" class="form-control"></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: center">2</td>
+                                        <td style="text-align: left !important">Device Counting</td>
+                                        <td style="text-align: center">
+                                            <select name="gender" class="form-control">
+                                                <option value="female">Amir</option>
+                                            </select>
+                                        </td>
+                                        <td style="text-align: left; width: 120px "><input type="text" class="form-control" value="11:00 AM"></td>
+                                        <td style="text-align: left; width: 120px "><input type="text" class="form-control" value="01:00 PM"></td>
+                                        <td style="text-align: center">
+                                            <select name="gender" class="form-control">
+                                                <option value="female">Done</option>
+                                                <option value="male">In Progress</option>
+                                                <option value="male" selected>Waiting</option>
+                                            </select>
+                                        </td>
+                                        <td style="text-align: left"><input type="text" class="form-control"></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: center">3</td>
+                                        <td style="text-align: left !important">Device Cleaning</td>
+                                        <td style="text-align: center">
+                                            <select name="gender" class="form-control">
+                                                <option value="female">Kobir</option>
+                                            </select>
+                                        </td>
+                                        <td style="text-align: left; width: 120px "><input type="text" class="form-control" value="12:00 PM"></td>
+                                        <td style="text-align: left; width: 120px "><input type="text" class="form-control" value="02:00 PM"></td>
+                                        <td style="text-align: center">
+                                            <select name="gender" class="form-control">
+                                                <option value="female">Done</option>
+                                                <option value="male" selected>In Progress</option>
+                                                <option value="male" >Waiting</option>
+                                            </select>
+                                        </td>
+                                        <td style="text-align: left"><input type="text" class="form-control"></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: center">4</td>
+                                        <td style="text-align: left !important">Service Eqiupment Check</td>
+                                        <td style="text-align: center">
+                                            <select name="gender" class="form-control">
+                                                <option value="female">Zahied Hossain</option>
+                                            </select>
+                                        </td>
+                                        <td style="text-align: left; width: 120px "><input type="text" class="form-control" value="02:00 PM"></td>
+                                        <td style="text-align: left; width: 120px "><input type="text" class="form-control" value="03:30 PM"></td>
+                                        <td style="text-align: center">
+                                            <select name="gender" class="form-control">
+                                                <option value="female">Done</option>
+                                                <option value="male" selected>In Progress</option>
+                                            </select>
+                                        </td>
+                                        <td style="text-align: left"><input type="text" class="form-control"></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: center">5</td>
+                                        <td style="text-align: left !important">Device Problem</td>
+                                        <td style="text-align: center">
+                                            <select name="gender" class="form-control">
+                                                <option value="female">Akbar Ali</option>
+                                            </select>
+                                        </td>
+                                        <td style="text-align: left; width: 120px "><input type="text" class="form-control" value="04:00 AM"></td>
+                                        <td style="text-align: left; width: 120px "><input type="text" class="form-control" value="04:30 PM"></td>
+                                        <td style="text-align: center">
+                                            <select name="gender" class="form-control">
+                                                <option value="female">Done</option>
+                                                <option value="male">In Progress</option>
+                                            </select>
+                                        </td>
+                                        <td style="text-align: left"><input type="text" class="form-control"></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: center">6</td>
+                                        <td style="text-align: left !important">Product Trensfer</td>
+                                        <td style="text-align: center">
+                                            <select name="gender" class="form-control">
+                                                <option value="female">Haider Ali</option>
+                                            </select>
+                                        </td>
+                                        <td style="text-align: left; width: 120px "><input type="text" class="form-control" value="11:00 AM"></td>
+                                        <td style="text-align: left; width: 120px "><input type="text" class="form-control" value="04:00 PM"></td>
+                                        <td style="text-align: center">
+                                            <select name="gender" class="form-control">
+                                                <option value="female">Done</option>
+                                                <option value="male" selected>In Progress</option>
+                                            </select>
+                                        </td>
+                                        <td style="text-align: left"><input type="text" class="form-control"></td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                            
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-primary" onclick="SaveOrder()">Submit</button>
+                        <button class="btn btn-danger float-right">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            LoadDate('#txtDocDueDate');
+        });
+    </script>
+}
+

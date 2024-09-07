@@ -1,0 +1,68 @@
+﻿<style>
+    .custom-header {
+        background-color: darkgray !important;
+        color: black;
+    }
+</style>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-primary">
+                    <div class="card-header custom-header">
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label for="lblRestAmount" class="col-md-5 control-label"><b>Batches</b> Quantity :</label>
+                                <div class="col-md-2">
+                                    <span class="rowBatchesQty"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row table-responsive">
+                            <table class="table table-bordered table-striped table-hover" id="batchesItem">
+                                <thead>
+                                    <tr style="background-color: aliceblue">
+                                        <th style="text-align:center">#</th>
+                                        <th style="text-align:center">Item</th>
+                                        <th style="text-align:center">Bacthes Name</th>
+                                        <th style="text-align:center">Ex Date</th>
+                                        <th style="text-align:center">In Date</th>
+                                        <th style="text-align:center">Stock</th>
+                                        <th style="text-align:center">Batch Qty</th>
+
+
+                                    </tr>
+                                </thead>
+                                <tbody id="tbodyid">
+                                    @{ int count = 100;}
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr id="@count">
+                                            <td>@count</td>
+                                            <td>@item.ItemName</td>
+                                            <td>@item.BatchNum</td>
+                                            <td>@item.ExpDate</td>
+                                            <td>@item.InDate</td>
+                                            <td>@item.Stock</td>
+                                            <td>
+                                                <input type="number" id="batchQuantity_@item.RowId@count" oninput="ValidationBatchesTotal(@item.RowId@count)" />
+                                                <input type="number" id="batchRow_@item.RowId@count" value="@item.RowId" style="display:none" />
+                                                <input type="number" id="batchStock_@item.RowId@count" value="@item.Stock" style="display:none" />
+                                            </td>
+                                            <td style="display:none">
+                                                <input type="text" style="display: none" id="batchNo_@item.RowId@count" value="@item.BatchNum" />
+                                            </td>
+                                        </tr>
+                                        count++;
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

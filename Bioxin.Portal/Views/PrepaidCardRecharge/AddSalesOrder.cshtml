@@ -1,0 +1,949 @@
+﻿
+@{
+    ViewBag.Title = "Sales Order";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .custom-header {
+        background-color: darkgray !important; /* Blue color #007bff  #808080*/
+        color: black; /* Text color for contrast */
+    }
+
+    .blue-checkbox {
+        color: blue !important;
+    }
+</style>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-primary">
+                    <div class="card-header custom-header">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <a href="@Url.Action("AddSalesOrder", "SalesOrderNew", new {soId = 0})">
+                                    <h3 class="card-title">
+                                        @if (ViewBag.SalesOrderId == 0)
+                                        {
+                                            <span class="" style="color:black"><b>Sales Order</b></span>
+                                        }
+                                        else
+                                        {
+                                            <span class=""> Edit Sales Order</span>
+                                        }
+                                    </h3>
+                                </a>
+                            </div>
+                            <div class="col-md-6 text-right">
+                                @*<a class="btn btn-outline-warning" href="@Url.Action("Index", "InventoryTransferRequest")">
+                                        <span class="fa fa-list"></span> Go To Inventory Transfer Request List
+
+                                    </a>*@
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group row" id="divCustomer">
+                                    <label for="ddlCustomer" class="col-md-4 control-label">Code</label>
+                                    <div class="col-md-6">
+                                        <!--<select class="form-control select2" style="width: 100%; text-align: center" id="txtCustomerCode" disabled="disabled"></select>-->
+                                        <input class="form-control" id="txtCustomerCode" disabled="disabled" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divCustomerName">
+                                    <label for="txtCustomerName" class="col-md-4 control-label">Customer Name</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%;" id="ddlCustomer"></select>
+                                    </div>
+                                </div>
+                                <!--<div class="form-group row mt-1" id="divExternalDrRef">
+                                    <label for="txtExternalDrRef" class="col-md-4 control-label">External Dr.Ref.</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" id="txtExternalDrRef" disabled="disabled" />
+                                    </div>
+                                </div>-->
+                                <div class="form-group row mt-1" id="divCustomerRef">
+                                    <label for="txtCustomerRef" class="col-md-4 control-label">Customer Ref.</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" id="txtCustomerRef" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divBranch">
+                                    <label for="ddlBranch" class="col-md-4 control-label">Branch</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%; text-align: center" id="ddlBranch" disabled="disabled"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4">
+                                <div class="form-group row" id="divDocumentNo">
+                                    <label for="txtDocumentNo" class="col-md-4 control-label">Document No</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtDocumentNo" class="form-control" disabled="disabled" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divStatus">
+                                    <label for="txtStatus" class="col-md-4 control-label">Status</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtStatus" class="form-control" disabled="disabled" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divDocDate">
+                                    <label for="txtDocDate" class="col-md-4 control-label">Posting Date</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtDocDate" class="form-control datepicker" value="@DateTime.Now.ToString("dd-MMM-yyyy")" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divDocDueDate">
+                                    <label for="txtDocDueDate" class="col-md-4 control-label">Delivery Date</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtDocDueDate" class="form-control" value="@DateTime.Now.ToString("dd-MMM-yyyy")" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divToBranch">
+                                    <label for="ddlBranch" class="col-md-4 control-label">Service Branch</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%; text-align: center" id="ddlToBranch"></select>
+                                    </div>
+                                </div>
+                                <!--<div class="form-group row mt-1" id="divApproved">
+                                        <label for="txtApproved" class="col-md-4 control-label">Approved</label>
+                                        <div class="col-md-6">
+                                            <input type="text" id="txtApproved" class="form-control" disabled="disabled" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group row mt-1" id="divApprovedBy">
+                                        <label for="txtApprovedBy" class="col-md-4 control-label">Approved By</label>
+                                        <div class="col-md-6">
+                                            <input type="text" id="txtApprovedBy" class="form-control" disabled="disabled" />
+                                        </div>
+                                    </div>-->
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            &nbsp;
+                        </div>
+                        <div class="row table-responsive">
+                            <table class="table table-bordered table-striped table-hover" id="salesOrder">
+                                <thead>
+                                    <tr style="background-color: lightgrey">
+                                        <th>#</th>
+                                        <th>Item Code</th>
+                                        <th>Item Name</th>
+                                        <th>Quantity</th>
+                                        <th>UOM</th>
+                                        <th>Price</th>
+                                        <th>Disc%</th>
+                                        <th>Tax Code</th>
+                                        <th>Tax Amount</th>
+                                        <th>Discount Amount</th>
+                                        <th>Total</th>
+                                        <th>Stock</th>
+                                        <th>Delivery Date</th>
+                                        <th class="action">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group row" id="divSalesEmployee">
+                                    <label for="lblRestAmount" class="col-md-4 control-label">Sales Employee</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%;" id="ddlSalesEmployee"></select>
+                                    </div>
+                                </div>
+                                <!--<div class="form-group row mt-1" id="divCreateBy">
+                                    <label for="lblCreateBy" class="col-md-4 control-label">Create By</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%;" id="ddlCreateBy" disabled="disabled"></select>
+                                    </div>
+                                </div>-->
+                                <div class="form-group row mt-1" id="divRrmarks">
+                                    <label for="taxVat" class="col-md-4 control-label">Remarks</label>
+                                    <div class="col-md-6">
+                                        <textarea class="form-control" id="txtRrmarks" name="w3review" rows="3" cols="30"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4">
+                                <div class="form-group row" id="divTotalBeforeTax">
+                                    <label for="txtTotalBeforeTax" class="col-md-4 control-label">Total Before Tax</label>
+                                    <div class="col-md-6">
+                                        <input type="number" class="form-control" id="txtTotalBeforeTax" disabled="disabled" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divTax">
+                                    <label for="txtTax" class="col-md-4 control-label">Tax</label>
+                                    <div class="col-md-6">
+                                        <input type="number" class="form-control" id="txtTax" disabled="disabled" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divDiscount">
+                                    <label for="txtDiscount" class="col-md-4 control-label">Discount</label>
+                                    <div class="col-md-6">
+                                        <input type="number" class="form-control" id="txtDiscount" disabled="disabled" />
+                                    </div>
+                                </div>
+                                <!--<div class="form-group row mt-1" id="divRoundOff">
+                                    <label for="txtRoundOff" class="col-md-4 control-label">Round Off</label>
+                                    <div class="col-md-6">
+                                        <input type="number" class="form-control" id="txtRoundOff" disabled="disabled" />
+                                    </div>
+                                </div>-->
+                                <div class="form-group row mt-1" id="divTotalBalance">
+                                    <label for="txtTotalBalance" class="col-md-4 control-label">Total Balance</label>
+                                    <div class="col-md-6">
+                                        <input type="number" class="form-control" id="txtTotalBalance" disabled="disabled" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12" align="center">
+                                <input type="checkbox" id="rdPaymentType_Cash" name="rdPaymentType_Cash" value="S">Cash Payment         &nbsp;
+                                <input type="checkbox" id="rdPaymentType_Card" name="rdPaymentType_Card" value="C">Card Payment         &nbsp;
+                                <input type="checkbox" id="rdPaymentType_Upi" name="rdPaymentType_Upi" value="U">UPI Payment            &nbsp;
+                                <input type="checkbox" id="rdPaymentType_PreCard" name="rdPaymentType_PreCard" value="P" disabled="disabled">Prepaid Card   &nbsp;
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12" align="center" id="divPaymentError">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3" id="divCashPayment">
+                                <!--<div class="form-group row mt-1" id="divCashTranid">
+                                    <label for="txtTotalBeforeTax" class="col-md-4 control-label">Transaction ID</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" id="txtCashTranid" readonly="readonly" />
+                                    </div>
+                                </div>-->
+                                <div class="form-group row mt-1" id="divCashAmount">
+                                    <label for="txtTotalBeforeTax" class="col-md-4 control-label">Amount</label>
+                                    <div class="col-md-6">
+                                        <input type="number" class="form-control" id="txtCashAmount" readonly="readonly" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3" id="divCardPayment">
+                                <div class="form-group row mt-1" id="divCardTranid">
+                                    <label for="txtTotalBeforeTax" class="col-md-4 control-label">Transaction ID</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" id="txtCardTranid" readonly="readonly" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divCardNo">
+                                    <label for="txtTotalBeforeTax" class="col-md-4 control-label">Card No</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" id="txtCardNo" readonly="readonly" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divCardHolderName">
+                                    <label for="txtTotalBeforeTax" class="col-md-4 control-label">Card Holder Name</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" id="txtCardHolderName" readonly="readonly" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divCardAmount">
+                                    <label for="txtTotalBeforeTax" class="col-md-4 control-label">Amount</label>
+                                    <div class="col-md-6">
+                                        <input type="number" class="form-control" id="txtCardAmount" readonly="readonly" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3" id="divUPIPayment">
+                                <div class="form-group row mt-1" id="divUPITranid">
+                                    <label for="txtTotalBeforeTax" class="col-md-4 control-label">Transaction ID</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" id="txtUPITranid" readonly="readonly" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divUPIName">
+                                    <label for="txtTotalBeforeTax" class="col-md-4 control-label">UPI Name</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%;" id="ddlUPI" readonly="readonly"></select>
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divUPIAmount">
+                                    <label for="txtTotalBeforeTax" class="col-md-4 control-label">Amount</label>
+                                    <div class="col-md-6">
+                                        <input type="number" class="form-control" id="txtUPIAmount" readonly="readonly" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3" id="divPreCardPayment">
+                                <div class="form-group row mt-1" id="divPreCardPayment">
+                                    <label for="txtPreCardBalAmount" class="col-md-4 control-label">Balanced Amount</label>
+                                    <div class="col-md-6">
+                                        <input type="number" class="form-control" id="txtPreCardBalAmount" readonly="readonly" />
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divPreCardAmount" style="display:none;">
+                                    <label for="txtPreCardAmount" class="col-md-4 control-label">Amount</label>
+                                    <div class="col-md-6">
+                                        <input type="number" class="form-control" id="txtPreCardAmount" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="col-md-3"></div>
+                        <div class="col-md-3"></div>
+                        <div class="col-md-3 float-right">
+                            <div class="row">
+                                <div class="col-md-3"></div>
+                                <div class="col-md-2"></div>
+                                <div class="col-md-4">
+                                    <button class="btn btn-warning " onclick="SaveSalesOrder()" style="background-color: #ffbf00">Add & New</button>
+                                </div>
+                                <div class="col-md-3">
+                                    <button class="btn btn-warning float-right">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <input id="salesOrderId" type="number" style="display: none;" value="@ViewBag.SalesOrderId">
+        <input id="codeId" type="number" style="display: none;">
+        <input id="branch" type="number" style="display: none;" value="@ViewBag.Branch">
+        <input id="eflag" type="text" style="display: none;" value="@ViewBag.eflag">
+    </div>
+</section>
+@section Scripts
+{
+    <script>
+        var itemList = {};
+        var itemUPIList = {};
+        var workActivitiesList = {};
+        var workStatusList = {};
+        var signatureList = {};
+        var DeleteItem = [];
+        var srcount = 0;
+        $(document).ready(function () {
+            LoadDate_C('#txtDocDate');
+            LoadDate_C('#txtDocDueDate');
+
+            LoadBusinessPartner('ddlCustomer');
+            LoadSalesEmployee('ddlSalesEmployee');
+            LoadBranch('ddlBranch');
+            LoadBranch('ddlToBranch');
+            var branch = $('#branch').val();
+            $("#ddlBranch").val(branch).trigger('change');
+            $("#ddlToBranch").val(branch).trigger('change');
+            $('#ddlCustomer').change(function () {
+                var CardCode = $('#ddlCustomer').val();
+                /*var CardNameArr = $('#ddlCustomer').text();
+                CardNameArr = CardNameArr.split('|');
+                //$('#ddlCustomer').text(CardNameArr[1]);
+                //$('#option option[value="' + CardCode +'"]').text(CardNameArr[1]);
+                //$("option[value=" + CardCode +"]").html('New text');*/
+
+                $('#txtCustomerCode').val('');
+                $("#rdPaymentType_PreCard").prop("checked", false);
+                $("#rdPaymentType_PreCard").css("color", "");  //.removeClass("blue-checkbox");
+                $("#divPreCardAmount").hide();
+                if (CardCode != '') {
+                    GetBusinessPartnerInfo(CardCode);
+                }
+            });
+            GetItem();
+            AddRow();
+            //GetUPI();
+            LoadUPI('ddlUPI');
+
+
+
+            function toggleReadOnly(elementId, isReadOnly) {
+                $("#" + elementId).prop("readonly", isReadOnly);
+            }
+            function handleCheckboxChange(checkboxId, divId) {
+                $("#" + checkboxId).change(function () {
+                    toggleReadOnly(divId, !this.checked);
+                });
+            }
+
+            handleCheckboxChange("rdPaymentType_Cash", "txtCashTranid");
+            handleCheckboxChange("rdPaymentType_Cash", "txtCashAmount");
+
+            handleCheckboxChange("rdPaymentType_Card", "txtCardTranid");
+            handleCheckboxChange("rdPaymentType_Card", "txtCardNo");
+            handleCheckboxChange("rdPaymentType_Card", "txtCardHolderName");
+            handleCheckboxChange("rdPaymentType_Card", "txtCardAmount");
+
+            handleCheckboxChange("rdPaymentType_Upi", "txtUPITranid");
+            handleCheckboxChange("rdPaymentType_Upi", "ddlUPI");
+            handleCheckboxChange("rdPaymentType_Upi", "txtUPIAmount");
+
+
+            /*
+            $("#divCashPayment input[type='text'], #divCashPayment input[type='number']").prop("readonly", false);
+            $("input[name='rdPaymentType'][value='S']").prop("checked", true);
+            $("input[name='rdPaymentType']").change(function () {
+                var selectedPaymentType = $("input[name='rdPaymentType']:checked").val();
+
+                if (selectedPaymentType === 'S') {
+                    $("#divCashPayment input[type='text'], #divCashPayment input[type='number']").prop("readonly", false);
+
+                    $("#divCardPayment input[type='text'], #divCardPayment input[type='number']").prop("readonly", true);
+                    $("#divCardPayment select").prop("disabled", true);
+
+                    $("#divUPIPayment input[type='text'], #divUPIPayment input[type='number']").prop("readonly", true);
+                    $("#divUPIPayment select").prop("disabled", true);
+                } else if (selectedPaymentType === 'C') {
+                    $("#divCardPayment input[type='text'], #divCardPayment input[type='number']").prop("readonly", false);
+                    $("#divCardPayment select").prop("disabled", false);
+
+                    $("#divCashPayment input[type='text'], #divCashPayment input[type='number']").prop("readonly", true);
+                    $("#divCashPayment select").prop("disabled", true);
+
+                    $("#divUPIPayment input[type='text'], #divUPIPayment input[type='number']").prop("readonly", true);
+                    $("#divUPIPayment select").prop("disabled", true);
+                } else if (selectedPaymentType === 'U') {
+                    $("#divUPIPayment input[type='number']").prop("readonly", false);
+                    $("#divUPIPayment select").prop("disabled", false);
+
+                    $("#divCashPayment input[type='text'], #divCashPayment input[type='number']").prop("readonly", true);
+                    $("#divCashPayment select").prop("disabled", true);
+
+                    $("#divCardPayment input[type='text'], #divCardPayment input[type='number']").prop("readonly", true);
+                    $("#divCardPayment select").prop("disabled", true);
+                }
+            });
+            */
+        });
+
+
+
+
+        function LoadBusinessPartner(elementId) {
+            var CardType = "C";
+            var urlpath = '@Url.Action("GetBusinessPartner", "SalesOrderNew")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { CardType: CardType },
+                /*    data: {  },*/
+                async: false,
+                success: function(data) {
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value=''>--Select Business Partner--</option>");
+                    for (var i = 0; i < data.length; i++) {
+
+                        //$('#' + elementId + '').append($("<option></option>").val(data[i].CardCode).html(data[i].CardCode + " | " + data[i].CardName + " | " + data[i].Mobile));
+                        //$('#' + elementId + '').append($("<option></option>").val(data[i].CardCode).html(data[i].CardName));
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].CardCode).html(data[i].CardName + " | " + data[i].Mobile));
+
+                    }
+                }
+            });
+        }
+        function LoadBranch(elementId) {
+            var CardType = "C";
+            var urlpath = '@Url.Action("GetBranch", "SalesOrderNew")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { },
+                async: false,
+                success: function (data) {
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value='0'>--Select Branch--</option>");
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].PrcCode).html(data[i].PrcName));
+                    }
+
+                }
+            });
+        }
+        function GetBusinessPartnerInfo(CardCode) {
+            var urlpath = '@Url.Action("GetBusinessPartnerByCardCode", "SalesOrderNew")';
+            $.ajax({
+                url: urlpath,
+                dataType: 'json',
+                type: "Get",
+                data: { CardCode: CardCode },
+                async: false,
+                success: function (data) {
+                    //debugger;
+                    //console.log(data)
+                    /*$("#rdPaymentType_PreCard").prop("checked", false);
+                    $("#rdPaymentType_PreCard").css("color", "");  //.removeClass("blue-checkbox");
+                    $("#divPreCardAmount").hide();*/
+                    $('#txtCustomerCode').val(data.CardCode);
+                    $('#txtPreCardBalAmount').val(data.DownPaymentBalance);
+                    if ($("#txtPreCardBalAmount").val() != '' && $("#txtPreCardBalAmount").val() > 0) {
+                        $("#divPreCardAmount").show();
+                        $("#rdPaymentType_PreCard").prop("checked", true);
+                        $("#rdPaymentType_PreCard").css("color", "blue");   //.addClass("blue-checkbox");
+                    }
+                }
+            });
+        }
+        function GetItem() {
+            var urlpath = '@Url.Action("GetItem", "SalesOrderNew")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {  },
+                async: false,
+                success: function (data) {
+                    itemList = data;
+                }
+            });
+        }
+        function GetItemDetails(rowId) {
+            var customerId = $('#ddlCustomer').val();
+            var ItemCode = $('#barcode_' + rowId).val();
+
+            var urlpath = '@Url.Action("GetItemByItemCode", "SalesOrderNew")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                dataType: 'json',
+                data: { ItemCode: ItemCode },
+                async: false,
+                success: function(data) {
+                   // debugger;
+                    $("#itemName_" + rowId).val(data.ItemName);
+                    $("#uom_" + rowId).val(data.InventoryUOM);
+                    $("#quantity_" + rowId).val('');
+                    $("#price_" + rowId).val(data.Price);
+                    $("#discount_" + rowId).val('');
+                    $("#taxcode_" + rowId).val(data.TaxCode);
+                    $("#taxrate_" + rowId).val(data.TaxRate);
+                    $("#taxamount_" + rowId).val('');
+                    $("#discountamount_" + rowId).val('');
+                    $("#total_" + rowId).val('');
+                    $("#stock_" + rowId).val(data.Stock);
+                    //$("#value_" + rowId).val('');
+                }
+            });
+        }
+        function CalculateLineTotal(rowId) {
+            //debugger;
+            var quantity = isNaN(parseFloat($('#quantity_' + rowId).val())) ? 0 : parseFloat($('#quantity_' + rowId).val());
+            var price = isNaN(parseFloat($('#price_' + rowId).val())) ? 0 : parseFloat($('#price_' + rowId).val());
+            var total = quantity * price;
+            //$('#value_' + rowId).val(total.toFixed(2));
+        }
+        function LineCalculation(rowId) {
+            //debugger;
+            var quantity = isNaN(parseFloat($('#quantity_' + rowId).val())) ? 0 : parseFloat($('#quantity_' + rowId).val());
+            var price = isNaN(parseFloat($('#price_' + rowId).val())) ? 0 : parseFloat($('#price_' + rowId).val());
+            var discount = isNaN(parseFloat($('#discount_' + rowId).val())) ? 0 : parseFloat($('#discount_' + rowId).val());
+            var taxrate = isNaN(parseFloat($('#taxrate_' + rowId).val())) ? 0 : parseFloat($('#taxrate_' + rowId).val());
+            //var totalbeforetax = isNaN(parseFloat($('#totalbeforetax_' + rowId).val())) ? 0 : parseFloat($('#totalbeforetax_' + rowId).val());
+
+            var totalBeforeTax = (quantity * price);
+            $('#totalbeforetax_' + rowId).val(totalBeforeTax.toFixed(2));
+            var taxAmount = (quantity * price) * (taxrate / 100);
+            $('#taxamount_' + rowId).val(taxAmount.toFixed(2));
+            var discountAmount = (quantity * price) * (discount / 100);
+            $('#discountamount_' + rowId).val(discountAmount.toFixed(2));
+            var total = (quantity * price) + taxAmount - discountAmount;
+            $('#total_' + rowId).val(total.toFixed(2));
+
+            TotalLineCalculation();
+        }
+        function TotalLineCalculation() {
+            var TotalBeforeTax = 0;
+            var TotalTax = 0;
+            var TotalDiscount = 0;
+            var TotalBalance = 0;
+
+            $('#salesOrder tbody tr').each(function () {
+                var idr = $(this).attr('id');
+                var id = idr.substring(3);
+
+                var totalBeforeTax_ = isNaN(parseFloat($('#totalbeforetax_' + id).val())) ? 0 : parseFloat($('#totalbeforetax_' + id).val());
+                var totalTaxAmount_ = isNaN(parseFloat($('#taxamount_' + id).val())) ? 0 : parseFloat($('#taxamount_' + id).val());
+                var totalDiscountAmount_ = isNaN(parseFloat($('#discountamount_' + id).val())) ? 0 : parseFloat($('#discountamount_' + id).val());
+                var totalAmount_ = isNaN(parseFloat($('#total_' + id).val())) ? 0 : parseFloat($('#total_' + id).val());
+
+
+                TotalBeforeTax = TotalBeforeTax + totalBeforeTax_;
+                TotalTax = TotalTax + totalTaxAmount_;
+                TotalDiscount = TotalDiscount + totalDiscountAmount_;
+                TotalBalance = TotalBalance + totalAmount_;
+
+                $('#txtTotalBeforeTax').val(TotalBeforeTax.toFixed(2));
+                $('#txtTax').val(TotalTax.toFixed(2));
+                $('#txtDiscount').val(TotalDiscount.toFixed(2));
+                $('#txtTotalBalance').val(TotalBalance.toFixed(2));
+            });
+        }
+        function LoadSalesEmployee(elementId) {
+            var urlpath = '@Url.Action("GetSalesEmployee", "SalesOrderNew")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {},
+                async: false,
+                success: function(data) {
+                    $('#' + elementId + '').empty();
+                    /*$('#' + elementId + '').append("<option value='0'>--Select Customer--</option>");*/
+                    for (var i = 0; i < data.length; i++) {
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].SlpCode).html(data[i].SlpName));
+                    }
+                }
+            });
+        }
+        function GetUPI() {
+            var urlpath = '@Url.Action("GetUPI", "SalesOrderNew")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {  },
+                async: false,
+                success: function (data) {
+                    itemUPIList = data;
+                }
+            });
+        }
+        function LoadUPI(elementId) {
+            var urlpath = '@Url.Action("GetUPI", "SalesOrderNew")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { },
+                async: false,
+                success: function (data) {
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value='0'>--Select Branch--</option>");
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].Value).html(data[i].Description));
+                    }
+
+                }
+            });
+        }
+
+
+
+        function AddRow() {
+            var tr = $('#salesOrder tbody tr').length + 1;
+            var values = $("#salesOrder tbody tr")
+                .map(function() { return parseInt($(this).attr('id').substring(3)); }).get();
+            var index = values.indexOf(tr);
+            if (index >= 0) {
+                tr = Math.max.apply(Math, values) + 1;
+            }
+            var urlpath = '@Url.Action("AddRowForOrder", "SalesOrderNew")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                dataType: 'html',
+                data: { tr: tr },
+                async: false,
+                success: function(data) {
+                    $('#salesOrder tbody').append(data);
+                    LoadItemInRow("barcode_" + tr);
+                    LoadDate_C('#deliverydate_' + tr);
+                }
+            });
+            $('#barcode_' + tr).select2();
+            SerialTable();
+        }
+        function RemoveRow(id) {
+            //debugger;
+            var trLength = $('#salesOrder tbody tr').length;
+            if (trLength > 1) {
+                $('#tr_' + id).remove();
+                TotalLineCalculation();
+                SerialTable();
+            } else {
+                return;
+            }
+        }
+        function SerialTable() {
+            $('#salesOrder tbody tr').each(function (index, element) {
+                var idr = $(this).attr('id');
+                var id = idr.substring(3);
+                $('#ts_' + id).html(index + 1);
+            });
+        }
+        function LoadItemInRow(elementId) {
+            var array = [];
+            var rowCount = $('#salesOrder tbody tr').length;
+            for (let count = 0; count < rowCount; count++) {
+                array.push(parseInt($("#barcode_" + count).val()));
+            };
+            $('#' + elementId + '').append("<option value=''>--Select Item--</option>");
+            for (var i = 0; i < itemList.length; i++) {
+                if (jQuery.inArray(itemList[i].ItemCode, array) == -1) {
+                    //$('#' + elementId + '').append($("<option></option>").val(itemList[i].ItemCode).html(itemList[i].ItemCode + " | " + itemList[i].ItemName));
+                    $('#' + elementId + '').append($("<option></option>").val(itemList[i].ItemCode).html(itemList[i].ItemCode));
+                }
+            }
+        }
+
+
+
+
+        function SaveValidation() {
+            var isValid = true;
+            var message = "Some Values Required";
+            if ($('#txtDocDate').val() == '' || $('#txtDocDate').val() == null) {
+                ValidationColorChangeNew("txtDocDate", "divDocDate", "Posting Date Required", false);
+                isValid = false;
+            }
+            if ($('#ddlBranch').val() == 0 || $('#ddlBranch').val() == '') {
+                ValidationColorChangeNew("ddlBranch", "divBranch", "Branch Required", true);
+                isValid = false;
+            }
+            if ($('#ddlToBranch').val() == 0 || $('#ddlToBranch').val() == '') {
+                ValidationColorChangeNew("ddlToBranch", "divToBranch", "To Branch Required", true);
+                isValid = false;
+            }
+            if ($("#txtPreCardBalAmount").val() != '' && $("#txtPreCardBalAmount").val() > 0 && ($('#txtPreCardAmount').val() == 0 || $('#txtPreCardAmount').val() == '')) {
+                ValidationColorChangeNew("txtPreCardAmount", "divPreCardAmount", "Prepaid Card Amount Required as you have Prepaid Balanace", true);
+                isValid = false;
+            }
+
+
+            let CashAmount = isNaN(parseFloat($('#txtCashAmount').val())) ? 0 : parseFloat($('#txtCashAmount').val());
+            let CardAmount = isNaN(parseFloat($('#txtCardAmount').val())) ? 0 : parseFloat($('#txtCardAmount').val());
+            let UPIAmount = isNaN(parseFloat($('#txtUPIAmount').val())) ? 0 : parseFloat($('#txtUPIAmount').val());
+            let PreCardAmount = isNaN(parseFloat($('#txtPreCardAmount').val())) ? 0 : parseFloat($('#txtPreCardAmount').val());
+
+            let totalPyamentValue = CashAmount + CardAmount + UPIAmount + PreCardAmount;
+            let totalBalanceValue = $('#txtTotalBalance').val();
+            if (totalPyamentValue.toFixed(2) !== totalBalanceValue) {
+                ValidationColorChangeNew("divPaymentError", "divPaymentError", "Total Balance Required same as screen", true);
+                isValid = false;
+            }
+
+            //Items Required
+            if ($('#salesOrder tbody tr').length == 0 || $('#salesOrder tbody tr').length == '') {
+                isValid = false;
+                message = "Product/Treatment Required";
+            }
+            $('#salesOrder tbody tr').each(function () {
+                var idr = $(this).attr('id');
+                var id = idr.substring(3);
+                var qty = isNaN(parseFloat($('#quantity_' + id).val())) ? 0 : parseFloat($('#quantity_' + id).val());
+                //var price = isNaN(parseFloat($('#price_' + id).val())) ? 0 : parseFloat($('#price_' + id).val());
+                //var lTotal = isNaN(parseFloat($('#total_' + id).val())) ? 0 : parseFloat($('#total_' + id).val());
+                var itemCode = $('#barcode_' + id).val()
+                if (itemCode === '' || itemCode === null) {
+                    isValid = false;
+                    message = "Please Select BarCode";
+                    $('#barcode_' + id).css('border-bottom', '2px solid red');
+                    return;
+                }
+                if (qty === 0) {
+                    isValid = false;
+                    message = "Qty Cannot be 0 ";
+                    $('#quantity_' + id).css('border-bottom', '2px solid red');
+                    return;
+                }
+            });
+            if (isValid == false) {
+                ShowMessage(message);
+
+            }
+            return isValid;
+        }
+        function SaveSalesOrder() {
+            if (SaveValidation() == true) {
+                swal({
+                    title: "Are you sure?",
+                    text: "",
+                    type: "success",
+                    showCancelButton: true,
+                    cancelButtonClass: 'btn-secondary waves-effect',
+                    confirmButtonClass: 'btn-success waves-effect waves-light',
+                    confirmButtonText: 'Yes!',
+                    closeOnConfirm: false
+
+                }, function () {
+                    $('.confirm').prop("disabled", true);
+                    $('.cancel').prop("disabled", true);
+                    SaveSOinal();
+                });
+            }
+        }
+        function pad2(number) {
+            return (number < 10 ? '0' : '') + number;
+        }
+        function DateConversionToYYYYMMDD(inputDate) {
+            // Split the input date into day, month, and year parts
+            var parts = inputDate.split('-');
+            var day = parts[0];
+            var month = parts[1];
+            var year = parts[2];
+            var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            var monthIndex = monthNames.indexOf(month);
+            monthIndex++; // Adjust for 0-based indexing
+            // Create a Date object with the parsed values
+            var dateObject = new Date(year, monthIndex - 1, day);
+            // Format the date as "YYYYMMDD"
+            var formattedDate = dateObject.getFullYear() + pad2(dateObject.getMonth() + 1) + pad2(dateObject.getDate());
+            return formattedDate
+        }
+        function SaveSOinal() {
+            //debugger;
+            var jsonData = {};
+            var date = $('#txtDocDueDate').val();
+            var newdate = DateConversionToYYYYMMDD(date);
+            var inputDate = $('#txtDocDate').val();
+            var formattedDate = DateConversionToYYYYMMDD(inputDate);
+
+            /*jsonData["DocEntry"] = $('#dailyOperationId').val();*/
+            jsonData["PaymentAccount"] = "";
+            jsonData["CardCode"] = $('#ddlCustomer').val();
+            jsonData["Branch"] = $('#ddlBranch').val();
+            jsonData["PostingDate"] = formattedDate;  //"20230814"
+            jsonData["DocDueDate"] = newdate; //$('#txtDocDueDate').val();
+            jsonData["RefNo"] = $('#txtCustomerRef').val();
+            jsonData["RefDate"] = formattedDate;// $('#txtDocDate').val();
+            jsonData["Remarks"] = $('#txtRrmarks').val();
+            jsonData["SalesEmployee"] = $('#ddlSalesEmployee').val();
+            jsonData["ToBranch"] = $('#ddlToBranch').val();
+
+            var jsonObjs = [];
+            $('#salesOrder tbody tr').each(function() {
+                var theObj = {};
+                var idr = $(this).attr('id');
+                var id = idr.substring(3);
+
+                var itemCode = $('#barcode_' + id).val();
+                var qty = isNaN(parseFloat($('#quantity_' + id).val())) ? 0 : parseFloat($('#quantity_' + id).val());
+                var uom = ($('#uom_' + id).val() !== "") ? $('#uom_' + id).val() : "";
+                var price = isNaN(parseFloat($('#price_' + id).val())) ? 0 : parseFloat($('#price_' + id).val());
+                var discount = isNaN(parseFloat($('#discount_' + id).val())) ? 0 : parseFloat($('#discount_' + id).val());
+                var tax = isNaN(parseFloat($('#tax_' + id).val())) ? 0 : parseFloat($('#tax_' + id).val());
+                var total = isNaN(parseFloat($('#total_' + id).val())) ? 0 : parseFloat($('#total_' + id).val());
+                var stock = isNaN(parseFloat($('#stock_' + id).val())) ? 0 : parseFloat($('#stock_' + id).val());
+                var taxcode = ($('#taxcode_' + id).val() !== "") ? $('#taxcode_' + id).val() : "";
+                var totalbeforetax = isNaN(parseFloat($('#totalbeforetax_' + id).val())) ? 0 : parseFloat($('#totalbeforetax_' + id).val());
+                var discountamount = isNaN(parseFloat($('#discountamount_' + id).val())) ? 0 : parseFloat($('#discountamount_' + id).val());
+
+                var deliverydate = $('#deliverydate_' + id).val();
+                var deliveryDate = (deliverydate != '') ? DateConversionToYYYYMMDD(deliverydate) : newdate;
+                //var remarks = $('#remarks_' + id).val();
+
+
+                //theObj["DocEntry"] = detailsId;
+                theObj["ItemCode"] = itemCode;
+                theObj["Quantity"] = qty;
+                theObj["PriceBeforeDiscount"] = price;
+                theObj["UOM"] = uom;
+                theObj["TaxCode"] = taxcode;
+                theObj["DiscountPercentage"] = discount;
+                theObj["Discountamount"] = discountamount;
+                theObj["VisOrder"] = "";
+                theObj["BaseType"] = "";
+                theObj["BaseEntry"] = "";
+                theObj["BaseLine"] = "";
+                theObj["DocDueDate"] = deliveryDate; //newdate;
+                //theObj["DueDate"] = "";
+                jsonObjs.push(theObj);
+            });
+            jsonData["Items"] = jsonObjs;
+
+
+            var jsonObjs2 = [];
+            //var theObj2 = {};
+            var isCashChecked = $("#rdPaymentType_Cash").prop("checked");
+            var isCardChecked = $("#rdPaymentType_Card").prop("checked");
+            var isUpiChecked = $("#rdPaymentType_Upi").prop("checked");
+            var isPreCardChecked = $("#rdPaymentType_PreCard").prop("checked");
+            if (isCashChecked) {
+                var theObj2 = {};
+
+                theObj2["PaymentType"] = "S";
+                theObj2["UpiName"] = "";
+                theObj2["CardNo"] = "";
+                theObj2["CardHolderName"] = "";
+                theObj2["Tranid"] = ""; //$('#txtCashTranid').val();
+                theObj2["Amount"] = $('#txtCashAmount').val();
+
+                jsonObjs2.push(theObj2);
+            }
+            if (isCardChecked) {
+                var theObj2 = {};
+
+                theObj2["PaymentType"] = "C";
+                theObj2["UpiName"] = "";
+                theObj2["CardNo"] = $('#txtCardNo').val();
+                theObj2["CardHolderName"] = $('#txtCardHolderName').val();
+                theObj2["Tranid"] = $('#txtCardTranid').val();
+                theObj2["Amount"] = $('#txtCardAmount').val();
+
+                jsonObjs2.push(theObj2);
+            }
+            if (isUpiChecked) {
+                var theObj2 = {};
+
+                theObj2["PaymentType"] = "U";
+                theObj2["UpiName"] = $('#ddlUPI').val()
+                theObj2["CardNo"] = "";
+                theObj2["CardHolderName"] = "";
+                theObj2["Tranid"] = $('#txtUPITranid').val();
+                theObj2["Amount"] = $('#txtUPIAmount').val();
+
+                jsonObjs2.push(theObj2);
+            }
+            if (isPreCardChecked) {
+                var theObj2 = {};
+
+                theObj2["PaymentType"] = "P";
+                theObj2["UpiName"] = "";
+                theObj2["CardNo"] = "";
+                theObj2["CardHolderName"] = "";
+                theObj2["Tranid"] = "";
+                theObj2["Amount"] = $('#txtPreCardAmount').val();
+
+                jsonObjs2.push(theObj2);
+            }
+            jsonData["PaymentDetails"] = jsonObjs2;
+
+
+
+            var urlpath2 = '@Url.Action("SaveSalesOrder", "SalesOrderNew")';
+            $.ajax({
+                contentType: "application/json",
+                data: JSON.stringify(jsonData),
+                dataType: 'json',
+                url: urlpath2,
+                type: "POST",
+               /* async: false,*/
+                success: function (result) {
+                    //debugger;
+                    var message = result.ReturnMsg;
+                    if (result.ReturnCode == "0000") {
+                        swal({
+                            title: " Saved Successfull",
+                            text: '',
+                            type: "success",
+                            showCancelButton: false,
+                            cancelButtonClass: 'btn-secondary waves-effect',
+                            confirmButtonClass: 'btn-success waves-effect waves-light',
+                            confirmButtonText: 'Yes!',
+                            closeOnConfirm: false
+                        }, function () {
+                            window.location.href =  '@Url.Action("Index", "SalesOrderNew")';
+                        });
+                    } else {
+                        ShowMessage(message);
+                    }
+                }
+                })
+        }
+    </script>
+}

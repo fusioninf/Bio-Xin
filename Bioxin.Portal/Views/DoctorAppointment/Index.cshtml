@@ -1,0 +1,957 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .spinnermodal {
+        background-color: #FFFFFF;
+        height: 100%;
+        left: 0;
+        opacity: 0.5;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 100000;
+    }
+</style>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-12">
+                <!-- general form elements -->
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h3>Doctor Appointment</h3>
+                            </div>
+                            <div class="col-md-6 text-right ">
+                                <a class="btn btn-outline-warning" href="@Url.Action("AddDoctorAppointment", "DoctorAppointment", new {daId = 0})">
+                                    <span class="fa fa-plus"></span>New Doctor Appointment
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <div class="form-group" id="divFromDate">
+                                        <label for="txtFromDate">From Date</label>
+                                        <input type="text" id="txtFromDate" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group" id="divToDate">
+                                        <label for="txtToDate">To Date</label>
+                                        <input type="text" id="txtToDate" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group" id="divToDate">
+                                        <label for="txtToDate">Check By</label>
+                                        <select class="form-control select2" style="width: 100%; text-align: center" id="ddlAssinedTo"></select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group" id="divToDate">
+                                        <label for="txtToDate">Activity Type</label>
+                                        <select class="form-control select2" style="width: 100%; text-align: center" id="ddlActivityType" disabled="disabled"></select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-group" id="divCustomerName">
+                                        <label for="txtCustomerName">Customer Name</label>
+                                        <input type="text" placeholder="Search Customer Name" class="form-control" id="txtCustomerName" autocomplete="off" />
+                                        <input id="txtCustomerCode" type="hidden" />
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group" id="divMobileNo">
+                                        <label for="txtNameSearch">Mobile</label>
+                                        <input type="text" placeholder="Search Mobile No" id="txtNameSearch" name="UserName" class="form-control" autocomplete="off" />
+                                        <input type="hidden" id="ddlCustomer" name="ddlCustomer" />
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group" id="divSalesEmployee">
+                                        <label for="ddlSalesEmployee">Agent Name</label>
+                                        <select class="form-control select2" style="width: 100%;" id="ddlSalesEmployee"></select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group" id="divBranch">
+                                        <label for="ddlBranch">Branch</label>
+                                        <select class="form-control select2" style="width: 100%; text-align: center" id="ddlBranch"></select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group" id="divStatus">
+                                        <label for="ddlStatus">Status</label>
+                                        <select class="form-control select2" style="width: 100%; text-align: center" id="ddlStatus"></select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <button style="margin-right: 27px;margin-top:12px" class="btn btn-primary" onclick="ShowReport()">Search</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card-body">
+                                <table class="table table-bordered table-striped table-hover">
+                                    <thead>
+                                        <tr style="background-color: aliceblue">
+                                            <th style="text-align:center">#</th>
+                                            <th style="text-align:center">Activity</th>
+                                            <th style="text-align:center">Date</th>
+                                            <th style="text-align:center">Customer Name</th>
+                                            <th style="text-align:center">Mobile</th>
+                                            <th style="text-align:center">Check By</th>
+                                            <th style="text-align:center">Branch</th>
+                                            <th style="text-align:center">Visiting Branch</th>
+                                            <th style="text-align:center">Status</th>
+                                            <th style="text-align:center">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="manuallist">
+                                        @*@{ int count = 1;}
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td>@count</td>
+                                                <td>@item.TypeMasterName</td>
+                                                <td>@item.ActivityDate</td>
+                                                <td>@item.CardName</td>
+                                                <td>@item.Mobile</td>
+                                                <td>@item.EmployeeName</td>
+                                                <td>@item.BranchName</td>
+                                                <td>@item.VisitingBranchName</td>
+                                                <td>@item.OperationStatusDesc</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary showBtn" data-bs-toggle="modal" data-bs-target="#viewModal" onclick="ShowData(@item.ActivityId)">View</button>
+                                                </td>
+                                            </tr>
+                                            count++;
+                                        }*@
+
+                                        @if (Model.Count > 0)
+                                        {
+                                            if (Model.Count == 1)
+                                            {
+                                                int count = 1;
+                                                foreach (var item in Model)
+                                                {
+                                    <tr>
+                                        @if (@item.ReturnCode == "-44444")
+                                        {
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>@item.ReturnMsg</td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        }
+                                        else
+                                        {
+                                            <td>@count</td>
+                                            <td>@item.TypeMasterName</td>
+                                            <td>@item.ActivityDate</td>
+                                            <td>@item.CardName</td>
+                                            <td>@item.Mobile</td>
+                                            <td>@item.EmployeeName</td>
+                                            <td>@item.BranchName</td>
+                                            <td>@item.VisitingBranchName</td>
+                                            <td>@item.OperationStatusDesc</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary showBtn" data-bs-toggle="modal" data-bs-target="#viewModal" onclick="ShowData(@item.ActivityId)">View</button>
+                                            </td>
+                                        }
+                                    </tr>
+                                                    count++;
+                                                }
+                                            }
+                                            else
+                                            {
+                                                int count = 1;
+                                                foreach (var item in Model)
+                                                {
+                                    <tr>
+                                        <td>@count</td>
+                                        <td>@item.TypeMasterName</td>
+                                        <td>@item.ActivityDate</td>
+                                        <td>@item.CardName</td>
+                                        <td>@item.Mobile</td>
+                                        <td>@item.EmployeeName</td>
+                                        <td>@item.BranchName</td>
+                                        <td>@item.VisitingBranchName</td>
+                                        <td>@item.OperationStatusDesc</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-primary showBtn" data-bs-toggle="modal" data-bs-target="#viewModal" onclick="ShowData(@item.ActivityId)">View</button>
+                                        </td>
+                                    </tr>
+                                                    count++;
+                                                }
+                                            }
+
+                                        }
+                                        else
+                                        {
+                                            string msg = "No Result Found";
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td><b>@msg</b></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+        <!-- /.row -->
+    </div><!-- /.container-fluid -->
+    <div class="spinnermodal" id="testSpan" style="display: none; z-index: 10001">
+        <div style="position: fixed; z-index: 10001; top: 50%; left: 50%; height:50px">
+            <img src="~/AssetStatic/img/loading_spinner.gif" />
+        </div>
+    </div>
+</section>
+
+<div class="modal fade" tabindex="-1" id="viewModal" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" style="max-width: 100% !important">
+        <div class="modal-content">
+            <div class="modal-header">
+
+            </div>
+            <div class="modal-body" id="containerDetails">
+
+            </div>
+            <div class="modal-footer">
+                <input type="text" style="display:none;" id="eid" />
+                @*<button type="button" class="btn btn-danger" id="clsButton" data-dismiss="modal">Close</button>*@
+                <button class="btn btn-primary" data-bs-target="#viewModal" data-bs-toggle="modal" data-bs-dismiss="modal">Close</button>
+                @*<button type="button" class="btn btn-primary" id="clsEdit" onclick="GoToDo($('#eid').val())">Edit</button>*@
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            LoadDate_P('#txtFromDate');
+            LoadDate_C('#txtToDate');
+
+
+            LoadAssinedTo('ddlAssinedTo');
+            LoadStatus('ddlStatus');
+            LoadActivityType('ddlActivityType');
+
+            LoadBranch('ddlBranch');
+
+            LoadSalesEmployee('ddlSalesEmployee');
+
+
+            $("#txtNameSearch").autocomplete({
+                source: function (request, response) {
+                    var _url = '@Url.Action("AutoCompleteMobile", "DoctorAppointment")';
+                    $.ajax({
+                        url: _url,
+                        data: "{ 'prefix': '" + request.term + "'}",
+                        dataType: "json",
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                //var object = new Object();
+                                //object.Mobile = item.Mobile;
+                                //object.CardCode = item.CardCode;
+                                //object.CardName = item.CardName;
+                                //return object
+                                return item.Mobile + " | " + item.CardCode + " | " + item.CardName;
+                            }));
+                        },
+                        error: function (response) {
+                            alert(response.responseText);
+                        },
+                        failure: function (response) {
+                            alert(response.responseText);
+                        }
+                    });
+                },
+                select: function (event, ui) {
+                    //debugger;
+                    var str = ui.item.value;
+                    var ret2 = str.replace(" | ", '|');
+                    var ret = ret2.split('|');
+                    var mobile = ret[0];
+                    var cardCode = ret[1];
+                    var cardName = ret[2];
+                    $("#ddlCustomer").val(cardCode);
+                    $("#txtCustomerCode").val(cardCode);
+                    $("#txtCustomerName").val(cardName);
+                    if (cardCode != '') {
+                        GetBusinessPartnerInfo(cardCode);
+                    }
+                },
+                minLength: 3
+            });
+            $("#txtCustomerName").autocomplete({
+                source: function (request, response) {
+                    var _url = '@Url.Action("AutoCompleteCustomer", "DoctorAppointment")';
+                    $.ajax({
+                        url: _url,
+                        data: "{ 'prefix': '" + request.term + "'}",
+                        dataType: "json",
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                //var object = new Object();
+                                //object.Mobile = item.Mobile;
+                                //object.CardCode = item.CardCode;
+                                //object.CardName = item.CardName;
+                                //return object
+                                //return item.Mobile + " | " + item.CardCode + " | " + item.CardName;
+                                return item.CardName + " | " + item.CardCode + " | " + item.Mobile;
+                            }));
+                        },
+                        error: function (response) {
+                            alert(response.responseText);
+                        },
+                        failure: function (response) {
+                            alert(response.responseText);
+                        }
+                    });
+                },
+                select: function (event, ui) {
+                    //debugger;
+                    var str = ui.item.value;
+                    var ret2 = str.replace(" | ", '|');
+                    var ret = ret2.split('|');
+                    var mobile = ret[2];
+                    var cardCode = ret[1];
+                    var cardName = ret[0];
+                    $("#ddlCustomer").val(cardCode);
+                    $("#txtCustomerCode").val(cardCode);
+                    $("#txtCustomerName").val(cardName);
+                    $("#txtNameSearch").val(mobile);
+                    if (cardCode != '') {
+                        GetBusinessPartnerInfo(cardCode);
+                    }
+                },
+                minLength: 3
+            });
+
+        });
+        function LoadActivityType(elementId) {
+            var urlpath = '@Url.Action("GetActivityTypeforMemu", "DoctorAppointment")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { ActivityType: "A" },
+                async: false,
+                success: function (data) {
+                    //console.log(data)
+                    $('#' + elementId + '').empty();
+                    //$('#' + elementId + '').append("<option value=''>--Select Activity Type--</option>");
+                    for (var i = 0; i < data.length; i++) {
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].Code).html(data[i].Description));
+                    }
+                }
+            });
+        }
+        function LoadAssinedTo(elementId) {
+            var urlpath = '@Url.Action("GetAssinedTo", "DoctorAppointment")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { },
+                async: false,
+                success: function(data) {
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value=''>--Select Check By--</option>");
+                    for (var i = 0; i < data.length; i++) {
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].empID).html(data[i].firstName + " " + data[i].middleName + " " + data[i].lastName));
+                    }
+                }
+            });
+        }
+        function ShowReport() {
+            var fromdate;
+            var todate;
+            var branchid = '';
+            var empId = '0';
+            /*if ($('#txtFromDate').val() == "") {
+                swal("Please input from date");
+                return;
+            }
+            else {
+                fromdate = $('#txtFromDate').val();
+            }
+            if ($('#txtToDate').val() == "") {
+                swal("Please input to date");
+                return;
+            }
+            else {
+                todate = $('#txtToDate').val();
+            }*/
+            fromdate = $('#txtFromDate').val();
+            todate = $('#txtToDate').val();
+            checkby = $('#ddlAssinedTo').val();
+            activitytype = $('#ddlActivityType').val();
+            customerCode = $('#txtCustomerCode').val();
+            agentName = $('#ddlSalesEmployee').val();
+            visitbranch = $('#ddlBranch').val();
+            statuss = $('#ddlStatus').val();
+
+            var urlpath = '@Url.Action("DoctorAppointment_Search", "DoctorAppointment")';
+            $.ajax({
+                url: urlpath,
+                dataType: 'html',
+                type: "Get",
+                data: { fromdate: fromdate, todate: todate, checkby: checkby, activitytype: activitytype, customerCode: customerCode, agentName: agentName, visitbranch: visitbranch, statuss: statuss },
+                /* async: false,*/
+                beforeSend: function () {
+                    debugger;
+                    $('#testSpan').show();
+                },
+                success: function (data) {
+                    $('#testSpan').hide();
+                    data = JSON.parse(data);
+                   if (data.UnAutorized == 0 && data.dataList.length == 1 ) {
+                        if (data.dataList[0].ReturnCode == "-99999") {
+                            window.location.href = '@Url.Action("Logout", "Home")';
+                        }
+                    }
+
+                    if (data.UnAutorized == 1) {
+                          window.location.href =  '@Url.Action("Logout", "Home")';
+                    } else {
+
+                        //    var row = "";
+                        //    var count = 1;
+                        //    $("#manuallist").html("");
+
+                        //    var count = 1;
+                        //    $.each(data.dataList, function (index, item) {
+                        //        row += "<tr>";
+                        //        row += "<td style='text-align:center'>" + count + "</td>";
+                        //        row += "<td style='text-align:center'>" + item.TypeMasterName + "</td>";
+                        //        row += "<td style='text-align:center'>" + item.ActivityDate + "</td>";
+                        //        row += "<td style='text-align:center'>" + item.CardName + "</td>";
+                        //        row += "<td style='text-align:center'>" + item.Mobile + "</td>";
+                        //        row += "<td style='text-align:center'>" + item.EmployeeName + "</td>";
+                        //        row += "<td style='text-align:center'>" + item.BranchName + "</td>";
+                        //        row += "<td style='text-align:center'>" + item.VisitingBranchName + "</td>";
+                        //        row += "<td style='text-align:center'>" + item.OperationStatusDesc + "</td>";
+                        //        row += "<td style='text-align:center'><button class='btn btn-sm btn-primary showBtn' data-bs-toggle='modal' data-bs-target='#viewModal' onclick='ShowData(" + item.ActivityId + ")'>View</button></td>";
+                        //        row += "</tr>";
+                        //        count = count + 1;
+                        //    });
+                        //$("#manuallist").html(row);
+
+
+                        if (data.dataList.length > 0) {
+
+                            if (data.dataList.length == 1) {
+                                var row = "";
+                                $("#manuallist").html("");
+
+                                var count = 1;
+                                $.each(data.dataList, function (index, item) {
+
+                                    row += "<tr>";
+                                    if (item.ReturnCode == "-44444") {
+                                        row += "<td style='text-align:center'></td>";
+                                        row += "<td style='text-align:center'></td>";
+                                        row += "<td style='text-align:center'></td>";
+                                        row += "<td style='text-align:center'></td>";
+                                        row += "<td style='text-align:center'>" + item.ReturnMsg + "</td>";
+                                        row += "<td style='text-align:center'></td>";
+                                        row += "<td style='text-align:center'></td>";
+                                        row += "<td style='text-align:center'></td>";
+                                        row += "<td style='text-align:center'></td>";
+                                        row += "<td style='text-align:center'></td>";
+                                    } else {
+                                        row += "<td style='text-align:center'>" + count + "</td>";
+                                        row += "<td style='text-align:center'>" + item.TypeMasterName + "</td>";
+                                        row += "<td style='text-align:center'>" + item.ActivityDate + "</td>";
+                                        row += "<td style='text-align:center'>" + item.CardName + "</td>";
+                                        row += "<td style='text-align:center'>" + item.Mobile + "</td>";
+                                        row += "<td style='text-align:center'>" + item.EmployeeName + "</td>";
+                                        row += "<td style='text-align:center'>" + item.BranchName + "</td>";
+                                        row += "<td style='text-align:center'>" + item.VisitingBranchName + "</td>";
+                                        row += "<td style='text-align:center'>" + item.OperationStatusDesc + "</td>";
+                                        row += "<td style='text-align:center'><button class='btn btn-sm btn-primary showBtn' data-bs-toggle='modal' data-bs-target='#viewModal' onclick='ShowData(" + item.ActivityId + ")'>View</button></td>";
+                                    }
+
+                                    row += "</tr>";
+                                    count = count + 1;
+
+                                });
+                                $("#manuallist").html(row);
+                            } else {
+                                var row = "";
+                                $("#manuallist").html("");
+
+                                var count = 1;
+                                $.each(data.dataList, function (index, item) {
+
+                                    row += "<tr>";
+                                    row += "<td style='text-align:center'>" + count + "</td>";
+                                    row += "<td style='text-align:center'>" + item.TypeMasterName + "</td>";
+                                    row += "<td style='text-align:center'>" + item.ActivityDate + "</td>";
+                                    row += "<td style='text-align:center'>" + item.CardName + "</td>";
+                                    row += "<td style='text-align:center'>" + item.Mobile + "</td>";
+                                    row += "<td style='text-align:center'>" + item.EmployeeName + "</td>";
+                                    row += "<td style='text-align:center'>" + item.BranchName + "</td>";
+                                    row += "<td style='text-align:center'>" + item.VisitingBranchName + "</td>";
+                                    row += "<td style='text-align:center'>" + item.OperationStatusDesc + "</td>";
+                                    row += "<td style='text-align:center'><button class='btn btn-sm btn-primary showBtn' data-bs-toggle='modal' data-bs-target='#viewModal' onclick='ShowData(" + item.ActivityId + ")'>View</button></td>";
+                                    row += "</tr>";
+                                    count = count + 1;
+
+                                });
+                                $("#manuallist").html(row);
+                            }
+                        }
+                        else {
+                            var row = "";
+                            $("#manuallist").html("");
+                            var count = 1;
+                            var cardName = "No Result Found";
+
+                            row += "<tr>";
+                            row += "<td style='text-align:center'></td>";
+                            row += "<td style='text-align:center'></td>";
+                            row += "<td style='text-align:center'></td>";
+                            row += "<td style='text-align:center'></td>";
+                            row += "<td style='text-align:center'><b>" + cardName + "</b></td>";
+                            row += "<td style='text-align:center'></td>";
+                            row += "<td style='text-align:center'></td>";
+                            row += "<td style='text-align:center'></td>";
+                            row += "<td style='text-align:center'></td>";
+                            row += "<td style='text-align:center'></td>";
+                            row += "</tr>";
+
+                            $("#manuallist").html(row);
+                        }
+
+                    }
+
+                }
+            });
+        }
+        function ShowData(ActivityId) {
+
+            ViewOrder(ActivityId);
+            GetDoctorAppointment(ActivityId);
+            LoadDate_C('#txtActualVisitingDate');
+
+
+            createEditOrUpdateButton(ActivityId);
+        }
+        function ViewOrder(id) {
+            var urlpath = '@Url.Action("ViewDoctorAppointment", "DoctorAppointment")';
+            $.ajax({
+                url: urlpath,
+                dataType: 'html',
+                data: {id:id},
+                type: "Get",
+                async: false,
+                success: function (data) {
+
+                    $('#containerDetails').html(data);
+
+                }
+            });
+        }
+        function GetDoctorAppointment(ActivityId) {
+            var urlpath = '@Url.Action("DoctorAppointmentViewData", "DoctorAppointment")';
+            $.ajax({
+                data: { ActivityId: ActivityId },
+                url: urlpath,
+                dataType: 'json',
+                type: "Get",
+                /* async: false,*/
+                beforeSend: function () {
+                    debugger;
+                    $('#testSpan').show();
+                },
+                success: function (data) {
+                    $('#testSpan').hide();
+
+                    if (data.UnAutorized == 1) {
+                        window.location.href = '@Url.Action("Logout", "Home")';
+                    } else {
+                        if (data.dataList[0].ReturnCode == "-99999") {
+                            window.location.href = '@Url.Action("Logout", "Home")';
+                        } else {
+                            $('#ddlActivityTypeDisplay').val(data.dataList[0].TypeMasterName);
+                            $('#ddlActivityDisplay').val(data.dataList[0].TypeName);
+                            $('#txtCustomerCodeDisplay').val(data.dataList[0].CardCode);
+                            $('#txtCustomerNameDisplay').val(data.dataList[0].CardName);
+                            $('#txtNameSearchDisplay').val(data.dataList[0].Mobile);
+                            $('#ddlSalesEmployeeDisplay').val(data.dataList[0].AgentName);
+                            $('#ddlBranchDisplay').val(data.dataList[0].BranchName);
+                            $('#txtAppointmentDateDisplay').val(data.dataList[0].ActivityDate);
+                            $('#txtVisitingDateDisplay').val(data.dataList[0].ActivityDate);
+                            $('#ddlVisitingBranchDisplay').val(data.dataList[0].VisitingBranchName);
+                            $('#ddlAssinedToDisplay').val(data.dataList[0].EmployeeName);
+                            LoadStatus('ddlStatusUpdate');
+                            $("#ddlStatusUpdate").val(data.dataList[0].OperationStatus).trigger('change');
+                            LoadAssinedTo('ddlAssinedToUpdate');
+                            $("#ddlAssinedToUpdate").val(data.dataList[0].CheckedByCode).trigger('change');
+                            let actualVisitingDate = DateConversionToDateMonthYear(data.dataList[0].ActualVisitingDate);
+                            $("#txtActualVisitingDate").val(actualVisitingDate);
+                            $('#txtRrmarks').val(data.dataList[0].Remarks);
+                        }
+
+                    }
+
+                }
+            });
+        }
+        function LoadBranch(elementId) {
+            var urlpath = '@Url.Action("GetBranch", "InventoryTransferRequest")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { },
+                async: false,
+                success: function(data) {
+
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value=''>--Select Branch--</option>");
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].PrcCode).html(data[i].PrcName ));
+                    }
+
+                }
+            });
+        }
+        function LoadStatus(elementId) {
+            var urlpath = '@Url.Action("GetDailyOpertaionStatus", "DoctorAppointment")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {  },
+                async: false,
+                success: function(data) {
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value=''>--Select Status--</option>");
+                    for (var i = 0; i < data.length; i++) {
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].Value).html(data[i].Description));
+                    }
+                }
+            });
+        }
+        function LoadSalesEmployee(elementId) {
+            var urlpath = '@Url.Action("GetSalesEmployee", "DoctorAppointment")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {},
+                async: false,
+                success: function(data) {
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value=''>--Select Agent--</option>");
+                    for (var i = 0; i < data.length; i++) {
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].SlpCode).html(data[i].SlpName));
+                    }
+                }
+            });
+        }
+        function LoadActivity() {
+            var ActivityType = $('#ddlActivityType').val();
+            var urlpath = '@Url.Action("GetActivityMaster", "Activity")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { ActivityType: ActivityType },
+                async: false,
+                success: function(data) {
+
+                    $('#ddlActivity').empty();
+                    $('#ddlActivity').append("<option value=''>--Select Activity--</option>");
+                    for (var i = 0; i < data.length; i++) {
+                        $('#ddlActivity').append($("<option></option>").val(data[i].ActivityCode).html(data[i].ActivityName));
+                    }
+
+                }
+            });
+        }
+        function LoadBranch(elementId) {
+            var CardType = "C";
+            var urlpath = '@Url.Action("GetBranch", "InventoryTransferRequest")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { },
+                async: false,
+                success: function(data) {
+
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value=''>--Select Branch--</option>");
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].PrcCode).html(data[i].PrcName ));
+                    }
+
+                }
+            });
+        }
+        function GetAssinedTo() {
+            var urlpath = '@Url.Action("GetAssinedTo", "Activity")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {  },
+                async: false,
+                success: function(data) {
+                    assinedToList = data;
+                }
+            });
+        }
+        function GetActivityStatusMaster() {
+            var urlpath = '@Url.Action("GetActivityStatusMaster", "Activity")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {  },
+                async: false,
+                success: function(data) {
+                    statusList = data;
+                }
+            });
+        }
+        function GetDailyOpertaionStatus() {
+            var urlpath = '@Url.Action("GetDailyOpertaionStatus", "Activity")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {  },
+                async: false,
+                success: function(data) {
+                    operationStatusList = data;
+                }
+            });
+        }
+        function GetActivitySession() {
+            var urlpath = '@Url.Action("GetActivitySession", "Activity")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {  },
+                async: false,
+                success: function(data) {
+                    sessionList = data;
+                }
+            });
+        }
+        function GetBusinessPartnerInfo(CardCode) {
+            var urlpath = '@Url.Action("GetBusinessPartnerByCardCode", "DoctorAppointment")';
+            $.ajax({
+                url: urlpath,
+                dataType: 'json',
+                type: "Get",
+                data: { CardCode: CardCode },
+                async: false,
+                success: function (data) {
+                    //debugger;
+                    $('#txtCustomerCode').val(data.CardCode);
+                    $('#txtPreCardBalAmount').val(data.DownPaymentBalance);
+                    if ($("#txtPreCardBalAmount").val() != '' && $("#txtPreCardBalAmount").val() > 0) {
+                        $("#divPreCardAmount").show();
+                        $("#rdPaymentType_PreCard").prop("checked", true);
+                        $("#rdPaymentType_PreCard").css("color", "blue");   //.addClass("blue-checkbox");
+                    }
+                }
+            });
+        }
+        function pad2(number) {
+            return (number < 10 ? '0' : '') + number;
+        }
+        function DateConversionToYYYYMMDD(inputDate) {
+            // Split the input date into day, month, and year parts
+            var parts = inputDate.split('-');
+            var day = parts[0];
+            var month = parts[1];
+            var year = parts[2];
+            var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            var monthIndex = monthNames.indexOf(month);
+            monthIndex++; // Adjust for 0-based indexing
+            // Create a Date object with the parsed values
+            var dateObject = new Date(year, monthIndex - 1, day);
+            // Format the date as "YYYYMMDD"
+            var formattedDate = dateObject.getFullYear() + pad2(dateObject.getMonth() + 1) + pad2(dateObject.getDate());
+            return formattedDate
+        }
+        function DateConversionToDateMonthYear(inputDate) {
+            var parts = inputDate.split('/');
+            var day = parts[0];
+            var month = parts[1];
+            var year = parts[2];
+            var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            var monthName = monthNames[parseInt(month) - 1];
+            var formattedDate = day + '-' + monthName + '-' + year;
+            return formattedDate
+        }
+        function createEditOrUpdateButton(DocEntry) {
+
+            var editOrUpdateButton = document.createElement("input");
+            editOrUpdateButton.type = "button";
+            editOrUpdateButton.value = "Edit";
+            editOrUpdateButton.className = "btn btn-primary";
+            //editOrUpdateButton.setAttribute("data-DocEntry", DocEntry);
+            editOrUpdateButton.onclick = function () {
+                //var docEntry = $(this).data("DocEntry");
+                editOrUpdate(this, DocEntry);
+            };
+
+            var editOrUpdateButtonContainer = document.getElementById("viewModal").getElementsByClassName("modal-footer")[0];
+            var existingEditOrUpdateButton = editOrUpdateButtonContainer.querySelector("input[type=button][value='Edit']");
+            if (existingEditOrUpdateButton) {
+                editOrUpdateButtonContainer.removeChild(existingEditOrUpdateButton);
+            }
+            editOrUpdateButtonContainer.appendChild(editOrUpdateButton);
+        }
+        function editOrUpdate(button, DocEntry) {
+            /*    alert(DocEntry);*/
+            var $button = $(button);
+            if ($button.val() === "Edit") {
+                $button.val("Update");
+
+                $("#txtActualVisitingDate, #ddlStatusUpdate, #ddlAssinedToUpdate, #txtRrmarks").prop("disabled", false);
+            } else {
+                let actualVisitingDate = $("#txtActualVisitingDate").val();
+                let statusUpdate = $("#ddlStatusUpdate").val();
+                let assinedToUpdate = $("#ddlAssinedToUpdate").val();
+                let remarks = $("#txtRrmarks").val();
+                UpdateSalesOrder(DocEntry, actualVisitingDate, statusUpdate, assinedToUpdate, remarks);
+            }
+        }
+        //function UpdateValidation() {
+        //    var isValid = true;
+        //    var message = "Some Values Required";
+        //    if ($('#ddlStatusUpdate').val() == 0 || $('#ddlStatusUpdate').val() == '') {
+        //        ValidationColorChangeNew("ddlToBranch", "divToBranch", "Service Branch Required", true);
+        //        isValid = false;
+        //    }
+
+        //    if (isValid == false) {
+        //        ShowMessage(message);
+
+        //    }
+        //    return isValid;
+        //}
+        function UpdateSalesOrder(DocEntry, ActualVisitingDate, StatusUpdate, AssinedToUpdate, Remarks) {
+        /*    if (UpdateValidation() == true) {*/
+                swal({
+                    title: "Are you sure?",
+                    text: "",
+                    type: "success",
+                    showCancelButton: true,
+                    cancelButtonClass: 'btn-secondary waves-effect',
+                    confirmButtonClass: 'btn-success waves-effect waves-light',
+                    confirmButtonText: 'Yes!',
+                    closeOnConfirm: false
+
+                }, function () {
+                    $('.confirm').prop("disabled", true);
+                    $('.cancel').prop("disabled", true);
+                    UpdateSOinal(DocEntry, ActualVisitingDate, StatusUpdate, AssinedToUpdate, Remarks);
+                });
+            /*}*/
+        }
+        function UpdateSOinal(DocEntry, ActualVisitingDate, StatusUpdate, AssinedToUpdate, Remarks) {
+            //debugger;
+            var jsonData = {};
+
+            var newActualVisitingDate = DateConversionToYYYYMMDD(ActualVisitingDate);
+
+            jsonData["ActivityId"] = DocEntry;
+            jsonData["ActualVisitDate"] = newActualVisitingDate;
+            jsonData["DocStatus"] = StatusUpdate;
+            jsonData["CheckedBy"] = AssinedToUpdate;
+            jsonData["Remarks"] = Remarks;
+
+            var urlpath2 = '@Url.Action("UpdateDoctorAppointment", "DoctorAppointment")';
+            $.ajax({
+                contentType: "application/json",
+                data: JSON.stringify(jsonData),
+                dataType: 'json',
+                url: urlpath2,
+                type: "POST",
+                /* async: false,*/
+                beforeSend: function () {
+                    $('#testSpan').show();
+                },
+                success: function (result) {
+                    //debugger;
+                    $('#testSpan').hide();
+                    if (result.UnAutorized == 0 && result.dataList.length == 1 ) {
+                        if (result.dataList.ReturnCode == "-99999") {
+                            window.location.href = '@Url.Action("Logout", "Home")';
+                        }
+                    }
+                    if (result.UnAutorized == 1) {
+                        window.location.href = '@Url.Action("Logout", "Home")';
+                    } else {
+                        var message = result.dataList.ReturnMsg;
+                        if (result.dataList.ReturnCode == "0000") {
+                        swal({
+                            title: " Updated Successfull",
+                            text: '',
+                            type: "success",
+                            showCancelButton: false,
+                            cancelButtonClass: 'btn-secondary waves-effect',
+                            confirmButtonClass: 'btn-success waves-effect waves-light',
+                            confirmButtonText: 'Yes!',
+                            closeOnConfirm: false
+                        }, function () {
+                            window.location.href =  '@Url.Action("Index", "DoctorAppointment")';
+                        });
+                    } else {
+                        ShowMessage(message);
+                    }
+                    }
+
+                }
+                })
+        }
+    </script>
+}
+

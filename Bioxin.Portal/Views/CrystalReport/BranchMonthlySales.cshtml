@@ -1,0 +1,310 @@
+﻿
+@{
+    ViewBag.Title = "BranchMonthlySales";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .custom-header {
+        background-color: darkgray !important; /* Blue color #007bff  #808080*/
+        color: black; /* Text color for contrast */
+    }
+</style>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-primary">
+                    <div class="card-header custom-header">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <a href="#">
+                                    <h3 class="card-title">
+                                        <span class="">Branch Monthly Sales</span>
+                                    </h3>
+                                </a>
+                            </div>
+                            <div class="col-md-6 text-right">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group row" id="divMonth">
+                                    <label for="ddlMonth" class="col-md-4 control-label">Month</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%;" id="ddlMonth">
+                                            <option value="01">January</option>
+                                            <option value="02">February</option>
+                                            <option value="03">March</option>
+                                            <option value="04">April</option>
+                                            <option value="05">May</option>
+                                            <option value="06">June</option>
+                                            <option value="07">July</option>
+                                            <option value="08">August</option>
+                                            <option value="09">September</option>
+                                            <option value="10">October</option>
+                                            <option value="11">November</option>
+                                            <option value="12">December</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row" id="divReportType">
+                                    <label for="ddlGroupCode" class="col-md-4 control-label">Report Type</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%;" id="ddlReportType">
+                                            <option value="2" selected>PDF</option>
+                                            <option value="1">Crystal Report</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group row" id="divYear">
+                                    <label for="ddlYear" class="col-md-4 control-label">Year</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%;" id="ddlYear">
+                                            <option value="2023">2023</option>
+                                            <option value="2024">2024</option>
+                                            <option value="2025">2025</option>
+                                            <option value="2026">2026</option>
+                                            <option value="2027">2027</option>
+                                            <option value="2028">2028</option>
+                                            <option value="2029">2029</option>
+                                            <option value="2030">2030</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group row mt-2" id="divBranch">
+                                    <label for="ddlBranch" class="col-md-4 control-label">Branch</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%; text-align: center" id="ddlBranch" disabled="disabled"></select>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            &nbsp;
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4">
+                                <input type="button" value="Print" class="btn btn-primary" onclick="PrintCustomerInvoiceSummary()" />
+                                <input type="button" value="Cancel" class="btn btn-primary" />
+                            </div>
+                            <div class="col-md-4"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <input id="branch" type="number" style="display: none;" value="@ViewBag.Branch">
+    </div>
+</section>
+@section Scripts
+{
+    <script>
+        var itemList = {};
+        var itemUPIList = {};
+        var workActivitiesList = {};
+        var workStatusList = {};
+        var signatureList = {};
+        var DeleteItem = [];
+        var selectedHearAboutUs = [];
+        var selectedReasonBranchVisit = [];
+        var srcount = 0;
+        $(document).ready(function () {
+            //LoadDate_C('#txtFromDate');
+            //LoadDate_C('#txtToDate');
+
+            //LoadWarehouse('ddlWarehouse');
+            //LoadBusinessPartner('ddlCustomer');
+            LoadBranch('ddlBranch');
+            var branch = $('#branch').val();
+            $("#ddlBranch").val(branch).trigger('change');
+            //$('#ddlCustomer').change(function () {
+            //    var CardCode = $('#ddlCustomer').val();
+            //    $('#txtCustomerCode').val('');
+            //    if (CardCode != '') {
+            //        GetBusinessPartnerInfo(CardCode);
+            //    }
+            //});
+        });
+
+
+
+
+
+        function LoadGroupCode(elementId) {
+            var urlpath = '@Url.Action("GetGroup", "CrystalReport")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { },
+                async: false,
+                success: function (data) {
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value=''>--Select Group Code--</option>");
+                    for (var i = 0; i < data.length; i++) {
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].GroupCode).html(data[i].GroupName));
+                    }
+                }
+            });
+        }
+        function LoadBusinessPartner(elementId) {
+            var CardType = "C";
+            var urlpath = '@Url.Action("GetBusinessPartner", "CrystalReport")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { CardType: CardType },
+                /*    data: {  },*/
+                async: false,
+                success: function(data) {
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value=''>--Select Business Partner--</option>");
+                    for (var i = 0; i < data.length; i++) {
+                        //$('#' + elementId + '').append($("<option></option>").val(data[i].CardCode).html(data[i].CardCode + " | " + data[i].CardName + " | " + data[i].Mobile));
+                        //$('#' + elementId + '').append($("<option></option>").val(data[i].CardCode).html(data[i].CardName));
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].CardCode).html(data[i].CardName + " | " + data[i].Mobile));
+                    }
+                }
+            });
+        }
+        function GetBusinessPartnerInfo(CardCode) {
+            var urlpath = '@Url.Action("GetBusinessPartnerByCardCode", "CrystalReport")';
+            $.ajax({
+                url: urlpath,
+                dataType: 'json',
+                type: "Get",
+                data: { CardCode: CardCode },
+                async: false,
+                success: function (data) {
+                    $('#txtCustomerCode').val(data.CardCode);
+                }
+            });
+        }
+        function LoadBranch(elementId) {
+            var urlpath = '@Url.Action("GetBranch", "CrystalReport")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { },
+                async: false,
+                success: function (data) {
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value=''>--Select Branch--</option>");
+                    for (var i = 0; i < data.length; i++) {
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].PrcCode).html(data[i].PrcName));
+                    }
+                }
+            });
+        }
+        function LoadWarehouse(elementId) {
+            var urlpath = '@Url.Action("GetWarehouseALL", "CrystalReport")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {  },
+                async: false,
+                success: function(data) {
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value=''>--Select Warehouse--</option>");
+                    for (var i = 0; i < data.length; i++) {
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].WhsCode).html(data[i].WhsName));
+                    }
+                }
+            });
+        }
+
+
+
+
+        function pad2(number) {
+            return (number < 10 ? '0' : '') + number;
+        }
+        function DateConversionToYYYYMMDD(inputDate) {
+            // Split the input date into day, month, and year parts
+            var parts = inputDate.split('-');
+            var day = parts[0];
+            var month = parts[1];
+            var year = parts[2];
+            var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            var monthIndex = monthNames.indexOf(month);
+            monthIndex++; // Adjust for 0-based indexing
+            // Create a Date object with the parsed values
+            var dateObject = new Date(year, monthIndex - 1, day);
+            // Format the date as "YYYYMMDD"
+            var formattedDate = dateObject.getFullYear() + pad2(dateObject.getMonth() + 1) + pad2(dateObject.getDate());
+            return formattedDate
+        }
+        function DateConversionToDateMonthYear(inputDate) {
+            var parts = inputDate.split('/');
+            var day = parts[0];
+            var month = parts[1];
+            var year = parts[2];
+            var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            var monthName = monthNames[parseInt(month) - 1];
+            var formattedDate = day + '-' + monthName + '-' + year;
+            return formattedDate
+        }
+        function PrintValidation() {
+            var isValid = true;
+            var message = "Some Values Required";
+            //if ($('#txtFromDate').val() == '' || $('#txtFromDate').val() == null) {
+            //    ValidationColorChangeNew("txtFromDate", "divFromDate", "From Date Required", false);
+            //    isValid = false;
+            //}
+            //if ($('#txtToDate').val() == '' || $('#txtToDate').val() == null) {
+            //    ValidationColorChangeNew("txtToDate", "divToDate", "To Date Required", false);
+            //    isValid = false;
+            //}
+
+            if (isValid == false) {
+                ShowMessage(message);
+
+            }
+            return isValid;
+        }
+        function PrintCustomerInvoiceSummary() {
+            if (PrintValidation() == true) {
+                var Branch = $('#branch').val();
+                var ReportType = $('#ddlReportType').val();
+                var Month = $('#ddlMonth').val();
+                var Year = $('#ddlYear').val();
+/*                printPage(Month, Year, Branch, ReportType);*/
+                GetprintPage(Month, Year, Branch, ReportType);
+            }
+        }
+        function printPage(Month,Year,Branch,ReportType) {
+            var dynamicURL = 'http://172.16.1.41:8001/web/webform1.aspx?id1=14&id2=BIOXIN|BRANCH|MONTH|YEAR&id3=TYPE'.replace('MONTH', Month).replace('YEAR', Year).replace('BRANCH', Branch).replace('TYPE', ReportType);
+            window.open(dynamicURL, '_blank');
+        }
+        function GetprintPage(Month, Year, Branch, ReportType) {
+            var urlpath = '@Url.Action("GetprintPage", "SalesOrderNew")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {  },
+                async: false,
+                success: function (data) {
+                    var dynamicURL = data.RPTPort + 'web/webform1.aspx?id1=14&id2=BIOXIN|BRANCH|MONTH|YEAR&id3=TYPE&uid=USERID'.replace('MONTH', Month).replace('YEAR', Year).replace('BRANCH', Branch).replace('TYPE', ReportType).replace('BIOXIN', data.Database).replace('USERID', data.UserId);
+                    window.open(dynamicURL, '_blank');
+                }
+                //,
+                //complete: function (data) {
+
+                //}
+            });
+        }
+    </script>
+}
+

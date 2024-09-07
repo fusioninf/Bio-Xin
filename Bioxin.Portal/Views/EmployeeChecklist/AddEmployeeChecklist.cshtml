@@ -1,0 +1,580 @@
+﻿
+@{
+    ViewBag.Title = "Add Employee Checklist";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .custom-header {
+        background-color: darkgray !important; /* Blue color #007bff  #808080*/
+        color: black; /* Text color for contrast */
+    }
+    .spinnermodal {
+        background-color: #FFFFFF;
+        height: 100%;
+        left: 0;
+        opacity: 0.5;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 100000;
+    }
+</style>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-primary">
+                    <div class="card-header custom-header">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <a href="@Url.Action("AddEmployeeChecklist", "EmployeeChecklist", new {aId = 0})">
+                                    <h3 class="card-title">
+                                        @if (ViewBag.ActivityId == 0)
+                                        {
+                                            <span class="" style="color:black"><b>Employee Checklist</b></span>
+                                        }
+                                        else
+                                        {
+                                            <span class="" style="color:black"> Edit Employee Checklist</span>
+                                        }
+                                    </h3>
+                                </a>
+                            </div>
+                            <div class="col-md-6 text-right">
+                                <a class="btn btn-outline-warning" href="@Url.Action("Index", "EmployeeChecklist")">
+                                    <span class="fa fa-list"></span> Employee Checklist
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group row" id="divActivityType">
+                                    <label for="ddlActivityType" class="col-md-4 control-label">Activity Type</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%;" id="ddlActivityType" onchange="LoadActivity()" disabled="disabled"></select>
+                                    </div>
+                                </div>
+                                <div class="form-group row" id="divActivityDate">
+                                    <label for="txtActivityDate" class="col-md-4 control-label">Activity Date</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="txtActivityDate" class="form-control datepicker" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4">
+                                <div class="form-group row mt-1" id="divBranch">
+                                    <label for="ddlBranch" class="col-md-4 control-label">Branch</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%; text-align: center" id="ddlBranch" disabled="disabled"></select>
+                                    </div>
+                                </div>
+                                <div class="form-group row mt-1" id="divAssinedTo">
+                                    <label for="ddlAssinedTo" class="col-md-4 control-label">Check By</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" style="width: 100%; text-align: center" id="ddlAssinedTo"></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            &nbsp;
+                        </div>
+                        <div class="row table-responsive">
+                            <table class="table table-bordered table-striped table-hover" id="salesOrder">
+                                <thead>
+                                    <tr style="background-color: lightgrey">
+                                        <th>#</th>
+                                        <th>Activity</th>
+                                        <!--<th>Task Status</th>-->
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-warning" id="btnActivity" onclick="SaveActivity()">Add & New</button>
+                        <button class="btn btn-warning  float-right" onclick="location.reload()">Clear</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <input id="activityId" type="number" style="display: none;" value="@ViewBag.ActivityId">
+        <input id="branch" type="number" style="display: none;" value="@ViewBag.Branch">
+        <input id="userId" type="text" style="display: none;" value="@ViewBag.UserId">
+        <input id="eflag" type="text" style="display: none;" value="@ViewBag.eflag">
+    </div>
+    <div class="spinnermodal" id="testSpan" style="display: none; z-index: 10001">
+        <div style="position: fixed; z-index: 10001; top: 50%; left: 50%; height:50px">
+            <img src="~/AssetStatic/img/loading_spinner.gif" />
+        </div>
+    </div>
+</section>
+@section Scripts
+{
+    <script>
+        var customerList = {};
+        var assinedToList = {};
+        var statusList = {};
+        var operationStatusList = {};
+        var sessionList = {};
+        var activityList = {};
+        $(document).ready(function () {
+            LoadDate_C('#txtActivityDate');
+            LoadBranch('ddlBranch');
+            var branch = $('#branch').val();
+            $("#ddlBranch").val(branch).trigger('change');
+            LoadActivityType('ddlActivityType');
+            LoadAssinedTo('ddlAssinedTo');
+            GetActivity();
+            GetActivityStatusMaster();
+            GetDailyOpertaionStatus();
+
+            if (activityList.length > 0) {
+                for (var i = 0; i < activityList.length; i++) {
+                    AddRow(activityList[i]);
+                }
+            }
+        });
+        function LoadBranch(elementId) {
+            var urlpath = '@Url.Action("GetBranch", "EmployeeChecklist")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { },
+                async: false,
+                success: function(data) {
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value=''>--Select Branch--</option>");
+                    for (var i = 0; i < data.length; i++) {
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].PrcCode).html(data[i].PrcName ));
+                    }
+                }
+            });
+        }
+        function LoadActivityType(elementId) {
+            var urlpath = '@Url.Action("GetActivityTypeforMemu", "EmployeeChecklist")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { ActivityType: "E" },
+                async: false,
+                success: function(data) {
+                    $('#' + elementId + '').empty();
+                    //$('#' + elementId + '').append("<option value=''>--Select Activity Type--</option>");
+                    for (var i = 0; i < data.length; i++) {
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].Code).html(data[i].Description));
+                    }
+                }
+            });
+        }
+        function LoadAssinedTo(elementId) {
+            var urlpath = '@Url.Action("GetAssinedTo", "EmployeeChecklist")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { },
+                async: false,
+                success: function(data) {
+                    $('#' + elementId + '').empty();
+                    $('#' + elementId + '').append("<option value=''>--Select Check By--</option>");
+                    for (var i = 0; i < data.length; i++) {
+                        $('#' + elementId + '').append($("<option></option>").val(data[i].empID).html(data[i].firstName + " " + data[i].middleName + " " + data[i].lastName));
+                    }
+                }
+            });
+        }
+        function GetActivity() {
+            var activityType = $('#ddlActivityType').val();
+            var urlpath = '@Url.Action("GetActivityMaster", "EmployeeChecklist")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: { ActivityType: activityType },
+                async: false,
+                success: function(data) {
+                    activityList = data;
+                }
+            });
+        }
+        function GetActivityStatusMaster() {
+            var urlpath = '@Url.Action("GetActivityStatusMaster", "EmployeeChecklist")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {  },
+                async: false,
+                success: function (data) {
+                    statusList = data;
+                }
+            });
+        }
+        function GetDailyOpertaionStatus() {
+            var urlpath = '@Url.Action("GetDailyOpertaionStatus", "EmployeeChecklist")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                data: {  },
+                async: false,
+                success: function(data) {
+                    operationStatusList = data;
+                }
+            });
+        }
+        function LoadActivityInRow(elementId, singleActivityList) {
+            $('#' + elementId + '').append($("<option></option>").val(singleActivityList.ActivityCode).html(singleActivityList.ActivityName));
+        }
+        function LoadStatusInRow(elementId) {
+            var array = [];
+            var rowCount = $('#salesOrder tbody tr').length;
+            for (let count = 0; count < rowCount; count++) {
+                array.push(parseInt($("#status_" + count).val()));
+            };
+            $('#' + elementId + '').append("<option value=''>--Select Task Status--</option>");
+            for (var i = 0; i < statusList.length; i++) {
+                if (jQuery.inArray(statusList[i].StatusName, array) == -1) {
+                    $('#' + elementId + '').append($("<option></option>").val(statusList[i].StatusId).html(statusList[i].StatusName));
+                }
+            }
+        }
+        function LoadDailyOperationStatusInRow(elementId) {
+            var array = [];
+            var rowCount = $('#salesOrder tbody tr').length;
+            for (let count = 0; count < rowCount; count++) {
+                array.push(parseInt($("#operationStatus_" + count).val()));
+            };
+            $('#' + elementId + '').append("<option value=''>--Select Status--</option>");
+            for (var i = 0; i < operationStatusList.length; i++) {
+                if (jQuery.inArray(operationStatusList[i].Value, array) == -1) {
+                    $('#' + elementId + '').append($("<option></option>").val(operationStatusList[i].Value).html(operationStatusList[i].Description));
+                }
+            }
+        }
+        function AddRow(activityList) {
+            var tr = $('#salesOrder tbody tr').length + 1;
+            var values = $("#salesOrder tbody tr")
+                .map(function() { return parseInt($(this).attr('id').substring(3)); }).get();
+            var index = values.indexOf(tr);
+            if (index >= 0) {
+                tr = Math.max.apply(Math, values) + 1;
+            }
+            var urlpath = '@Url.Action("AddRowForOrder", "EmployeeChecklist")';
+            $.ajax({
+                url: urlpath,
+                type: "Get",
+                dataType: 'html',
+                data: { tr: tr },
+                async: false,
+                success: function(data) {
+                    $('#salesOrder tbody').append(data);
+                    LoadActivityInRow("activity_" + tr, activityList);
+                    ///LoadStatusInRow("status_" + tr);
+                    LoadDailyOperationStatusInRow("operationStatus_" + tr);
+                }
+            });
+            //$('#status_' + tr).select2();
+            $('#operationStatus_' + tr).select2();
+
+            /*$('#txtFromTime_' + tr).timepicker({
+                timeFormat: 'HH:mm',
+                interval: 15,
+                minTime: '8',
+                maxTime: '7:00pm',
+                defaultTime: '9',
+                startTime: '8:00',
+                dynamic: false,
+                dropdown: true,
+                scrollbar: true
+            });
+            $('#txtToTime_' + tr).timepicker({
+                timeFormat: 'HH:mm',
+                interval: 15,
+                minTime: '8',
+                maxTime: '7:00pm',
+                defaultTime: '9',
+                startTime: '8:00',
+                dynamic: false,
+                dropdown: true,
+                scrollbar: true
+            });*/
+
+            SerialTable();
+        }
+        function SerialTable() {
+            $('#salesOrder tbody tr').each(function (index, element) {
+                var idr = $(this).attr('id');
+                var id = idr.substring(3);
+                $('#ts_' + id).html(index + 1);
+            });
+        }
+        function SaveActivity() {
+            if (SaveValidation() == true) {
+                swal({
+                    title: "Are you sure?",
+                    text: "",
+                    type: "success",
+                    showCancelButton: true,
+                    cancelButtonClass: 'btn-secondary waves-effect',
+                    confirmButtonClass: 'btn-success waves-effect waves-light',
+                    confirmButtonText: 'Yes!',
+                    closeOnConfirm: false
+
+                }, function() {
+                    $('.confirm').prop("disabled", true);
+                    $('.cancel').prop("disabled", true);
+                    SaveActivityFinal();
+                });
+            }
+        }
+        function pad2(number) {
+            return (number < 10 ? '0' : '') + number;
+        }
+        function DateConversionToYYYYMMDD(inputDate) {
+            // Split the input date into day, month, and year parts
+            var parts = inputDate.split('-');
+            var day = parts[0];
+            var month = parts[1];
+            var year = parts[2];
+            var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            var monthIndex = monthNames.indexOf(month);
+            monthIndex++; // Adjust for 0-based indexing
+            // Create a Date object with the parsed values
+            var dateObject = new Date(year, monthIndex - 1, day);
+            // Format the date as "YYYYMMDD"
+            var formattedDate = dateObject.getFullYear() + pad2(dateObject.getMonth() + 1) + pad2(dateObject.getDate());
+            return formattedDate
+        }
+        function SaveActivityFinal() {
+            var jsonData = {};
+            var date = $('#txtActivityDate').val();
+            var newdate = DateConversionToYYYYMMDD(date);
+
+            jsonData["ActivityDate"] = newdate;  //"20230814"
+            var activityType = $('#ddlActivityType').val();
+            var branch = $('#ddlBranch').val();
+            var assinedTo = $('#ddlAssinedTo').val();
+
+            var jsonObjs = [];
+            $('#salesOrder tbody tr').each(function() {
+                var theObj = {};
+                var idr = $(this).attr('id');
+                var id = idr.substring(3);
+
+                var activity = $('#activity_' + id).val();
+                //var txtFromTime = $('#txtFromTime_' + id).val();
+                //var txtToTime = $('#txtToTime_' + id).val();
+                //var status = $('#status_' + id).val();
+                var operationStatus = $('#operationStatus_' + id).val();
+
+
+                theObj["AssignedEmployeeId"] = assinedTo;
+                theObj["ActivityType"] = activityType;
+                theObj["Activity"] = activity;
+                theObj["FromTime"] = ""; //txtFromTime;
+                theObj["ToTime"] = "";  //txtToTime;
+                theObj["Status"] = "-2"; //status;
+                theObj["DailyOperationStatus"] = operationStatus;
+
+                theObj["Comments"] = "";
+                theObj["TaskDetails"] = "";
+                theObj["Session"] = "";
+                theObj["CardCode"] = "";
+                theObj["SoEntry"] = "";
+                theObj["LineId"] = "";
+                jsonObjs.push(theObj);
+            });
+
+            jsonData["Activity"] = jsonObjs;
+
+            var urlpath2 = '@Url.Action("SaveActivity", "EmployeeChecklist")';
+            $.ajax({
+                contentType: "application/json",
+                data: JSON.stringify(jsonData),
+                dataType: 'json',
+                url: urlpath2,
+                type: "POST",
+                beforeSend: function () {
+                    debugger;
+                    $('#testSpan').show();
+                    $('#btnActivity').prop('disabled', true);
+                },
+                success: function (result) {
+
+                    if (result.UnAutorized == 1) {
+                        window.location.href = '@Url.Action("Logout", "Home")';
+                    } else {
+                        if (result.dataList.ReturnCode == "-99999") {
+                            //API Project Session Out
+                            window.location.href = '@Url.Action("Logout", "Home")';
+                        } else {
+                        var message = result.dataList.ReturnMsg;
+                        if (result.dataList.ReturnCode == "0000") {
+                        swal({
+                            title: " Saved Successfull",
+                            text: '',
+                            type: "success",
+                            showCancelButton: false,
+                            cancelButtonClass: 'btn-secondary waves-effect',
+                            confirmButtonClass: 'btn-success waves-effect waves-light',
+                            confirmButtonText: 'Yes!',
+                            closeOnConfirm: false
+                        }, function () {
+                            window.location.href =  '@Url.Action("Index", "EmployeeChecklist")';
+                        });
+                      } else {
+                            ShowMessage(message);
+                            $('#btnActivity').prop('disabled', false);
+                        }
+                        }
+
+
+                    }
+
+                }
+            })
+        }
+        function SaveValidation() {
+            var isValid = true;
+            var message = "Some Values Required";
+            if ($('#ddlActivityType').val() == 0 || $('#ddlActivityType').val() == '') {
+                ValidationColorChangeNew("ddlActivityType", "divActivityType", "Activity Type Required", true);
+                isValid = false;
+            }
+            if ($('#ddlAssinedTo').val() == 0 || $('#ddlAssinedTo').val() == '') {
+                ValidationColorChangeNew("ddlAssinedTo", "divAssinedTo", "Assined To Required", true);
+                isValid = false;
+            }
+            if ($('#txtActivityDate').val() == '' || $('#txtActivityDate').val() == null) {
+                ValidationColorChangeNew("txtActivityDate", "divActivityDate", "Activity Date Required", false);
+                isValid = false;
+            }
+            //Tasks Required
+            if ($('#salesOrder tbody tr').length == 0 || $('#salesOrder tbody tr').length == '') {
+                isValid = false;
+                message = "Tasks Required";
+            }
+
+
+            $('#salesOrder tbody tr').each(function() {
+
+
+                var idr = $(this).attr('id');
+                var id = idr.substring(3);
+
+                //var task = $('#task_' + id).val()
+                //var assinedTo = $('#assinedTo_' + id).val();
+                var txtFromTime = $('#txtFromTime_' + id).val();
+                var txtToTime = $('#txtToTime_' + id).val();
+                var status = $('#status_' + id).val();
+                var operationStatus = $('#operationStatus_' + id).val();
+                //var session = $('#session_' + id).val();
+                //var comments = $('#comments_' + id).val();
+                /*var customer = $('#customer_' + id).val();
+                var salesOrder = $('#salesOrder_' + id).val();
+                var salesItem = $('#salesItem_' + id).val();*/
+
+                /*if (task === '' || task === null) {
+                    isValid = false;
+                    message = "Please Select Task";
+                    $('#task_' + id).css('border-bottom', '2px solid red');
+                    return;
+                }
+                if (assinedTo === '' || assinedTo === null) {
+                    isValid = false;
+                    message = "Please Select Assined To";
+                    $('#assinedTo_' + id).css('border-bottom', '2px solid red');
+                    return;
+                }*/
+                if (txtFromTime === '' || txtFromTime === null) {
+                    isValid = false;
+                    message = "Please Select From Time";
+                    $('#txtFromTime_' + id).css('border-bottom', '2px solid red');
+                    return;
+                }
+                if (txtToTime === '' || txtToTime === null) {
+                    isValid = false;
+                    message = "Please Select To Time";
+                    $('#txtToTime_' + id).css('border-bottom', '2px solid red');
+                    return;
+                }
+                if (status === '' || status === null) {
+                    isValid = false;
+                    message = "Please Select Task Status";
+                    $('#status_' + id).css('border-bottom', '2px solid red');
+                    return;
+                }
+                if (operationStatus === '' || operationStatus === null) {
+                    isValid = false;
+                    message = "Please Select Status";
+                    $('#operationStatus_' + id).css('border-bottom', '2px solid red');
+                    return;
+                }
+
+                /*var activityType = parseInt($('#ddlActivityType').val());
+                if (activityType === 3) {
+                    if (customer === '' || customer === null) {
+                        isValid = false;
+                        message = "Please Select Customer";
+                        $('#customer_' + id).css('border-bottom', '2px solid red');
+                        return;
+                    }
+                    if (salesOrder === '' || salesOrder === null) {
+                        isValid = false;
+                        message = "Please Select Sales Order";
+                        $('#salesOrder_' + id).css('border-bottom', '2px solid red');
+                        return;
+                    }
+                    if (salesItem === '' || salesItem === null) {
+                        isValid = false;
+                        message = "Please Select Sales Item";
+                        $('#salesItem_' + id).css('border-bottom', '2px solid red');
+                        return;
+                    }
+                }*/
+                //if (qty === 0) {
+                //    isValid = false;
+                //    message = "Qty Cannot be 0 ";
+                //    $('#quantity_' + id).css('border-bottom', '2px solid red');
+                //    return;
+                //}
+                //if (price === 0) {
+                //    isValid = false;
+                //    message = "Price Cannot be 0 ";
+                //    $('#price_' + id).css('border-bottom', '2px solid red');
+                //    return;
+                //}
+                //if (lTotal === 0) {
+                //    isValid = false;
+                //    message = "Line Total Cannot be 0 ";
+                //    $('#total_' + id).css('border-bottom', '2px solid red');
+                //    return;
+                //}
+
+            });
+            if (isValid == false) {
+                ShowMessage(message);
+
+            }
+            return isValid;
+
+
+        }
+        function RemoveRow(id) {
+            var trLength = $('#salesOrder tbody tr').length;
+            if (trLength > 1) {
+                $('#tr_' + id).remove();
+                SerialTable();
+            } else {
+                return;
+            }
+
+        }
+    </script>
+}
+
